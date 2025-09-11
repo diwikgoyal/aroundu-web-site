@@ -107,7 +107,7 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
       await ref
           .read(lobbyQuickCheckoutDetailsProvider(widget.lobbyId).notifier)
           .fetchLobbyQuickCheckoutDetails(widget.lobbyId);
-      await ref.read(formStateProvider(widget.lobbyId).notifier).loadFormData([]);
+      await ref.read(formStateProvider(widget.lobbyId).notifier).loadFormData([], isPublic: true);
       await ref
           .read(pricingProvider(widget.lobbyId).notifier)
           .fetchPricing(widget.lobbyId, groupSize: 1, selectedTickets: [], isPublic: true);
@@ -119,6 +119,7 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
         if (ref.read(formsListProvider).isEmpty) {
           ref.read(formsListProvider.notifier).addForm(formState!);
         }
+        ref.read(expandStateProvider("Your form response").notifier).state = true;
       }
       ref.read(selectedTicketsProvider.notifier).clearAll();
     });
@@ -619,7 +620,7 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
                   _buildInfoItem(
                     lobbyData.filter!.otherFilterInfo!.pickUp!.iconUrl ?? "",
                     lobbyData.filter!.otherFilterInfo!.pickUp!.title ?? "",
-                    lobbyData.filter!.otherFilterInfo!.pickUp!.locationResponse?.areaName ?? "",
+                    lobbyData.filter!.otherFilterInfo!.pickUp!.locationResponse?.fuzzyAddress ?? "",
                   ),
                   SizedBox(height: 12),
                 ],
@@ -629,7 +630,7 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
                   _buildInfoItem(
                     lobbyData.filter!.otherFilterInfo!.destination!.iconUrl ?? "",
                     lobbyData.filter!.otherFilterInfo!.destination!.title ?? "",
-                    lobbyData.filter!.otherFilterInfo!.destination!.locationResponse?.areaName ?? "",
+                    lobbyData.filter!.otherFilterInfo!.destination!.locationResponse?.fuzzyAddress ?? "",
                   ),
                   SizedBox(height: 12),
                 ],
@@ -896,7 +897,7 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
                       ),
                       SizedBox(height: 4),
                       DesignText(
-                        text: (locationInfo?.googleSearchResponses.first.description ?? 'Unknown location'),
+                        text: (locationInfo?.locationResponses.first.fuzzyAddress ?? 'Unknown location'),
                         fontSize: 14,
                         maxLines: null,
                         overflow: TextOverflow.visible,
@@ -1206,16 +1207,78 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.network(
-                          lobbyData.mediaUrls!.first,
+                          (lobbyData.mediaUrls!.first.toLowerCase().contains('.png') ||
+                                  lobbyData.mediaUrls!.first.toLowerCase().contains('.jpeg') ||
+                                  lobbyData.mediaUrls!.first.toLowerCase().contains('.jpg'))
+                              ? lobbyData.mediaUrls!.first
+                              : "https://images.weserv.nl/?url=${Uri.encodeComponent(lobbyData.mediaUrls!.first)}&w=640&h=640&fit=cover&output=webp&q=30&l=9&il&af=auto",
                           height: imageHeight,
                           width: double.infinity,
                           fit: BoxFit.cover,
+
+                          // This handles the actual rendering/painting of the image
+                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                            if (wasSynchronouslyLoaded) {
+                              // Image loaded synchronously (from cache)
+                              return child;
+                            }
+
+                            // Image is still being painted/rendered
+                            if (frame == null) {
+                              return Container(
+                                height: imageHeight,
+                                width: double.infinity,
+                                color: Colors.grey[100],
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CircularProgressIndicator(color: DesignColors.accent, strokeWidth: 3),
+                                      SizedBox(height: 8),
+                                      Text('Loading...', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // Image frame is ready, show it
+                            return child;
+                          },
+
+                          // This handles network loading progress
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              // Network loading complete, but frameBuilder will handle the rest
+                              return child;
+                            }
+
+                            // Still downloading from network
+                            return Container(
+                              height: imageHeight,
+                              width: double.infinity,
+                              color: Colors.grey[100],
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: DesignColors.accent,
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                          : null,
+                                ),
+                              ),
+                            );
+                          },
+
                           errorBuilder: (context, error, stackTrace) {
+                            kLogger.trace("Failed to load image: $error \n $stackTrace");
                             return Container(
                               height: imageHeight,
                               width: double.infinity,
                               color: Colors.grey[300],
-                              child: Center(child: Icon(Icons.image_not_supported, size: 50, color: Colors.grey[500])),
+                              child: Center(
+                                child: Icon(Icons.image_not_supported, size: 50, color: Colors.grey[500]),
+                              ),
                             );
                           },
                         ),
@@ -2859,10 +2922,7 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
                     // Get device type for responsive design
                     final deviceType = DesignUtils.getDeviceType(context);
                     final isDesktop = deviceType == DeviceScreenType.desktop;
-                    if (lobbyData.lobby.priceDetails.originalPrice <= 0) ;
-                    Future.microtask(() {
-                      ref.read(expandStateProvider("Your form response").notifier).state = true;
-                    });
+                    // if (lobbyData.lobby.priceDetails.originalPrice <= 0) ;
 
                     return Container(
                       decoration: BoxDecoration(

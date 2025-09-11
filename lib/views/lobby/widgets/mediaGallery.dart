@@ -29,7 +29,7 @@ class MediaGallery extends StatefulWidget {
   final Duration autoScrollDuration;
 
   MediaGallery({
-    super.key, 
+    super.key,
     required this.mediaSources,
     this.autoScroll = true,
     this.autoScrollDuration = const Duration(seconds: 3),
@@ -85,33 +85,21 @@ class _MediaGalleryState extends State<MediaGallery> {
       } else {
         _currentPage = 0;
       }
-      _pageController.animateToPage(
-        _currentPage,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
+      _pageController.animateToPage(_currentPage, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
     });
   }
 
   void _nextPage() {
     if (_currentPage < widget.mediaSources.length - 1) {
       _currentPage++;
-      _pageController.animateToPage(
-        _currentPage,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+      _pageController.animateToPage(_currentPage, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
     }
   }
 
   void _previousPage() {
     if (_currentPage > 0) {
       _currentPage--;
-      _pageController.animateToPage(
-        _currentPage,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+      _pageController.animateToPage(_currentPage, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
     }
   }
 
@@ -122,7 +110,7 @@ class _MediaGalleryState extends State<MediaGallery> {
         // Use maximum available width with responsive height
         double containerWidth = constraints.maxWidth;
         double containerHeight = (containerWidth * 800) / 1430; // 1430:800 aspect ratio (width:height)
-        
+
         // Use full available width to eliminate extra space
         containerWidth = constraints.maxWidth;
         containerHeight = (containerWidth * 900) / 1430; // Increased height for better visibility
@@ -143,13 +131,7 @@ class _MediaGalleryState extends State<MediaGallery> {
                     height: containerHeight,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: Offset(0, 4),
-                        ),
-                      ],
+                      boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 8, offset: Offset(0, 4))],
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
@@ -163,7 +145,7 @@ class _MediaGalleryState extends State<MediaGallery> {
                         },
                         itemBuilder: (context, index) {
                           return buildMediaWidget(
-                            widget.mediaSources[index], 
+                            widget.mediaSources[index],
                             width: containerWidth,
                             height: containerHeight,
                           );
@@ -172,242 +154,203 @@ class _MediaGalleryState extends State<MediaGallery> {
                     ),
                   ),
                 ),
-            if (widget.mediaSources.length > 1) ...[
-              // Navigation buttons for desktop/web
-              Positioned(
-                left: 12,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.4),
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 4,
-                        offset: Offset(0, 2),
+                if (widget.mediaSources.length > 1) ...[
+                  // Navigation buttons for desktop/web
+                  Positioned(
+                    left: 12,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.4),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 4, offset: Offset(0, 2)),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.chevron_left, size: 28, color: Colors.white),
-                    onPressed: _previousPage,
-                    padding: EdgeInsets.all(8),
-                    constraints: BoxConstraints(),
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 12,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.4),
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 4,
-                        offset: Offset(0, 2),
+                      child: IconButton(
+                        icon: Icon(Icons.chevron_left, size: 28, color: Colors.white),
+                        onPressed: _previousPage,
+                        padding: EdgeInsets.all(8),
+                        constraints: BoxConstraints(),
                       ),
-                    ],
+                    ),
                   ),
-                  child: IconButton(
-                    icon: Icon(Icons.chevron_right, size: 28, color: Colors.white),
-                    onPressed: _nextPage,
-                    padding: EdgeInsets.all(8),
-                    constraints: BoxConstraints(),
+                  Positioned(
+                    right: 12,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.4),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 4, offset: Offset(0, 2)),
+                        ],
+                      ),
+                      child: IconButton(
+                        icon: Icon(Icons.chevron_right, size: 28, color: Colors.white),
+                        onPressed: _nextPage,
+                        padding: EdgeInsets.all(8),
+                        constraints: BoxConstraints(),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              // Page indicators
-              Positioned(
-                bottom: 16,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      widget.mediaSources.length,
-                      (index) => Container(
-                        margin: EdgeInsets.symmetric(horizontal: 3),
-                        width: _currentPage == index ? 20 : 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: _currentPage == index 
-                            ? Colors.white 
-                            : Colors.white.withOpacity(0.5),
+                  // Page indicators
+                  Positioned(
+                    bottom: 16,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(
+                          widget.mediaSources.length,
+                          (index) => Container(
+                            margin: EdgeInsets.symmetric(horizontal: 3),
+                            width: _currentPage == index ? 20 : 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              color: _currentPage == index ? Colors.white : Colors.white.withOpacity(0.5),
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ],
-          ],
-        )));
+                ],
+              ],
+            ),
+          ),
+        );
       },
     );
   }
 
   Widget buildMediaWidget(MediaSource source, {double? height, double? width}) {
+    String url = source.isNetworkSource ? source.url! : source.file!.path;
+    if (source.isNetworkSource &&
+        !((source.url!.toLowerCase().contains('.png') ||
+            source.url!.toLowerCase().contains('.jpeg') ||
+            source.url!.toLowerCase().contains('.jpg')))) {
+      url = "https://images.weserv.nl/?url=${Uri.encodeComponent(url)}&w=640&h=640&fit=cover&output=webp&q=30&l=9&il&af=auto";
+    }
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.0),
       child: Container(
         height: height,
         width: width,
         color: Colors.grey[200],
-        child: source.isVideo
-            ? FutureBuilder<String?>(
-                future: _generateVideoThumbnail(
-                    source.isNetworkSource ? source.url! : source.file!.path),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                            strokeWidth: 3,
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Loading...',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  } else if (snapshot.hasError || !snapshot.hasData) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.videocam_off, color: Colors.grey[400], size: 48),
-                          SizedBox(height: 8),
-                          Text(
-                            'Video preview unavailable',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  } else {
-                    return Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Image.file(
-                          File(snapshot.data!),
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Center(
-                              child: Icon(Icons.videocam_off, color: Colors.grey[400], size: 48),
-                            );
-                          },
-                        ),
-                        Positioned(
-                          bottom: 12,
-                          right: 12,
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.6),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.play_circle_outline,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                },
-              )
-            : source.isNetworkSource
-                ? Image.network(
-                    source.url!,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      }
+        child:
+            source.isVideo
+                ? FutureBuilder<String?>(
+                  future: _generateVideoThumbnail(source.isNetworkSource ? source.url! : source.file!.path),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                  : null,
                               valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                               strokeWidth: 3,
                             ),
                             SizedBox(height: 8),
-                            Text(
-                              'Loading image...',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 12,
-                              ),
-                            ),
+                            Text('Loading...', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
                           ],
                         ),
                       );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
+                    } else if (snapshot.hasError || !snapshot.hasData) {
                       return Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.broken_image, color: Colors.grey[400], size: 48),
+                            Icon(Icons.videocam_off, color: Colors.grey[400], size: 48),
                             SizedBox(height: 8),
-                            Text(
-                              'Image failed to load',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 12,
-                              ),
-                            ),
+                            Text('Video preview unavailable', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
                           ],
                         ),
                       );
-                    },
-                  )
+                    } else {
+                      return Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Image.file(
+                            File(snapshot.data!),
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Center(child: Icon(Icons.videocam_off, color: Colors.grey[400], size: 48));
+                            },
+                          ),
+                          Positioned(
+                            bottom: 12,
+                            right: 12,
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
+                              child: Icon(Icons.play_circle_outline, color: Colors.white, size: 28),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                )
+                : source.isNetworkSource
+                ? Image.network(
+                 url,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            value:
+                                loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                    : null,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                            strokeWidth: 3,
+                          ),
+                          SizedBox(height: 8),
+                          Text('Loading image...', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                        ],
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.broken_image, color: Colors.grey[400], size: 48),
+                          SizedBox(height: 8),
+                          Text('Image failed to load', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                        ],
+                      ),
+                    );
+                  },
+                )
                 : Image.file(
-                    source.file!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.broken_image, color: Colors.grey[400], size: 48),
-                            SizedBox(height: 8),
-                            Text(
-                              'Image failed to load',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                  source.file!,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.broken_image, color: Colors.grey[400], size: 48),
+                          SizedBox(height: 8),
+                          Text('Image failed to load', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                        ],
+                      ),
+                    );
+                  },
+                ),
       ),
     );
   }
@@ -448,11 +391,7 @@ class _SwipeMediaScreenState extends State<SwipeMediaScreen> {
   @override
   void initState() {
     super.initState();
-    Fluttertoast.showToast(
-      msg: 'Swipe to see more media',
-      fontSize: 18,
-      backgroundColor: Colors.white12,
-    );
+    Fluttertoast.showToast(msg: 'Swipe to see more media', fontSize: 18, backgroundColor: Colors.white12);
     currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: currentIndex);
   }
@@ -467,10 +406,7 @@ class _SwipeMediaScreenState extends State<SwipeMediaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
+      appBar: AppBar(backgroundColor: Colors.black, iconTheme: IconThemeData(color: Colors.white)),
       body: PageView.builder(
         controller: _pageController,
         itemCount: widget.mediaSources.length,
@@ -481,9 +417,7 @@ class _SwipeMediaScreenState extends State<SwipeMediaScreen> {
         },
         itemBuilder: (context, index) {
           final source = widget.mediaSources[index];
-          return source.isVideo
-              ? VideoPlayerScreen(source: source)
-              : FullScreenImagePreview(source: source);
+          return source.isVideo ? VideoPlayerScreen(source: source) : FullScreenImagePreview(source: source);
         },
       ),
     );
@@ -498,15 +432,10 @@ class FullScreenImagePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: source.isNetworkSource
-          ? Image.network(
-              source.url!,
-              fit: BoxFit.contain,
-            )
-          : Image.file(
-              source.file!,
-              fit: BoxFit.contain,
-            ),
+      child:
+          source.isNetworkSource
+              ? Image.network(source.url!, fit: BoxFit.contain)
+              : Image.file(source.file!, fit: BoxFit.contain),
     );
   }
 }
@@ -528,13 +457,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = widget.source.isNetworkSource
-        ? VideoPlayerController.networkUrl(Uri.parse(widget.source.url!))
-        : VideoPlayerController.file(widget.source.file!)
-      ..initialize().then((_) {
-        setState(() {});
-        _controller.setVolume(1.0);
-      });
+    _controller =
+        widget.source.isNetworkSource
+              ? VideoPlayerController.networkUrl(Uri.parse(widget.source.url!))
+              : VideoPlayerController.file(widget.source.file!)
+          ..initialize().then((_) {
+            setState(() {});
+            _controller.setVolume(1.0);
+          });
   }
 
   @override
@@ -571,36 +501,30 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: _controller.value.isInitialized
-            ? AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    VideoPlayer(_controller),
-                    GestureDetector(
-                      onTap: _togglePlayPause,
-                      child: Icon(
-                        _isPlaying ? Icons.pause : Icons.play_arrow,
-                        color: Colors.white,
-                        size: 50,
+        child:
+            _controller.value.isInitialized
+                ? AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      VideoPlayer(_controller),
+                      GestureDetector(
+                        onTap: _togglePlayPause,
+                        child: Icon(_isPlaying ? Icons.pause : Icons.play_arrow, color: Colors.white, size: 50),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 20,
-                      right: 20,
-                      child: IconButton(
-                        icon: Icon(
-                          _isMuted ? Icons.volume_off : Icons.volume_up,
-                          color: Colors.white,
+                      Positioned(
+                        bottom: 20,
+                        right: 20,
+                        child: IconButton(
+                          icon: Icon(_isMuted ? Icons.volume_off : Icons.volume_up, color: Colors.white),
+                          onPressed: _toggleMute,
                         ),
-                        onPressed: _toggleMute,
                       ),
-                    ),
-                  ],
-                ),
-              )
-            : CircularProgressIndicator(),
+                    ],
+                  ),
+                )
+                : CircularProgressIndicator(),
       ),
     );
   }

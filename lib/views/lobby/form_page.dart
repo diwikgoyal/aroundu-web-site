@@ -141,29 +141,29 @@ class FormModel2 {
   }
 }
 
-final lobbyFormAutofillProvider = FutureProvider.family<Map<String, dynamic>, ({String lobbyId, List<String> selectedTicketIds})>(
-  (ref, params) async {
-    try {
-      final response = await ApiService().get(
-        "match/lobby/${params.lobbyId}/form/autofill",
-        queryParameters: {
-          'ticketIds': params.selectedTicketIds,
+final lobbyFormAutofillProvider =
+    FutureProvider.family<Map<String, dynamic>, ({String lobbyId, List<String> selectedTicketIds})>((
+      ref,
+      params,
+    ) async {
+      try {
+        final response = await ApiService().get(
+          "match/lobby/${params.lobbyId}/form/autofill",
+          queryParameters: {'ticketIds': params.selectedTicketIds},
+        );
+
+        if (response.data is String) {
+          return {"userId": null, "title": "", "questions": []};
+        } else {
+          return response.data as Map<String, dynamic> ?? {};
         }
-      );
 
-      if (response.data is String) {
-        return {"userId": null, "title": "", "questions": []};
-      } else {
-        return response.data as Map<String, dynamic> ?? {};
+        // Assuming the response.data is already a Map<String, dynamic>
+      } catch (e, stack) {
+        kLogger.trace("Failed to load autofill data: $e \n $stack");
+        throw "Failed to load autofill data: $e";
       }
-
-      // Assuming the response.data is already a Map<String, dynamic>
-    } catch (e, stack) {
-      kLogger.trace("Failed to load autofill data: $e \n $stack");
-      throw "Failed to load autofill data: $e";
-    }
-  },
-);
+    });
 
 // Define providers for managing form state
 final formStateProvider = StateNotifierProvider.family<FormStateNotifier, FormModel, String>(
@@ -180,11 +180,16 @@ class FormStateNotifier extends StateNotifier<FormModel> {
     // loadFormData();
   }
 
-  Future<void> loadFormData(List<String> selectedTicketIds) async {
+  Future<void> loadFormData(List<String> selectedTicketIds, {bool isPublic = false}) async {
+    Map<String, dynamic> autofillData = {};
     try {
-      final autofillData = await ref.read(
-        lobbyFormAutofillProvider((lobbyId: lobbyId, selectedTicketIds: selectedTicketIds)).future,
-      );
+      if (isPublic) {
+        autofillData = await getFormQuestions(lobbyId);
+      } else {
+        autofillData = await ref.read(
+          lobbyFormAutofillProvider((lobbyId: lobbyId, selectedTicketIds: selectedTicketIds)).future,
+        );
+      }
       final List<Question> questions = [];
 
       if (autofillData.containsKey('questions') && autofillData['questions'] is List) {
