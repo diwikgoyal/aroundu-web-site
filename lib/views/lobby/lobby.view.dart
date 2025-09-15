@@ -1260,7 +1260,8 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
 
                                   if (lobbyData.lobby.filter.otherFilterInfo.pickUp?.locationResponse != null ||
                                       lobbyData.lobby.filter.otherFilterInfo.destination?.locationResponse != null) {
-                                    if (lobbyData.lobby.userStatus != "MEMBER") {
+                                    if (lobbyData.lobby.userStatus != "MEMBER" &&
+                                        lobbyData.lobby.userStatus != "ADMIN") {
                                       latPickUp =
                                           (lobbyData
                                               .lobby
@@ -1473,7 +1474,7 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                           if (lobbyData.lobby.filter.otherFilterInfo.locationInfo != null &&
                               lobbyData.lobby.filter.otherFilterInfo.locationInfo!.locationResponses.isNotEmpty) {
                             if ((lobbyData.lobby.filter.otherFilterInfo.locationInfo!.hideLocation) &&
-                                (lobbyData.lobby.userStatus != "MEMBER")) {
+                                (lobbyData.lobby.userStatus != "MEMBER" && lobbyData.lobby.userStatus != "ADMIN")) {
                               lat =
                                   lobbyData
                                       .lobby
@@ -3285,7 +3286,8 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                                                             .destination
                                                             ?.locationResponse !=
                                                         null) {
-                                                  if (lobbyData.lobby.userStatus != "MEMBER") {
+                                                  if (lobbyData.lobby.userStatus != "MEMBER" &&
+                                                      lobbyData.lobby.userStatus != "ADMIN") {
                                                     latPickUp =
                                                         (lobbyData
                                                             .lobby
@@ -3507,7 +3509,8 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                                                 .locationResponses
                                                 .isNotEmpty) {
                                           if ((lobbyData.lobby.filter.otherFilterInfo.locationInfo!.hideLocation) &&
-                                              (lobbyData.lobby.userStatus != "MEMBER")) {
+                                              (lobbyData.lobby.userStatus != "MEMBER" &&
+                                                  lobbyData.lobby.userStatus != "ADMIN")) {
                                             lat =
                                                 lobbyData
                                                     .lobby

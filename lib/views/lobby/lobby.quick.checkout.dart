@@ -516,6 +516,23 @@ class _LobbyQuickCheckoutViewState extends ConsumerState<LobbyQuickCheckoutView>
                   DesignText(text: 'Location', fontSize: 16, fontWeight: FontWeight.w600, color: DesignColors.primary),
                   SizedBox(height: 8),
                   _buildLocationInfoItem(context, lobbyData),
+                   if ((lobbyData.filter!.otherFilterInfo!.locationInfo!.hideLocation) &&
+                      ((lobbyData.userStatus != "MEMBER") || (lobbyData.userStatus != "ADMIN"))) ...[
+                    SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: DesignText(
+                        text:
+                            'Note: This is an approximate location. The exact address will be provided via email with your QR ticket and invoice for privacy reasons.',
+                        fontSize: 12,
+                        color: DesignColors.accent,
+                        fontWeight: FontWeight.w500,
+                        textAlign: TextAlign.left,
+                        maxLines: null,
+                        overflow: TextOverflow.visible,
+                      ),
+                    ),
+                  ],
                   SizedBox(height: 16),
                 ],
 
@@ -695,7 +712,8 @@ class _LobbyQuickCheckoutViewState extends ConsumerState<LobbyQuickCheckoutView>
         double lng = 0.0;
 
         if (locationInfo != null && locationInfo!.locationResponses.isNotEmpty) {
-          if ((locationInfo!.hideLocation) && (lobbyData.userStatus != "MEMBER")) {
+          if ((locationInfo!.hideLocation) &&
+              ((lobbyData.userStatus != "MEMBER") && (lobbyData.userStatus != "ADMIN"))) {
             lat = locationInfo?.locationResponses.first.approxLocation?.lat ?? 0.0;
             lng = locationInfo?.locationResponses.first.approxLocation?.lon ?? 0.0;
           } else {
@@ -773,10 +791,15 @@ class _LobbyQuickCheckoutViewState extends ConsumerState<LobbyQuickCheckoutView>
                       ),
                       SizedBox(height: 4),
                       DesignText(
-                        text: (locationInfo?.locationResponses.first.fuzzyAddress ?? 'Unknown location'),
+                        text:
+                            ((locationInfo!.hideLocation) &&
+                                    ((lobbyData.userStatus != "MEMBER") && (lobbyData.userStatus != "ADMIN")))
+                                ? (locationInfo?.locationResponses.first.fuzzyAddress ?? 'Unknown location')
+                                : (locationInfo?.googleSearchResponses?.first?.description ?? 'Unknown location'),
                         fontSize: 14,
                         maxLines: null,
                         overflow: TextOverflow.visible,
+
                         color: const Color(0xFF3E79A1),
                       ),
                     ],

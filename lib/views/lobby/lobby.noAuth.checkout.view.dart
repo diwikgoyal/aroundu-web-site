@@ -641,6 +641,23 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
                   DesignText(text: 'Location', fontSize: 16, fontWeight: FontWeight.w600, color: DesignColors.primary),
                   SizedBox(height: 8),
                   _buildLocationInfoItem(context, lobbyData),
+                  if ((lobbyData.filter!.otherFilterInfo!.locationInfo!.hideLocation) &&
+                      ((lobbyData.userStatus != "MEMBER") || (lobbyData.userStatus != "ADMIN"))) ...[
+                    SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: DesignText(
+                        text:
+                            'Note: This is an approximate location. The exact address will be provided via email with your QR ticket and invoice for privacy reasons.',
+                        fontSize: 12,
+                        color: DesignColors.accent,
+                        fontWeight: FontWeight.w500,
+                        textAlign: TextAlign.left,
+                        maxLines: null,
+                        overflow: TextOverflow.visible,
+                      ),
+                    ),
+                  ],
                   SizedBox(height: 16),
                 ],
 
@@ -819,7 +836,8 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
         double lng = 0.0;
 
         if (locationInfo != null && locationInfo!.locationResponses.isNotEmpty) {
-          if ((locationInfo!.hideLocation) && (lobbyData.userStatus != "MEMBER")) {
+          if ((locationInfo!.hideLocation) &&
+              ((lobbyData.userStatus != "MEMBER") || (lobbyData.userStatus != "ADMIN"))) {
             lat = locationInfo?.locationResponses.first.approxLocation?.lat ?? 0.0;
             lng = locationInfo?.locationResponses.first.approxLocation?.lon ?? 0.0;
           } else {
@@ -897,7 +915,10 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
                       ),
                       SizedBox(height: 4),
                       DesignText(
-                        text: (locationInfo?.locationResponses.first.fuzzyAddress ?? 'Unknown location'),
+                        text: ((locationInfo!.hideLocation) &&
+                            ((lobbyData.userStatus != "MEMBER") || (lobbyData.userStatus != "ADMIN")))
+                        ? (locationInfo?.locationResponses.first.fuzzyAddress ?? 'Unknown location')
+                        : (locationInfo?.googleSearchResponses?.first?.description ?? 'Unknown location'),
                         fontSize: 14,
                         maxLines: null,
                         overflow: TextOverflow.visible,
@@ -1276,9 +1297,7 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
                               height: imageHeight,
                               width: double.infinity,
                               color: Colors.grey[300],
-                              child: Center(
-                                child: Icon(Icons.image_not_supported, size: 50, color: Colors.grey[500]),
-                              ),
+                              child: Center(child: Icon(Icons.image_not_supported, size: 50, color: Colors.grey[500])),
                             );
                           },
                         ),
