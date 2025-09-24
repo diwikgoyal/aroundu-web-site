@@ -167,13 +167,14 @@ class _RichTextDisplayState extends State<RichTextDisplay> {
                 autoFocus: false,
                 expands: false,
                 scrollable: true,
+                scrollPhysics: NeverScrollableScrollPhysics(),
                 enableInteractiveSelection: false,
                 enableSelectionToolbar: false,
                 maxHeight: widget.lobbyId != null && _showFullText
                     ? 0.8*sh
                     : (widget.maxHeight != null)
                         ? widget.maxHeight
-                        : widget.isEditing ? 0.4*sh : 0.2*sh,
+                        : widget.isEditing ? 0.4*sh : 0.15*sh,
               ),
             ),
           ),

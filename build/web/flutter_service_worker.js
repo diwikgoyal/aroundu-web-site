@@ -3,7 +3,7 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {".well-known/apple-app-site-association.txt": "7e9de2705b35233e9b76923441f874fb",
+const RESOURCES = {".well-known/apple-app-site-association": "7e9de2705b35233e9b76923441f874fb",
 ".well-known/assetlinks.json": "d9adc5e27d8a698c7b1f2435456d76b4",
 "assets/AssetManifest.bin": "595de2d23873410f1d90e8a2302471c0",
 "assets/AssetManifest.bin.json": "484cd32f69229fd7eb6dfd83aba9466c",
@@ -250,19 +250,19 @@ const RESOURCES = {".well-known/apple-app-site-association.txt": "7e9de2705b3523
 "deleteaccount.html": "49150f5f7b695b66c87376bda692fa7a",
 "favicon.png": "77a3176365c9b04a4fd436d780e156bf",
 "flutter.js": "888483df48293866f9f41d3d9274a779",
-"flutter_bootstrap.js": "3b102fec164598766cd7005c3f202e32",
+"flutter_bootstrap.js": "211182d8110dad5f64c1fef58da42f29",
 "icons/Icon-192.png": "96a4d880ea3fc2b1a302027ac36ac7a9",
 "icons/Icon-512.png": "7c50b66bd0166a257da9ad89cc4a1493",
 "icons/Icon-maskable-192.png": "96a4d880ea3fc2b1a302027ac36ac7a9",
 "icons/Icon-maskable-512.png": "7c50b66bd0166a257da9ad89cc4a1493",
-"index.html": "d048fe6fbbeb19cefb45a5fe8315bd4a",
-"/": "d048fe6fbbeb19cefb45a5fe8315bd4a",
-"main.dart.js": "f865350f25f46f30d82e1fd0006460d3",
+"index.html": "bbe5f743837b31c74a04be3c29996435",
+"/": "bbe5f743837b31c74a04be3c29996435",
+"main.dart.js": "f9e3e113f1b524d4e45f0de999be0da7",
 "manifest.json": "3d737a73f0b1071b23e8da2475deaa36",
-"netlify.toml": "db77f43cd4cce8632e63c172f479ca1e",
+"netlify.toml": "fa7291ffd796d24bef6f9b1e734b893b",
 "privacy.html": "671f008229e3077b9fcd8a871e323b7c",
 "terms.html": "28e84e619cd1258266a0edd5f73231a2",
-"version.json": "eaa18ffe84a99fc28ddbe57b2bd386fc",
+"version.json": "bafbef2e73d90e6319c34504e204e7b1",
 "_headers.txt": "3b0c9be75e4c558fbcc25a91dd9d962b",
 "_redirects.txt": "7420e65c42bf943db3b7dcdfe7356dc7"};
 // The application shell files that are downloaded before a service worker can

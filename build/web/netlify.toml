@@ -1,5 +1,5 @@
 [build]
-  publish = "build/web"
+  publish = "."
 
 [[plugins]]
   package = "netlify-plugin-flutter"

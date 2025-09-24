@@ -159,10 +159,14 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
                 return e.copyWith(answer: _nameController.text);
               } else if (e.dataKey == 'email' || e.questionText.toLowerCase().trim().contains("email")) {
                 return e.copyWith(answer: _emailController.text);
-              } else if (e.dataKey == 'mobile' ||
-                  e.questionText.toLowerCase().trim().contains("contact") ||
-                  e.questionText.toLowerCase().trim().contains("phone") ||
-                  e.questionText.toLowerCase().trim().contains("mobile")) {
+              } else if ((e.dataKey == 'mobile' ||
+                      e.questionText.toLowerCase().trim().contains("contact") ||
+                      e.questionText.toLowerCase().trim().contains("phone") ||
+                      e.questionText.toLowerCase().trim().contains("mobile")) &&
+                  !(e.questionText.toLowerCase().trim().contains("emergency") ||
+                      e.questionText.toLowerCase().trim().contains("whatsapp") ||
+                      e.questionText.toLowerCase().trim().contains("father") ||
+                      e.questionText.toLowerCase().trim().contains("other"))) {
                 return e.copyWith(answer: _mobileController.text);
               } else {
                 return e;
@@ -915,10 +919,11 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
                       ),
                       SizedBox(height: 4),
                       DesignText(
-                        text: ((locationInfo!.hideLocation) &&
-                            ((lobbyData.userStatus != "MEMBER") || (lobbyData.userStatus != "ADMIN")))
-                        ? (locationInfo?.locationResponses.first.fuzzyAddress ?? 'Unknown location')
-                        : (locationInfo?.googleSearchResponses?.first?.description ?? 'Unknown location'),
+                        text:
+                            ((locationInfo!.hideLocation) &&
+                                    ((lobbyData.userStatus != "MEMBER") || (lobbyData.userStatus != "ADMIN")))
+                                ? (locationInfo?.locationResponses.first.fuzzyAddress ?? 'Unknown location')
+                                : (locationInfo?.googleSearchResponses?.first?.description ?? 'Unknown location'),
                         fontSize: 14,
                         maxLines: null,
                         overflow: TextOverflow.visible,
@@ -1225,81 +1230,87 @@ class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutVie
                   LayoutBuilder(
                     builder: (context, constraints) {
                       double imageHeight = (constraints.maxWidth * 900) / 1430;
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          (lobbyData.mediaUrls!.first.toLowerCase().contains('.png') ||
-                                  lobbyData.mediaUrls!.first.toLowerCase().contains('.jpeg') ||
-                                  lobbyData.mediaUrls!.first.toLowerCase().contains('.jpg'))
-                              ? lobbyData.mediaUrls!.first
-                              : "https://images.weserv.nl/?url=${Uri.encodeComponent(lobbyData.mediaUrls!.first)}&w=640&h=640&fit=cover&output=webp&q=30&l=9&il&af=auto",
-                          height: imageHeight,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
+                      return ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: Get.height * 0.7),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            (lobbyData.mediaUrls!.first.toLowerCase().contains('.png') ||
+                                    lobbyData.mediaUrls!.first.toLowerCase().contains('.jpeg') ||
+                                    lobbyData.mediaUrls!.first.toLowerCase().contains('.jpg'))
+                                ? lobbyData.mediaUrls!.first
+                                : "https://images.weserv.nl/?url=${Uri.encodeComponent(lobbyData.mediaUrls!.first)}&w=640&h=640&fit=cover&output=webp&q=30&l=9&il&af=auto",
+                            // height: imageHeight,
+                            width: double.infinity,
+                            fit: BoxFit.fitHeight,
 
-                          // This handles the actual rendering/painting of the image
-                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                            if (wasSynchronouslyLoaded) {
-                              // Image loaded synchronously (from cache)
+                            // This handles the actual rendering/painting of the image
+                            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                              if (wasSynchronouslyLoaded) {
+                                // Image loaded synchronously (from cache)
+                                return child;
+                              }
+
+                              // Image is still being painted/rendered
+                              if (frame == null) {
+                                return Container(
+                                  height: imageHeight,
+                                  width: double.infinity,
+                                  color: Colors.grey[100],
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CircularProgressIndicator(color: DesignColors.accent, strokeWidth: 3),
+                                        SizedBox(height: 8),
+                                        Text('Loading...', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              // Image frame is ready, show it
                               return child;
-                            }
+                            },
 
-                            // Image is still being painted/rendered
-                            if (frame == null) {
+                            // This handles network loading progress
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                // Network loading complete, but frameBuilder will handle the rest
+                                return child;
+                              }
+
+                              // Still downloading from network
                               return Container(
                                 height: imageHeight,
                                 width: double.infinity,
                                 color: Colors.grey[100],
                                 child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CircularProgressIndicator(color: DesignColors.accent, strokeWidth: 3),
-                                      SizedBox(height: 8),
-                                      Text('Loading...', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
-                                    ],
+                                  child: CircularProgressIndicator(
+                                    color: DesignColors.accent,
+                                    value:
+                                        loadingProgress.expectedTotalBytes != null
+                                            ? loadingProgress.cumulativeBytesLoaded /
+                                                loadingProgress.expectedTotalBytes!
+                                            : null,
                                   ),
                                 ),
                               );
-                            }
+                            },
 
-                            // Image frame is ready, show it
-                            return child;
-                          },
-
-                          // This handles network loading progress
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) {
-                              // Network loading complete, but frameBuilder will handle the rest
-                              return child;
-                            }
-
-                            // Still downloading from network
-                            return Container(
-                              height: imageHeight,
-                              width: double.infinity,
-                              color: Colors.grey[100],
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: DesignColors.accent,
-                                  value:
-                                      loadingProgress.expectedTotalBytes != null
-                                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                          : null,
+                            errorBuilder: (context, error, stackTrace) {
+                              kLogger.trace("Failed to load image: $error \n $stackTrace");
+                              return Container(
+                                height: imageHeight,
+                                width: double.infinity,
+                                color: Colors.grey[300],
+                                child: Center(
+                                  child: Icon(Icons.image_not_supported, size: 50, color: Colors.grey[500]),
                                 ),
-                              ),
-                            );
-                          },
-
-                          errorBuilder: (context, error, stackTrace) {
-                            kLogger.trace("Failed to load image: $error \n $stackTrace");
-                            return Container(
-                              height: imageHeight,
-                              width: double.infinity,
-                              color: Colors.grey[300],
-                              child: Center(child: Icon(Icons.image_not_supported, size: 50, color: Colors.grey[500])),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       );
                     },

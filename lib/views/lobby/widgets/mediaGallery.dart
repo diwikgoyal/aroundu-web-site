@@ -117,8 +117,8 @@ class _MediaGalleryState extends State<MediaGallery> {
 
         return Center(
           child: Container(
-            width: containerWidth,
-            height: containerHeight,
+            // width: containerWidth,
+            // height: containerHeight,
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -127,8 +127,8 @@ class _MediaGalleryState extends State<MediaGallery> {
                     Get.to(() => SwipeMediaScreen(mediaSources: widget.mediaSources));
                   },
                   child: Container(
-                    width: containerWidth,
-                    height: containerHeight,
+                    // width: containerWidth,
+                    // height: containerHeight,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 8, offset: Offset(0, 4))],
@@ -238,8 +238,8 @@ class _MediaGalleryState extends State<MediaGallery> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.0),
       child: Container(
-        height: height,
-        width: width,
+        // height: height,
+        // width: width,
         color: Colors.grey[200],
         child:
             source.isVideo
@@ -299,7 +299,7 @@ class _MediaGalleryState extends State<MediaGallery> {
                 : source.isNetworkSource
                 ? Image.network(
                  url,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.scaleDown,
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress == null) {
                       return child;

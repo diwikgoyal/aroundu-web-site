@@ -904,28 +904,15 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
           clipBehavior: Clip.none,
           alignment: AlignmentDirectional.bottomCenter,
           children: [
-            Column(
-              children: [
-                SizedBox(
-                  height: 0.3 * sh,
-                  child: MediaGallery.fromUrls(
-                    lobbyData.lobby.mediaUrls.isNotEmpty
-                        ? lobbyData.lobby.mediaUrls
-                        : [
-                          "https://media.istockphoto.com/id/1329350253/vector/image-vector-simple-mountain-landscape-photo-adding-photos-to-the-album.jpg?s=612x612&w=0&k=20&c=3iXykf5ZQI2eBo0DaQ7W-e_8E5rhFEammFqO9XCisnI=",
-                        ],
-                  ),
-                ),
-                // if ((lobbyData.lobby.lobbyStatus == "ACTIVE" &&
-                //         lobbyData.lobby.userStatus == "ADMIN") ||
-                //     (lobbyData.lobby.lobbyStatus == "ACTIVE" &&
-                //         lobbyData.lobby.userStatus == "MEMBER"))
-                //   Container(
-                //     color: Colors.white,
-                //     height: 0.06 * sh,
-                //     width: double.infinity,
-                //   ),
-              ],
+            ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 0.6*sh, minHeight: 0.2*sh),
+              child: MediaGallery.fromUrls(
+                lobbyData.lobby.mediaUrls.isNotEmpty
+                    ? lobbyData.lobby.mediaUrls
+                    : [
+                      "https://media.istockphoto.com/id/1329350253/vector/image-vector-simple-mountain-landscape-photo-adding-photos-to-the-album.jpg?s=612x612&w=0&k=20&c=3iXykf5ZQI2eBo0DaQ7W-e_8E5rhFEammFqO9XCisnI=",
+                    ],
+              ),
             ),
             Positioned(
               top: 0.1 * sh,
@@ -2735,7 +2722,7 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                flex: 3,
+                flex: 1,
                 child: Padding(
                   padding: EdgeInsets.only(
                     // left: 16,
@@ -2747,7 +2734,7 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       ConstrainedBox(
-                        constraints: BoxConstraints(maxHeight: 0.55 * sh),
+                        constraints: BoxConstraints(maxHeight: 0.7 * sh),
                         child: Stack(
                           children: [
                             MediaGallery.fromUrls(
@@ -3047,7 +3034,7 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: Padding(
                   padding: EdgeInsets.only(
                     // right: 16,
