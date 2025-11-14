@@ -14,4 +14,17 @@ class DesignColors {
   static const Color accent = Color(0xFFEC4B5D);
 
   static const Color border = Color(0xFFC8C8C8);
+
+  static const Color blue = Color(0xFF3E79A1);
+
+  //Dark
+  // static const Color bgDark = Color(0xFF222222);
+  static const Color secondaryDark = Color(0xFF1f1d2b);
+  static const Color primaryDark = Color(0xFF1B1919);
+  static const Color bgDark = Color(0xFF191722);
+  // static const Color secondaryDark = Color(0xFF323232);
+
+  static const Color primaryFontDark = Color(0xFFEDF2FB);
+  static const Color secondaryFontDark = Color(0xFFD7E3FC);
+
 }

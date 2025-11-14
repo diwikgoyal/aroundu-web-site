@@ -39,10 +39,7 @@ class YourHousesFamily extends Family<AsyncValue<List<House>>> {
   const YourHousesFamily();
 
   /// See also [yourHouses].
-  YourHousesProvider call({
-    String? categoryId,
-    String? subCategoryId,
-  }) {
+  YourHousesProvider call({String? categoryId, String? subCategoryId}) {
     return YourHousesProvider(
       categoryId: categoryId,
       subCategoryId: subCategoryId,
@@ -77,27 +74,23 @@ class YourHousesFamily extends Family<AsyncValue<List<House>>> {
 /// See also [yourHouses].
 class YourHousesProvider extends FutureProvider<List<House>> {
   /// See also [yourHouses].
-  YourHousesProvider({
-    String? categoryId,
-    String? subCategoryId,
-  }) : this._internal(
-          (ref) => yourHouses(
-            ref as YourHousesRef,
-            categoryId: categoryId,
-            subCategoryId: subCategoryId,
-          ),
-          from: yourHousesProvider,
-          name: r'yourHousesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$yourHousesHash,
-          dependencies: YourHousesFamily._dependencies,
-          allTransitiveDependencies:
-              YourHousesFamily._allTransitiveDependencies,
+  YourHousesProvider({String? categoryId, String? subCategoryId})
+    : this._internal(
+        (ref) => yourHouses(
+          ref as YourHousesRef,
           categoryId: categoryId,
           subCategoryId: subCategoryId,
-        );
+        ),
+        from: yourHousesProvider,
+        name: r'yourHousesProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$yourHousesHash,
+        dependencies: YourHousesFamily._dependencies,
+        allTransitiveDependencies: YourHousesFamily._allTransitiveDependencies,
+        categoryId: categoryId,
+        subCategoryId: subCategoryId,
+      );
 
   YourHousesProvider._internal(
     super._createNotifier, {
@@ -186,10 +179,7 @@ class RecommendedHousesFamily extends Family<AsyncValue<List<House>>> {
   const RecommendedHousesFamily();
 
   /// See also [recommendedHouses].
-  RecommendedHousesProvider call({
-    String? categoryId,
-    String? subCategoryId,
-  }) {
+  RecommendedHousesProvider call({String? categoryId, String? subCategoryId}) {
     return RecommendedHousesProvider(
       categoryId: categoryId,
       subCategoryId: subCategoryId,
@@ -224,27 +214,24 @@ class RecommendedHousesFamily extends Family<AsyncValue<List<House>>> {
 /// See also [recommendedHouses].
 class RecommendedHousesProvider extends FutureProvider<List<House>> {
   /// See also [recommendedHouses].
-  RecommendedHousesProvider({
-    String? categoryId,
-    String? subCategoryId,
-  }) : this._internal(
-          (ref) => recommendedHouses(
-            ref as RecommendedHousesRef,
-            categoryId: categoryId,
-            subCategoryId: subCategoryId,
-          ),
-          from: recommendedHousesProvider,
-          name: r'recommendedHousesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$recommendedHousesHash,
-          dependencies: RecommendedHousesFamily._dependencies,
-          allTransitiveDependencies:
-              RecommendedHousesFamily._allTransitiveDependencies,
+  RecommendedHousesProvider({String? categoryId, String? subCategoryId})
+    : this._internal(
+        (ref) => recommendedHouses(
+          ref as RecommendedHousesRef,
           categoryId: categoryId,
           subCategoryId: subCategoryId,
-        );
+        ),
+        from: recommendedHousesProvider,
+        name: r'recommendedHousesProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$recommendedHousesHash,
+        dependencies: RecommendedHousesFamily._dependencies,
+        allTransitiveDependencies:
+            RecommendedHousesFamily._allTransitiveDependencies,
+        categoryId: categoryId,
+        subCategoryId: subCategoryId,
+      );
 
   RecommendedHousesProvider._internal(
     super._createNotifier, {
@@ -312,7 +299,8 @@ mixin RecommendedHousesRef on FutureProviderRef<List<House>> {
 }
 
 class _RecommendedHousesProviderElement
-    extends FutureProviderElement<List<House>> with RecommendedHousesRef {
+    extends FutureProviderElement<List<House>>
+    with RecommendedHousesRef {
   _RecommendedHousesProviderElement(super.provider);
 
   @override
@@ -334,10 +322,7 @@ class TopHousesFamily extends Family<AsyncValue<List<House>>> {
   const TopHousesFamily();
 
   /// See also [topHouses].
-  TopHousesProvider call({
-    String? categoryId,
-    String? subCategoryId,
-  }) {
+  TopHousesProvider call({String? categoryId, String? subCategoryId}) {
     return TopHousesProvider(
       categoryId: categoryId,
       subCategoryId: subCategoryId,
@@ -345,9 +330,7 @@ class TopHousesFamily extends Family<AsyncValue<List<House>>> {
   }
 
   @override
-  TopHousesProvider getProviderOverride(
-    covariant TopHousesProvider provider,
-  ) {
+  TopHousesProvider getProviderOverride(covariant TopHousesProvider provider) {
     return call(
       categoryId: provider.categoryId,
       subCategoryId: provider.subCategoryId,
@@ -372,26 +355,23 @@ class TopHousesFamily extends Family<AsyncValue<List<House>>> {
 /// See also [topHouses].
 class TopHousesProvider extends FutureProvider<List<House>> {
   /// See also [topHouses].
-  TopHousesProvider({
-    String? categoryId,
-    String? subCategoryId,
-  }) : this._internal(
-          (ref) => topHouses(
-            ref as TopHousesRef,
-            categoryId: categoryId,
-            subCategoryId: subCategoryId,
-          ),
-          from: topHousesProvider,
-          name: r'topHousesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$topHousesHash,
-          dependencies: TopHousesFamily._dependencies,
-          allTransitiveDependencies: TopHousesFamily._allTransitiveDependencies,
+  TopHousesProvider({String? categoryId, String? subCategoryId})
+    : this._internal(
+        (ref) => topHouses(
+          ref as TopHousesRef,
           categoryId: categoryId,
           subCategoryId: subCategoryId,
-        );
+        ),
+        from: topHousesProvider,
+        name: r'topHousesProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$topHousesHash,
+        dependencies: TopHousesFamily._dependencies,
+        allTransitiveDependencies: TopHousesFamily._allTransitiveDependencies,
+        categoryId: categoryId,
+        subCategoryId: subCategoryId,
+      );
 
   TopHousesProvider._internal(
     super._createNotifier, {
@@ -480,10 +460,7 @@ class FollowedHousesFamily extends Family<AsyncValue<List<House>>> {
   const FollowedHousesFamily();
 
   /// See also [followedHouses].
-  FollowedHousesProvider call({
-    String? categoryId,
-    String? subCategoryId,
-  }) {
+  FollowedHousesProvider call({String? categoryId, String? subCategoryId}) {
     return FollowedHousesProvider(
       categoryId: categoryId,
       subCategoryId: subCategoryId,
@@ -518,27 +495,24 @@ class FollowedHousesFamily extends Family<AsyncValue<List<House>>> {
 /// See also [followedHouses].
 class FollowedHousesProvider extends FutureProvider<List<House>> {
   /// See also [followedHouses].
-  FollowedHousesProvider({
-    String? categoryId,
-    String? subCategoryId,
-  }) : this._internal(
-          (ref) => followedHouses(
-            ref as FollowedHousesRef,
-            categoryId: categoryId,
-            subCategoryId: subCategoryId,
-          ),
-          from: followedHousesProvider,
-          name: r'followedHousesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$followedHousesHash,
-          dependencies: FollowedHousesFamily._dependencies,
-          allTransitiveDependencies:
-              FollowedHousesFamily._allTransitiveDependencies,
+  FollowedHousesProvider({String? categoryId, String? subCategoryId})
+    : this._internal(
+        (ref) => followedHouses(
+          ref as FollowedHousesRef,
           categoryId: categoryId,
           subCategoryId: subCategoryId,
-        );
+        ),
+        from: followedHousesProvider,
+        name: r'followedHousesProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$followedHousesHash,
+        dependencies: FollowedHousesFamily._dependencies,
+        allTransitiveDependencies:
+            FollowedHousesFamily._allTransitiveDependencies,
+        categoryId: categoryId,
+        subCategoryId: subCategoryId,
+      );
 
   FollowedHousesProvider._internal(
     super._createNotifier, {
@@ -627,10 +601,7 @@ class CreatedHousesFamily extends Family<AsyncValue<List<House>>> {
   const CreatedHousesFamily();
 
   /// See also [createdHouses].
-  CreatedHousesProvider call({
-    String? categoryId,
-    String? subCategoryId,
-  }) {
+  CreatedHousesProvider call({String? categoryId, String? subCategoryId}) {
     return CreatedHousesProvider(
       categoryId: categoryId,
       subCategoryId: subCategoryId,
@@ -665,27 +636,24 @@ class CreatedHousesFamily extends Family<AsyncValue<List<House>>> {
 /// See also [createdHouses].
 class CreatedHousesProvider extends FutureProvider<List<House>> {
   /// See also [createdHouses].
-  CreatedHousesProvider({
-    String? categoryId,
-    String? subCategoryId,
-  }) : this._internal(
-          (ref) => createdHouses(
-            ref as CreatedHousesRef,
-            categoryId: categoryId,
-            subCategoryId: subCategoryId,
-          ),
-          from: createdHousesProvider,
-          name: r'createdHousesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$createdHousesHash,
-          dependencies: CreatedHousesFamily._dependencies,
-          allTransitiveDependencies:
-              CreatedHousesFamily._allTransitiveDependencies,
+  CreatedHousesProvider({String? categoryId, String? subCategoryId})
+    : this._internal(
+        (ref) => createdHouses(
+          ref as CreatedHousesRef,
           categoryId: categoryId,
           subCategoryId: subCategoryId,
-        );
+        ),
+        from: createdHousesProvider,
+        name: r'createdHousesProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$createdHousesHash,
+        dependencies: CreatedHousesFamily._dependencies,
+        allTransitiveDependencies:
+            CreatedHousesFamily._allTransitiveDependencies,
+        categoryId: categoryId,
+        subCategoryId: subCategoryId,
+      );
 
   CreatedHousesProvider._internal(
     super._createNotifier, {
@@ -761,5 +729,6 @@ class _CreatedHousesProviderElement extends FutureProviderElement<List<House>>
   @override
   String? get subCategoryId => (origin as CreatedHousesProvider).subCategoryId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

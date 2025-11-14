@@ -40,21 +40,15 @@ class GetLobbiesFromCategoryFamily extends Family<AsyncValue<List<Lobby>>> {
   const GetLobbiesFromCategoryFamily();
 
   /// See also [getLobbiesFromCategory].
-  GetLobbiesFromCategoryProvider call(
-    String categoryId,
-  ) {
-    return GetLobbiesFromCategoryProvider(
-      categoryId,
-    );
+  GetLobbiesFromCategoryProvider call(String categoryId) {
+    return GetLobbiesFromCategoryProvider(categoryId);
   }
 
   @override
   GetLobbiesFromCategoryProvider getProviderOverride(
     covariant GetLobbiesFromCategoryProvider provider,
   ) {
-    return call(
-      provider.categoryId,
-    );
+    return call(provider.categoryId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -76,24 +70,22 @@ class GetLobbiesFromCategoryFamily extends Family<AsyncValue<List<Lobby>>> {
 class GetLobbiesFromCategoryProvider
     extends AutoDisposeFutureProvider<List<Lobby>> {
   /// See also [getLobbiesFromCategory].
-  GetLobbiesFromCategoryProvider(
-    String categoryId,
-  ) : this._internal(
-          (ref) => getLobbiesFromCategory(
-            ref as GetLobbiesFromCategoryRef,
-            categoryId,
-          ),
-          from: getLobbiesFromCategoryProvider,
-          name: r'getLobbiesFromCategoryProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getLobbiesFromCategoryHash,
-          dependencies: GetLobbiesFromCategoryFamily._dependencies,
-          allTransitiveDependencies:
-              GetLobbiesFromCategoryFamily._allTransitiveDependencies,
-          categoryId: categoryId,
-        );
+  GetLobbiesFromCategoryProvider(String categoryId)
+    : this._internal(
+        (ref) => getLobbiesFromCategory(
+          ref as GetLobbiesFromCategoryRef,
+          categoryId,
+        ),
+        from: getLobbiesFromCategoryProvider,
+        name: r'getLobbiesFromCategoryProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$getLobbiesFromCategoryHash,
+        dependencies: GetLobbiesFromCategoryFamily._dependencies,
+        allTransitiveDependencies:
+            GetLobbiesFromCategoryFamily._allTransitiveDependencies,
+        categoryId: categoryId,
+      );
 
   GetLobbiesFromCategoryProvider._internal(
     super._createNotifier, {
@@ -161,5 +153,6 @@ class _GetLobbiesFromCategoryProviderElement
   String get categoryId =>
       (origin as GetLobbiesFromCategoryProvider).categoryId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -23,6 +23,8 @@ class DesignTextField extends StatelessWidget {
   final void Function(String?)? onChanged;
   final void Function()? onEditingComplete;
   final bool enabled;
+  final Color fillColor;
+  final Color fontColor;
 
   const DesignTextField({
     super.key,
@@ -44,6 +46,8 @@ class DesignTextField extends StatelessWidget {
     this.onChanged,
     this.onEditingComplete,
     this.enabled = true,
+    this.fillColor = Colors.white,
+    this.fontColor = DesignColors.primary,
   });
 
   @override
@@ -61,7 +65,7 @@ class DesignTextField extends StatelessWidget {
       onEditingComplete: onEditingComplete,
       decoration: InputDecoration(
         filled: true, // Enables background color
-        fillColor: Colors.white,
+        fillColor: fillColor,
         labelText: labelText,
         labelStyle: DesignFonts.poppins.copyWith(
           fontSize: 10,
@@ -73,37 +77,25 @@ class DesignTextField extends StatelessWidget {
         ),
         border: OutlineInputBorder(
           borderSide: hasBorder
-              ? const BorderSide(
-                  color: DesignColors.border,
-                  width: 1,
-                )
+              ? const BorderSide(color: DesignColors.secondary, width: 1)
               : BorderSide.none,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: hasBorder
-              ? const BorderSide(
-                  color: DesignColors.primary,
-                  width: 1,
-                )
+              ? const BorderSide(color: DesignColors.secondary, width: 1)
               : BorderSide.none,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: hasBorder
-              ? const BorderSide(
-                  color: DesignColors.border,
-                  width: 1,
-                )
+              ? const BorderSide(color: DesignColors.secondary, width: 1)
               : BorderSide.none,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: hasBorder
-              ? const BorderSide(
-                  color: DesignColors.accent,
-                  width: 1,
-                )
+              ? const BorderSide(color: DesignColors.accent, width: 1)
               : BorderSide.none,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
@@ -113,7 +105,8 @@ class DesignTextField extends StatelessWidget {
           fontSize: 12,
         ),
         prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon ??
+        suffixIcon:
+            suffixIcon ??
             (errorText != null
                 ? DesignIcon.icon(
                     icon: Icons.error,
@@ -124,13 +117,14 @@ class DesignTextField extends StatelessWidget {
         errorText: errorText,
         hintText: hintText,
         hintStyle: DesignFonts.poppins.copyWith(
-          color: Color(0xFF979797),
+          color: DesignColors.secondary,
           fontWeight: FontWeight.w400,
         ),
       ),
       style: DesignFonts.poppins.copyWith(
         fontWeight: FontWeight.w500,
         fontSize: fontSize,
+        color: fontColor,
       ),
     );
   }

@@ -81,23 +81,22 @@ class RemoveLobbyMemberProvider extends AutoDisposeFutureProvider<bool> {
     required String lobbyId,
     required List<String> membersToRemove,
   }) : this._internal(
-          (ref) => removeLobbyMember(
-            ref as RemoveLobbyMemberRef,
-            lobbyId: lobbyId,
-            membersToRemove: membersToRemove,
-          ),
-          from: removeLobbyMemberProvider,
-          name: r'removeLobbyMemberProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$removeLobbyMemberHash,
-          dependencies: RemoveLobbyMemberFamily._dependencies,
-          allTransitiveDependencies:
-              RemoveLobbyMemberFamily._allTransitiveDependencies,
-          lobbyId: lobbyId,
-          membersToRemove: membersToRemove,
-        );
+         (ref) => removeLobbyMember(
+           ref as RemoveLobbyMemberRef,
+           lobbyId: lobbyId,
+           membersToRemove: membersToRemove,
+         ),
+         from: removeLobbyMemberProvider,
+         name: r'removeLobbyMemberProvider',
+         debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+             ? null
+             : _$removeLobbyMemberHash,
+         dependencies: RemoveLobbyMemberFamily._dependencies,
+         allTransitiveDependencies:
+             RemoveLobbyMemberFamily._allTransitiveDependencies,
+         lobbyId: lobbyId,
+         membersToRemove: membersToRemove,
+       );
 
   RemoveLobbyMemberProvider._internal(
     super._createNotifier, {
@@ -165,7 +164,8 @@ mixin RemoveLobbyMemberRef on AutoDisposeFutureProviderRef<bool> {
 }
 
 class _RemoveLobbyMemberProviderElement
-    extends AutoDisposeFutureProviderElement<bool> with RemoveLobbyMemberRef {
+    extends AutoDisposeFutureProviderElement<bool>
+    with RemoveLobbyMemberRef {
   _RemoveLobbyMemberProviderElement(super.provider);
 
   @override
@@ -234,25 +234,24 @@ class InvitePeopleInLobbyProvider extends AutoDisposeFutureProvider<bool> {
     required List<String> friendsIds,
     required List<String> squadMembersIds,
   }) : this._internal(
-          (ref) => invitePeopleInLobby(
-            ref as InvitePeopleInLobbyRef,
-            lobbyId: lobbyId,
-            friendsIds: friendsIds,
-            squadMembersIds: squadMembersIds,
-          ),
-          from: invitePeopleInLobbyProvider,
-          name: r'invitePeopleInLobbyProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$invitePeopleInLobbyHash,
-          dependencies: InvitePeopleInLobbyFamily._dependencies,
-          allTransitiveDependencies:
-              InvitePeopleInLobbyFamily._allTransitiveDependencies,
-          lobbyId: lobbyId,
-          friendsIds: friendsIds,
-          squadMembersIds: squadMembersIds,
-        );
+         (ref) => invitePeopleInLobby(
+           ref as InvitePeopleInLobbyRef,
+           lobbyId: lobbyId,
+           friendsIds: friendsIds,
+           squadMembersIds: squadMembersIds,
+         ),
+         from: invitePeopleInLobbyProvider,
+         name: r'invitePeopleInLobbyProvider',
+         debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+             ? null
+             : _$invitePeopleInLobbyHash,
+         dependencies: InvitePeopleInLobbyFamily._dependencies,
+         allTransitiveDependencies:
+             InvitePeopleInLobbyFamily._allTransitiveDependencies,
+         lobbyId: lobbyId,
+         friendsIds: friendsIds,
+         squadMembersIds: squadMembersIds,
+       );
 
   InvitePeopleInLobbyProvider._internal(
     super._createNotifier, {
@@ -328,7 +327,8 @@ mixin InvitePeopleInLobbyRef on AutoDisposeFutureProviderRef<bool> {
 }
 
 class _InvitePeopleInLobbyProviderElement
-    extends AutoDisposeFutureProviderElement<bool> with InvitePeopleInLobbyRef {
+    extends AutoDisposeFutureProviderElement<bool>
+    with InvitePeopleInLobbyRef {
   _InvitePeopleInLobbyProviderElement(super.provider);
 
   @override
@@ -340,5 +340,6 @@ class _InvitePeopleInLobbyProviderElement
   List<String> get squadMembersIds =>
       (origin as InvitePeopleInLobbyProvider).squadMembersIds;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

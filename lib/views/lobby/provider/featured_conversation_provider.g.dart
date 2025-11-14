@@ -39,24 +39,15 @@ class AskQuestionFamily extends Family<AsyncValue<bool>> {
   const AskQuestionFamily();
 
   /// See also [askQuestion].
-  AskQuestionProvider call(
-    String lobbyId,
-    String question,
-  ) {
-    return AskQuestionProvider(
-      lobbyId,
-      question,
-    );
+  AskQuestionProvider call(String lobbyId, String question) {
+    return AskQuestionProvider(lobbyId, question);
   }
 
   @override
   AskQuestionProvider getProviderOverride(
     covariant AskQuestionProvider provider,
   ) {
-    return call(
-      provider.lobbyId,
-      provider.question,
-    );
+    return call(provider.lobbyId, provider.question);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -77,27 +68,19 @@ class AskQuestionFamily extends Family<AsyncValue<bool>> {
 /// See also [askQuestion].
 class AskQuestionProvider extends AutoDisposeFutureProvider<bool> {
   /// See also [askQuestion].
-  AskQuestionProvider(
-    String lobbyId,
-    String question,
-  ) : this._internal(
-          (ref) => askQuestion(
-            ref as AskQuestionRef,
-            lobbyId,
-            question,
-          ),
-          from: askQuestionProvider,
-          name: r'askQuestionProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$askQuestionHash,
-          dependencies: AskQuestionFamily._dependencies,
-          allTransitiveDependencies:
-              AskQuestionFamily._allTransitiveDependencies,
-          lobbyId: lobbyId,
-          question: question,
-        );
+  AskQuestionProvider(String lobbyId, String question)
+    : this._internal(
+        (ref) => askQuestion(ref as AskQuestionRef, lobbyId, question),
+        from: askQuestionProvider,
+        name: r'askQuestionProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$askQuestionHash,
+        dependencies: AskQuestionFamily._dependencies,
+        allTransitiveDependencies: AskQuestionFamily._allTransitiveDependencies,
+        lobbyId: lobbyId,
+        question: question,
+      );
 
   AskQuestionProvider._internal(
     super._createNotifier, {
@@ -191,22 +174,14 @@ class AnswerQuestionFamily extends Family<AsyncValue<bool>> {
     String questionId,
     String answer,
   ) {
-    return AnswerQuestionProvider(
-      lobbyId,
-      questionId,
-      answer,
-    );
+    return AnswerQuestionProvider(lobbyId, questionId, answer);
   }
 
   @override
   AnswerQuestionProvider getProviderOverride(
     covariant AnswerQuestionProvider provider,
   ) {
-    return call(
-      provider.lobbyId,
-      provider.questionId,
-      provider.answer,
-    );
+    return call(provider.lobbyId, provider.questionId, provider.answer);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -227,30 +202,26 @@ class AnswerQuestionFamily extends Family<AsyncValue<bool>> {
 /// See also [answerQuestion].
 class AnswerQuestionProvider extends AutoDisposeFutureProvider<bool> {
   /// See also [answerQuestion].
-  AnswerQuestionProvider(
-    String lobbyId,
-    String questionId,
-    String answer,
-  ) : this._internal(
-          (ref) => answerQuestion(
-            ref as AnswerQuestionRef,
-            lobbyId,
-            questionId,
-            answer,
-          ),
-          from: answerQuestionProvider,
-          name: r'answerQuestionProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$answerQuestionHash,
-          dependencies: AnswerQuestionFamily._dependencies,
-          allTransitiveDependencies:
-              AnswerQuestionFamily._allTransitiveDependencies,
-          lobbyId: lobbyId,
-          questionId: questionId,
-          answer: answer,
-        );
+  AnswerQuestionProvider(String lobbyId, String questionId, String answer)
+    : this._internal(
+        (ref) => answerQuestion(
+          ref as AnswerQuestionRef,
+          lobbyId,
+          questionId,
+          answer,
+        ),
+        from: answerQuestionProvider,
+        name: r'answerQuestionProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$answerQuestionHash,
+        dependencies: AnswerQuestionFamily._dependencies,
+        allTransitiveDependencies:
+            AnswerQuestionFamily._allTransitiveDependencies,
+        lobbyId: lobbyId,
+        questionId: questionId,
+        answer: answer,
+      );
 
   AnswerQuestionProvider._internal(
     super._createNotifier, {
@@ -326,7 +297,8 @@ mixin AnswerQuestionRef on AutoDisposeFutureProviderRef<bool> {
 }
 
 class _AnswerQuestionProviderElement
-    extends AutoDisposeFutureProviderElement<bool> with AnswerQuestionRef {
+    extends AutoDisposeFutureProviderElement<bool>
+    with AnswerQuestionRef {
   _AnswerQuestionProviderElement(super.provider);
 
   @override
@@ -351,21 +323,15 @@ class GetFeaturedConversationsFamily
   const GetFeaturedConversationsFamily();
 
   /// See also [getFeaturedConversations].
-  GetFeaturedConversationsProvider call(
-    String lobbyId,
-  ) {
-    return GetFeaturedConversationsProvider(
-      lobbyId,
-    );
+  GetFeaturedConversationsProvider call(String lobbyId) {
+    return GetFeaturedConversationsProvider(lobbyId);
   }
 
   @override
   GetFeaturedConversationsProvider getProviderOverride(
     covariant GetFeaturedConversationsProvider provider,
   ) {
-    return call(
-      provider.lobbyId,
-    );
+    return call(provider.lobbyId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -387,24 +353,22 @@ class GetFeaturedConversationsFamily
 class GetFeaturedConversationsProvider
     extends AutoDisposeFutureProvider<List<ConversationQuestion>> {
   /// See also [getFeaturedConversations].
-  GetFeaturedConversationsProvider(
-    String lobbyId,
-  ) : this._internal(
-          (ref) => getFeaturedConversations(
-            ref as GetFeaturedConversationsRef,
-            lobbyId,
-          ),
-          from: getFeaturedConversationsProvider,
-          name: r'getFeaturedConversationsProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getFeaturedConversationsHash,
-          dependencies: GetFeaturedConversationsFamily._dependencies,
-          allTransitiveDependencies:
-              GetFeaturedConversationsFamily._allTransitiveDependencies,
-          lobbyId: lobbyId,
-        );
+  GetFeaturedConversationsProvider(String lobbyId)
+    : this._internal(
+        (ref) => getFeaturedConversations(
+          ref as GetFeaturedConversationsRef,
+          lobbyId,
+        ),
+        from: getFeaturedConversationsProvider,
+        name: r'getFeaturedConversationsProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$getFeaturedConversationsHash,
+        dependencies: GetFeaturedConversationsFamily._dependencies,
+        allTransitiveDependencies:
+            GetFeaturedConversationsFamily._allTransitiveDependencies,
+        lobbyId: lobbyId,
+      );
 
   GetFeaturedConversationsProvider._internal(
     super._createNotifier, {
@@ -421,8 +385,9 @@ class GetFeaturedConversationsProvider
   @override
   Override overrideWith(
     FutureOr<List<ConversationQuestion>> Function(
-            GetFeaturedConversationsRef provider)
-        create,
+      GetFeaturedConversationsRef provider,
+    )
+    create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -488,21 +453,15 @@ class GetAllQuestionsFamily
   const GetAllQuestionsFamily();
 
   /// See also [getAllQuestions].
-  GetAllQuestionsProvider call(
-    String lobbyId,
-  ) {
-    return GetAllQuestionsProvider(
-      lobbyId,
-    );
+  GetAllQuestionsProvider call(String lobbyId) {
+    return GetAllQuestionsProvider(lobbyId);
   }
 
   @override
   GetAllQuestionsProvider getProviderOverride(
     covariant GetAllQuestionsProvider provider,
   ) {
-    return call(
-      provider.lobbyId,
-    );
+    return call(provider.lobbyId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -524,24 +483,19 @@ class GetAllQuestionsFamily
 class GetAllQuestionsProvider
     extends AutoDisposeFutureProvider<List<ConversationQuestion>> {
   /// See also [getAllQuestions].
-  GetAllQuestionsProvider(
-    String lobbyId,
-  ) : this._internal(
-          (ref) => getAllQuestions(
-            ref as GetAllQuestionsRef,
-            lobbyId,
-          ),
-          from: getAllQuestionsProvider,
-          name: r'getAllQuestionsProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getAllQuestionsHash,
-          dependencies: GetAllQuestionsFamily._dependencies,
-          allTransitiveDependencies:
-              GetAllQuestionsFamily._allTransitiveDependencies,
-          lobbyId: lobbyId,
-        );
+  GetAllQuestionsProvider(String lobbyId)
+    : this._internal(
+        (ref) => getAllQuestions(ref as GetAllQuestionsRef, lobbyId),
+        from: getAllQuestionsProvider,
+        name: r'getAllQuestionsProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$getAllQuestionsHash,
+        dependencies: GetAllQuestionsFamily._dependencies,
+        allTransitiveDependencies:
+            GetAllQuestionsFamily._allTransitiveDependencies,
+        lobbyId: lobbyId,
+      );
 
   GetAllQuestionsProvider._internal(
     super._createNotifier, {
@@ -558,7 +512,7 @@ class GetAllQuestionsProvider
   @override
   Override overrideWith(
     FutureOr<List<ConversationQuestion>> Function(GetAllQuestionsRef provider)
-        create,
+    create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -609,5 +563,6 @@ class _GetAllQuestionsProviderElement
   @override
   String get lobbyId => (origin as GetAllQuestionsProvider).lobbyId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

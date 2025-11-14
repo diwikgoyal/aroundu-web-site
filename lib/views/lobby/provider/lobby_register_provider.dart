@@ -88,7 +88,9 @@ class LobbyRegistrationNotifier extends StateNotifier<LobbyRegistrationState> {
     List<Map<String, dynamic>>? formList,
     List<Map<String, dynamic>>? selectedTickets,
     String? offerId,
+    String? referralSource,
   }) async {
+    kLogger.trace("in register tickets selected : $selectedTickets");
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: null, response: null);
@@ -106,19 +108,22 @@ class LobbyRegistrationNotifier extends StateNotifier<LobbyRegistrationState> {
       );
 
       dio.interceptors.add(PrettyDioLogger(requestBody: true));
-      Map<String, dynamic> data = {'name': name, 'mobile': mobile, 'email': email, 'slots': slots,'randomId':userId};
+      Map<String, dynamic> data = {'name': name, 'mobile': mobile, 'email': email, 'slots': slots, 'randomId': userId};
       if (form != null) {
         data['form'] = form;
       }
       if (formList != null && formList.isNotEmpty) {
-        data['formList'] = formList;
+        data['forms'] = formList;
       }
       if (selectedTickets != null && selectedTickets.isNotEmpty) {
         data['slots'] = selectedTickets.fold<int>(0, (sum, e) => sum + (e['slots'] as int));
         data['ticketOptionsDTOS'] = selectedTickets;
       }
-      if(offerId != null){
+      if (offerId != null) {
         data['offerId'] = offerId;
+      }
+      if (referralSource != null && referralSource.isNotEmpty) {
+        data['referralSource'] = referralSource;
       }
 
       // Make the API call

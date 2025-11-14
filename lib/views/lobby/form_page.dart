@@ -69,15 +69,14 @@ class PreviewFormScreen extends StatelessWidget {
                         child: DesignText(text: question.questionText, fontSize: 16),
                       ),
                       Column(
-                        children:
-                            question.options.map((option) {
-                              return RadioListTile(
-                                title: Text(option),
-                                value: option,
-                                groupValue: question.answer,
-                                onChanged: null, // Disable selection
-                              );
-                            }).toList(),
+                        children: question.options.map((option) {
+                          return RadioListTile(
+                            title: Text(option),
+                            value: option,
+                            groupValue: question.answer,
+                            onChanged: null, // Disable selection
+                          );
+                        }).toList(),
                       ),
                     ],
                   );
@@ -184,7 +183,7 @@ class FormStateNotifier extends StateNotifier<FormModel> {
     Map<String, dynamic> autofillData = {};
     try {
       if (isPublic) {
-        autofillData = await getFormQuestions(lobbyId);
+        autofillData = await getFormQuestions(lobbyId, selectedTicketIds: selectedTicketIds);
       } else {
         autofillData = await ref.read(
           lobbyFormAutofillProvider((lobbyId: lobbyId, selectedTicketIds: selectedTicketIds)).future,
@@ -208,6 +207,7 @@ class FormStateNotifier extends StateNotifier<FormModel> {
       }
 
       state = FormModel(title: autofillData['title'] ?? 'Form', questions: questions);
+      kLogger.trace("form state: $state");
     } catch (e, stack) {
       kLogger.trace("Error loading form data: $e \n $stack");
       state = FormModel(title: 'Error Loading Form', questions: []);
@@ -215,13 +215,12 @@ class FormStateNotifier extends StateNotifier<FormModel> {
   }
 
   void updateAnswer(String questionId, String newAnswer) {
-    final updatedQuestions =
-        state.questions.map((question) {
-          if (question.id == questionId) {
-            return question.copyWith(answer: newAnswer);
-          }
-          return question;
-        }).toList();
+    final updatedQuestions = state.questions.map((question) {
+      if (question.id == questionId) {
+        return question.copyWith(answer: newAnswer);
+      }
+      return question;
+    }).toList();
 
     state = state.copyWith(questions: updatedQuestions);
   }
@@ -329,10 +328,9 @@ class FormStateNotifier extends StateNotifier<FormModel> {
 
   void resetForm() {
     // Clear all answers
-    final clearedQuestions =
-        state.questions.map((question) {
-          return question.copyWith(answer: '');
-        }).toList();
+    final clearedQuestions = state.questions.map((question) {
+      return question.copyWith(answer: '');
+    }).toList();
 
     // Update state
     state = state.copyWith(questions: clearedQuestions);
@@ -672,9 +670,16 @@ class FormStateNotifier extends StateNotifier<FormModel> {
   }
 }
 
-Future<dynamic> getFormQuestions(String lobbyId) async {
+Future<dynamic> getFormQuestions(String lobbyId, {List<String> selectedTicketIds = const []}) async {
   try {
-    final response = await ApiService().get('match/lobby/$lobbyId/form');
+    Map<String, dynamic> query = {};
+    if (selectedTicketIds.isNotEmpty) {
+      query['ticketIds'] = selectedTicketIds;
+    }
+    final response = await ApiService().get(
+      'match/lobby/$lobbyId/form',
+      queryParameters: query,
+    );
 
     kLogger.trace("get form called : $response");
 
@@ -716,12 +721,11 @@ class AnswerFormScreen extends ConsumerWidget {
     if (missingQuestion != null) {
       showDialog(
         context: context,
-        builder:
-            (context) => AlertDialog(
-              title: const Text("Incomplete Form"),
-              content: Text("Please answer the mandatory question: $missingQuestion"),
-              actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
-            ),
+        builder: (context) => AlertDialog(
+          title: const Text("Incomplete Form"),
+          content: Text("Please answer the mandatory question: $missingQuestion"),
+          actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
+        ),
       );
       return;
     }
@@ -798,85 +802,84 @@ class AnswerFormScreen extends ConsumerWidget {
         // Form questions
         SizedBox(
           height: 0.4,
-          child:
-              formState.questions.isEmpty
-                  ? const Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: formState.questions.length,
-                    itemBuilder: (context, index) {
-                      final question = formState.questions[index];
+          child: formState.questions.isEmpty
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: formState.questions.length,
+                  itemBuilder: (context, index) {
+                    final question = formState.questions[index];
 
-                      // Text question
-                      if (question.questionType == 'text') {
-                        final controller = formNotifier.getControllerForQuestion(question.id);
+                    // Text question
+                    if (question.questionType == 'text') {
+                      final controller = formNotifier.getControllerForQuestion(question.id);
 
-                        if (controller == null) {
-                          return const SizedBox.shrink();
-                        }
-
-                        // Make sure controller has the latest value
-                        if (controller.text != question.answer) {
-                          controller.text = question.answer;
-                        }
-
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(child: DesignText(text: question.questionText, fontSize: 14)),
-                                  if (question.isMandatory) DesignText(text: ' *', fontSize: 14, color: Colors.red),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              TextFormField(
-                                controller: controller,
-                                decoration: const InputDecoration(labelText: "Answer", border: OutlineInputBorder()),
-                                onChanged: (val) => formNotifier.updateAnswer(question.id, val),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      // Multiple choice question
-                      else if (question.questionType == 'multiple-choice') {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(child: DesignText(text: question.questionText, fontSize: 14)),
-                                  if (question.isMandatory) DesignText(text: ' *', fontSize: 14, color: Colors.red),
-                                ],
-                              ),
-                              const SizedBox(height: 4),
-                              ...question.options.map((option) {
-                                return RadioListTile<String>(
-                                  title: Text(option),
-                                  value: option,
-                                  groupValue: question.answer,
-                                  onChanged: (val) {
-                                    if (val != null) {
-                                      formNotifier.updateAnswer(question.id, val);
-                                    }
-                                  },
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-                                );
-                              }).toList(),
-                            ],
-                          ),
-                        );
+                      if (controller == null) {
+                        return const SizedBox.shrink();
                       }
 
-                      // Default fallback for unsupported question types
-                      return Container();
-                    },
-                  ),
+                      // Make sure controller has the latest value
+                      if (controller.text != question.answer) {
+                        controller.text = question.answer;
+                      }
+
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(child: DesignText(text: question.questionText, fontSize: 14)),
+                                if (question.isMandatory) DesignText(text: ' *', fontSize: 14, color: Colors.red),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            TextFormField(
+                              controller: controller,
+                              decoration: const InputDecoration(labelText: "Answer", border: OutlineInputBorder()),
+                              onChanged: (val) => formNotifier.updateAnswer(question.id, val),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    // Multiple choice question
+                    else if (question.questionType == 'multiple-choice') {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(child: DesignText(text: question.questionText, fontSize: 14)),
+                                if (question.isMandatory) DesignText(text: ' *', fontSize: 14, color: Colors.red),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            ...question.options.map((option) {
+                              return RadioListTile<String>(
+                                title: Text(option),
+                                value: option,
+                                groupValue: question.answer,
+                                onChanged: (val) {
+                                  if (val != null) {
+                                    formNotifier.updateAnswer(question.id, val);
+                                  }
+                                },
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                              );
+                            }).toList(),
+                          ],
+                        ),
+                      );
+                    }
+
+                    // Default fallback for unsupported question types
+                    return Container();
+                  },
+                ),
         ),
 
         // Submit button

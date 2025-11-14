@@ -118,41 +118,40 @@ class HandleLobbyAccessProvider
     String? offerId,
     List<SelectedTicket>? selectedTickets,
   }) : this._internal(
-          (ref) => handleLobbyAccess(
-            ref as HandleLobbyAccessRef,
-            lobbyId,
-            isPrivate,
-            hasForm: hasForm,
-            groupId: groupId,
-            friends: friends,
-            text: text,
-            form: form,
-            formList: formList,
-            slots: slots,
-            offerId: offerId,
-            selectedTickets: selectedTickets,
-          ),
-          from: handleLobbyAccessProvider,
-          name: r'handleLobbyAccessProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$handleLobbyAccessHash,
-          dependencies: HandleLobbyAccessFamily._dependencies,
-          allTransitiveDependencies:
-              HandleLobbyAccessFamily._allTransitiveDependencies,
-          lobbyId: lobbyId,
-          isPrivate: isPrivate,
-          hasForm: hasForm,
-          groupId: groupId,
-          friends: friends,
-          text: text,
-          form: form,
-          formList: formList,
-          slots: slots,
-          offerId: offerId,
-          selectedTickets: selectedTickets,
-        );
+         (ref) => handleLobbyAccess(
+           ref as HandleLobbyAccessRef,
+           lobbyId,
+           isPrivate,
+           hasForm: hasForm,
+           groupId: groupId,
+           friends: friends,
+           text: text,
+           form: form,
+           formList: formList,
+           slots: slots,
+           offerId: offerId,
+           selectedTickets: selectedTickets,
+         ),
+         from: handleLobbyAccessProvider,
+         name: r'handleLobbyAccessProvider',
+         debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+             ? null
+             : _$handleLobbyAccessHash,
+         dependencies: HandleLobbyAccessFamily._dependencies,
+         allTransitiveDependencies:
+             HandleLobbyAccessFamily._allTransitiveDependencies,
+         lobbyId: lobbyId,
+         isPrivate: isPrivate,
+         hasForm: hasForm,
+         groupId: groupId,
+         friends: friends,
+         text: text,
+         form: form,
+         formList: formList,
+         slots: slots,
+         offerId: offerId,
+         selectedTickets: selectedTickets,
+       );
 
   HandleLobbyAccessProvider._internal(
     super._createNotifier, {
@@ -189,7 +188,7 @@ class HandleLobbyAccessProvider
   @override
   Override overrideWith(
     FutureOr<Map<String, dynamic>> Function(HandleLobbyAccessRef provider)
-        create,
+    create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -323,5 +322,6 @@ class _HandleLobbyAccessProviderElement
   List<SelectedTicket>? get selectedTickets =>
       (origin as HandleLobbyAccessProvider).selectedTickets;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

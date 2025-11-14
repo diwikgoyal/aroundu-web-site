@@ -35,25 +35,25 @@ Map<String, dynamic> _$$CategoryModelImplToJson(_$CategoryModelImpl instance) =>
     };
 
 _$SubCategoryInfoImpl _$$SubCategoryInfoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$SubCategoryInfoImpl(
-      name: json['name'] as String,
-      description: json['description'] as String,
-      subCategoryId: json['subCategoryId'] as String,
-      iconUrl: json['iconUrl'] as String,
-      imageUrl: json['imageUrl'] as String?,
-      hashTag: json['hashTag'] as String?,
-      prompt: json['prompt'] as String?,
-    );
+  Map<String, dynamic> json,
+) => _$SubCategoryInfoImpl(
+  name: json['name'] as String,
+  description: json['description'] as String,
+  subCategoryId: json['subCategoryId'] as String,
+  iconUrl: json['iconUrl'] as String,
+  imageUrl: json['imageUrl'] as String?,
+  hashTag: json['hashTag'] as String?,
+  prompt: json['prompt'] as String?,
+);
 
 Map<String, dynamic> _$$SubCategoryInfoImplToJson(
-        _$SubCategoryInfoImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'description': instance.description,
-      'subCategoryId': instance.subCategoryId,
-      'iconUrl': instance.iconUrl,
-      'imageUrl': instance.imageUrl,
-      'hashTag': instance.hashTag,
-      'prompt': instance.prompt,
-    };
+  _$SubCategoryInfoImpl instance,
+) => <String, dynamic>{
+  'name': instance.name,
+  'description': instance.description,
+  'subCategoryId': instance.subCategoryId,
+  'iconUrl': instance.iconUrl,
+  'imageUrl': instance.imageUrl,
+  'hashTag': instance.hashTag,
+  'prompt': instance.prompt,
+};

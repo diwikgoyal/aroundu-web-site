@@ -55,7 +55,7 @@ class PricingResponse {
       currentPricePerSlot: json['currentPricePerSlot']?.toDouble(),
       currentTierRange: json['currentTierRange'],
       nextTierInfo: json['nextTierInfo'],
-      total: json['total']?.toDouble() ?? 0.0,
+      total: json['total']?.toDouble() ,
       pricingModel: json['pricingModel'],
       priceBreakdown: json['priceBreakdown'],
       isTieredPriced: json['isTieredPriced'],

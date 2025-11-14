@@ -39,10 +39,7 @@ class YourLobbiesFamily extends Family<AsyncValue<List<Lobby>>> {
   const YourLobbiesFamily();
 
   /// See also [yourLobbies].
-  YourLobbiesProvider call({
-    String? categoryId,
-    String? subCategoryId,
-  }) {
+  YourLobbiesProvider call({String? categoryId, String? subCategoryId}) {
     return YourLobbiesProvider(
       categoryId: categoryId,
       subCategoryId: subCategoryId,
@@ -77,27 +74,23 @@ class YourLobbiesFamily extends Family<AsyncValue<List<Lobby>>> {
 /// See also [yourLobbies].
 class YourLobbiesProvider extends FutureProvider<List<Lobby>> {
   /// See also [yourLobbies].
-  YourLobbiesProvider({
-    String? categoryId,
-    String? subCategoryId,
-  }) : this._internal(
-          (ref) => yourLobbies(
-            ref as YourLobbiesRef,
-            categoryId: categoryId,
-            subCategoryId: subCategoryId,
-          ),
-          from: yourLobbiesProvider,
-          name: r'yourLobbiesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$yourLobbiesHash,
-          dependencies: YourLobbiesFamily._dependencies,
-          allTransitiveDependencies:
-              YourLobbiesFamily._allTransitiveDependencies,
+  YourLobbiesProvider({String? categoryId, String? subCategoryId})
+    : this._internal(
+        (ref) => yourLobbies(
+          ref as YourLobbiesRef,
           categoryId: categoryId,
           subCategoryId: subCategoryId,
-        );
+        ),
+        from: yourLobbiesProvider,
+        name: r'yourLobbiesProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$yourLobbiesHash,
+        dependencies: YourLobbiesFamily._dependencies,
+        allTransitiveDependencies: YourLobbiesFamily._allTransitiveDependencies,
+        categoryId: categoryId,
+        subCategoryId: subCategoryId,
+      );
 
   YourLobbiesProvider._internal(
     super._createNotifier, {
@@ -187,10 +180,7 @@ class RecommendedLobbiesFamily extends Family<AsyncValue<List<Lobby>>> {
   const RecommendedLobbiesFamily();
 
   /// See also [recommendedLobbies].
-  RecommendedLobbiesProvider call({
-    String? categoryId,
-    String? subCategoryId,
-  }) {
+  RecommendedLobbiesProvider call({String? categoryId, String? subCategoryId}) {
     return RecommendedLobbiesProvider(
       categoryId: categoryId,
       subCategoryId: subCategoryId,
@@ -225,27 +215,24 @@ class RecommendedLobbiesFamily extends Family<AsyncValue<List<Lobby>>> {
 /// See also [recommendedLobbies].
 class RecommendedLobbiesProvider extends FutureProvider<List<Lobby>> {
   /// See also [recommendedLobbies].
-  RecommendedLobbiesProvider({
-    String? categoryId,
-    String? subCategoryId,
-  }) : this._internal(
-          (ref) => recommendedLobbies(
-            ref as RecommendedLobbiesRef,
-            categoryId: categoryId,
-            subCategoryId: subCategoryId,
-          ),
-          from: recommendedLobbiesProvider,
-          name: r'recommendedLobbiesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$recommendedLobbiesHash,
-          dependencies: RecommendedLobbiesFamily._dependencies,
-          allTransitiveDependencies:
-              RecommendedLobbiesFamily._allTransitiveDependencies,
+  RecommendedLobbiesProvider({String? categoryId, String? subCategoryId})
+    : this._internal(
+        (ref) => recommendedLobbies(
+          ref as RecommendedLobbiesRef,
           categoryId: categoryId,
           subCategoryId: subCategoryId,
-        );
+        ),
+        from: recommendedLobbiesProvider,
+        name: r'recommendedLobbiesProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$recommendedLobbiesHash,
+        dependencies: RecommendedLobbiesFamily._dependencies,
+        allTransitiveDependencies:
+            RecommendedLobbiesFamily._allTransitiveDependencies,
+        categoryId: categoryId,
+        subCategoryId: subCategoryId,
+      );
 
   RecommendedLobbiesProvider._internal(
     super._createNotifier, {
@@ -313,7 +300,8 @@ mixin RecommendedLobbiesRef on FutureProviderRef<List<Lobby>> {
 }
 
 class _RecommendedLobbiesProviderElement
-    extends FutureProviderElement<List<Lobby>> with RecommendedLobbiesRef {
+    extends FutureProviderElement<List<Lobby>>
+    with RecommendedLobbiesRef {
   _RecommendedLobbiesProviderElement(super.provider);
 
   @override
@@ -335,10 +323,7 @@ class TopLobbiesFamily extends Family<AsyncValue<List<Lobby>>> {
   const TopLobbiesFamily();
 
   /// See also [topLobbies].
-  TopLobbiesProvider call({
-    String? categoryId,
-    String? subCategoryId,
-  }) {
+  TopLobbiesProvider call({String? categoryId, String? subCategoryId}) {
     return TopLobbiesProvider(
       categoryId: categoryId,
       subCategoryId: subCategoryId,
@@ -373,27 +358,23 @@ class TopLobbiesFamily extends Family<AsyncValue<List<Lobby>>> {
 /// See also [topLobbies].
 class TopLobbiesProvider extends FutureProvider<List<Lobby>> {
   /// See also [topLobbies].
-  TopLobbiesProvider({
-    String? categoryId,
-    String? subCategoryId,
-  }) : this._internal(
-          (ref) => topLobbies(
-            ref as TopLobbiesRef,
-            categoryId: categoryId,
-            subCategoryId: subCategoryId,
-          ),
-          from: topLobbiesProvider,
-          name: r'topLobbiesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$topLobbiesHash,
-          dependencies: TopLobbiesFamily._dependencies,
-          allTransitiveDependencies:
-              TopLobbiesFamily._allTransitiveDependencies,
+  TopLobbiesProvider({String? categoryId, String? subCategoryId})
+    : this._internal(
+        (ref) => topLobbies(
+          ref as TopLobbiesRef,
           categoryId: categoryId,
           subCategoryId: subCategoryId,
-        );
+        ),
+        from: topLobbiesProvider,
+        name: r'topLobbiesProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$topLobbiesHash,
+        dependencies: TopLobbiesFamily._dependencies,
+        allTransitiveDependencies: TopLobbiesFamily._allTransitiveDependencies,
+        categoryId: categoryId,
+        subCategoryId: subCategoryId,
+      );
 
   TopLobbiesProvider._internal(
     super._createNotifier, {
@@ -482,10 +463,7 @@ class JoinedLobbiesFamily extends Family<AsyncValue<List<Lobby>>> {
   const JoinedLobbiesFamily();
 
   /// See also [joinedLobbies].
-  JoinedLobbiesProvider call({
-    String? categoryId,
-    String? subCategoryId,
-  }) {
+  JoinedLobbiesProvider call({String? categoryId, String? subCategoryId}) {
     return JoinedLobbiesProvider(
       categoryId: categoryId,
       subCategoryId: subCategoryId,
@@ -520,27 +498,24 @@ class JoinedLobbiesFamily extends Family<AsyncValue<List<Lobby>>> {
 /// See also [joinedLobbies].
 class JoinedLobbiesProvider extends FutureProvider<List<Lobby>> {
   /// See also [joinedLobbies].
-  JoinedLobbiesProvider({
-    String? categoryId,
-    String? subCategoryId,
-  }) : this._internal(
-          (ref) => joinedLobbies(
-            ref as JoinedLobbiesRef,
-            categoryId: categoryId,
-            subCategoryId: subCategoryId,
-          ),
-          from: joinedLobbiesProvider,
-          name: r'joinedLobbiesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$joinedLobbiesHash,
-          dependencies: JoinedLobbiesFamily._dependencies,
-          allTransitiveDependencies:
-              JoinedLobbiesFamily._allTransitiveDependencies,
+  JoinedLobbiesProvider({String? categoryId, String? subCategoryId})
+    : this._internal(
+        (ref) => joinedLobbies(
+          ref as JoinedLobbiesRef,
           categoryId: categoryId,
           subCategoryId: subCategoryId,
-        );
+        ),
+        from: joinedLobbiesProvider,
+        name: r'joinedLobbiesProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$joinedLobbiesHash,
+        dependencies: JoinedLobbiesFamily._dependencies,
+        allTransitiveDependencies:
+            JoinedLobbiesFamily._allTransitiveDependencies,
+        categoryId: categoryId,
+        subCategoryId: subCategoryId,
+      );
 
   JoinedLobbiesProvider._internal(
     super._createNotifier, {
@@ -629,10 +604,7 @@ class SavedLobbiesFamily extends Family<AsyncValue<List<Lobby>>> {
   const SavedLobbiesFamily();
 
   /// See also [savedLobbies].
-  SavedLobbiesProvider call({
-    String? categoryId,
-    String? subCategoryId,
-  }) {
+  SavedLobbiesProvider call({String? categoryId, String? subCategoryId}) {
     return SavedLobbiesProvider(
       categoryId: categoryId,
       subCategoryId: subCategoryId,
@@ -667,27 +639,24 @@ class SavedLobbiesFamily extends Family<AsyncValue<List<Lobby>>> {
 /// See also [savedLobbies].
 class SavedLobbiesProvider extends FutureProvider<List<Lobby>> {
   /// See also [savedLobbies].
-  SavedLobbiesProvider({
-    String? categoryId,
-    String? subCategoryId,
-  }) : this._internal(
-          (ref) => savedLobbies(
-            ref as SavedLobbiesRef,
-            categoryId: categoryId,
-            subCategoryId: subCategoryId,
-          ),
-          from: savedLobbiesProvider,
-          name: r'savedLobbiesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$savedLobbiesHash,
-          dependencies: SavedLobbiesFamily._dependencies,
-          allTransitiveDependencies:
-              SavedLobbiesFamily._allTransitiveDependencies,
+  SavedLobbiesProvider({String? categoryId, String? subCategoryId})
+    : this._internal(
+        (ref) => savedLobbies(
+          ref as SavedLobbiesRef,
           categoryId: categoryId,
           subCategoryId: subCategoryId,
-        );
+        ),
+        from: savedLobbiesProvider,
+        name: r'savedLobbiesProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$savedLobbiesHash,
+        dependencies: SavedLobbiesFamily._dependencies,
+        allTransitiveDependencies:
+            SavedLobbiesFamily._allTransitiveDependencies,
+        categoryId: categoryId,
+        subCategoryId: subCategoryId,
+      );
 
   SavedLobbiesProvider._internal(
     super._createNotifier, {
@@ -763,5 +732,6 @@ class _SavedLobbiesProviderElement extends FutureProviderElement<List<Lobby>>
   @override
   String? get subCategoryId => (origin as SavedLobbiesProvider).subCategoryId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

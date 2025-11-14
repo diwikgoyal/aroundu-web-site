@@ -18,7 +18,6 @@ class ScrollableInfoCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white ,
       height: 132, // Adjusted height for responsiveness
       child: StatefulBuilder(
         builder: (context, setState) {
@@ -80,7 +79,6 @@ class ScrollableInfoCards extends StatelessWidget {
       // margin: EdgeInsets.only(right: 12.w),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
         // borderRadius: BorderRadius.circular(12.r),
         
         // gradient: LinearGradient(
@@ -95,13 +93,13 @@ class ScrollableInfoCards extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Color(0x143E79A1),
+              color: DesignColors.secondary,
               shape: BoxShape.circle,
             ),
             padding: EdgeInsets.all(8),
             child: Icon(
               card.icon,
-              color: Color(0xFFEC4B5D),
+              color: DesignColors.accent,
               size: 24,
             ),
           ),
@@ -111,7 +109,7 @@ class ScrollableInfoCards extends StatelessWidget {
             // fontWeight: FontWeight.bold,
             fontSize: 10,
             fontWeight: FontWeight.w500,
-            color: Color(0xFF778899),
+            color: DesignColors.secondaryFontDark,
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 4),
@@ -119,7 +117,7 @@ class ScrollableInfoCards extends StatelessWidget {
             text: card.subtitle,
             fontSize: 8,
             fontWeight: FontWeight.w400,
-            color: Color(0xFFEC4B5D),
+            color: DesignColors.accent,
             maxLines: 2,
             textAlign: TextAlign.center,
           ),

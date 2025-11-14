@@ -39,21 +39,15 @@ class DeleteLobbyFamily extends Family<AsyncValue<bool>> {
   const DeleteLobbyFamily();
 
   /// See also [deleteLobby].
-  DeleteLobbyProvider call(
-    String lobbyId,
-  ) {
-    return DeleteLobbyProvider(
-      lobbyId,
-    );
+  DeleteLobbyProvider call(String lobbyId) {
+    return DeleteLobbyProvider(lobbyId);
   }
 
   @override
   DeleteLobbyProvider getProviderOverride(
     covariant DeleteLobbyProvider provider,
   ) {
-    return call(
-      provider.lobbyId,
-    );
+    return call(provider.lobbyId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -74,24 +68,18 @@ class DeleteLobbyFamily extends Family<AsyncValue<bool>> {
 /// See also [deleteLobby].
 class DeleteLobbyProvider extends AutoDisposeFutureProvider<bool> {
   /// See also [deleteLobby].
-  DeleteLobbyProvider(
-    String lobbyId,
-  ) : this._internal(
-          (ref) => deleteLobby(
-            ref as DeleteLobbyRef,
-            lobbyId,
-          ),
-          from: deleteLobbyProvider,
-          name: r'deleteLobbyProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$deleteLobbyHash,
-          dependencies: DeleteLobbyFamily._dependencies,
-          allTransitiveDependencies:
-              DeleteLobbyFamily._allTransitiveDependencies,
-          lobbyId: lobbyId,
-        );
+  DeleteLobbyProvider(String lobbyId)
+    : this._internal(
+        (ref) => deleteLobby(ref as DeleteLobbyRef, lobbyId),
+        from: deleteLobbyProvider,
+        name: r'deleteLobbyProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$deleteLobbyHash,
+        dependencies: DeleteLobbyFamily._dependencies,
+        allTransitiveDependencies: DeleteLobbyFamily._allTransitiveDependencies,
+        lobbyId: lobbyId,
+      );
 
   DeleteLobbyProvider._internal(
     super._createNotifier, {
@@ -156,5 +144,6 @@ class _DeleteLobbyProviderElement extends AutoDisposeFutureProviderElement<bool>
   @override
   String get lobbyId => (origin as DeleteLobbyProvider).lobbyId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

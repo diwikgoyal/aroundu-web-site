@@ -48,9 +48,9 @@ class ApiService {
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          print(
-            '🟢 RESPONSE: ${response.statusCode} ${response.requestOptions.uri}',
-          );
+          // print(
+          //   '🟢 RESPONSE: ${response.statusCode} ${response.requestOptions.uri}',
+          // );
           // Safely log response without causing UTF-8 issues
           if (response.data != null) {
             try {

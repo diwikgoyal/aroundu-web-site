@@ -39,21 +39,15 @@ class MarkAsClosedLobbyFamily extends Family<AsyncValue<bool>> {
   const MarkAsClosedLobbyFamily();
 
   /// See also [markAsClosedLobby].
-  MarkAsClosedLobbyProvider call(
-    String lobbyId,
-  ) {
-    return MarkAsClosedLobbyProvider(
-      lobbyId,
-    );
+  MarkAsClosedLobbyProvider call(String lobbyId) {
+    return MarkAsClosedLobbyProvider(lobbyId);
   }
 
   @override
   MarkAsClosedLobbyProvider getProviderOverride(
     covariant MarkAsClosedLobbyProvider provider,
   ) {
-    return call(
-      provider.lobbyId,
-    );
+    return call(provider.lobbyId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -74,24 +68,19 @@ class MarkAsClosedLobbyFamily extends Family<AsyncValue<bool>> {
 /// See also [markAsClosedLobby].
 class MarkAsClosedLobbyProvider extends AutoDisposeFutureProvider<bool> {
   /// See also [markAsClosedLobby].
-  MarkAsClosedLobbyProvider(
-    String lobbyId,
-  ) : this._internal(
-          (ref) => markAsClosedLobby(
-            ref as MarkAsClosedLobbyRef,
-            lobbyId,
-          ),
-          from: markAsClosedLobbyProvider,
-          name: r'markAsClosedLobbyProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$markAsClosedLobbyHash,
-          dependencies: MarkAsClosedLobbyFamily._dependencies,
-          allTransitiveDependencies:
-              MarkAsClosedLobbyFamily._allTransitiveDependencies,
-          lobbyId: lobbyId,
-        );
+  MarkAsClosedLobbyProvider(String lobbyId)
+    : this._internal(
+        (ref) => markAsClosedLobby(ref as MarkAsClosedLobbyRef, lobbyId),
+        from: markAsClosedLobbyProvider,
+        name: r'markAsClosedLobbyProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$markAsClosedLobbyHash,
+        dependencies: MarkAsClosedLobbyFamily._dependencies,
+        allTransitiveDependencies:
+            MarkAsClosedLobbyFamily._allTransitiveDependencies,
+        lobbyId: lobbyId,
+      );
 
   MarkAsClosedLobbyProvider._internal(
     super._createNotifier, {
@@ -150,11 +139,13 @@ mixin MarkAsClosedLobbyRef on AutoDisposeFutureProviderRef<bool> {
 }
 
 class _MarkAsClosedLobbyProviderElement
-    extends AutoDisposeFutureProviderElement<bool> with MarkAsClosedLobbyRef {
+    extends AutoDisposeFutureProviderElement<bool>
+    with MarkAsClosedLobbyRef {
   _MarkAsClosedLobbyProviderElement(super.provider);
 
   @override
   String get lobbyId => (origin as MarkAsClosedLobbyProvider).lobbyId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

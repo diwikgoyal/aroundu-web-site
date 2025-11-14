@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:aroundu/constants/appRoutes.dart';
 import 'package:aroundu/constants/colors_palette.dart';
@@ -85,78 +86,79 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
               child: Stack(
                 children: [
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          _buildHousePhotoGallery(house: house),
-                          Positioned(bottom: -40, left: 16, child: _buildProfileImage(house: house)),
-                          Positioned(bottom: 16, right: 16, child: _buildDotsIndicator(house: house)),
-                        ],
-                      ),
-                      SizedBox(height: min(0.12 * sw, 48)),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          clipBehavior: Clip.none,
                           children: [
-                            _buildHouseHeader(house: house),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12), // Reduced from 16.r
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.03), // Lighter shadow
-                                    blurRadius: 6,
-                                    spreadRadius: 0,
-                                    offset: Offset(0, 1),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  if (house.categories != null && house.categories!.isNotEmpty)
-                                    Container(
-                                      height: 32, // Reduced from 36.h
-                                      margin: EdgeInsets.only(top: 8, bottom: 16),
-                                      padding: EdgeInsets.symmetric(horizontal: 8),
-                                      child: SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        physics: BouncingScrollPhysics(),
-                                        child: _buildCategoriesSection(house: house),
-                                      ),
-                                    ),
-                                  if (house.description != null && house.description!.isNotEmpty) ...[
-                                    _buildCompactSectionHeader(icon: Icons.info_outline, title: "About"),
-                                    _buildAboutSection(house: house),
-                                  ],
-                                  // Social media as compact row of icons
-                                  if (house.socialMediaLinks != null && house.socialMediaLinks!.isNotEmpty) ...[
-                                    _buildSocialHandel(house: house),
-                                    SizedBox(height: 8), // Reduced from 16.h
-                                  ],
-                                  _buildMembersSection(house: house),
-                                  // Location section with compact layout
-                                  if (house.locationInfo != null) ...[
-                                    SizedBox(height: 4),
-                                    _buildLocationSection(house: house),
-                                  ],
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 24),
-
-                            // Tab bar view for activities, lobbies, etc.
-                            _buildTabBarView(houseDetails: houseDetails),
-                            SizedBox(height: 16),
+                            _buildHousePhotoGallery(house: house),
+                            Positioned(bottom: -40, left: 16, child: _buildProfileImage(house: house)),
+                            Positioned(bottom: 16, right: 16, child: _buildDotsIndicator(house: house)),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
+                        SizedBox(height: min(0.12 * sw, 48)),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildHouseHeader(house: house),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12), // Reduced from 16.r
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.03), // Lighter shadow
+                                      blurRadius: 6,
+                                      spreadRadius: 0,
+                                      offset: Offset(0, 1),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (house.categories != null && house.categories!.isNotEmpty)
+                                      Container(
+                                        height: 32, // Reduced from 36.h
+                                        margin: EdgeInsets.only(top: 8, bottom: 16),
+                                        padding: EdgeInsets.symmetric(horizontal: 8),
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          physics: BouncingScrollPhysics(),
+                                          child: _buildCategoriesSection(house: house),
+                                        ),
+                                      ),
+                                    if (house.description != null && house.description!.isNotEmpty) ...[
+                                      _buildCompactSectionHeader(icon: Icons.info_outline, title: "About"),
+                                      _buildAboutSection(house: house),
+                                    ],
+                                    // Social media as compact row of icons
+                                    if (house.socialMediaLinks != null && house.socialMediaLinks!.isNotEmpty) ...[
+                                      _buildSocialHandel(house: house),
+                                      SizedBox(height: 8), // Reduced from 16.h
+                                    ],
+                                    _buildMembersSection(house: house),
+                                    // Location section with compact layout
+                                    if (house.locationInfo != null) ...[
+                                      SizedBox(height: 4),
+                                      _buildLocationSection(house: house),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 24),
+                    
+                              // Tab bar view for activities, lobbies, etc.
+                              _buildTabBarView(houseDetails: houseDetails),
+                              SizedBox(height: 16),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  
                   // Back button overlay
                   _buildBackButton(),
                 ],
@@ -195,7 +197,7 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
 
   Widget _buildTabBarView({required HouseDetailedModel? houseDetails}) {
     return SizedBox(
-      height: 0.8*Get.height,
+      height: 0.8 * Get.height,
       child: CustomTabBarView(
         tabs: const [
           "Current Lobbies",
@@ -226,10 +228,8 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
       separatorBuilder: (context, index) => SizedBox(height: 12),
       itemBuilder: (context, index) {
         final lobby = lobbies[index];
-        final memberProgress = lobby.totalMembers > 0 
-            ? (lobby.currentMembers / lobby.totalMembers) * 100 
-            : 0;
-        
+        final memberProgress = lobby.totalMembers > 0 ? (lobby.currentMembers / lobby.totalMembers) * 100 : 0;
+
         return GestureDetector(
           onTap: () async {
             HapticFeedback.selectionClick();
@@ -240,17 +240,9 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
-                  blurRadius: 12,
-                  offset: Offset(0, 4),
-                  spreadRadius: 0,
-                ),
+                BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 12, offset: Offset(0, 4), spreadRadius: 0),
               ],
-              border: Border.all(
-                color: DesignColors.accent.withOpacity(0.1),
-                width: 1,
-              ),
+              border: Border.all(color: DesignColors.accent.withOpacity(0.1), width: 1),
             ),
             child: Padding(
               padding: EdgeInsets.all(16),
@@ -266,18 +258,15 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           color: DesignColors.accent.withOpacity(0.1),
-                          image: lobby.mediaUrls.isNotEmpty
-                              ? DecorationImage(
-                                  image: NetworkImage(lobby.mediaUrls.first),
-                                  fit: BoxFit.cover,
-                                )
-                              : null,
+                          image:
+                              lobby.mediaUrls.isNotEmpty
+                                  ? DecorationImage(image: NetworkImage(lobby.mediaUrls.first), fit: BoxFit.cover)
+                                  : null,
                         ),
-                        child: lobby.mediaUrls.isEmpty
-                            ? Icon(Icons.image_outlined, 
-                                color: DesignColors.accent.withOpacity(0.6), 
-                                size: 28)
-                            : null,
+                        child:
+                            lobby.mediaUrls.isEmpty
+                                ? Icon(Icons.image_outlined, color: DesignColors.accent.withOpacity(0.6), size: 28)
+                                : null,
                       ),
                       SizedBox(width: 16),
                       // Content
@@ -293,25 +282,24 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
                               overflow: TextOverflow.ellipsis,
                               color: DesignColors.primary,
                             ),
-                             SizedBox(height: 4),
+                            SizedBox(height: 4),
                             Row(
                               children: [
                                 Icon(
                                   lobby.isPrivate ? Icons.lock_outline : Icons.public,
                                   size: 14,
-                                 color: DesignColors.accent,
+                                  color: DesignColors.accent,
                                 ),
                                 SizedBox(width: 6),
                                 DesignText(
                                   text: lobby.isPrivate ? 'Private' : 'Public',
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
-                                  color:  DesignColors.accent ,
+                                  color: DesignColors.accent,
                                 ),
                               ],
                             ),
-                           
-                            
+
                             // if (lobby.description != null && lobby.description!.isNotEmpty) ...[
                             //   SizedBox(height: 4),
                             //   RichTextDisplay(
@@ -334,9 +322,10 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
                       Icon(Icons.calendar_today, size: 14, color: DesignColors.secondary),
                       SizedBox(width: 6),
                       DesignText(
-                        text: lobby.filter.otherFilterInfo.dateInfo != null 
-                            ? lobby.filter.otherFilterInfo.dateInfo?.formattedDate ?? ""
-                            : 'Date TBD',
+                        text:
+                            lobby.filter.otherFilterInfo.dateInfo != null
+                                ? lobby.filter.otherFilterInfo.dateInfo?.formattedDate ?? ""
+                                : 'Date TBD',
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: DesignColors.secondary,
@@ -346,9 +335,18 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
                       SizedBox(width: 6),
                       Expanded(
                         child: DesignText(
-                          text: lobby.filter.otherFilterInfo.locationInfo != null
-                                  ? lobby.filter.otherFilterInfo.locationInfo?.googleSearchResponses?.isNotEmpty ?? false
-                                      ? lobby.filter.otherFilterInfo.locationInfo?.googleSearchResponses.first.description ?? ""
+                          text:
+                              lobby.filter.otherFilterInfo.locationInfo != null
+                                  ? lobby.filter.otherFilterInfo.locationInfo?.googleSearchResponses?.isNotEmpty ??
+                                          false
+                                      ? lobby
+                                              .filter
+                                              .otherFilterInfo
+                                              .locationInfo
+                                              ?.googleSearchResponses
+                                              .first
+                                              .description ??
+                                          ""
                                       : "Location TBD"
                                   : 'Location TBD',
                           fontSize: 13,
@@ -389,13 +387,9 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(4),
                               child: LinearProgressIndicator(
-                                value: lobby.totalMembers > 0 
-                                    ? lobby.currentMembers / lobby.totalMembers
-                                    : 0,
+                                value: lobby.totalMembers > 0 ? lobby.currentMembers / lobby.totalMembers : 0,
                                 backgroundColor: Colors.grey.shade200,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  DesignColors.accent.withOpacity(0.7),
-                                ),
+                                valueColor: AlwaysStoppedAnimation<Color>(DesignColors.accent.withOpacity(0.7)),
                                 minHeight: 4,
                               ),
                             ),
@@ -409,10 +403,7 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
                         decoration: BoxDecoration(
                           color: DesignColors.accent.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: DesignColors.accent.withOpacity(0.3),
-                            width: 1,
-                          ),
+                          border: Border.all(color: DesignColors.accent.withOpacity(0.3), width: 1),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -1227,8 +1218,11 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
   Widget _buildHousePhotoGallery({required House house}) {
     return Stack(
       children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.33,
+        Container(
+          constraints: BoxConstraints(maxHeight: 0.4 * Get.height,
+          //  minHeight: 0.2 * Get.height
+           ),
+        
           child: PageView.builder(
             controller: pageController,
             itemCount: house.photos?.length ?? 0,
@@ -1237,33 +1231,58 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
               setState(() {});
             },
             itemBuilder: (context, index) {
-              return ClipRRect(
-                borderRadius: const BorderRadius.only(bottomRight: Radius.circular(20)),
-                child: Image.network(
-                  house.photos?[index] ?? '',
-                  fit: BoxFit.cover,
-                  width: MediaQuery.of(context).size.width,
-                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value:
-                              loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
-                                  : null,
-                        ),
-                      );
-                    }
-                  },
-                  errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                    return Container(
-                      color: Colors.grey,
-                      width: double.infinity,
-                      child: const Icon(Icons.broken_image, color: Colors.white, size: 40),
-                    );
-                  },
+              String url = house.photos?[index] ?? "";
+              if (!(house.photos![index].toLowerCase().contains('.png') ||
+                  house.photos![index].toLowerCase().contains('.jpeg') ||
+                  house.photos![index].toLowerCase().contains('.jpg'))) {
+                url =
+                    "https://images.weserv.nl/?url=${Uri.encodeComponent(house.photos![index])}&w=640&h=640&fit=cover&output=webp&q=30&l=9&il&af=auto";
+              }
+              return Container(
+                decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover)),
+                child: BackdropFilter(
+                  filter: ImageFilter.compose(
+                    outer: ImageFilter.blur(sigmaX: 6, sigmaY: 4),
+                    inner: ImageFilter.dilate(radiusX: 2, radiusY: 2),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.4), // Tint color
+                      
+                      border: Border.all(color: Colors.black.withOpacity(0.25), width: 1.0),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(bottomRight: Radius.circular(20)),
+                      child: Image.network(
+                        url,
+                        fit: BoxFit.scaleDown,
+                        width: MediaQuery.of(context).size.width,
+                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value:
+                                    loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                            (loadingProgress.expectedTotalBytes ?? 1)
+                                        : null,
+                              ),
+                            );
+                          }
+                        },
+                        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                          return Container(
+                            color: Colors.grey,
+                            width: double.infinity,
+                            child: const Icon(Icons.broken_image, color: Colors.white, size: 40),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 ),
               );
             },
@@ -1311,6 +1330,13 @@ class _HouseDetailsViewState extends ConsumerState<HouseDetailsView> {
   Widget _buildProfileImage({required House house}) {
     final sw = Get.width;
     final sh = Get.height;
+     String url =  house.profilePhoto ?? "";
+    if (!(url.toLowerCase().contains('.png') ||
+         url.toLowerCase().contains('.jpeg') ||
+         url.toLowerCase().contains('.jpg'))) {
+      url =
+          "https://images.weserv.nl/?url=${Uri.encodeComponent(url)}&w=640&h=640&fit=cover&output=webp&q=30&l=9&il&af=auto";
+    }
     return Container(
       height: 0.2 * sw,
       width: 0.2 * sw,

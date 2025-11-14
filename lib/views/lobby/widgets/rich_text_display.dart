@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:aroundu/designs/colors.designs.dart';
+import 'package:aroundu/designs/fonts.designs.dart';
 import 'package:aroundu/designs/widgets/text.widget.designs.dart';
 import 'package:aroundu/views/lobby/widgets/rich_text_editor_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,9 @@ class RichTextDisplay extends StatefulWidget {
   // final double? minHeight;
   final double? maxHeight;
   final double? fontSize;
+  final Color fontColor;
   final String? lobbyId;
+  final bool scrollable;
   
   const RichTextDisplay({
     Key? key,
@@ -25,7 +28,9 @@ class RichTextDisplay extends StatefulWidget {
     this.maxHeight,
     // this.minHeight,
     this.fontSize,
+     this.fontColor = DesignColors.primary,
     this.lobbyId,
+    this.scrollable = true,
   }) : super(key: key);
 
   @override
@@ -133,52 +138,83 @@ class _RichTextDisplayState extends State<RichTextDisplay> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: (widget.maxHeight!=null)? EdgeInsets.symmetric(vertical: 4) : EdgeInsets.all(12),
+            padding: (widget.maxHeight != null) ? EdgeInsets.symmetric(vertical: 4) : EdgeInsets.all(12),
+
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: widget.isEditing
-                  ? Border.all(
-                      color: Colors.grey.shade300,
-                      width: 1.5,
-                    )
-                  : null,
+              color:  Colors.transparent,
+              borderRadius: BorderRadius.circular(24),
+              // border: widget.isEditing ? Border.all(color: Colors.grey.shade300, width: 1.5) : null,
             ),
-            child: QuillEditor.basic(
-              controller: _quillController,
-              config: QuillEditorConfig(
-                placeholder: widget.hintText,
-                customStyles: DefaultStyles(
-                  paragraph: DefaultTextBlockStyle(
-                    TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: widget.fontSize ?? 14,
-                      color: Colors.black,
-                      overflow: TextOverflow.ellipsis,
+            constraints: BoxConstraints(
+              maxHeight: widget.lobbyId != null && _showFullText
+                  ? 0.8*sh
+                  : (widget.maxHeight != null)
+                  ? widget.maxHeight!
+                  : widget.isEditing
+                  ? 0.4*sh
+                  : 0.2*sh,
+            ),
+            child: SingleChildScrollView(
+              physics: widget.scrollable ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(),
+              child: QuillEditor.basic(
+                controller: _quillController,
+                config: QuillEditorConfig(
+                  placeholder: widget.hintText,
+                  customStyles: DefaultStyles(
+                    placeHolder: DefaultTextBlockStyle(
+                      DesignFonts.poppins.copyWith(
+                        fontSize: widget.fontSize ?? 14,
+                        color: DesignColors.primary,
+                      ),
+                      const HorizontalSpacing(0, 0),
+                      const VerticalSpacing(0, 0),
+                      const VerticalSpacing(0, 0),
+                      null,
                     ),
-                    const HorizontalSpacing(0, 0),
-                    const VerticalSpacing(0, 0),
-                    const VerticalSpacing(0, 0),
-                    null,
+                    lists: DefaultListBlockStyle(
+                      TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: widget.fontSize ?? 14,
+                        color: widget.fontColor, // This will apply to bullet text
+                      ),
+                      const HorizontalSpacing(0, 0),
+                      const VerticalSpacing(0, 0),
+                      const VerticalSpacing(0, 0),
+                      null,
+                      null,
+                    ),
+                    paragraph: DefaultTextBlockStyle(
+                      TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: widget.fontSize ?? 14,
+                        color: widget.fontColor,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const HorizontalSpacing(0, 0),
+                      const VerticalSpacing(0, 0),
+                      const VerticalSpacing(0, 0),
+                      null,
+                    ),
                   ),
+                  padding: widget.isEditing ? EdgeInsets.symmetric(vertical: 4, horizontal: 6) : EdgeInsets.zero,
+                  showCursor: false,
+                  autoFocus: false,
+                  expands: false,
+                  scrollable: false,
+                  enableInteractiveSelection: false,
+                  enableSelectionToolbar: false,
+                  maxHeight: widget.lobbyId != null && _showFullText
+                      ? 0.8*sh
+                      : (widget.maxHeight != null)
+                      ? widget.maxHeight
+                      : widget.isEditing
+                      ? 0.4*sh
+                      : 0.2*sh,
                 ),
-                padding: EdgeInsets.zero,
-                showCursor: false,
-                autoFocus: false,
-                expands: false,
-                scrollable: true,
-                scrollPhysics: NeverScrollableScrollPhysics(),
-                enableInteractiveSelection: false,
-                enableSelectionToolbar: false,
-                maxHeight: widget.lobbyId != null && _showFullText
-                    ? 0.8*sh
-                    : (widget.maxHeight != null)
-                        ? widget.maxHeight
-                        : widget.isEditing ? 0.4*sh : 0.15*sh,
               ),
             ),
           ),
-          if (widget.lobbyId != null && widget.controller.text.isNotEmpty)
+          if (widget.lobbyId != null && widget.controller.text.isNotEmpty && widget.controller.text.length > 400)
             Align(
               alignment: Alignment.centerRight,
               child: Padding(

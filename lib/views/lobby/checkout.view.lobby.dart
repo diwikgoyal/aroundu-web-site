@@ -443,6 +443,9 @@ class _CheckOutPublicLobbyViewState extends ConsumerState<CheckOutPublicLobbyVie
                             );
                             return;
                           }
+                          kLogger.trace(
+                            "here is calc : ${calculateTotalPrice(pricingData: pricingData, selectedOffer: selectedOffer)}",
+                          );
                           if (calculateTotalPrice(pricingData: pricingData, selectedOffer: selectedOffer) == "0.0") {
                             bool lobbyJoinStatus = false;
                             if (widget.lobby.isPrivate && widget.lobby.accessRequestData != null) {
@@ -581,10 +584,9 @@ class _CheckOutPublicLobbyViewState extends ConsumerState<CheckOutPublicLobbyVie
                           }
                         }
                       },
-                      bgColor:
-                          (count > 0 && ref.watch(formsListProvider.notifier).validateAllForms() == null)
-                              ? DesignColors.accent
-                              : const Color(0xFF989898),
+                      bgColor: (count > 0 && ref.watch(formsListProvider.notifier).validateAllForms() == null)
+                          ? DesignColors.accent
+                          : const Color(0xFF989898),
                       title: "Checkout",
                     ),
                   ),
@@ -771,10 +773,9 @@ class _CheckOutPublicLobbyViewState extends ConsumerState<CheckOutPublicLobbyVie
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text:
-                                  (widget.lobby.priceDetails?.price != 0.0)
-                                      ? 'Refund & Cancellation : '
-                                      : 'Cancellation : ',
+                              text: (widget.lobby.priceDetails?.price != 0.0)
+                                  ? 'Refund & Cancellation : '
+                                  : 'Cancellation : ',
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w500,
@@ -783,10 +784,11 @@ class _CheckOutPublicLobbyViewState extends ConsumerState<CheckOutPublicLobbyVie
                               ),
                             ),
                             TextSpan(
-                              text:
-                                  (widget.lobby.priceDetails?.price != 0.0)
-                                      ? 'Available up to 2 days before the lobby.'
-                                      : 'Cancel at any time with no hassle',
+                              text: (widget.lobby.priceDetails?.price != 0.0)
+                                  ? (widget.lobby.priceDetails.isRefundAllowed)
+                                        ? 'Available up to 2 days before the lobby.'
+                                        : 'Refund Not Available'
+                                  : 'Cancel at any time with no hassle',
                               style: TextStyle(
                                 fontSize: 8,
                                 fontWeight: FontWeight.w300,
@@ -1269,70 +1271,66 @@ class _CheckOutPublicLobbyViewState extends ConsumerState<CheckOutPublicLobbyVie
                 DesignTextField(
                   hintText: "Have a coupon code ?",
                   borderRadius: 18,
-                  suffixIcon:
-                      couponState.isLoading
-                          ? SizedBox(
-                            width: 8,
-                            height: 8,
-                            child: CircularProgressIndicator(
-                              padding: EdgeInsets.all(12),
-                              strokeWidth: 2,
-                              color: const Color(0xFFEC4B5D),
-                            ),
-                          )
-                          : GestureDetector(
-                            onTap: () {
-                              // If field is empty, don't validate
-                              if (_couponController.text.trim().isEmpty) {
-                                return;
-                              }
-
-                              // If already validated, clear the coupon
-                              if (couponState.validatedOffer != null) {
-                                _couponController.clear();
-                                ref.read(couponProvider.notifier).clearCoupon();
-                                ref.read(selectedOfferProvider.notifier).state = null;
-                              } else {
-                                _validateCoupon();
-                              }
-                            },
-                            child:
-                                ((couponState.validatedOffer == null) && couponState.errorMessage == null)
-                                    ? Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 8),
-                                          child: DesignText(
-                                            text: 'Apply',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: DesignColors.accent,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                    : DesignIcon.icon(
-                                      icon:
-                                          couponState.validatedOffer != null
-                                              ? Icons
-                                                  .done_outlined // Change to  icon for removal
-                                              : couponState.errorMessage != null
-                                              ? Icons
-                                                  .error_outline_rounded // Show error icon for invalid codes
-                                              : Icons.arrow_forward_ios_rounded, // Default arrow icon
-                                      color:
-                                          couponState.validatedOffer != null
-                                              ? Colors.green
-                                              : couponState.errorMessage != null
-                                              ? Colors.red
-                                              : const Color(0xFFEC4B5D),
-                                      size: 16,
-                                    ),
+                  suffixIcon: couponState.isLoading
+                      ? SizedBox(
+                          width: 8,
+                          height: 8,
+                          child: CircularProgressIndicator(
+                            padding: EdgeInsets.all(12),
+                            strokeWidth: 2,
+                            color: const Color(0xFFEC4B5D),
                           ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            // If field is empty, don't validate
+                            if (_couponController.text.trim().isEmpty) {
+                              return;
+                            }
+
+                            // If already validated, clear the coupon
+                            if (couponState.validatedOffer != null) {
+                              _couponController.clear();
+                              ref.read(couponProvider.notifier).clearCoupon();
+                              ref.read(selectedOfferProvider.notifier).state = null;
+                            } else {
+                              _validateCoupon();
+                            }
+                          },
+                          child: ((couponState.validatedOffer == null) && couponState.errorMessage == null)
+                              ? Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 8),
+                                      child: DesignText(
+                                        text: 'Apply',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: DesignColors.accent,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : DesignIcon.icon(
+                                  icon: couponState.validatedOffer != null
+                                      ? Icons
+                                            .done_outlined // Change to  icon for removal
+                                      : couponState.errorMessage != null
+                                      ? Icons
+                                            .error_outline_rounded // Show error icon for invalid codes
+                                      : Icons.arrow_forward_ios_rounded, // Default arrow icon
+                                  color: couponState.validatedOffer != null
+                                      ? Colors.green
+                                      : couponState.errorMessage != null
+                                      ? Colors.red
+                                      : const Color(0xFFEC4B5D),
+                                  size: 16,
+                                ),
+                        ),
                   controller: _couponController,
                   errorText: couponState.errorMessage,
                   onChanged: (val) {
@@ -1542,7 +1540,6 @@ class _CheckOutPublicLobbyViewState extends ConsumerState<CheckOutPublicLobbyVie
     return GestureDetector(
       onTap: () {
         toggle(ref, tileText);
-
       },
       child: Card(
         elevation: 4,
@@ -1607,144 +1604,528 @@ class _CheckOutPublicLobbyViewState extends ConsumerState<CheckOutPublicLobbyVie
         Padding(
           // constraints: BoxConstraints(maxHeight: 0.6.sh),
           padding: EdgeInsets.only(bottom: 0.1 * sh),
-          child:
-              formData.questions.isEmpty
-                  ? FutureBuilder(
-                    future: Future.delayed(const Duration(milliseconds: 2500)),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator(color: Color(0xFFEC4B5D)));
-                      } else {
-                        return Center(
-                          child: DesignText(
-                            text: "No questions found",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF323232),
-                          ),
-                        );
+          child: formData.questions.isEmpty
+              ? FutureBuilder(
+                  future: Future.delayed(const Duration(milliseconds: 2500)),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator(color: Color(0xFFEC4B5D)));
+                    } else {
+                      return Center(
+                        child: DesignText(
+                          text: "No questions found",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF323232),
+                        ),
+                      );
+                    }
+                  },
+                )
+              : Column(
+                  children: List.generate(formData.questions.length, (index) {
+                    final question = formData.questions[index];
+
+                    // Text question
+                    if (question.questionType == 'text') {
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
+
+                      if (controller == null) {
+                        return const SizedBox.shrink();
                       }
-                    },
-                  )
-                  : Column(
-                    children: List.generate(formData.questions.length, (index) {
-                      final question = formData.questions[index];
 
-                      // Text question
-                      if (question.questionType == 'text') {
-                        final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
+                      // Make sure controller has the latest value
+                      if (controller.text != question.answer.toString()) {
+                        controller.text = question.answer.toString();
+                      }
 
-                        if (controller == null) {
-                          return const SizedBox.shrink();
-                        }
-
-                        // Make sure controller has the latest value
-                        if (controller.text != question.answer.toString()) {
-                          controller.text = question.answer.toString();
-                        }
-
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 24),
-                          child: Card(
-                            shadowColor: Color(0x143E79A1),
-                            elevation: 6,
-                            color: Colors.white,
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    maxLines: null,
-                                    overflow: TextOverflow.visible,
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 12,
-                                        color: Color(0xFF323232),
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      children: [
-                                        TextSpan(text: question.questionText.trim()),
-                                        if (question.isMandatory)
-                                          TextSpan(text: '   *', style: TextStyle(color: Color(0xFFEC4B5D))),
-                                      ],
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 24),
+                        child: Card(
+                          shadowColor: Color(0x143E79A1),
+                          elevation: 6,
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  maxLines: null,
+                                  overflow: TextOverflow.visible,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 12,
+                                      color: Color(0xFF323232),
+                                      fontWeight: FontWeight.w500,
                                     ),
+                                    children: [
+                                      TextSpan(text: question.questionText.trim()),
+                                      if (question.isMandatory)
+                                        TextSpan(
+                                          text: '   *',
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
+                                        ),
+                                    ],
                                   ),
-                                  Space.h(height: 12),
-                                  DesignTextField(
-                                    controller: controller,
-                                    hintText: "Answer",
-                                    fontSize: 12,
-                                    onChanged: (val) => formNotifier.updateAnswer(formIndex, question.id, val!),
-                                    borderRadius: 16,
-                                  ),
-                                ],
-                              ),
+                                ),
+                                Space.h(height: 12),
+                                DesignTextField(
+                                  controller: controller,
+                                  hintText: "Answer",
+                                  fontSize: 12,
+                                  onChanged: (val) => formNotifier.updateAnswer(formIndex, question.id, val!),
+                                  borderRadius: 16,
+                                ),
+                              ],
                             ),
                           ),
-                        );
+                        ),
+                      );
+                    }
+                    // Number question
+                    else if (question.questionType == 'number') {
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
+
+                      if (controller == null) {
+                        return const SizedBox.shrink();
                       }
-                      // Number question
-                      else if (question.questionType == 'number') {
-                        final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
 
-                        if (controller == null) {
-                          return const SizedBox.shrink();
-                        }
+                      // Make sure controller has the latest value
+                      if (controller.text != question.answer) {
+                        controller.text = question.answer;
+                      }
 
-                        // Make sure controller has the latest value
-                        if (controller.text != question.answer) {
-                          controller.text = question.answer;
-                        }
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 24),
+                        child: Card(
+                          shadowColor: Color(0x143E79A1),
+                          elevation: 6,
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  maxLines: null,
+                                  overflow: TextOverflow.visible,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 12,
+                                      color: Color(0xFF323232),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    children: [
+                                      TextSpan(text: question.questionText.trim()),
+                                      if (question.isMandatory)
+                                        TextSpan(
+                                          text: '   *',
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                Space.h(height: 12),
+                                DesignTextField(
+                                  controller: controller,
+                                  hintText: "Enter a number",
+                                  fontSize: 12,
+                                  inputType: TextInputType.number,
+                                  onEditingComplete: () {
+                                    if (controller.text != null) {
+                                      if (controller.text.isEmpty || RegExp(r'^\d+$').hasMatch(controller.text)) {
+                                        formNotifier.updateAnswer(formIndex, question.id, controller.text);
+                                      } else {
+                                        // Revert to previous valid value
+                                        controller.text = question.answer;
+                                        controller.selection = TextSelection.fromPosition(
+                                          TextPosition(offset: controller.text.length),
+                                        );
+                                        // Show error message
+                                        Fluttertoast.showToast(
+                                          msg: "Please enter digits only",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                        );
+                                      }
+                                    }
+                                  },
+                                  onChanged: (val) {
+                                    // Validate: only allow digits
+                                    if (val != null) {
+                                      if (val.isEmpty || RegExp(r'^\d+$').hasMatch(val)) {
+                                        formNotifier.updateAnswer(formIndex, question.id, val);
+                                      } else {
+                                        // Revert to previous valid value
+                                        controller.text = question.answer;
+                                        controller.selection = TextSelection.fromPosition(
+                                          TextPosition(offset: controller.text.length),
+                                        );
+                                        // Show error message
+                                        // Fluttertoast.showToast(
+                                        //   msg: "Please enter digits only",
+                                        //   toastLength: Toast.LENGTH_SHORT,
+                                        //   gravity: ToastGravity.BOTTOM,
+                                        //   backgroundColor: Colors.red,
+                                        //   textColor: Colors.white,
+                                        // );
+                                      }
+                                    }
+                                  },
+                                  borderRadius: 16,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    // Email question
+                    else if (question.questionType == 'email') {
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
 
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 24),
-                          child: Card(
-                            shadowColor: Color(0x143E79A1),
-                            elevation: 6,
-                            color: Colors.white,
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    maxLines: null,
-                                    overflow: TextOverflow.visible,
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 12,
-                                        color: Color(0xFF323232),
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                      if (controller == null) {
+                        return const SizedBox.shrink();
+                      }
+
+                      // Make sure controller has the latest value
+                      if (controller.text != question.answer) {
+                        controller.text = question.answer;
+                      }
+
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 24),
+                        child: Card(
+                          shadowColor: Color(0x143E79A1),
+                          elevation: 6,
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  maxLines: null,
+                                  overflow: TextOverflow.visible,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 12,
+                                      color: Color(0xFF323232),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    children: [
+                                      TextSpan(text: question.questionText.trim()),
+                                      if (question.isMandatory)
+                                        TextSpan(
+                                          text: '   *',
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                Space.h(height: 12),
+                                DesignTextField(
+                                  controller: controller,
+                                  hintText: "Enter your email",
+                                  fontSize: 12,
+                                  inputType: TextInputType.emailAddress,
+                                  onEditingComplete: () {
+                                    if (controller.text.isNotEmpty &&
+                                        !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(controller.text)) {
+                                      // Show warning but don't revert the text
+                                      Fluttertoast.showToast(
+                                        msg: "Please enter a valid email address",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.orange,
+                                        textColor: Colors.white,
+                                      );
+                                    }
+                                  },
+                                  onChanged: (val) {
+                                    if (val != null) {
+                                      // Update the answer regardless of validation
+                                      formNotifier.updateAnswer(formIndex, question.id, val);
+
+                                      // Validate email format if not empty
+                                      if (val.isNotEmpty &&
+                                          !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(val)) {
+                                        // Show warning but don't revert the text
+                                        // Fluttertoast.showToast(
+                                        //   msg: "Please enter a valid email address",
+                                        //   toastLength: Toast.LENGTH_SHORT,
+                                        //   gravity: ToastGravity.BOTTOM,
+                                        //   backgroundColor: Colors.orange,
+                                        //   textColor: Colors.white,
+                                        // );
+                                      }
+                                    }
+                                  },
+                                  borderRadius: 16,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    // Date question
+                    else if (question.questionType == 'date') {
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
+
+                      if (controller == null) {
+                        return const SizedBox.shrink();
+                      }
+
+                      // Make sure controller has the latest value
+                      if (controller.text != question.answer) {
+                        controller.text = question.answer;
+                      }
+
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 24),
+                        child: Card(
+                          shadowColor: Color(0x143E79A1),
+                          elevation: 6,
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  maxLines: null,
+                                  overflow: TextOverflow.visible,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 12,
+                                      color: Color(0xFF323232),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    children: [
+                                      TextSpan(text: question.questionText.trim()),
+                                      if (question.isMandatory)
+                                        TextSpan(
+                                          text: '   *',
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                Space.h(height: 12),
+                                InkWell(
+                                  onTap: () async {
+                                    final DateTime? picked = await showDatePicker(
+                                      context: context,
+                                      initialDate: controller.text.isNotEmpty
+                                          ? DateTime.parse(controller.text)
+                                          : DateTime.now(),
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime(2100),
+                                      builder: (context, child) {
+                                        return Theme(
+                                          data: Theme.of(context).copyWith(
+                                            colorScheme: ColorScheme.light(
+                                              primary: DesignColors.accent,
+                                              onPrimary: Colors.white,
+                                              surface: Colors.white,
+                                              onSurface: Color(0xFF262933),
+                                            ),
+                                            textButtonTheme: TextButtonThemeData(
+                                              style: TextButton.styleFrom(
+                                                foregroundColor: DesignColors.accent,
+                                                textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                                              ),
+                                            ),
+                                          ),
+                                          child: child!,
+                                        );
+                                      },
+                                    );
+
+                                    if (picked != null) {
+                                      // Format date as ISO string for storage
+                                      final formattedDate = picked.toIso8601String();
+                                      controller.text = formattedDate;
+                                      formNotifier.updateAnswer(formIndex, question.id, formattedDate);
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: DesignColors.border),
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: Colors.white,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        TextSpan(text: question.questionText.trim()),
-                                        if (question.isMandatory)
-                                          TextSpan(text: '   *', style: TextStyle(color: Color(0xFFEC4B5D))),
+                                        Text(
+                                          controller.text.isNotEmpty ? _formatDate(controller.text) : "Select a date",
+                                          style: TextStyle(
+                                            color: controller.text.isNotEmpty ? Colors.black : Colors.grey,
+                                            fontSize: 12,
+                                            fontFamily: 'Poppins',
+                                          ),
+                                        ),
+                                        Icon(Icons.calendar_today, size: 20, color: Colors.grey),
                                       ],
                                     ),
                                   ),
-                                  Space.h(height: 12),
-                                  DesignTextField(
-                                    controller: controller,
-                                    hintText: "Enter a number",
-                                    fontSize: 12,
-                                    inputType: TextInputType.number,
-                                    onEditingComplete: () {
-                                      if (controller.text != null) {
-                                        if (controller.text.isEmpty || RegExp(r'^\d+$').hasMatch(controller.text)) {
-                                          formNotifier.updateAnswer(formIndex, question.id, controller.text);
-                                        } else {
-                                          // Revert to previous valid value
-                                          controller.text = question.answer;
-                                          controller.selection = TextSelection.fromPosition(
-                                            TextPosition(offset: controller.text.length),
-                                          );
-                                          // Show error message
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    // File question
+                    else if (question.questionType == 'file') {
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
+
+                      if (controller == null) {
+                        return const SizedBox.shrink();
+                      }
+
+                      // Make sure controller has the latest value
+                      if (controller.text != question.answer) {
+                        controller.text = question.answer;
+                      }
+
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 24),
+                        child: Card(
+                          shadowColor: Color(0x143E79A1),
+                          elevation: 6,
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  maxLines: null,
+                                  overflow: TextOverflow.visible,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 12,
+                                      color: Color(0xFF323232),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    children: [
+                                      TextSpan(text: question.questionText.trim()),
+                                      if (question.isMandatory)
+                                        TextSpan(
+                                          text: '   *',
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                Space.h(height: 8),
+                                Text(
+                                  "Accepts PDF, PNG, JPG, MP4 files (Max 50MB)",
+                                  style: TextStyle(fontSize: 10, color: Colors.grey, fontFamily: 'Poppins'),
+                                ),
+                                Space.h(height: 12),
+                                InkWell(
+                                  onTap: () async {
+                                    try {
+                                      FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                        type: FileType.custom,
+                                        allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg', 'mp4'],
+                                        withData: true, // Required for web
+                                      );
+
+                                      if (result != null && result.files.single.bytes != null) {
+                                        // Get file data for web
+                                        final file = result.files.single;
+                                        final bytes = file.bytes!;
+                                        final filename = file.name;
+
+                                        // Check file size (50MB = 50 * 1024 * 1024 bytes)
+                                        if (bytes.length > 50 * 1024 * 1024) {
                                           Fluttertoast.showToast(
-                                            msg: "Please enter digits only",
+                                            msg: "File size exceeds 50MB limit",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                          );
+                                          return;
+                                        }
+
+                                        // Show loading indicator
+                                        showDialog(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              backgroundColor: Colors.transparent,
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  CircularProgressIndicator(color: DesignColors.accent),
+                                                  SizedBox(height: 16),
+                                                  Text("Uploading file...", style: TextStyle(color: Colors.white)),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+
+                                        // Upload file
+                                        try {
+                                          final uploadBody = {
+                                            'userId': await GetStorage().read("userUID") ?? '',
+                                            'lobbyId': lobbyId,
+                                            'questionId': question.id,
+                                          };
+
+                                          final result = await FileUploadService().uploadBytes(
+                                            "user/upload/api/v1/file",
+                                            bytes,
+                                            filename,
+                                            uploadBody,
+                                          );
+
+                                          // Close loading dialog
+                                          Navigator.pop(context);
+
+                                          if (result.statusCode == 200) {
+                                            String fileUrl = result.data['imageUrl'];
+                                            controller.text = fileUrl;
+                                            formNotifier.updateAnswer(formIndex, question.id, fileUrl);
+
+                                            Fluttertoast.showToast(
+                                              msg: "File uploaded successfully",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              backgroundColor: Colors.green,
+                                              textColor: Colors.white,
+                                            );
+                                          } else {
+                                            Fluttertoast.showToast(
+                                              msg: "Failed to upload file",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              backgroundColor: Colors.red,
+                                              textColor: Colors.white,
+                                            );
+                                          }
+                                        } catch (e) {
+                                          // Close loading dialog
+                                          Navigator.pop(context);
+                                          Fluttertoast.showToast(
+                                            msg: "Error uploading file: $e",
                                             toastLength: Toast.LENGTH_SHORT,
                                             gravity: ToastGravity.BOTTOM,
                                             backgroundColor: Colors.red,
@@ -1752,646 +2133,279 @@ class _CheckOutPublicLobbyViewState extends ConsumerState<CheckOutPublicLobbyVie
                                           );
                                         }
                                       }
-                                    },
-                                    onChanged: (val) {
-                                      // Validate: only allow digits
-                                      if (val != null) {
-                                        if (val.isEmpty || RegExp(r'^\d+$').hasMatch(val)) {
-                                          formNotifier.updateAnswer(formIndex, question.id, val);
-                                        } else {
-                                          // Revert to previous valid value
-                                          controller.text = question.answer;
-                                          controller.selection = TextSelection.fromPosition(
-                                            TextPosition(offset: controller.text.length),
-                                          );
-                                          // Show error message
-                                          // Fluttertoast.showToast(
-                                          //   msg: "Please enter digits only",
-                                          //   toastLength: Toast.LENGTH_SHORT,
-                                          //   gravity: ToastGravity.BOTTOM,
-                                          //   backgroundColor: Colors.red,
-                                          //   textColor: Colors.white,
-                                          // );
-                                        }
-                                      }
-                                    },
-                                    borderRadius: 16,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                      // Email question
-                      else if (question.questionType == 'email') {
-                        final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
-
-                        if (controller == null) {
-                          return const SizedBox.shrink();
-                        }
-
-                        // Make sure controller has the latest value
-                        if (controller.text != question.answer) {
-                          controller.text = question.answer;
-                        }
-
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 24),
-                          child: Card(
-                            shadowColor: Color(0x143E79A1),
-                            elevation: 6,
-                            color: Colors.white,
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    maxLines: null,
-                                    overflow: TextOverflow.visible,
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 12,
-                                        color: Color(0xFF323232),
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      children: [
-                                        TextSpan(text: question.questionText.trim()),
-                                        if (question.isMandatory)
-                                          TextSpan(text: '   *', style: TextStyle(color: Color(0xFFEC4B5D))),
-                                      ],
-                                    ),
-                                  ),
-                                  Space.h(height: 12),
-                                  DesignTextField(
-                                    controller: controller,
-                                    hintText: "Enter your email",
-                                    fontSize: 12,
-                                    inputType: TextInputType.emailAddress,
-                                    onEditingComplete: () {
-                                      if (controller.text.isNotEmpty &&
-                                          !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(controller.text)) {
-                                        // Show warning but don't revert the text
-                                        Fluttertoast.showToast(
-                                          msg: "Please enter a valid email address",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          backgroundColor: Colors.orange,
-                                          textColor: Colors.white,
-                                        );
-                                      }
-                                    },
-                                    onChanged: (val) {
-                                      if (val != null) {
-                                        // Update the answer regardless of validation
-                                        formNotifier.updateAnswer(formIndex, question.id, val);
-
-                                        // Validate email format if not empty
-                                        if (val.isNotEmpty &&
-                                            !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(val)) {
-                                          // Show warning but don't revert the text
-                                          // Fluttertoast.showToast(
-                                          //   msg: "Please enter a valid email address",
-                                          //   toastLength: Toast.LENGTH_SHORT,
-                                          //   gravity: ToastGravity.BOTTOM,
-                                          //   backgroundColor: Colors.orange,
-                                          //   textColor: Colors.white,
-                                          // );
-                                        }
-                                      }
-                                    },
-                                    borderRadius: 16,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                      // Date question
-                      else if (question.questionType == 'date') {
-                        final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
-
-                        if (controller == null) {
-                          return const SizedBox.shrink();
-                        }
-
-                        // Make sure controller has the latest value
-                        if (controller.text != question.answer) {
-                          controller.text = question.answer;
-                        }
-
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 24),
-                          child: Card(
-                            shadowColor: Color(0x143E79A1),
-                            elevation: 6,
-                            color: Colors.white,
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    maxLines: null,
-                                    overflow: TextOverflow.visible,
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 12,
-                                        color: Color(0xFF323232),
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      children: [
-                                        TextSpan(text: question.questionText.trim()),
-                                        if (question.isMandatory)
-                                          TextSpan(text: '   *', style: TextStyle(color: Color(0xFFEC4B5D))),
-                                      ],
-                                    ),
-                                  ),
-                                  Space.h(height: 12),
-                                  InkWell(
-                                    onTap: () async {
-                                      final DateTime? picked = await showDatePicker(
-                                        context: context,
-                                        initialDate:
-                                            controller.text.isNotEmpty
-                                                ? DateTime.parse(controller.text)
-                                                : DateTime.now(),
-                                        firstDate: DateTime(1900),
-                                        lastDate: DateTime(2100),
-                                        builder: (context, child) {
-                                          return Theme(
-                                            data: Theme.of(context).copyWith(
-                                              colorScheme: ColorScheme.light(
-                                                primary: DesignColors.accent,
-                                                onPrimary: Colors.white,
-                                                surface: Colors.white,
-                                                onSurface: Color(0xFF262933),
-                                              ),
-                                              textButtonTheme: TextButtonThemeData(
-                                                style: TextButton.styleFrom(
-                                                  foregroundColor: DesignColors.accent,
-                                                  textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                                                ),
-                                              ),
-                                            ),
-                                            child: child!,
-                                          );
-                                        },
+                                    } catch (e, s) {
+                                      kLogger.error("Error selecting file:", error: e, stackTrace: s);
+                                      Fluttertoast.showToast(
+                                        msg: "Error selecting file: $e",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
                                       );
-
-                                      if (picked != null) {
-                                        // Format date as ISO string for storage
-                                        final formattedDate = picked.toIso8601String();
-                                        controller.text = formattedDate;
-                                        formNotifier.updateAnswer(formIndex, question.id, formattedDate);
-                                      }
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: DesignColors.border),
-                                        borderRadius: BorderRadius.circular(16),
-                                        color: Colors.white,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            controller.text.isNotEmpty ? _formatDate(controller.text) : "Select a date",
-                                            style: TextStyle(
-                                              color: controller.text.isNotEmpty ? Colors.black : Colors.grey,
-                                              fontSize: 12,
-                                              fontFamily: 'Poppins',
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: DesignColors.border),
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: Colors.white,
+                                    ),
+                                    child: controller.text.isEmpty
+                                        ? Container(
+                                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(12),
+                                              border: Border.all(color: Colors.grey.shade300, width: 1),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black.withOpacity(0.05),
+                                                  blurRadius: 5,
+                                                  offset: Offset(0, 2),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                          Icon(Icons.calendar_today, size: 20, color: Colors.grey),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                      // File question
-                      else if (question.questionType == 'file') {
-                        final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
-
-                        if (controller == null) {
-                          return const SizedBox.shrink();
-                        }
-
-                        // Make sure controller has the latest value
-                        if (controller.text != question.answer) {
-                          controller.text = question.answer;
-                        }
-
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 24),
-                          child: Card(
-                            shadowColor: Color(0x143E79A1),
-                            elevation: 6,
-                            color: Colors.white,
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    maxLines: null,
-                                    overflow: TextOverflow.visible,
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 12,
-                                        color: Color(0xFF323232),
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      children: [
-                                        TextSpan(text: question.questionText.trim()),
-                                        if (question.isMandatory)
-                                          TextSpan(text: '   *', style: TextStyle(color: Color(0xFFEC4B5D))),
-                                      ],
-                                    ),
-                                  ),
-                                  Space.h(height: 8),
-                                  Text(
-                                    "Accepts PDF, PNG, JPG, MP4 files (Max 50MB)",
-                                    style: TextStyle(fontSize: 10, color: Colors.grey, fontFamily: 'Poppins'),
-                                  ),
-                                  Space.h(height: 12),
-                                  InkWell(
-                                    onTap: () async {
-                                      try {
-                                        FilePickerResult? result = await FilePicker.platform.pickFiles(
-                                          type: FileType.custom,
-                                          allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg', 'mp4'],
-                                          withData: true, // Required for web
-                                        );
-
-                                        if (result != null && result.files.single.bytes != null) {
-                                          // Get file data for web
-                                          final file = result.files.single;
-                                          final bytes = file.bytes!;
-                                          final filename = file.name;
-
-                                          // Check file size (50MB = 50 * 1024 * 1024 bytes)
-                                          if (bytes.length > 50 * 1024 * 1024) {
-                                            Fluttertoast.showToast(
-                                              msg: "File size exceeds 50MB limit",
-                                              toastLength: Toast.LENGTH_SHORT,
-                                              gravity: ToastGravity.BOTTOM,
-                                              backgroundColor: Colors.red,
-                                              textColor: Colors.white,
-                                            );
-                                            return;
-                                          }
-
-                                          // Show loading indicator
-                                          showDialog(
-                                            context: context,
-                                            barrierDismissible: false,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                backgroundColor: Colors.transparent,
-                                                content: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    CircularProgressIndicator(color: DesignColors.accent),
-                                                    SizedBox(height: 16),
-                                                    Text("Uploading file...", style: TextStyle(color: Colors.white)),
-                                                  ],
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.cloud_upload_outlined,
+                                                  color: Colors.grey.shade600,
+                                                  size: 24,
                                                 ),
-                                              );
-                                            },
-                                          );
-
-                                          // Upload file
-                                          try {
-                                            final uploadBody = {
-                                              'userId': await GetStorage().read("userUID") ?? '',
-                                              'lobbyId': lobbyId,
-                                              'questionId': question.id,
-                                            };
-
-                                            final result = await FileUploadService().uploadBytes(
-                                              "user/upload/api/v1/file",
-                                              bytes,
-                                              filename,
-                                              uploadBody,
-                                            );
-
-                                            // Close loading dialog
-                                            Navigator.pop(context);
-
-                                            if (result.statusCode == 200) {
-                                              String fileUrl = result.data['imageUrl'];
-                                              controller.text = fileUrl;
-                                              formNotifier.updateAnswer(formIndex, question.id, fileUrl);
-
-                                              Fluttertoast.showToast(
-                                                msg: "File uploaded successfully",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                backgroundColor: Colors.green,
-                                                textColor: Colors.white,
-                                              );
-                                            } else {
-                                              Fluttertoast.showToast(
-                                                msg: "Failed to upload file",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                backgroundColor: Colors.red,
-                                                textColor: Colors.white,
-                                              );
-                                            }
-                                          } catch (e) {
-                                            // Close loading dialog
-                                            Navigator.pop(context);
-                                            Fluttertoast.showToast(
-                                              msg: "Error uploading file: $e",
-                                              toastLength: Toast.LENGTH_SHORT,
-                                              gravity: ToastGravity.BOTTOM,
-                                              backgroundColor: Colors.red,
-                                              textColor: Colors.white,
-                                            );
-                                          }
-                                        }
-                                      } catch (e, s) {
-                                        kLogger.error("Error selecting file:", error: e, stackTrace: s);
-                                        Fluttertoast.showToast(
-                                          msg: "Error selecting file: $e",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          backgroundColor: Colors.red,
-                                          textColor: Colors.white,
-                                        );
-                                      }
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: DesignColors.border),
-                                        borderRadius: BorderRadius.circular(16),
-                                        color: Colors.white,
-                                      ),
-                                      child:
-                                          controller.text.isEmpty
-                                              ? Container(
-                                                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(12),
-                                                  border: Border.all(color: Colors.grey.shade300, width: 1),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.black.withOpacity(0.05),
-                                                      blurRadius: 5,
-                                                      offset: Offset(0, 2),
-                                                    ),
-                                                  ],
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.cloud_upload_outlined,
-                                                      color: Colors.grey.shade600,
-                                                      size: 24,
-                                                    ),
-                                                    SizedBox(width: 12),
-                                                    Expanded(
-                                                      child: Text(
-                                                        "Upload File",
-                                                        style: TextStyle(
-                                                          color: Colors.grey.shade700,
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      padding: EdgeInsets.all(8),
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.grey.shade100,
-                                                        borderRadius: BorderRadius.circular(8),
-                                                      ),
-                                                      child: Icon(Icons.add, color: Colors.grey.shade600, size: 20),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                              : Column(
-                                                children: [
-                                                  Stack(
-                                                    alignment: Alignment.topRight,
-                                                    children: [
-                                                      if (_isImageFile(controller.text))
-                                                        ClipRRect(
-                                                          borderRadius: BorderRadius.circular(8),
-                                                          child: Image.network(
-                                                            controller.text,
-                                                            height: 120,
-                                                            width: double.infinity,
-                                                            fit: BoxFit.cover,
-                                                            errorBuilder:
-                                                                (context, error, stackTrace) =>
-                                                                    Icon(Icons.image, size: 50, color: Colors.grey),
-                                                          ),
-                                                        )
-                                                      else if (_isPdfFile(controller.text))
-                                                        Icon(Icons.picture_as_pdf, size: 50, color: Colors.red)
-                                                      else if (_isVideoFile(controller.text))
-                                                        Icon(Icons.video_file, size: 50, color: Colors.blue),
-                                                      IconButton(
-                                                        style: IconButton.styleFrom(
-                                                          backgroundColor: Colors.white,
-                                                          minimumSize: Size(32, 32),
-                                                          maximumSize: Size(32, 32),
-                                                        ),
-                                                        icon: Icon(Icons.close, color: Colors.black, size: 16),
-                                                        onPressed: () {
-                                                          controller.clear();
-                                                          formNotifier.updateAnswer(formIndex, question.id, '');
-                                                        },
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 8),
-                                                  Text(
-                                                    _getFileNameFromUrl(controller.text),
+                                                SizedBox(width: 12),
+                                                Expanded(
+                                                  child: Text(
+                                                    "Upload File",
                                                     style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontFamily: 'Poppins',
-                                                      overflow: TextOverflow.ellipsis,
+                                                      color: Colors.grey.shade700,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
                                                     ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.all(8),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey.shade100,
+                                                    borderRadius: BorderRadius.circular(8),
+                                                  ),
+                                                  child: Icon(Icons.add, color: Colors.grey.shade600, size: 20),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : Column(
+                                            children: [
+                                              Stack(
+                                                alignment: Alignment.topRight,
+                                                children: [
+                                                  if (_isImageFile(controller.text))
+                                                    ClipRRect(
+                                                      borderRadius: BorderRadius.circular(8),
+                                                      child: Image.network(
+                                                        controller.text,
+                                                        height: 120,
+                                                        width: double.infinity,
+                                                        fit: BoxFit.cover,
+                                                        errorBuilder: (context, error, stackTrace) =>
+                                                            Icon(Icons.image, size: 50, color: Colors.grey),
+                                                      ),
+                                                    )
+                                                  else if (_isPdfFile(controller.text))
+                                                    Icon(Icons.picture_as_pdf, size: 50, color: Colors.red)
+                                                  else if (_isVideoFile(controller.text))
+                                                    Icon(Icons.video_file, size: 50, color: Colors.blue),
+                                                  IconButton(
+                                                    style: IconButton.styleFrom(
+                                                      backgroundColor: Colors.white,
+                                                      minimumSize: Size(32, 32),
+                                                      maximumSize: Size(32, 32),
+                                                    ),
+                                                    icon: Icon(Icons.close, color: Colors.black, size: 16),
+                                                    onPressed: () {
+                                                      controller.clear();
+                                                      formNotifier.updateAnswer(formIndex, question.id, '');
+                                                    },
                                                   ),
                                                 ],
                                               ),
-                                    ),
+                                              SizedBox(height: 8),
+                                              Text(
+                                                _getFileNameFromUrl(controller.text),
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  fontFamily: 'Poppins',
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                        );
+                        ),
+                      );
+                    }
+                    // URL question
+                    else if (question.questionType == 'url') {
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
+
+                      if (controller == null) {
+                        return const SizedBox.shrink();
                       }
-                      // URL question
-                      else if (question.questionType == 'url') {
-                        final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
 
-                        if (controller == null) {
-                          return const SizedBox.shrink();
-                        }
+                      // Make sure controller has the latest value
+                      if (controller.text != question.answer) {
+                        controller.text = question.answer;
+                      }
 
-                        // Make sure controller has the latest value
-                        if (controller.text != question.answer) {
-                          controller.text = question.answer;
-                        }
-
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 24),
-                          child: Card(
-                            shadowColor: Color(0x143E79A1),
-                            elevation: 6,
-                            color: Colors.white,
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    maxLines: null,
-                                    overflow: TextOverflow.visible,
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 12,
-                                        color: Color(0xFF323232),
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      children: [
-                                        TextSpan(text: question.questionText.trim()),
-                                        if (question.isMandatory)
-                                          TextSpan(text: '   *', style: TextStyle(color: Color(0xFFEC4B5D))),
-                                      ],
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 24),
+                        child: Card(
+                          shadowColor: Color(0x143E79A1),
+                          elevation: 6,
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  maxLines: null,
+                                  overflow: TextOverflow.visible,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 12,
+                                      color: Color(0xFF323232),
+                                      fontWeight: FontWeight.w500,
                                     ),
+                                    children: [
+                                      TextSpan(text: question.questionText.trim()),
+                                      if (question.isMandatory)
+                                        TextSpan(
+                                          text: '   *',
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
+                                        ),
+                                    ],
                                   ),
-                                  Space.h(height: 12),
-                                  DesignTextField(
-                                    controller: controller,
-                                    hintText: "Enter URL",
-                                    fontSize: 12,
-                                    inputType: TextInputType.url,
-                                    onEditingComplete: () {
-                                      kLogger.trace(isValidUrl(controller.text).toString());
+                                ),
+                                Space.h(height: 12),
+                                DesignTextField(
+                                  controller: controller,
+                                  hintText: "Enter URL",
+                                  fontSize: 12,
+                                  inputType: TextInputType.url,
+                                  onEditingComplete: () {
+                                    kLogger.trace(isValidUrl(controller.text).toString());
+                                    // Validate URL format if not empty
+                                    if (controller.text.isNotEmpty && !isValidUrl(controller.text)) {
+                                      // Show warning but don't revert the text
+                                      Fluttertoast.showToast(
+                                        msg: "Please enter a valid URL",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.orange,
+                                        textColor: Colors.white,
+                                      );
+                                    }
+                                  },
+                                  onChanged: (val) {
+                                    if (val != null) {
+                                      // Update the answer regardless of validation
+                                      formNotifier.updateAnswer(formIndex, question.id, val);
+
                                       // Validate URL format if not empty
-                                      if (controller.text.isNotEmpty && !isValidUrl(controller.text)) {
-                                        // Show warning but don't revert the text
-                                        Fluttertoast.showToast(
-                                          msg: "Please enter a valid URL",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          backgroundColor: Colors.orange,
-                                          textColor: Colors.white,
-                                        );
-                                      }
-                                    },
-                                    onChanged: (val) {
-                                      if (val != null) {
-                                        // Update the answer regardless of validation
-                                        formNotifier.updateAnswer(formIndex, question.id, val);
-
-                                        // Validate URL format if not empty
-                                        // if (val.isNotEmpty && !_isValidUrl(val)) {
-                                        //   // Show warning but don't revert the text
-                                        //   Fluttertoast.showToast(
-                                        //     msg: "Please enter a valid URL",
-                                        //     toastLength: Toast.LENGTH_SHORT,
-                                        //     gravity: ToastGravity.BOTTOM,
-                                        //     backgroundColor: Colors.orange,
-                                        //     textColor: Colors.white,
-                                        //   );
-                                        // }
-                                      }
-                                    },
-                                    borderRadius: 16,
-                                  ),
-                                ],
-                              ),
+                                      // if (val.isNotEmpty && !_isValidUrl(val)) {
+                                      //   // Show warning but don't revert the text
+                                      //   Fluttertoast.showToast(
+                                      //     msg: "Please enter a valid URL",
+                                      //     toastLength: Toast.LENGTH_SHORT,
+                                      //     gravity: ToastGravity.BOTTOM,
+                                      //     backgroundColor: Colors.orange,
+                                      //     textColor: Colors.white,
+                                      //   );
+                                      // }
+                                    }
+                                  },
+                                  borderRadius: 16,
+                                ),
+                              ],
                             ),
                           ),
-                        );
-                      }
-                      // Multiple choice question
-                      else if (question.questionType == 'multiple-choice') {
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 24),
-                          child: Card(
-                            shadowColor: Color(0x143E79A1),
-                            elevation: 6,
-                            color: Colors.white,
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    maxLines: null,
-                                    overflow: TextOverflow.visible,
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 12,
-                                        color: Color(0xFF323232),
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      children: [
-                                        TextSpan(text: question.questionText.trim()),
-                                        if (question.isMandatory)
-                                          TextSpan(text: '   *', style: TextStyle(color: Color(0xFFEC4B5D))),
-                                      ],
+                        ),
+                      );
+                    }
+                    // Multiple choice question
+                    else if (question.questionType == 'multiple-choice') {
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 24),
+                        child: Card(
+                          shadowColor: Color(0x143E79A1),
+                          elevation: 6,
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  maxLines: null,
+                                  overflow: TextOverflow.visible,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 12,
+                                      color: Color(0xFF323232),
+                                      fontWeight: FontWeight.w500,
                                     ),
+                                    children: [
+                                      TextSpan(text: question.questionText.trim()),
+                                      if (question.isMandatory)
+                                        TextSpan(
+                                          text: '   *',
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
+                                        ),
+                                    ],
                                   ),
-                                  Space.h(height: 12),
-                                  ...question.options.map((option) {
-                                    return CheckboxListTile(
-                                      title: DesignText(
-                                        text: option,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xFF444444),
-                                      ),
-                                      value: question.answer == option,
-                                      onChanged: (val) {
-                                        if (val != null && val) {
-                                          formNotifier.updateAnswer(formIndex, question.id, option);
-                                        }
-                                      },
-                                      contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-                                      activeColor: const Color(0xFFEC4B5D),
-                                      checkColor: Colors.white,
-                                      controlAffinity: ListTileControlAffinity.leading,
-                                      dense: true,
-                                    );
-                                  }),
-                                ],
-                              ),
+                                ),
+                                Space.h(height: 12),
+                                ...question.options.map((option) {
+                                  return CheckboxListTile(
+                                    title: DesignText(
+                                      text: option,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xFF444444),
+                                    ),
+                                    value: question.answer == option,
+                                    onChanged: (val) {
+                                      if (val != null && val) {
+                                        formNotifier.updateAnswer(formIndex, question.id, option);
+                                      }
+                                    },
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                                    activeColor: const Color(0xFFEC4B5D),
+                                    checkColor: Colors.white,
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    dense: true,
+                                  );
+                                }),
+                              ],
                             ),
                           ),
-                        );
-                      }
+                        ),
+                      );
+                    }
 
-                      // Default fallback for unsupported question types
-                      return Container();
-                    }),
-                  ),
+                    // Default fallback for unsupported question types
+                    return Container();
+                  }),
+                ),
         ),
       ],
     );
@@ -2761,7 +2775,7 @@ class _CheckOutPublicLobbyViewState extends ConsumerState<CheckOutPublicLobbyVie
       }
     }
 
-    return total.toString();
+    return (total.toString() == "0.0" || total.toString() == "0") ? "0.0" : total.toString();
   }
 
   String calculateDiscount({required PricingResponse? pricingData, Offer? selectedOffer}) {

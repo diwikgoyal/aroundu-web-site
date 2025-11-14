@@ -47,21 +47,15 @@ class ActivateLobbyFamily extends Family<AsyncValue<bool>> {
   /// Provider to activate a lobby
   ///
   /// Copied from [activateLobby].
-  ActivateLobbyProvider call(
-    String lobbyId,
-  ) {
-    return ActivateLobbyProvider(
-      lobbyId,
-    );
+  ActivateLobbyProvider call(String lobbyId) {
+    return ActivateLobbyProvider(lobbyId);
   }
 
   @override
   ActivateLobbyProvider getProviderOverride(
     covariant ActivateLobbyProvider provider,
   ) {
-    return call(
-      provider.lobbyId,
-    );
+    return call(provider.lobbyId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -86,24 +80,19 @@ class ActivateLobbyProvider extends AutoDisposeFutureProvider<bool> {
   /// Provider to activate a lobby
   ///
   /// Copied from [activateLobby].
-  ActivateLobbyProvider(
-    String lobbyId,
-  ) : this._internal(
-          (ref) => activateLobby(
-            ref as ActivateLobbyRef,
-            lobbyId,
-          ),
-          from: activateLobbyProvider,
-          name: r'activateLobbyProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$activateLobbyHash,
-          dependencies: ActivateLobbyFamily._dependencies,
-          allTransitiveDependencies:
-              ActivateLobbyFamily._allTransitiveDependencies,
-          lobbyId: lobbyId,
-        );
+  ActivateLobbyProvider(String lobbyId)
+    : this._internal(
+        (ref) => activateLobby(ref as ActivateLobbyRef, lobbyId),
+        from: activateLobbyProvider,
+        name: r'activateLobbyProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$activateLobbyHash,
+        dependencies: ActivateLobbyFamily._dependencies,
+        allTransitiveDependencies:
+            ActivateLobbyFamily._allTransitiveDependencies,
+        lobbyId: lobbyId,
+      );
 
   ActivateLobbyProvider._internal(
     super._createNotifier, {
@@ -162,11 +151,13 @@ mixin ActivateLobbyRef on AutoDisposeFutureProviderRef<bool> {
 }
 
 class _ActivateLobbyProviderElement
-    extends AutoDisposeFutureProviderElement<bool> with ActivateLobbyRef {
+    extends AutoDisposeFutureProviderElement<bool>
+    with ActivateLobbyRef {
   _ActivateLobbyProviderElement(super.provider);
 
   @override
   String get lobbyId => (origin as ActivateLobbyProvider).lobbyId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

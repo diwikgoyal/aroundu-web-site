@@ -85,25 +85,24 @@ class ToggleBookmarkProvider extends AutoDisposeFutureProvider<void> {
     required bool isSaved,
     required String entityType,
   }) : this._internal(
-          (ref) => toggleBookmark(
-            ref as ToggleBookmarkRef,
-            itemId: itemId,
-            isSaved: isSaved,
-            entityType: entityType,
-          ),
-          from: toggleBookmarkProvider,
-          name: r'toggleBookmarkProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$toggleBookmarkHash,
-          dependencies: ToggleBookmarkFamily._dependencies,
-          allTransitiveDependencies:
-              ToggleBookmarkFamily._allTransitiveDependencies,
-          itemId: itemId,
-          isSaved: isSaved,
-          entityType: entityType,
-        );
+         (ref) => toggleBookmark(
+           ref as ToggleBookmarkRef,
+           itemId: itemId,
+           isSaved: isSaved,
+           entityType: entityType,
+         ),
+         from: toggleBookmarkProvider,
+         name: r'toggleBookmarkProvider',
+         debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+             ? null
+             : _$toggleBookmarkHash,
+         dependencies: ToggleBookmarkFamily._dependencies,
+         allTransitiveDependencies:
+             ToggleBookmarkFamily._allTransitiveDependencies,
+         itemId: itemId,
+         isSaved: isSaved,
+         entityType: entityType,
+       );
 
   ToggleBookmarkProvider._internal(
     super._createNotifier, {
@@ -179,7 +178,8 @@ mixin ToggleBookmarkRef on AutoDisposeFutureProviderRef<void> {
 }
 
 class _ToggleBookmarkProviderElement
-    extends AutoDisposeFutureProviderElement<void> with ToggleBookmarkRef {
+    extends AutoDisposeFutureProviderElement<void>
+    with ToggleBookmarkRef {
   _ToggleBookmarkProviderElement(super.provider);
 
   @override
@@ -189,5 +189,6 @@ class _ToggleBookmarkProviderElement
   @override
   String get entityType => (origin as ToggleBookmarkProvider).entityType;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

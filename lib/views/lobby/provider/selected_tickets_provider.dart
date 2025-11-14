@@ -1,40 +1,24 @@
-
 import 'package:aroundu/models/lobby.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SelectedTicket {
   final String ticketId;
   final String name;
   final int slots;
 
-  SelectedTicket({
-    required this.ticketId,
-    required this.name,
-    required this.slots,
-  });
+  SelectedTicket({required this.ticketId, required this.name, required this.slots});
 
-  SelectedTicket copyWith({
-    String? ticketId,
-    String? name,
-    int? slots,
-  }) {
-    return SelectedTicket(
-      ticketId: ticketId ?? this.ticketId,
-      name: name ?? this.name,
-      slots: slots ?? this.slots,
-    );
+  SelectedTicket copyWith({String? ticketId, String? name, int? slots}) {
+    return SelectedTicket(ticketId: ticketId ?? this.ticketId, name: name ?? this.name, slots: slots ?? this.slots);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'ticketId': ticketId,
-      'name': name,
-      'slots': slots,
-    };
+    return {'ticketId': ticketId, 'name': name, 'slots': slots};
   }
 
-@override
-  String toString(){
+  @override
+  String toString() {
     return "SelectedTicket(ticketId: $ticketId, name: $name, slots: $slots)";
   }
 }
@@ -50,7 +34,13 @@ class SelectedTicketsNotifier extends StateNotifier<Map<String, List<SelectedTic
   }) {
     final maxSlots = ticketOption.maxQuantity;
     final clampedSlots = slots.clamp(0, maxSlots);
-    
+
+    if (ticketOption.totalSlots == ticketOption.bookedSlots) {
+      Fluttertoast.showToast(msg: "Sorry, this ticket is currently sold out.");
+      removeTicket(lobbyId: lobbyId, ticketId: ticketOption.id);
+      return;
+    }
+
     if (clampedSlots == 0) {
       removeTicket(lobbyId: lobbyId, ticketId: ticketOption.id);
       return;
@@ -58,12 +48,8 @@ class SelectedTicketsNotifier extends StateNotifier<Map<String, List<SelectedTic
 
     final currentTickets = state[lobbyId] ?? [];
     final existingTicketIndex = currentTickets.indexWhere((t) => t.ticketId == ticketOption.id);
-    
-    final updatedTicket = SelectedTicket(
-      ticketId: ticketOption.id,
-      name: ticketOption.name,
-      slots: clampedSlots,
-    );
+
+    final updatedTicket = SelectedTicket(ticketId: ticketOption.id, name: ticketOption.name, slots: clampedSlots);
 
     List<SelectedTicket> newTickets;
     if (existingTicketIndex >= 0) {
@@ -80,30 +66,18 @@ class SelectedTicketsNotifier extends StateNotifier<Map<String, List<SelectedTic
       }
     }
 
-    state = {
-      ...state,
-      lobbyId: newTickets,
-    };
+    state = {...state, lobbyId: newTickets};
   }
 
-  void removeTicket({
-    required String lobbyId,
-    required String ticketId,
-  }) {
+  void removeTicket({required String lobbyId, required String ticketId}) {
     final currentTickets = state[lobbyId] ?? [];
     final updatedTickets = currentTickets.where((ticket) => ticket.ticketId != ticketId).toList();
-    
-    state = {
-      ...state,
-      lobbyId: updatedTickets,
-    };
+
+    state = {...state, lobbyId: updatedTickets};
   }
 
   void clearTickets(String lobbyId) {
-    state = {
-      ...state,
-      lobbyId: [],
-    };
+    state = {...state, lobbyId: []};
   }
 
   List<SelectedTicket> getTickets(String lobbyId) {

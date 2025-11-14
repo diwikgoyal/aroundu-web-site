@@ -12,7 +12,8 @@ part of 'lobby.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Lobby _$LobbyFromJson(Map<String, dynamic> json) {
   return _Lobby.fromJson(json);
@@ -39,8 +40,8 @@ mixin _$Lobby {
   String get userStatus => throw _privateConstructorUsedError;
   AdminSummary get adminSummary => throw _privateConstructorUsedError;
   ContentModel? get content => throw _privateConstructorUsedError;
-  Setting get setting => throw _privateConstructorUsedError;
-  Setting? get settings => throw _privateConstructorUsedError;
+  Setting get setting =>
+      throw _privateConstructorUsedError; // Setting? settings,
   String get activity =>
       throw _privateConstructorUsedError; // Map<String,dynamic>? lobbyRules,
   FormModel? get form => throw _privateConstructorUsedError;
@@ -66,8 +67,12 @@ mixin _$Lobby {
   bool get ratingGiven => throw _privateConstructorUsedError;
   bool get loginNotRequired => throw _privateConstructorUsedError;
 
+  /// Serializes this Lobby to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LobbyCopyWith<Lobby> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -76,52 +81,51 @@ abstract class $LobbyCopyWith<$Res> {
   factory $LobbyCopyWith(Lobby value, $Res Function(Lobby) then) =
       _$LobbyCopyWithImpl<$Res, Lobby>;
   @useResult
-  $Res call(
-      {String id,
-      int createdDate,
-      String userId,
-      String lobbyStatus,
-      Filter filter,
-      String description,
-      String title,
-      List<String> mediaUrls,
-      String lobbyType,
-      int totalMembers,
-      int currentMembers,
-      int membersRequired,
-      @JsonKey(includeFromJson: false) CardColorScheme colorScheme,
-      String gender,
-      String userStatus,
-      AdminSummary adminSummary,
-      ContentModel? content,
-      Setting setting,
-      Setting? settings,
-      String activity,
-      FormModel? form,
-      HouseInfo? houseDetail,
-      List<UserSummary>? userSummaries,
-      Map<String, dynamic> dateRange,
-      LobbyRestriction? restriction,
-      PriceDetails priceDetails,
-      bool isAdvancedPricing,
-      bool allowMultiplePricingOptions,
-      List<LobbyTicketOption> ticketOptions,
-      AccessRequestData? accessRequestData,
-      bool hasForm,
-      bool hasOffer,
-      bool isSaved,
-      bool isFormMandatory,
-      bool isRefundNotPossible,
-      Rating rating,
-      List<PriceTier>? priceTierList,
-      bool ratingGiven,
-      bool loginNotRequired});
+  $Res call({
+    String id,
+    int createdDate,
+    String userId,
+    String lobbyStatus,
+    Filter filter,
+    String description,
+    String title,
+    List<String> mediaUrls,
+    String lobbyType,
+    int totalMembers,
+    int currentMembers,
+    int membersRequired,
+    @JsonKey(includeFromJson: false) CardColorScheme colorScheme,
+    String gender,
+    String userStatus,
+    AdminSummary adminSummary,
+    ContentModel? content,
+    Setting setting,
+    String activity,
+    FormModel? form,
+    HouseInfo? houseDetail,
+    List<UserSummary>? userSummaries,
+    Map<String, dynamic> dateRange,
+    LobbyRestriction? restriction,
+    PriceDetails priceDetails,
+    bool isAdvancedPricing,
+    bool allowMultiplePricingOptions,
+    List<LobbyTicketOption> ticketOptions,
+    AccessRequestData? accessRequestData,
+    bool hasForm,
+    bool hasOffer,
+    bool isSaved,
+    bool isFormMandatory,
+    bool isRefundNotPossible,
+    Rating rating,
+    List<PriceTier>? priceTierList,
+    bool ratingGiven,
+    bool loginNotRequired,
+  });
 
   $FilterCopyWith<$Res> get filter;
   $AdminSummaryCopyWith<$Res> get adminSummary;
   $ContentModelCopyWith<$Res>? get content;
   $SettingCopyWith<$Res> get setting;
-  $SettingCopyWith<$Res>? get settings;
   $FormModelCopyWith<$Res>? get form;
   $HouseInfoCopyWith<$Res>? get houseDetail;
   $LobbyRestrictionCopyWith<$Res>? get restriction;
@@ -140,6 +144,8 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -161,7 +167,6 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
     Object? adminSummary = null,
     Object? content = freezed,
     Object? setting = null,
-    Object? settings = freezed,
     Object? activity = null,
     Object? form = freezed,
     Object? houseDetail = freezed,
@@ -183,166 +188,167 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
     Object? ratingGiven = null,
     Object? loginNotRequired = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdDate: null == createdDate
-          ? _value.createdDate
-          : createdDate // ignore: cast_nullable_to_non_nullable
-              as int,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lobbyStatus: null == lobbyStatus
-          ? _value.lobbyStatus
-          : lobbyStatus // ignore: cast_nullable_to_non_nullable
-              as String,
-      filter: null == filter
-          ? _value.filter
-          : filter // ignore: cast_nullable_to_non_nullable
-              as Filter,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      mediaUrls: null == mediaUrls
-          ? _value.mediaUrls
-          : mediaUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      lobbyType: null == lobbyType
-          ? _value.lobbyType
-          : lobbyType // ignore: cast_nullable_to_non_nullable
-              as String,
-      totalMembers: null == totalMembers
-          ? _value.totalMembers
-          : totalMembers // ignore: cast_nullable_to_non_nullable
-              as int,
-      currentMembers: null == currentMembers
-          ? _value.currentMembers
-          : currentMembers // ignore: cast_nullable_to_non_nullable
-              as int,
-      membersRequired: null == membersRequired
-          ? _value.membersRequired
-          : membersRequired // ignore: cast_nullable_to_non_nullable
-              as int,
-      colorScheme: null == colorScheme
-          ? _value.colorScheme
-          : colorScheme // ignore: cast_nullable_to_non_nullable
-              as CardColorScheme,
-      gender: null == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as String,
-      userStatus: null == userStatus
-          ? _value.userStatus
-          : userStatus // ignore: cast_nullable_to_non_nullable
-              as String,
-      adminSummary: null == adminSummary
-          ? _value.adminSummary
-          : adminSummary // ignore: cast_nullable_to_non_nullable
-              as AdminSummary,
-      content: freezed == content
-          ? _value.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as ContentModel?,
-      setting: null == setting
-          ? _value.setting
-          : setting // ignore: cast_nullable_to_non_nullable
-              as Setting,
-      settings: freezed == settings
-          ? _value.settings
-          : settings // ignore: cast_nullable_to_non_nullable
-              as Setting?,
-      activity: null == activity
-          ? _value.activity
-          : activity // ignore: cast_nullable_to_non_nullable
-              as String,
-      form: freezed == form
-          ? _value.form
-          : form // ignore: cast_nullable_to_non_nullable
-              as FormModel?,
-      houseDetail: freezed == houseDetail
-          ? _value.houseDetail
-          : houseDetail // ignore: cast_nullable_to_non_nullable
-              as HouseInfo?,
-      userSummaries: freezed == userSummaries
-          ? _value.userSummaries
-          : userSummaries // ignore: cast_nullable_to_non_nullable
-              as List<UserSummary>?,
-      dateRange: null == dateRange
-          ? _value.dateRange
-          : dateRange // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
-      restriction: freezed == restriction
-          ? _value.restriction
-          : restriction // ignore: cast_nullable_to_non_nullable
-              as LobbyRestriction?,
-      priceDetails: null == priceDetails
-          ? _value.priceDetails
-          : priceDetails // ignore: cast_nullable_to_non_nullable
-              as PriceDetails,
-      isAdvancedPricing: null == isAdvancedPricing
-          ? _value.isAdvancedPricing
-          : isAdvancedPricing // ignore: cast_nullable_to_non_nullable
-              as bool,
-      allowMultiplePricingOptions: null == allowMultiplePricingOptions
-          ? _value.allowMultiplePricingOptions
-          : allowMultiplePricingOptions // ignore: cast_nullable_to_non_nullable
-              as bool,
-      ticketOptions: null == ticketOptions
-          ? _value.ticketOptions
-          : ticketOptions // ignore: cast_nullable_to_non_nullable
-              as List<LobbyTicketOption>,
-      accessRequestData: freezed == accessRequestData
-          ? _value.accessRequestData
-          : accessRequestData // ignore: cast_nullable_to_non_nullable
-              as AccessRequestData?,
-      hasForm: null == hasForm
-          ? _value.hasForm
-          : hasForm // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hasOffer: null == hasOffer
-          ? _value.hasOffer
-          : hasOffer // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSaved: null == isSaved
-          ? _value.isSaved
-          : isSaved // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFormMandatory: null == isFormMandatory
-          ? _value.isFormMandatory
-          : isFormMandatory // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isRefundNotPossible: null == isRefundNotPossible
-          ? _value.isRefundNotPossible
-          : isRefundNotPossible // ignore: cast_nullable_to_non_nullable
-              as bool,
-      rating: null == rating
-          ? _value.rating
-          : rating // ignore: cast_nullable_to_non_nullable
-              as Rating,
-      priceTierList: freezed == priceTierList
-          ? _value.priceTierList
-          : priceTierList // ignore: cast_nullable_to_non_nullable
-              as List<PriceTier>?,
-      ratingGiven: null == ratingGiven
-          ? _value.ratingGiven
-          : ratingGiven // ignore: cast_nullable_to_non_nullable
-              as bool,
-      loginNotRequired: null == loginNotRequired
-          ? _value.loginNotRequired
-          : loginNotRequired // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            createdDate: null == createdDate
+                ? _value.createdDate
+                : createdDate // ignore: cast_nullable_to_non_nullable
+                      as int,
+            userId: null == userId
+                ? _value.userId
+                : userId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            lobbyStatus: null == lobbyStatus
+                ? _value.lobbyStatus
+                : lobbyStatus // ignore: cast_nullable_to_non_nullable
+                      as String,
+            filter: null == filter
+                ? _value.filter
+                : filter // ignore: cast_nullable_to_non_nullable
+                      as Filter,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            mediaUrls: null == mediaUrls
+                ? _value.mediaUrls
+                : mediaUrls // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            lobbyType: null == lobbyType
+                ? _value.lobbyType
+                : lobbyType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            totalMembers: null == totalMembers
+                ? _value.totalMembers
+                : totalMembers // ignore: cast_nullable_to_non_nullable
+                      as int,
+            currentMembers: null == currentMembers
+                ? _value.currentMembers
+                : currentMembers // ignore: cast_nullable_to_non_nullable
+                      as int,
+            membersRequired: null == membersRequired
+                ? _value.membersRequired
+                : membersRequired // ignore: cast_nullable_to_non_nullable
+                      as int,
+            colorScheme: null == colorScheme
+                ? _value.colorScheme
+                : colorScheme // ignore: cast_nullable_to_non_nullable
+                      as CardColorScheme,
+            gender: null == gender
+                ? _value.gender
+                : gender // ignore: cast_nullable_to_non_nullable
+                      as String,
+            userStatus: null == userStatus
+                ? _value.userStatus
+                : userStatus // ignore: cast_nullable_to_non_nullable
+                      as String,
+            adminSummary: null == adminSummary
+                ? _value.adminSummary
+                : adminSummary // ignore: cast_nullable_to_non_nullable
+                      as AdminSummary,
+            content: freezed == content
+                ? _value.content
+                : content // ignore: cast_nullable_to_non_nullable
+                      as ContentModel?,
+            setting: null == setting
+                ? _value.setting
+                : setting // ignore: cast_nullable_to_non_nullable
+                      as Setting,
+            activity: null == activity
+                ? _value.activity
+                : activity // ignore: cast_nullable_to_non_nullable
+                      as String,
+            form: freezed == form
+                ? _value.form
+                : form // ignore: cast_nullable_to_non_nullable
+                      as FormModel?,
+            houseDetail: freezed == houseDetail
+                ? _value.houseDetail
+                : houseDetail // ignore: cast_nullable_to_non_nullable
+                      as HouseInfo?,
+            userSummaries: freezed == userSummaries
+                ? _value.userSummaries
+                : userSummaries // ignore: cast_nullable_to_non_nullable
+                      as List<UserSummary>?,
+            dateRange: null == dateRange
+                ? _value.dateRange
+                : dateRange // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>,
+            restriction: freezed == restriction
+                ? _value.restriction
+                : restriction // ignore: cast_nullable_to_non_nullable
+                      as LobbyRestriction?,
+            priceDetails: null == priceDetails
+                ? _value.priceDetails
+                : priceDetails // ignore: cast_nullable_to_non_nullable
+                      as PriceDetails,
+            isAdvancedPricing: null == isAdvancedPricing
+                ? _value.isAdvancedPricing
+                : isAdvancedPricing // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            allowMultiplePricingOptions: null == allowMultiplePricingOptions
+                ? _value.allowMultiplePricingOptions
+                : allowMultiplePricingOptions // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            ticketOptions: null == ticketOptions
+                ? _value.ticketOptions
+                : ticketOptions // ignore: cast_nullable_to_non_nullable
+                      as List<LobbyTicketOption>,
+            accessRequestData: freezed == accessRequestData
+                ? _value.accessRequestData
+                : accessRequestData // ignore: cast_nullable_to_non_nullable
+                      as AccessRequestData?,
+            hasForm: null == hasForm
+                ? _value.hasForm
+                : hasForm // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            hasOffer: null == hasOffer
+                ? _value.hasOffer
+                : hasOffer // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isSaved: null == isSaved
+                ? _value.isSaved
+                : isSaved // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isFormMandatory: null == isFormMandatory
+                ? _value.isFormMandatory
+                : isFormMandatory // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isRefundNotPossible: null == isRefundNotPossible
+                ? _value.isRefundNotPossible
+                : isRefundNotPossible // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            rating: null == rating
+                ? _value.rating
+                : rating // ignore: cast_nullable_to_non_nullable
+                      as Rating,
+            priceTierList: freezed == priceTierList
+                ? _value.priceTierList
+                : priceTierList // ignore: cast_nullable_to_non_nullable
+                      as List<PriceTier>?,
+            ratingGiven: null == ratingGiven
+                ? _value.ratingGiven
+                : ratingGiven // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            loginNotRequired: null == loginNotRequired
+                ? _value.loginNotRequired
+                : loginNotRequired // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FilterCopyWith<$Res> get filter {
@@ -351,6 +357,8 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
     });
   }
 
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AdminSummaryCopyWith<$Res> get adminSummary {
@@ -359,6 +367,8 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
     });
   }
 
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ContentModelCopyWith<$Res>? get content {
@@ -371,6 +381,8 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
     });
   }
 
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SettingCopyWith<$Res> get setting {
@@ -379,18 +391,8 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
     });
   }
 
-  @override
-  @pragma('vm:prefer-inline')
-  $SettingCopyWith<$Res>? get settings {
-    if (_value.settings == null) {
-      return null;
-    }
-
-    return $SettingCopyWith<$Res>(_value.settings!, (value) {
-      return _then(_value.copyWith(settings: value) as $Val);
-    });
-  }
-
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FormModelCopyWith<$Res>? get form {
@@ -403,6 +405,8 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
     });
   }
 
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $HouseInfoCopyWith<$Res>? get houseDetail {
@@ -415,6 +419,8 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
     });
   }
 
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LobbyRestrictionCopyWith<$Res>? get restriction {
@@ -427,6 +433,8 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
     });
   }
 
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PriceDetailsCopyWith<$Res> get priceDetails {
@@ -435,6 +443,8 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
     });
   }
 
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AccessRequestDataCopyWith<$Res>? get accessRequestData {
@@ -447,6 +457,8 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
     });
   }
 
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RatingCopyWith<$Res> get rating {
@@ -459,50 +471,51 @@ class _$LobbyCopyWithImpl<$Res, $Val extends Lobby>
 /// @nodoc
 abstract class _$$LobbyImplCopyWith<$Res> implements $LobbyCopyWith<$Res> {
   factory _$$LobbyImplCopyWith(
-          _$LobbyImpl value, $Res Function(_$LobbyImpl) then) =
-      __$$LobbyImplCopyWithImpl<$Res>;
+    _$LobbyImpl value,
+    $Res Function(_$LobbyImpl) then,
+  ) = __$$LobbyImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      int createdDate,
-      String userId,
-      String lobbyStatus,
-      Filter filter,
-      String description,
-      String title,
-      List<String> mediaUrls,
-      String lobbyType,
-      int totalMembers,
-      int currentMembers,
-      int membersRequired,
-      @JsonKey(includeFromJson: false) CardColorScheme colorScheme,
-      String gender,
-      String userStatus,
-      AdminSummary adminSummary,
-      ContentModel? content,
-      Setting setting,
-      Setting? settings,
-      String activity,
-      FormModel? form,
-      HouseInfo? houseDetail,
-      List<UserSummary>? userSummaries,
-      Map<String, dynamic> dateRange,
-      LobbyRestriction? restriction,
-      PriceDetails priceDetails,
-      bool isAdvancedPricing,
-      bool allowMultiplePricingOptions,
-      List<LobbyTicketOption> ticketOptions,
-      AccessRequestData? accessRequestData,
-      bool hasForm,
-      bool hasOffer,
-      bool isSaved,
-      bool isFormMandatory,
-      bool isRefundNotPossible,
-      Rating rating,
-      List<PriceTier>? priceTierList,
-      bool ratingGiven,
-      bool loginNotRequired});
+  $Res call({
+    String id,
+    int createdDate,
+    String userId,
+    String lobbyStatus,
+    Filter filter,
+    String description,
+    String title,
+    List<String> mediaUrls,
+    String lobbyType,
+    int totalMembers,
+    int currentMembers,
+    int membersRequired,
+    @JsonKey(includeFromJson: false) CardColorScheme colorScheme,
+    String gender,
+    String userStatus,
+    AdminSummary adminSummary,
+    ContentModel? content,
+    Setting setting,
+    String activity,
+    FormModel? form,
+    HouseInfo? houseDetail,
+    List<UserSummary>? userSummaries,
+    Map<String, dynamic> dateRange,
+    LobbyRestriction? restriction,
+    PriceDetails priceDetails,
+    bool isAdvancedPricing,
+    bool allowMultiplePricingOptions,
+    List<LobbyTicketOption> ticketOptions,
+    AccessRequestData? accessRequestData,
+    bool hasForm,
+    bool hasOffer,
+    bool isSaved,
+    bool isFormMandatory,
+    bool isRefundNotPossible,
+    Rating rating,
+    List<PriceTier>? priceTierList,
+    bool ratingGiven,
+    bool loginNotRequired,
+  });
 
   @override
   $FilterCopyWith<$Res> get filter;
@@ -512,8 +525,6 @@ abstract class _$$LobbyImplCopyWith<$Res> implements $LobbyCopyWith<$Res> {
   $ContentModelCopyWith<$Res>? get content;
   @override
   $SettingCopyWith<$Res> get setting;
-  @override
-  $SettingCopyWith<$Res>? get settings;
   @override
   $FormModelCopyWith<$Res>? get form;
   @override
@@ -533,9 +544,12 @@ class __$$LobbyImplCopyWithImpl<$Res>
     extends _$LobbyCopyWithImpl<$Res, _$LobbyImpl>
     implements _$$LobbyImplCopyWith<$Res> {
   __$$LobbyImplCopyWithImpl(
-      _$LobbyImpl _value, $Res Function(_$LobbyImpl) _then)
-      : super(_value, _then);
+    _$LobbyImpl _value,
+    $Res Function(_$LobbyImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -557,7 +571,6 @@ class __$$LobbyImplCopyWithImpl<$Res>
     Object? adminSummary = null,
     Object? content = freezed,
     Object? setting = null,
-    Object? settings = freezed,
     Object? activity = null,
     Object? form = freezed,
     Object? houseDetail = freezed,
@@ -579,164 +592,162 @@ class __$$LobbyImplCopyWithImpl<$Res>
     Object? ratingGiven = null,
     Object? loginNotRequired = null,
   }) {
-    return _then(_$LobbyImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdDate: null == createdDate
-          ? _value.createdDate
-          : createdDate // ignore: cast_nullable_to_non_nullable
-              as int,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lobbyStatus: null == lobbyStatus
-          ? _value.lobbyStatus
-          : lobbyStatus // ignore: cast_nullable_to_non_nullable
-              as String,
-      filter: null == filter
-          ? _value.filter
-          : filter // ignore: cast_nullable_to_non_nullable
-              as Filter,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      mediaUrls: null == mediaUrls
-          ? _value._mediaUrls
-          : mediaUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      lobbyType: null == lobbyType
-          ? _value.lobbyType
-          : lobbyType // ignore: cast_nullable_to_non_nullable
-              as String,
-      totalMembers: null == totalMembers
-          ? _value.totalMembers
-          : totalMembers // ignore: cast_nullable_to_non_nullable
-              as int,
-      currentMembers: null == currentMembers
-          ? _value.currentMembers
-          : currentMembers // ignore: cast_nullable_to_non_nullable
-              as int,
-      membersRequired: null == membersRequired
-          ? _value.membersRequired
-          : membersRequired // ignore: cast_nullable_to_non_nullable
-              as int,
-      colorScheme: null == colorScheme
-          ? _value.colorScheme
-          : colorScheme // ignore: cast_nullable_to_non_nullable
-              as CardColorScheme,
-      gender: null == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as String,
-      userStatus: null == userStatus
-          ? _value.userStatus
-          : userStatus // ignore: cast_nullable_to_non_nullable
-              as String,
-      adminSummary: null == adminSummary
-          ? _value.adminSummary
-          : adminSummary // ignore: cast_nullable_to_non_nullable
-              as AdminSummary,
-      content: freezed == content
-          ? _value.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as ContentModel?,
-      setting: null == setting
-          ? _value.setting
-          : setting // ignore: cast_nullable_to_non_nullable
-              as Setting,
-      settings: freezed == settings
-          ? _value.settings
-          : settings // ignore: cast_nullable_to_non_nullable
-              as Setting?,
-      activity: null == activity
-          ? _value.activity
-          : activity // ignore: cast_nullable_to_non_nullable
-              as String,
-      form: freezed == form
-          ? _value.form
-          : form // ignore: cast_nullable_to_non_nullable
-              as FormModel?,
-      houseDetail: freezed == houseDetail
-          ? _value.houseDetail
-          : houseDetail // ignore: cast_nullable_to_non_nullable
-              as HouseInfo?,
-      userSummaries: freezed == userSummaries
-          ? _value._userSummaries
-          : userSummaries // ignore: cast_nullable_to_non_nullable
-              as List<UserSummary>?,
-      dateRange: null == dateRange
-          ? _value._dateRange
-          : dateRange // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
-      restriction: freezed == restriction
-          ? _value.restriction
-          : restriction // ignore: cast_nullable_to_non_nullable
-              as LobbyRestriction?,
-      priceDetails: null == priceDetails
-          ? _value.priceDetails
-          : priceDetails // ignore: cast_nullable_to_non_nullable
-              as PriceDetails,
-      isAdvancedPricing: null == isAdvancedPricing
-          ? _value.isAdvancedPricing
-          : isAdvancedPricing // ignore: cast_nullable_to_non_nullable
-              as bool,
-      allowMultiplePricingOptions: null == allowMultiplePricingOptions
-          ? _value.allowMultiplePricingOptions
-          : allowMultiplePricingOptions // ignore: cast_nullable_to_non_nullable
-              as bool,
-      ticketOptions: null == ticketOptions
-          ? _value._ticketOptions
-          : ticketOptions // ignore: cast_nullable_to_non_nullable
-              as List<LobbyTicketOption>,
-      accessRequestData: freezed == accessRequestData
-          ? _value.accessRequestData
-          : accessRequestData // ignore: cast_nullable_to_non_nullable
-              as AccessRequestData?,
-      hasForm: null == hasForm
-          ? _value.hasForm
-          : hasForm // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hasOffer: null == hasOffer
-          ? _value.hasOffer
-          : hasOffer // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSaved: null == isSaved
-          ? _value.isSaved
-          : isSaved // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFormMandatory: null == isFormMandatory
-          ? _value.isFormMandatory
-          : isFormMandatory // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isRefundNotPossible: null == isRefundNotPossible
-          ? _value.isRefundNotPossible
-          : isRefundNotPossible // ignore: cast_nullable_to_non_nullable
-              as bool,
-      rating: null == rating
-          ? _value.rating
-          : rating // ignore: cast_nullable_to_non_nullable
-              as Rating,
-      priceTierList: freezed == priceTierList
-          ? _value._priceTierList
-          : priceTierList // ignore: cast_nullable_to_non_nullable
-              as List<PriceTier>?,
-      ratingGiven: null == ratingGiven
-          ? _value.ratingGiven
-          : ratingGiven // ignore: cast_nullable_to_non_nullable
-              as bool,
-      loginNotRequired: null == loginNotRequired
-          ? _value.loginNotRequired
-          : loginNotRequired // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$LobbyImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        createdDate: null == createdDate
+            ? _value.createdDate
+            : createdDate // ignore: cast_nullable_to_non_nullable
+                  as int,
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        lobbyStatus: null == lobbyStatus
+            ? _value.lobbyStatus
+            : lobbyStatus // ignore: cast_nullable_to_non_nullable
+                  as String,
+        filter: null == filter
+            ? _value.filter
+            : filter // ignore: cast_nullable_to_non_nullable
+                  as Filter,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        mediaUrls: null == mediaUrls
+            ? _value._mediaUrls
+            : mediaUrls // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        lobbyType: null == lobbyType
+            ? _value.lobbyType
+            : lobbyType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        totalMembers: null == totalMembers
+            ? _value.totalMembers
+            : totalMembers // ignore: cast_nullable_to_non_nullable
+                  as int,
+        currentMembers: null == currentMembers
+            ? _value.currentMembers
+            : currentMembers // ignore: cast_nullable_to_non_nullable
+                  as int,
+        membersRequired: null == membersRequired
+            ? _value.membersRequired
+            : membersRequired // ignore: cast_nullable_to_non_nullable
+                  as int,
+        colorScheme: null == colorScheme
+            ? _value.colorScheme
+            : colorScheme // ignore: cast_nullable_to_non_nullable
+                  as CardColorScheme,
+        gender: null == gender
+            ? _value.gender
+            : gender // ignore: cast_nullable_to_non_nullable
+                  as String,
+        userStatus: null == userStatus
+            ? _value.userStatus
+            : userStatus // ignore: cast_nullable_to_non_nullable
+                  as String,
+        adminSummary: null == adminSummary
+            ? _value.adminSummary
+            : adminSummary // ignore: cast_nullable_to_non_nullable
+                  as AdminSummary,
+        content: freezed == content
+            ? _value.content
+            : content // ignore: cast_nullable_to_non_nullable
+                  as ContentModel?,
+        setting: null == setting
+            ? _value.setting
+            : setting // ignore: cast_nullable_to_non_nullable
+                  as Setting,
+        activity: null == activity
+            ? _value.activity
+            : activity // ignore: cast_nullable_to_non_nullable
+                  as String,
+        form: freezed == form
+            ? _value.form
+            : form // ignore: cast_nullable_to_non_nullable
+                  as FormModel?,
+        houseDetail: freezed == houseDetail
+            ? _value.houseDetail
+            : houseDetail // ignore: cast_nullable_to_non_nullable
+                  as HouseInfo?,
+        userSummaries: freezed == userSummaries
+            ? _value._userSummaries
+            : userSummaries // ignore: cast_nullable_to_non_nullable
+                  as List<UserSummary>?,
+        dateRange: null == dateRange
+            ? _value._dateRange
+            : dateRange // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>,
+        restriction: freezed == restriction
+            ? _value.restriction
+            : restriction // ignore: cast_nullable_to_non_nullable
+                  as LobbyRestriction?,
+        priceDetails: null == priceDetails
+            ? _value.priceDetails
+            : priceDetails // ignore: cast_nullable_to_non_nullable
+                  as PriceDetails,
+        isAdvancedPricing: null == isAdvancedPricing
+            ? _value.isAdvancedPricing
+            : isAdvancedPricing // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        allowMultiplePricingOptions: null == allowMultiplePricingOptions
+            ? _value.allowMultiplePricingOptions
+            : allowMultiplePricingOptions // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        ticketOptions: null == ticketOptions
+            ? _value._ticketOptions
+            : ticketOptions // ignore: cast_nullable_to_non_nullable
+                  as List<LobbyTicketOption>,
+        accessRequestData: freezed == accessRequestData
+            ? _value.accessRequestData
+            : accessRequestData // ignore: cast_nullable_to_non_nullable
+                  as AccessRequestData?,
+        hasForm: null == hasForm
+            ? _value.hasForm
+            : hasForm // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        hasOffer: null == hasOffer
+            ? _value.hasOffer
+            : hasOffer // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isSaved: null == isSaved
+            ? _value.isSaved
+            : isSaved // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isFormMandatory: null == isFormMandatory
+            ? _value.isFormMandatory
+            : isFormMandatory // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isRefundNotPossible: null == isRefundNotPossible
+            ? _value.isRefundNotPossible
+            : isRefundNotPossible // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        rating: null == rating
+            ? _value.rating
+            : rating // ignore: cast_nullable_to_non_nullable
+                  as Rating,
+        priceTierList: freezed == priceTierList
+            ? _value._priceTierList
+            : priceTierList // ignore: cast_nullable_to_non_nullable
+                  as List<PriceTier>?,
+        ratingGiven: null == ratingGiven
+            ? _value.ratingGiven
+            : ratingGiven // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        loginNotRequired: null == loginNotRequired
+            ? _value.loginNotRequired
+            : loginNotRequired // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -744,51 +755,50 @@ class __$$LobbyImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$LobbyImpl implements _Lobby {
-  _$LobbyImpl(
-      {required this.id,
-      required this.createdDate,
-      required this.userId,
-      this.lobbyStatus = "",
-      required this.filter,
-      this.description = "",
-      this.title = "",
-      final List<String> mediaUrls = const <String>[],
-      this.lobbyType = "PRIVATE",
-      this.totalMembers = 0,
-      this.currentMembers = 0,
-      this.membersRequired = 0,
-      @JsonKey(includeFromJson: false) this.colorScheme = defaultColorScheme,
-      this.gender = "MALE",
-      this.userStatus = "VISITOR",
-      this.adminSummary = const AdminSummary(userId: "", profilePictureUrl: ""),
-      this.content,
-      this.setting = const Setting(),
-      this.settings,
-      this.activity = "",
-      this.form,
-      this.houseDetail,
-      final List<UserSummary>? userSummaries,
-      final Map<String, dynamic> dateRange = const {},
-      this.restriction,
-      this.priceDetails = const PriceDetails(),
-      this.isAdvancedPricing = false,
-      this.allowMultiplePricingOptions = false,
-      final List<LobbyTicketOption> ticketOptions = const <LobbyTicketOption>[],
-      this.accessRequestData,
-      this.hasForm = false,
-      this.hasOffer = false,
-      this.isSaved = false,
-      this.isFormMandatory = false,
-      this.isRefundNotPossible = false,
-      this.rating = const Rating(),
-      final List<PriceTier>? priceTierList = const [],
-      this.ratingGiven = false,
-      this.loginNotRequired = false})
-      : _mediaUrls = mediaUrls,
-        _userSummaries = userSummaries,
-        _dateRange = dateRange,
-        _ticketOptions = ticketOptions,
-        _priceTierList = priceTierList;
+  _$LobbyImpl({
+    required this.id,
+    required this.createdDate,
+    required this.userId,
+    this.lobbyStatus = "",
+    required this.filter,
+    this.description = "",
+    this.title = "",
+    final List<String> mediaUrls = const <String>[],
+    this.lobbyType = "PRIVATE",
+    this.totalMembers = 0,
+    this.currentMembers = 0,
+    this.membersRequired = 0,
+    @JsonKey(includeFromJson: false) this.colorScheme = defaultColorScheme,
+    this.gender = "MALE",
+    this.userStatus = "VISITOR",
+    this.adminSummary = const AdminSummary(userId: "", profilePictureUrl: ""),
+    this.content,
+    this.setting = const Setting(),
+    this.activity = "",
+    this.form,
+    this.houseDetail,
+    final List<UserSummary>? userSummaries,
+    final Map<String, dynamic> dateRange = const {},
+    this.restriction,
+    this.priceDetails = const PriceDetails(),
+    this.isAdvancedPricing = false,
+    this.allowMultiplePricingOptions = false,
+    final List<LobbyTicketOption> ticketOptions = const <LobbyTicketOption>[],
+    this.accessRequestData,
+    this.hasForm = false,
+    this.hasOffer = false,
+    this.isSaved = false,
+    this.isFormMandatory = false,
+    this.isRefundNotPossible = false,
+    this.rating = const Rating(),
+    final List<PriceTier>? priceTierList = const [],
+    this.ratingGiven = false,
+    this.loginNotRequired = false,
+  }) : _mediaUrls = mediaUrls,
+       _userSummaries = userSummaries,
+       _dateRange = dateRange,
+       _ticketOptions = ticketOptions,
+       _priceTierList = priceTierList;
 
   factory _$LobbyImpl.fromJson(Map<String, dynamic> json) =>
       _$$LobbyImplFromJson(json);
@@ -797,7 +807,7 @@ class _$LobbyImpl implements _Lobby {
   final String id;
   @override
   final int createdDate;
-// required int lastModifiedDate,
+  // required int lastModifiedDate,
   @override
   final String userId;
   @override
@@ -849,12 +859,11 @@ class _$LobbyImpl implements _Lobby {
   @override
   @JsonKey()
   final Setting setting;
-  @override
-  final Setting? settings;
+  // Setting? settings,
   @override
   @JsonKey()
   final String activity;
-// Map<String,dynamic>? lobbyRules,
+  // Map<String,dynamic>? lobbyRules,
   @override
   final FormModel? form;
   @override
@@ -878,7 +887,7 @@ class _$LobbyImpl implements _Lobby {
     return EqualUnmodifiableMapView(_dateRange);
   }
 
-// @Default(0.0) double price,
+  // @Default(0.0) double price,
   @override
   final LobbyRestriction? restriction;
   @override
@@ -939,11 +948,11 @@ class _$LobbyImpl implements _Lobby {
 
   @override
   String toString() {
-    return 'Lobby(id: $id, createdDate: $createdDate, userId: $userId, lobbyStatus: $lobbyStatus, filter: $filter, description: $description, title: $title, mediaUrls: $mediaUrls, lobbyType: $lobbyType, totalMembers: $totalMembers, currentMembers: $currentMembers, membersRequired: $membersRequired, colorScheme: $colorScheme, gender: $gender, userStatus: $userStatus, adminSummary: $adminSummary, content: $content, setting: $setting, settings: $settings, activity: $activity, form: $form, houseDetail: $houseDetail, userSummaries: $userSummaries, dateRange: $dateRange, restriction: $restriction, priceDetails: $priceDetails, isAdvancedPricing: $isAdvancedPricing, allowMultiplePricingOptions: $allowMultiplePricingOptions, ticketOptions: $ticketOptions, accessRequestData: $accessRequestData, hasForm: $hasForm, hasOffer: $hasOffer, isSaved: $isSaved, isFormMandatory: $isFormMandatory, isRefundNotPossible: $isRefundNotPossible, rating: $rating, priceTierList: $priceTierList, ratingGiven: $ratingGiven, loginNotRequired: $loginNotRequired)';
+    return 'Lobby(id: $id, createdDate: $createdDate, userId: $userId, lobbyStatus: $lobbyStatus, filter: $filter, description: $description, title: $title, mediaUrls: $mediaUrls, lobbyType: $lobbyType, totalMembers: $totalMembers, currentMembers: $currentMembers, membersRequired: $membersRequired, colorScheme: $colorScheme, gender: $gender, userStatus: $userStatus, adminSummary: $adminSummary, content: $content, setting: $setting, activity: $activity, form: $form, houseDetail: $houseDetail, userSummaries: $userSummaries, dateRange: $dateRange, restriction: $restriction, priceDetails: $priceDetails, isAdvancedPricing: $isAdvancedPricing, allowMultiplePricingOptions: $allowMultiplePricingOptions, ticketOptions: $ticketOptions, accessRequestData: $accessRequestData, hasForm: $hasForm, hasOffer: $hasOffer, isSaved: $isSaved, isFormMandatory: $isFormMandatory, isRefundNotPossible: $isRefundNotPossible, rating: $rating, priceTierList: $priceTierList, ratingGiven: $ratingGiven, loginNotRequired: $loginNotRequired)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LobbyImpl &&
@@ -957,8 +966,10 @@ class _$LobbyImpl implements _Lobby {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.title, title) || other.title == title) &&
-            const DeepCollectionEquality()
-                .equals(other._mediaUrls, _mediaUrls) &&
+            const DeepCollectionEquality().equals(
+              other._mediaUrls,
+              _mediaUrls,
+            ) &&
             (identical(other.lobbyType, lobbyType) ||
                 other.lobbyType == lobbyType) &&
             (identical(other.totalMembers, totalMembers) ||
@@ -976,29 +987,35 @@ class _$LobbyImpl implements _Lobby {
                 other.adminSummary == adminSummary) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.setting, setting) || other.setting == setting) &&
-            (identical(other.settings, settings) ||
-                other.settings == settings) &&
             (identical(other.activity, activity) ||
                 other.activity == activity) &&
             (identical(other.form, form) || other.form == form) &&
             (identical(other.houseDetail, houseDetail) ||
                 other.houseDetail == houseDetail) &&
-            const DeepCollectionEquality()
-                .equals(other._userSummaries, _userSummaries) &&
-            const DeepCollectionEquality()
-                .equals(other._dateRange, _dateRange) &&
+            const DeepCollectionEquality().equals(
+              other._userSummaries,
+              _userSummaries,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._dateRange,
+              _dateRange,
+            ) &&
             (identical(other.restriction, restriction) ||
                 other.restriction == restriction) &&
             (identical(other.priceDetails, priceDetails) ||
                 other.priceDetails == priceDetails) &&
             (identical(other.isAdvancedPricing, isAdvancedPricing) ||
                 other.isAdvancedPricing == isAdvancedPricing) &&
-            (identical(other.allowMultiplePricingOptions,
-                    allowMultiplePricingOptions) ||
+            (identical(
+                  other.allowMultiplePricingOptions,
+                  allowMultiplePricingOptions,
+                ) ||
                 other.allowMultiplePricingOptions ==
                     allowMultiplePricingOptions) &&
-            const DeepCollectionEquality()
-                .equals(other._ticketOptions, _ticketOptions) &&
+            const DeepCollectionEquality().equals(
+              other._ticketOptions,
+              _ticketOptions,
+            ) &&
             (identical(other.accessRequestData, accessRequestData) ||
                 other.accessRequestData == accessRequestData) &&
             (identical(other.hasForm, hasForm) || other.hasForm == hasForm) &&
@@ -1010,60 +1027,63 @@ class _$LobbyImpl implements _Lobby {
             (identical(other.isRefundNotPossible, isRefundNotPossible) ||
                 other.isRefundNotPossible == isRefundNotPossible) &&
             (identical(other.rating, rating) || other.rating == rating) &&
-            const DeepCollectionEquality()
-                .equals(other._priceTierList, _priceTierList) &&
+            const DeepCollectionEquality().equals(
+              other._priceTierList,
+              _priceTierList,
+            ) &&
             (identical(other.ratingGiven, ratingGiven) ||
                 other.ratingGiven == ratingGiven) &&
             (identical(other.loginNotRequired, loginNotRequired) ||
                 other.loginNotRequired == loginNotRequired));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
-        runtimeType,
-        id,
-        createdDate,
-        userId,
-        lobbyStatus,
-        filter,
-        description,
-        title,
-        const DeepCollectionEquality().hash(_mediaUrls),
-        lobbyType,
-        totalMembers,
-        currentMembers,
-        membersRequired,
-        colorScheme,
-        gender,
-        userStatus,
-        adminSummary,
-        content,
-        setting,
-        settings,
-        activity,
-        form,
-        houseDetail,
-        const DeepCollectionEquality().hash(_userSummaries),
-        const DeepCollectionEquality().hash(_dateRange),
-        restriction,
-        priceDetails,
-        isAdvancedPricing,
-        allowMultiplePricingOptions,
-        const DeepCollectionEquality().hash(_ticketOptions),
-        accessRequestData,
-        hasForm,
-        hasOffer,
-        isSaved,
-        isFormMandatory,
-        isRefundNotPossible,
-        rating,
-        const DeepCollectionEquality().hash(_priceTierList),
-        ratingGiven,
-        loginNotRequired
-      ]);
+    runtimeType,
+    id,
+    createdDate,
+    userId,
+    lobbyStatus,
+    filter,
+    description,
+    title,
+    const DeepCollectionEquality().hash(_mediaUrls),
+    lobbyType,
+    totalMembers,
+    currentMembers,
+    membersRequired,
+    colorScheme,
+    gender,
+    userStatus,
+    adminSummary,
+    content,
+    setting,
+    activity,
+    form,
+    houseDetail,
+    const DeepCollectionEquality().hash(_userSummaries),
+    const DeepCollectionEquality().hash(_dateRange),
+    restriction,
+    priceDetails,
+    isAdvancedPricing,
+    allowMultiplePricingOptions,
+    const DeepCollectionEquality().hash(_ticketOptions),
+    accessRequestData,
+    hasForm,
+    hasOffer,
+    isSaved,
+    isFormMandatory,
+    isRefundNotPossible,
+    rating,
+    const DeepCollectionEquality().hash(_priceTierList),
+    ratingGiven,
+    loginNotRequired,
+  ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LobbyImplCopyWith<_$LobbyImpl> get copyWith =>
@@ -1071,61 +1091,59 @@ class _$LobbyImpl implements _Lobby {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LobbyImplToJson(
-      this,
-    );
+    return _$$LobbyImplToJson(this);
   }
 }
 
 abstract class _Lobby implements Lobby {
-  factory _Lobby(
-      {required final String id,
-      required final int createdDate,
-      required final String userId,
-      final String lobbyStatus,
-      required final Filter filter,
-      final String description,
-      final String title,
-      final List<String> mediaUrls,
-      final String lobbyType,
-      final int totalMembers,
-      final int currentMembers,
-      final int membersRequired,
-      @JsonKey(includeFromJson: false) final CardColorScheme colorScheme,
-      final String gender,
-      final String userStatus,
-      final AdminSummary adminSummary,
-      final ContentModel? content,
-      final Setting setting,
-      final Setting? settings,
-      final String activity,
-      final FormModel? form,
-      final HouseInfo? houseDetail,
-      final List<UserSummary>? userSummaries,
-      final Map<String, dynamic> dateRange,
-      final LobbyRestriction? restriction,
-      final PriceDetails priceDetails,
-      final bool isAdvancedPricing,
-      final bool allowMultiplePricingOptions,
-      final List<LobbyTicketOption> ticketOptions,
-      final AccessRequestData? accessRequestData,
-      final bool hasForm,
-      final bool hasOffer,
-      final bool isSaved,
-      final bool isFormMandatory,
-      final bool isRefundNotPossible,
-      final Rating rating,
-      final List<PriceTier>? priceTierList,
-      final bool ratingGiven,
-      final bool loginNotRequired}) = _$LobbyImpl;
+  factory _Lobby({
+    required final String id,
+    required final int createdDate,
+    required final String userId,
+    final String lobbyStatus,
+    required final Filter filter,
+    final String description,
+    final String title,
+    final List<String> mediaUrls,
+    final String lobbyType,
+    final int totalMembers,
+    final int currentMembers,
+    final int membersRequired,
+    @JsonKey(includeFromJson: false) final CardColorScheme colorScheme,
+    final String gender,
+    final String userStatus,
+    final AdminSummary adminSummary,
+    final ContentModel? content,
+    final Setting setting,
+    final String activity,
+    final FormModel? form,
+    final HouseInfo? houseDetail,
+    final List<UserSummary>? userSummaries,
+    final Map<String, dynamic> dateRange,
+    final LobbyRestriction? restriction,
+    final PriceDetails priceDetails,
+    final bool isAdvancedPricing,
+    final bool allowMultiplePricingOptions,
+    final List<LobbyTicketOption> ticketOptions,
+    final AccessRequestData? accessRequestData,
+    final bool hasForm,
+    final bool hasOffer,
+    final bool isSaved,
+    final bool isFormMandatory,
+    final bool isRefundNotPossible,
+    final Rating rating,
+    final List<PriceTier>? priceTierList,
+    final bool ratingGiven,
+    final bool loginNotRequired,
+  }) = _$LobbyImpl;
 
   factory _Lobby.fromJson(Map<String, dynamic> json) = _$LobbyImpl.fromJson;
 
   @override
   String get id;
   @override
-  int get createdDate;
-  @override // required int lastModifiedDate,
+  int get createdDate; // required int lastModifiedDate,
+  @override
   String get userId;
   @override
   String get lobbyStatus;
@@ -1157,20 +1175,18 @@ abstract class _Lobby implements Lobby {
   @override
   ContentModel? get content;
   @override
-  Setting get setting;
+  Setting get setting; // Setting? settings,
   @override
-  Setting? get settings;
+  String get activity; // Map<String,dynamic>? lobbyRules,
   @override
-  String get activity;
-  @override // Map<String,dynamic>? lobbyRules,
   FormModel? get form;
   @override
   HouseInfo? get houseDetail;
   @override
   List<UserSummary>? get userSummaries;
   @override
-  Map<String, dynamic> get dateRange;
-  @override // @Default(0.0) double price,
+  Map<String, dynamic> get dateRange; // @Default(0.0) double price,
+  @override
   LobbyRestriction? get restriction;
   @override
   PriceDetails get priceDetails;
@@ -1200,8 +1216,11 @@ abstract class _Lobby implements Lobby {
   bool get ratingGiven;
   @override
   bool get loginNotRequired;
+
+  /// Create a copy of Lobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LobbyImplCopyWith<_$LobbyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1215,8 +1234,12 @@ mixin _$Rating {
   double get average => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
 
+  /// Serializes this Rating to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Rating
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RatingCopyWith<Rating> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1238,30 +1261,33 @@ class _$RatingCopyWithImpl<$Res, $Val extends Rating>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Rating
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? average = null,
-    Object? count = null,
-  }) {
-    return _then(_value.copyWith(
-      average: null == average
-          ? _value.average
-          : average // ignore: cast_nullable_to_non_nullable
-              as double,
-      count: null == count
-          ? _value.count
-          : count // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? average = null, Object? count = null}) {
+    return _then(
+      _value.copyWith(
+            average: null == average
+                ? _value.average
+                : average // ignore: cast_nullable_to_non_nullable
+                      as double,
+            count: null == count
+                ? _value.count
+                : count // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$RatingImplCopyWith<$Res> implements $RatingCopyWith<$Res> {
   factory _$$RatingImplCopyWith(
-          _$RatingImpl value, $Res Function(_$RatingImpl) then) =
-      __$$RatingImplCopyWithImpl<$Res>;
+    _$RatingImpl value,
+    $Res Function(_$RatingImpl) then,
+  ) = __$$RatingImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double average, int count});
@@ -1272,25 +1298,27 @@ class __$$RatingImplCopyWithImpl<$Res>
     extends _$RatingCopyWithImpl<$Res, _$RatingImpl>
     implements _$$RatingImplCopyWith<$Res> {
   __$$RatingImplCopyWithImpl(
-      _$RatingImpl _value, $Res Function(_$RatingImpl) _then)
-      : super(_value, _then);
+    _$RatingImpl _value,
+    $Res Function(_$RatingImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of Rating
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? average = null,
-    Object? count = null,
-  }) {
-    return _then(_$RatingImpl(
-      average: null == average
-          ? _value.average
-          : average // ignore: cast_nullable_to_non_nullable
-              as double,
-      count: null == count
-          ? _value.count
-          : count // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? average = null, Object? count = null}) {
+    return _then(
+      _$RatingImpl(
+        average: null == average
+            ? _value.average
+            : average // ignore: cast_nullable_to_non_nullable
+                  as double,
+        count: null == count
+            ? _value.count
+            : count // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
 
@@ -1316,7 +1344,7 @@ class _$RatingImpl implements _Rating {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RatingImpl &&
@@ -1324,11 +1352,13 @@ class _$RatingImpl implements _Rating {
             (identical(other.count, count) || other.count == count));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, average, count);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Rating
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RatingImplCopyWith<_$RatingImpl> get copyWith =>
@@ -1336,9 +1366,7 @@ class _$RatingImpl implements _Rating {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RatingImplToJson(
-      this,
-    );
+    return _$$RatingImplToJson(this);
   }
 }
 
@@ -1351,8 +1379,11 @@ abstract class _Rating implements Rating {
   double get average;
   @override
   int get count;
+
+  /// Create a copy of Rating
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RatingImplCopyWith<_$RatingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1366,8 +1397,12 @@ mixin _$FormModel {
   String get title => throw _privateConstructorUsedError;
   List<Question> get questions => throw _privateConstructorUsedError;
 
+  /// Serializes this FormModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FormModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FormModelCopyWith<FormModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1390,22 +1425,24 @@ class _$FormModelCopyWithImpl<$Res, $Val extends FormModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FormModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? title = null,
-    Object? questions = null,
-  }) {
-    return _then(_value.copyWith(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      questions: null == questions
-          ? _value.questions
-          : questions // ignore: cast_nullable_to_non_nullable
-              as List<Question>,
-    ) as $Val);
+  $Res call({Object? title = null, Object? questions = null}) {
+    return _then(
+      _value.copyWith(
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            questions: null == questions
+                ? _value.questions
+                : questions // ignore: cast_nullable_to_non_nullable
+                      as List<Question>,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -1413,8 +1450,9 @@ class _$FormModelCopyWithImpl<$Res, $Val extends FormModel>
 abstract class _$$FormModelImplCopyWith<$Res>
     implements $FormModelCopyWith<$Res> {
   factory _$$FormModelImplCopyWith(
-          _$FormModelImpl value, $Res Function(_$FormModelImpl) then) =
-      __$$FormModelImplCopyWithImpl<$Res>;
+    _$FormModelImpl value,
+    $Res Function(_$FormModelImpl) then,
+  ) = __$$FormModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String title, List<Question> questions});
@@ -1425,25 +1463,27 @@ class __$$FormModelImplCopyWithImpl<$Res>
     extends _$FormModelCopyWithImpl<$Res, _$FormModelImpl>
     implements _$$FormModelImplCopyWith<$Res> {
   __$$FormModelImplCopyWithImpl(
-      _$FormModelImpl _value, $Res Function(_$FormModelImpl) _then)
-      : super(_value, _then);
+    _$FormModelImpl _value,
+    $Res Function(_$FormModelImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of FormModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? title = null,
-    Object? questions = null,
-  }) {
-    return _then(_$FormModelImpl(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      questions: null == questions
-          ? _value._questions
-          : questions // ignore: cast_nullable_to_non_nullable
-              as List<Question>,
-    ));
+  $Res call({Object? title = null, Object? questions = null}) {
+    return _then(
+      _$FormModelImpl(
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        questions: null == questions
+            ? _value._questions
+            : questions // ignore: cast_nullable_to_non_nullable
+                  as List<Question>,
+      ),
+    );
   }
 }
 
@@ -1451,9 +1491,10 @@ class __$$FormModelImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$FormModelImpl implements _FormModel {
-  const _$FormModelImpl(
-      {this.title = '', final List<Question> questions = const <Question>[]})
-      : _questions = questions;
+  const _$FormModelImpl({
+    this.title = '',
+    final List<Question> questions = const <Question>[],
+  }) : _questions = questions;
 
   factory _$FormModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$FormModelImplFromJson(json);
@@ -1476,21 +1517,28 @@ class _$FormModelImpl implements _FormModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FormModelImpl &&
             (identical(other.title, title) || other.title == title) &&
-            const DeepCollectionEquality()
-                .equals(other._questions, _questions));
+            const DeepCollectionEquality().equals(
+              other._questions,
+              _questions,
+            ));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, title, const DeepCollectionEquality().hash(_questions));
+    runtimeType,
+    title,
+    const DeepCollectionEquality().hash(_questions),
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FormModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FormModelImplCopyWith<_$FormModelImpl> get copyWith =>
@@ -1498,15 +1546,15 @@ class _$FormModelImpl implements _FormModel {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$FormModelImplToJson(
-      this,
-    );
+    return _$$FormModelImplToJson(this);
   }
 }
 
 abstract class _FormModel implements FormModel {
-  const factory _FormModel(
-      {final String title, final List<Question> questions}) = _$FormModelImpl;
+  const factory _FormModel({
+    final String title,
+    final List<Question> questions,
+  }) = _$FormModelImpl;
 
   factory _FormModel.fromJson(Map<String, dynamic> json) =
       _$FormModelImpl.fromJson;
@@ -1515,8 +1563,11 @@ abstract class _FormModel implements FormModel {
   String get title;
   @override
   List<Question> get questions;
+
+  /// Create a copy of FormModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FormModelImplCopyWith<_$FormModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1529,9 +1580,14 @@ Setting _$SettingFromJson(Map<String, dynamic> json) {
 mixin _$Setting {
   bool get showLobbyMembers => throw _privateConstructorUsedError;
   bool get enableChat => throw _privateConstructorUsedError;
+  bool get showMembers => throw _privateConstructorUsedError;
 
+  /// Serializes this Setting to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Setting
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SettingCopyWith<Setting> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1540,7 +1596,7 @@ abstract class $SettingCopyWith<$Res> {
   factory $SettingCopyWith(Setting value, $Res Function(Setting) then) =
       _$SettingCopyWithImpl<$Res, Setting>;
   @useResult
-  $Res call({bool showLobbyMembers, bool enableChat});
+  $Res call({bool showLobbyMembers, bool enableChat, bool showMembers});
 }
 
 /// @nodoc
@@ -1553,33 +1609,44 @@ class _$SettingCopyWithImpl<$Res, $Val extends Setting>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Setting
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? showLobbyMembers = null,
     Object? enableChat = null,
+    Object? showMembers = null,
   }) {
-    return _then(_value.copyWith(
-      showLobbyMembers: null == showLobbyMembers
-          ? _value.showLobbyMembers
-          : showLobbyMembers // ignore: cast_nullable_to_non_nullable
-              as bool,
-      enableChat: null == enableChat
-          ? _value.enableChat
-          : enableChat // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            showLobbyMembers: null == showLobbyMembers
+                ? _value.showLobbyMembers
+                : showLobbyMembers // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            enableChat: null == enableChat
+                ? _value.enableChat
+                : enableChat // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            showMembers: null == showMembers
+                ? _value.showMembers
+                : showMembers // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$SettingImplCopyWith<$Res> implements $SettingCopyWith<$Res> {
   factory _$$SettingImplCopyWith(
-          _$SettingImpl value, $Res Function(_$SettingImpl) then) =
-      __$$SettingImplCopyWithImpl<$Res>;
+    _$SettingImpl value,
+    $Res Function(_$SettingImpl) then,
+  ) = __$$SettingImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool showLobbyMembers, bool enableChat});
+  $Res call({bool showLobbyMembers, bool enableChat, bool showMembers});
 }
 
 /// @nodoc
@@ -1587,25 +1654,35 @@ class __$$SettingImplCopyWithImpl<$Res>
     extends _$SettingCopyWithImpl<$Res, _$SettingImpl>
     implements _$$SettingImplCopyWith<$Res> {
   __$$SettingImplCopyWithImpl(
-      _$SettingImpl _value, $Res Function(_$SettingImpl) _then)
-      : super(_value, _then);
+    _$SettingImpl _value,
+    $Res Function(_$SettingImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of Setting
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? showLobbyMembers = null,
     Object? enableChat = null,
+    Object? showMembers = null,
   }) {
-    return _then(_$SettingImpl(
-      showLobbyMembers: null == showLobbyMembers
-          ? _value.showLobbyMembers
-          : showLobbyMembers // ignore: cast_nullable_to_non_nullable
-              as bool,
-      enableChat: null == enableChat
-          ? _value.enableChat
-          : enableChat // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$SettingImpl(
+        showLobbyMembers: null == showLobbyMembers
+            ? _value.showLobbyMembers
+            : showLobbyMembers // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        enableChat: null == enableChat
+            ? _value.enableChat
+            : enableChat // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        showMembers: null == showMembers
+            ? _value.showMembers
+            : showMembers // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -1613,7 +1690,11 @@ class __$$SettingImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$SettingImpl implements _Setting {
-  const _$SettingImpl({this.showLobbyMembers = true, this.enableChat = true});
+  const _$SettingImpl({
+    this.showLobbyMembers = true,
+    this.enableChat = true,
+    this.showMembers = true,
+  });
 
   factory _$SettingImpl.fromJson(Map<String, dynamic> json) =>
       _$$SettingImplFromJson(json);
@@ -1624,28 +1705,36 @@ class _$SettingImpl implements _Setting {
   @override
   @JsonKey()
   final bool enableChat;
+  @override
+  @JsonKey()
+  final bool showMembers;
 
   @override
   String toString() {
-    return 'Setting(showLobbyMembers: $showLobbyMembers, enableChat: $enableChat)';
+    return 'Setting(showLobbyMembers: $showLobbyMembers, enableChat: $enableChat, showMembers: $showMembers)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SettingImpl &&
             (identical(other.showLobbyMembers, showLobbyMembers) ||
                 other.showLobbyMembers == showLobbyMembers) &&
             (identical(other.enableChat, enableChat) ||
-                other.enableChat == enableChat));
+                other.enableChat == enableChat) &&
+            (identical(other.showMembers, showMembers) ||
+                other.showMembers == showMembers));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, showLobbyMembers, enableChat);
+  int get hashCode =>
+      Object.hash(runtimeType, showLobbyMembers, enableChat, showMembers);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Setting
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SettingImplCopyWith<_$SettingImpl> get copyWith =>
@@ -1653,15 +1742,16 @@ class _$SettingImpl implements _Setting {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SettingImplToJson(
-      this,
-    );
+    return _$$SettingImplToJson(this);
   }
 }
 
 abstract class _Setting implements Setting {
-  const factory _Setting({final bool showLobbyMembers, final bool enableChat}) =
-      _$SettingImpl;
+  const factory _Setting({
+    final bool showLobbyMembers,
+    final bool enableChat,
+    final bool showMembers,
+  }) = _$SettingImpl;
 
   factory _Setting.fromJson(Map<String, dynamic> json) = _$SettingImpl.fromJson;
 
@@ -1670,7 +1760,12 @@ abstract class _Setting implements Setting {
   @override
   bool get enableChat;
   @override
-  @JsonKey(ignore: true)
+  bool get showMembers;
+
+  /// Create a copy of Setting
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SettingImplCopyWith<_$SettingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1690,8 +1785,12 @@ mixin _$Question {
   String get questionLabel => throw _privateConstructorUsedError;
   String get dataKey => throw _privateConstructorUsedError;
 
+  /// Serializes this Question to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Question
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $QuestionCopyWith<Question> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1701,15 +1800,16 @@ abstract class $QuestionCopyWith<$Res> {
   factory $QuestionCopyWith(Question value, $Res Function(Question) then) =
       _$QuestionCopyWithImpl<$Res, Question>;
   @useResult
-  $Res call(
-      {String id,
-      String questionText,
-      String questionType,
-      List<String> options,
-      String answer,
-      bool isMandatory,
-      String questionLabel,
-      String dataKey});
+  $Res call({
+    String id,
+    String questionText,
+    String questionType,
+    List<String> options,
+    String answer,
+    bool isMandatory,
+    String questionLabel,
+    String dataKey,
+  });
 }
 
 /// @nodoc
@@ -1722,6 +1822,8 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Question
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1734,40 +1836,43 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? questionLabel = null,
     Object? dataKey = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      questionText: null == questionText
-          ? _value.questionText
-          : questionText // ignore: cast_nullable_to_non_nullable
-              as String,
-      questionType: null == questionType
-          ? _value.questionType
-          : questionType // ignore: cast_nullable_to_non_nullable
-              as String,
-      options: null == options
-          ? _value.options
-          : options // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      answer: null == answer
-          ? _value.answer
-          : answer // ignore: cast_nullable_to_non_nullable
-              as String,
-      isMandatory: null == isMandatory
-          ? _value.isMandatory
-          : isMandatory // ignore: cast_nullable_to_non_nullable
-              as bool,
-      questionLabel: null == questionLabel
-          ? _value.questionLabel
-          : questionLabel // ignore: cast_nullable_to_non_nullable
-              as String,
-      dataKey: null == dataKey
-          ? _value.dataKey
-          : dataKey // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            questionText: null == questionText
+                ? _value.questionText
+                : questionText // ignore: cast_nullable_to_non_nullable
+                      as String,
+            questionType: null == questionType
+                ? _value.questionType
+                : questionType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            options: null == options
+                ? _value.options
+                : options // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            answer: null == answer
+                ? _value.answer
+                : answer // ignore: cast_nullable_to_non_nullable
+                      as String,
+            isMandatory: null == isMandatory
+                ? _value.isMandatory
+                : isMandatory // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            questionLabel: null == questionLabel
+                ? _value.questionLabel
+                : questionLabel // ignore: cast_nullable_to_non_nullable
+                      as String,
+            dataKey: null == dataKey
+                ? _value.dataKey
+                : dataKey // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -1775,19 +1880,21 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
 abstract class _$$QuestionImplCopyWith<$Res>
     implements $QuestionCopyWith<$Res> {
   factory _$$QuestionImplCopyWith(
-          _$QuestionImpl value, $Res Function(_$QuestionImpl) then) =
-      __$$QuestionImplCopyWithImpl<$Res>;
+    _$QuestionImpl value,
+    $Res Function(_$QuestionImpl) then,
+  ) = __$$QuestionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String questionText,
-      String questionType,
-      List<String> options,
-      String answer,
-      bool isMandatory,
-      String questionLabel,
-      String dataKey});
+  $Res call({
+    String id,
+    String questionText,
+    String questionType,
+    List<String> options,
+    String answer,
+    bool isMandatory,
+    String questionLabel,
+    String dataKey,
+  });
 }
 
 /// @nodoc
@@ -1795,9 +1902,12 @@ class __$$QuestionImplCopyWithImpl<$Res>
     extends _$QuestionCopyWithImpl<$Res, _$QuestionImpl>
     implements _$$QuestionImplCopyWith<$Res> {
   __$$QuestionImplCopyWithImpl(
-      _$QuestionImpl _value, $Res Function(_$QuestionImpl) _then)
-      : super(_value, _then);
+    _$QuestionImpl _value,
+    $Res Function(_$QuestionImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of Question
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1810,40 +1920,42 @@ class __$$QuestionImplCopyWithImpl<$Res>
     Object? questionLabel = null,
     Object? dataKey = null,
   }) {
-    return _then(_$QuestionImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      questionText: null == questionText
-          ? _value.questionText
-          : questionText // ignore: cast_nullable_to_non_nullable
-              as String,
-      questionType: null == questionType
-          ? _value.questionType
-          : questionType // ignore: cast_nullable_to_non_nullable
-              as String,
-      options: null == options
-          ? _value._options
-          : options // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      answer: null == answer
-          ? _value.answer
-          : answer // ignore: cast_nullable_to_non_nullable
-              as String,
-      isMandatory: null == isMandatory
-          ? _value.isMandatory
-          : isMandatory // ignore: cast_nullable_to_non_nullable
-              as bool,
-      questionLabel: null == questionLabel
-          ? _value.questionLabel
-          : questionLabel // ignore: cast_nullable_to_non_nullable
-              as String,
-      dataKey: null == dataKey
-          ? _value.dataKey
-          : dataKey // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$QuestionImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        questionText: null == questionText
+            ? _value.questionText
+            : questionText // ignore: cast_nullable_to_non_nullable
+                  as String,
+        questionType: null == questionType
+            ? _value.questionType
+            : questionType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        options: null == options
+            ? _value._options
+            : options // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        answer: null == answer
+            ? _value.answer
+            : answer // ignore: cast_nullable_to_non_nullable
+                  as String,
+        isMandatory: null == isMandatory
+            ? _value.isMandatory
+            : isMandatory // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        questionLabel: null == questionLabel
+            ? _value.questionLabel
+            : questionLabel // ignore: cast_nullable_to_non_nullable
+                  as String,
+        dataKey: null == dataKey
+            ? _value.dataKey
+            : dataKey // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
@@ -1851,16 +1963,16 @@ class __$$QuestionImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$QuestionImpl implements _Question {
-  const _$QuestionImpl(
-      {this.id = '',
-      this.questionText = '',
-      this.questionType = '',
-      final List<String> options = const <String>[],
-      this.answer = '',
-      this.isMandatory = false,
-      this.questionLabel = '',
-      this.dataKey = ''})
-      : _options = options;
+  const _$QuestionImpl({
+    this.id = '',
+    this.questionText = '',
+    this.questionType = '',
+    final List<String> options = const <String>[],
+    this.answer = '',
+    this.isMandatory = false,
+    this.questionLabel = '',
+    this.dataKey = '',
+  }) : _options = options;
 
   factory _$QuestionImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuestionImplFromJson(json);
@@ -1902,7 +2014,7 @@ class _$QuestionImpl implements _Question {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuestionImpl &&
@@ -1920,20 +2032,23 @@ class _$QuestionImpl implements _Question {
             (identical(other.dataKey, dataKey) || other.dataKey == dataKey));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      questionText,
-      questionType,
-      const DeepCollectionEquality().hash(_options),
-      answer,
-      isMandatory,
-      questionLabel,
-      dataKey);
+    runtimeType,
+    id,
+    questionText,
+    questionType,
+    const DeepCollectionEquality().hash(_options),
+    answer,
+    isMandatory,
+    questionLabel,
+    dataKey,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Question
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QuestionImplCopyWith<_$QuestionImpl> get copyWith =>
@@ -1941,22 +2056,21 @@ class _$QuestionImpl implements _Question {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$QuestionImplToJson(
-      this,
-    );
+    return _$$QuestionImplToJson(this);
   }
 }
 
 abstract class _Question implements Question {
-  const factory _Question(
-      {final String id,
-      final String questionText,
-      final String questionType,
-      final List<String> options,
-      final String answer,
-      final bool isMandatory,
-      final String questionLabel,
-      final String dataKey}) = _$QuestionImpl;
+  const factory _Question({
+    final String id,
+    final String questionText,
+    final String questionType,
+    final List<String> options,
+    final String answer,
+    final bool isMandatory,
+    final String questionLabel,
+    final String dataKey,
+  }) = _$QuestionImpl;
 
   factory _Question.fromJson(Map<String, dynamic> json) =
       _$QuestionImpl.fromJson;
@@ -1977,8 +2091,11 @@ abstract class _Question implements Question {
   String get questionLabel;
   @override
   String get dataKey;
+
+  /// Create a copy of Question
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QuestionImplCopyWith<_$QuestionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1999,8 +2116,12 @@ mixin _$UserSummary {
   bool get active => throw _privateConstructorUsedError;
   String get dob => throw _privateConstructorUsedError;
 
+  /// Serializes this UserSummary to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserSummary
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserSummaryCopyWith<UserSummary> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2008,19 +2129,21 @@ mixin _$UserSummary {
 /// @nodoc
 abstract class $UserSummaryCopyWith<$Res> {
   factory $UserSummaryCopyWith(
-          UserSummary value, $Res Function(UserSummary) then) =
-      _$UserSummaryCopyWithImpl<$Res, UserSummary>;
+    UserSummary value,
+    $Res Function(UserSummary) then,
+  ) = _$UserSummaryCopyWithImpl<$Res, UserSummary>;
   @useResult
-  $Res call(
-      {String userId,
-      String userName,
-      String name,
-      String email,
-      String gender,
-      String profilePictureUrl,
-      Location? location,
-      bool active,
-      String dob});
+  $Res call({
+    String userId,
+    String userName,
+    String name,
+    String email,
+    String gender,
+    String profilePictureUrl,
+    Location? location,
+    bool active,
+    String dob,
+  });
 
   $LocationCopyWith<$Res>? get location;
 }
@@ -2035,6 +2158,8 @@ class _$UserSummaryCopyWithImpl<$Res, $Val extends UserSummary>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserSummary
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2048,46 +2173,51 @@ class _$UserSummaryCopyWithImpl<$Res, $Val extends UserSummary>
     Object? active = null,
     Object? dob = null,
   }) {
-    return _then(_value.copyWith(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      gender: null == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as String,
-      profilePictureUrl: null == profilePictureUrl
-          ? _value.profilePictureUrl
-          : profilePictureUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as Location?,
-      active: null == active
-          ? _value.active
-          : active // ignore: cast_nullable_to_non_nullable
-              as bool,
-      dob: null == dob
-          ? _value.dob
-          : dob // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            userId: null == userId
+                ? _value.userId
+                : userId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            userName: null == userName
+                ? _value.userName
+                : userName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+            gender: null == gender
+                ? _value.gender
+                : gender // ignore: cast_nullable_to_non_nullable
+                      as String,
+            profilePictureUrl: null == profilePictureUrl
+                ? _value.profilePictureUrl
+                : profilePictureUrl // ignore: cast_nullable_to_non_nullable
+                      as String,
+            location: freezed == location
+                ? _value.location
+                : location // ignore: cast_nullable_to_non_nullable
+                      as Location?,
+            active: null == active
+                ? _value.active
+                : active // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            dob: null == dob
+                ? _value.dob
+                : dob // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 
+  /// Create a copy of UserSummary
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocationCopyWith<$Res>? get location {
@@ -2105,20 +2235,22 @@ class _$UserSummaryCopyWithImpl<$Res, $Val extends UserSummary>
 abstract class _$$UserSummaryImplCopyWith<$Res>
     implements $UserSummaryCopyWith<$Res> {
   factory _$$UserSummaryImplCopyWith(
-          _$UserSummaryImpl value, $Res Function(_$UserSummaryImpl) then) =
-      __$$UserSummaryImplCopyWithImpl<$Res>;
+    _$UserSummaryImpl value,
+    $Res Function(_$UserSummaryImpl) then,
+  ) = __$$UserSummaryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String userId,
-      String userName,
-      String name,
-      String email,
-      String gender,
-      String profilePictureUrl,
-      Location? location,
-      bool active,
-      String dob});
+  $Res call({
+    String userId,
+    String userName,
+    String name,
+    String email,
+    String gender,
+    String profilePictureUrl,
+    Location? location,
+    bool active,
+    String dob,
+  });
 
   @override
   $LocationCopyWith<$Res>? get location;
@@ -2129,9 +2261,12 @@ class __$$UserSummaryImplCopyWithImpl<$Res>
     extends _$UserSummaryCopyWithImpl<$Res, _$UserSummaryImpl>
     implements _$$UserSummaryImplCopyWith<$Res> {
   __$$UserSummaryImplCopyWithImpl(
-      _$UserSummaryImpl _value, $Res Function(_$UserSummaryImpl) _then)
-      : super(_value, _then);
+    _$UserSummaryImpl _value,
+    $Res Function(_$UserSummaryImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of UserSummary
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2145,44 +2280,46 @@ class __$$UserSummaryImplCopyWithImpl<$Res>
     Object? active = null,
     Object? dob = null,
   }) {
-    return _then(_$UserSummaryImpl(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      gender: null == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as String,
-      profilePictureUrl: null == profilePictureUrl
-          ? _value.profilePictureUrl
-          : profilePictureUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as Location?,
-      active: null == active
-          ? _value.active
-          : active // ignore: cast_nullable_to_non_nullable
-              as bool,
-      dob: null == dob
-          ? _value.dob
-          : dob // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$UserSummaryImpl(
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        userName: null == userName
+            ? _value.userName
+            : userName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+        gender: null == gender
+            ? _value.gender
+            : gender // ignore: cast_nullable_to_non_nullable
+                  as String,
+        profilePictureUrl: null == profilePictureUrl
+            ? _value.profilePictureUrl
+            : profilePictureUrl // ignore: cast_nullable_to_non_nullable
+                  as String,
+        location: freezed == location
+            ? _value.location
+            : location // ignore: cast_nullable_to_non_nullable
+                  as Location?,
+        active: null == active
+            ? _value.active
+            : active // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        dob: null == dob
+            ? _value.dob
+            : dob // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
@@ -2190,16 +2327,17 @@ class __$$UserSummaryImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$UserSummaryImpl implements _UserSummary {
-  const _$UserSummaryImpl(
-      {this.userId = "",
-      this.userName = "",
-      this.name = "",
-      this.email = "",
-      this.gender = "",
-      this.profilePictureUrl = "",
-      this.location,
-      this.active = false,
-      this.dob = ""});
+  const _$UserSummaryImpl({
+    this.userId = "",
+    this.userName = "",
+    this.name = "",
+    this.email = "",
+    this.gender = "",
+    this.profilePictureUrl = "",
+    this.location,
+    this.active = false,
+    this.dob = "",
+  });
 
   factory _$UserSummaryImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserSummaryImplFromJson(json);
@@ -2237,7 +2375,7 @@ class _$UserSummaryImpl implements _UserSummary {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserSummaryImpl &&
@@ -2255,12 +2393,24 @@ class _$UserSummaryImpl implements _UserSummary {
             (identical(other.dob, dob) || other.dob == dob));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, userName, name, email,
-      gender, profilePictureUrl, location, active, dob);
+  int get hashCode => Object.hash(
+    runtimeType,
+    userId,
+    userName,
+    name,
+    email,
+    gender,
+    profilePictureUrl,
+    location,
+    active,
+    dob,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserSummary
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserSummaryImplCopyWith<_$UserSummaryImpl> get copyWith =>
@@ -2268,23 +2418,22 @@ class _$UserSummaryImpl implements _UserSummary {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserSummaryImplToJson(
-      this,
-    );
+    return _$$UserSummaryImplToJson(this);
   }
 }
 
 abstract class _UserSummary implements UserSummary {
-  const factory _UserSummary(
-      {final String userId,
-      final String userName,
-      final String name,
-      final String email,
-      final String gender,
-      final String profilePictureUrl,
-      final Location? location,
-      final bool active,
-      final String dob}) = _$UserSummaryImpl;
+  const factory _UserSummary({
+    final String userId,
+    final String userName,
+    final String name,
+    final String email,
+    final String gender,
+    final String profilePictureUrl,
+    final Location? location,
+    final bool active,
+    final String dob,
+  }) = _$UserSummaryImpl;
 
   factory _UserSummary.fromJson(Map<String, dynamic> json) =
       _$UserSummaryImpl.fromJson;
@@ -2307,8 +2456,11 @@ abstract class _UserSummary implements UserSummary {
   bool get active;
   @override
   String get dob;
+
+  /// Create a copy of UserSummary
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserSummaryImplCopyWith<_$UserSummaryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2325,8 +2477,12 @@ mixin _$LobbyRestriction {
   int? get maxFemales => throw _privateConstructorUsedError;
   int? get maxOthers => throw _privateConstructorUsedError;
 
+  /// Serializes this LobbyRestriction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LobbyRestriction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LobbyRestrictionCopyWith<LobbyRestriction> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2334,15 +2490,17 @@ mixin _$LobbyRestriction {
 /// @nodoc
 abstract class $LobbyRestrictionCopyWith<$Res> {
   factory $LobbyRestrictionCopyWith(
-          LobbyRestriction value, $Res Function(LobbyRestriction) then) =
-      _$LobbyRestrictionCopyWithImpl<$Res, LobbyRestriction>;
+    LobbyRestriction value,
+    $Res Function(LobbyRestriction) then,
+  ) = _$LobbyRestrictionCopyWithImpl<$Res, LobbyRestriction>;
   @useResult
-  $Res call(
-      {String genderRestriction,
-      AgeRange ageRange,
-      int? maxMales,
-      int? maxFemales,
-      int? maxOthers});
+  $Res call({
+    String genderRestriction,
+    AgeRange ageRange,
+    int? maxMales,
+    int? maxFemales,
+    int? maxOthers,
+  });
 
   $AgeRangeCopyWith<$Res> get ageRange;
 }
@@ -2357,6 +2515,8 @@ class _$LobbyRestrictionCopyWithImpl<$Res, $Val extends LobbyRestriction>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LobbyRestriction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2366,30 +2526,35 @@ class _$LobbyRestrictionCopyWithImpl<$Res, $Val extends LobbyRestriction>
     Object? maxFemales = freezed,
     Object? maxOthers = freezed,
   }) {
-    return _then(_value.copyWith(
-      genderRestriction: null == genderRestriction
-          ? _value.genderRestriction
-          : genderRestriction // ignore: cast_nullable_to_non_nullable
-              as String,
-      ageRange: null == ageRange
-          ? _value.ageRange
-          : ageRange // ignore: cast_nullable_to_non_nullable
-              as AgeRange,
-      maxMales: freezed == maxMales
-          ? _value.maxMales
-          : maxMales // ignore: cast_nullable_to_non_nullable
-              as int?,
-      maxFemales: freezed == maxFemales
-          ? _value.maxFemales
-          : maxFemales // ignore: cast_nullable_to_non_nullable
-              as int?,
-      maxOthers: freezed == maxOthers
-          ? _value.maxOthers
-          : maxOthers // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            genderRestriction: null == genderRestriction
+                ? _value.genderRestriction
+                : genderRestriction // ignore: cast_nullable_to_non_nullable
+                      as String,
+            ageRange: null == ageRange
+                ? _value.ageRange
+                : ageRange // ignore: cast_nullable_to_non_nullable
+                      as AgeRange,
+            maxMales: freezed == maxMales
+                ? _value.maxMales
+                : maxMales // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            maxFemales: freezed == maxFemales
+                ? _value.maxFemales
+                : maxFemales // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            maxOthers: freezed == maxOthers
+                ? _value.maxOthers
+                : maxOthers // ignore: cast_nullable_to_non_nullable
+                      as int?,
+          )
+          as $Val,
+    );
   }
 
+  /// Create a copy of LobbyRestriction
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AgeRangeCopyWith<$Res> get ageRange {
@@ -2402,17 +2567,19 @@ class _$LobbyRestrictionCopyWithImpl<$Res, $Val extends LobbyRestriction>
 /// @nodoc
 abstract class _$$LobbyRestrictionImplCopyWith<$Res>
     implements $LobbyRestrictionCopyWith<$Res> {
-  factory _$$LobbyRestrictionImplCopyWith(_$LobbyRestrictionImpl value,
-          $Res Function(_$LobbyRestrictionImpl) then) =
-      __$$LobbyRestrictionImplCopyWithImpl<$Res>;
+  factory _$$LobbyRestrictionImplCopyWith(
+    _$LobbyRestrictionImpl value,
+    $Res Function(_$LobbyRestrictionImpl) then,
+  ) = __$$LobbyRestrictionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String genderRestriction,
-      AgeRange ageRange,
-      int? maxMales,
-      int? maxFemales,
-      int? maxOthers});
+  $Res call({
+    String genderRestriction,
+    AgeRange ageRange,
+    int? maxMales,
+    int? maxFemales,
+    int? maxOthers,
+  });
 
   @override
   $AgeRangeCopyWith<$Res> get ageRange;
@@ -2422,10 +2589,13 @@ abstract class _$$LobbyRestrictionImplCopyWith<$Res>
 class __$$LobbyRestrictionImplCopyWithImpl<$Res>
     extends _$LobbyRestrictionCopyWithImpl<$Res, _$LobbyRestrictionImpl>
     implements _$$LobbyRestrictionImplCopyWith<$Res> {
-  __$$LobbyRestrictionImplCopyWithImpl(_$LobbyRestrictionImpl _value,
-      $Res Function(_$LobbyRestrictionImpl) _then)
-      : super(_value, _then);
+  __$$LobbyRestrictionImplCopyWithImpl(
+    _$LobbyRestrictionImpl _value,
+    $Res Function(_$LobbyRestrictionImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of LobbyRestriction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2435,28 +2605,30 @@ class __$$LobbyRestrictionImplCopyWithImpl<$Res>
     Object? maxFemales = freezed,
     Object? maxOthers = freezed,
   }) {
-    return _then(_$LobbyRestrictionImpl(
-      genderRestriction: null == genderRestriction
-          ? _value.genderRestriction
-          : genderRestriction // ignore: cast_nullable_to_non_nullable
-              as String,
-      ageRange: null == ageRange
-          ? _value.ageRange
-          : ageRange // ignore: cast_nullable_to_non_nullable
-              as AgeRange,
-      maxMales: freezed == maxMales
-          ? _value.maxMales
-          : maxMales // ignore: cast_nullable_to_non_nullable
-              as int?,
-      maxFemales: freezed == maxFemales
-          ? _value.maxFemales
-          : maxFemales // ignore: cast_nullable_to_non_nullable
-              as int?,
-      maxOthers: freezed == maxOthers
-          ? _value.maxOthers
-          : maxOthers // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
+    return _then(
+      _$LobbyRestrictionImpl(
+        genderRestriction: null == genderRestriction
+            ? _value.genderRestriction
+            : genderRestriction // ignore: cast_nullable_to_non_nullable
+                  as String,
+        ageRange: null == ageRange
+            ? _value.ageRange
+            : ageRange // ignore: cast_nullable_to_non_nullable
+                  as AgeRange,
+        maxMales: freezed == maxMales
+            ? _value.maxMales
+            : maxMales // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        maxFemales: freezed == maxFemales
+            ? _value.maxFemales
+            : maxFemales // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        maxOthers: freezed == maxOthers
+            ? _value.maxOthers
+            : maxOthers // ignore: cast_nullable_to_non_nullable
+                  as int?,
+      ),
+    );
   }
 }
 
@@ -2464,12 +2636,13 @@ class __$$LobbyRestrictionImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$LobbyRestrictionImpl implements _LobbyRestriction {
-  const _$LobbyRestrictionImpl(
-      {this.genderRestriction = "",
-      this.ageRange = const AgeRange(),
-      this.maxMales,
-      this.maxFemales,
-      this.maxOthers});
+  const _$LobbyRestrictionImpl({
+    this.genderRestriction = "",
+    this.ageRange = const AgeRange(),
+    this.maxMales,
+    this.maxFemales,
+    this.maxOthers,
+  });
 
   factory _$LobbyRestrictionImpl.fromJson(Map<String, dynamic> json) =>
       _$$LobbyRestrictionImplFromJson(json);
@@ -2493,7 +2666,7 @@ class _$LobbyRestrictionImpl implements _LobbyRestriction {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LobbyRestrictionImpl &&
@@ -2509,33 +2682,42 @@ class _$LobbyRestrictionImpl implements _LobbyRestriction {
                 other.maxOthers == maxOthers));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, genderRestriction, ageRange,
-      maxMales, maxFemales, maxOthers);
+  int get hashCode => Object.hash(
+    runtimeType,
+    genderRestriction,
+    ageRange,
+    maxMales,
+    maxFemales,
+    maxOthers,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LobbyRestriction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LobbyRestrictionImplCopyWith<_$LobbyRestrictionImpl> get copyWith =>
       __$$LobbyRestrictionImplCopyWithImpl<_$LobbyRestrictionImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LobbyRestrictionImplToJson(
-      this,
-    );
+    return _$$LobbyRestrictionImplToJson(this);
   }
 }
 
 abstract class _LobbyRestriction implements LobbyRestriction {
-  const factory _LobbyRestriction(
-      {final String genderRestriction,
-      final AgeRange ageRange,
-      final int? maxMales,
-      final int? maxFemales,
-      final int? maxOthers}) = _$LobbyRestrictionImpl;
+  const factory _LobbyRestriction({
+    final String genderRestriction,
+    final AgeRange ageRange,
+    final int? maxMales,
+    final int? maxFemales,
+    final int? maxOthers,
+  }) = _$LobbyRestrictionImpl;
 
   factory _LobbyRestriction.fromJson(Map<String, dynamic> json) =
       _$LobbyRestrictionImpl.fromJson;
@@ -2550,8 +2732,11 @@ abstract class _LobbyRestriction implements LobbyRestriction {
   int? get maxFemales;
   @override
   int? get maxOthers;
+
+  /// Create a copy of LobbyRestriction
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LobbyRestrictionImplCopyWith<_$LobbyRestrictionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2565,8 +2750,12 @@ mixin _$AgeRange {
   int get minAge => throw _privateConstructorUsedError;
   int get maxAge => throw _privateConstructorUsedError;
 
+  /// Serializes this AgeRange to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AgeRange
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AgeRangeCopyWith<AgeRange> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2589,22 +2778,24 @@ class _$AgeRangeCopyWithImpl<$Res, $Val extends AgeRange>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AgeRange
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? minAge = null,
-    Object? maxAge = null,
-  }) {
-    return _then(_value.copyWith(
-      minAge: null == minAge
-          ? _value.minAge
-          : minAge // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxAge: null == maxAge
-          ? _value.maxAge
-          : maxAge // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? minAge = null, Object? maxAge = null}) {
+    return _then(
+      _value.copyWith(
+            minAge: null == minAge
+                ? _value.minAge
+                : minAge // ignore: cast_nullable_to_non_nullable
+                      as int,
+            maxAge: null == maxAge
+                ? _value.maxAge
+                : maxAge // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -2612,8 +2803,9 @@ class _$AgeRangeCopyWithImpl<$Res, $Val extends AgeRange>
 abstract class _$$AgeRangeImplCopyWith<$Res>
     implements $AgeRangeCopyWith<$Res> {
   factory _$$AgeRangeImplCopyWith(
-          _$AgeRangeImpl value, $Res Function(_$AgeRangeImpl) then) =
-      __$$AgeRangeImplCopyWithImpl<$Res>;
+    _$AgeRangeImpl value,
+    $Res Function(_$AgeRangeImpl) then,
+  ) = __$$AgeRangeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int minAge, int maxAge});
@@ -2624,25 +2816,27 @@ class __$$AgeRangeImplCopyWithImpl<$Res>
     extends _$AgeRangeCopyWithImpl<$Res, _$AgeRangeImpl>
     implements _$$AgeRangeImplCopyWith<$Res> {
   __$$AgeRangeImplCopyWithImpl(
-      _$AgeRangeImpl _value, $Res Function(_$AgeRangeImpl) _then)
-      : super(_value, _then);
+    _$AgeRangeImpl _value,
+    $Res Function(_$AgeRangeImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of AgeRange
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? minAge = null,
-    Object? maxAge = null,
-  }) {
-    return _then(_$AgeRangeImpl(
-      minAge: null == minAge
-          ? _value.minAge
-          : minAge // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxAge: null == maxAge
-          ? _value.maxAge
-          : maxAge // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? minAge = null, Object? maxAge = null}) {
+    return _then(
+      _$AgeRangeImpl(
+        minAge: null == minAge
+            ? _value.minAge
+            : minAge // ignore: cast_nullable_to_non_nullable
+                  as int,
+        maxAge: null == maxAge
+            ? _value.maxAge
+            : maxAge // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
 
@@ -2668,7 +2862,7 @@ class _$AgeRangeImpl implements _AgeRange {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AgeRangeImpl &&
@@ -2676,11 +2870,13 @@ class _$AgeRangeImpl implements _AgeRange {
             (identical(other.maxAge, maxAge) || other.maxAge == maxAge));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, minAge, maxAge);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AgeRange
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AgeRangeImplCopyWith<_$AgeRangeImpl> get copyWith =>
@@ -2688,9 +2884,7 @@ class _$AgeRangeImpl implements _AgeRange {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AgeRangeImplToJson(
-      this,
-    );
+    return _$$AgeRangeImplToJson(this);
   }
 }
 
@@ -2705,8 +2899,11 @@ abstract class _AgeRange implements AgeRange {
   int get minAge;
   @override
   int get maxAge;
+
+  /// Create a copy of AgeRange
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AgeRangeImplCopyWith<_$AgeRangeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2722,8 +2919,12 @@ mixin _$PriceDetails {
   String get currency => throw _privateConstructorUsedError;
   bool get isRefundAllowed => throw _privateConstructorUsedError;
 
+  /// Serializes this PriceDetails to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PriceDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PriceDetailsCopyWith<PriceDetails> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2731,14 +2932,16 @@ mixin _$PriceDetails {
 /// @nodoc
 abstract class $PriceDetailsCopyWith<$Res> {
   factory $PriceDetailsCopyWith(
-          PriceDetails value, $Res Function(PriceDetails) then) =
-      _$PriceDetailsCopyWithImpl<$Res, PriceDetails>;
+    PriceDetails value,
+    $Res Function(PriceDetails) then,
+  ) = _$PriceDetailsCopyWithImpl<$Res, PriceDetails>;
   @useResult
-  $Res call(
-      {double price,
-      double originalPrice,
-      String currency,
-      bool isRefundAllowed});
+  $Res call({
+    double price,
+    double originalPrice,
+    String currency,
+    bool isRefundAllowed,
+  });
 }
 
 /// @nodoc
@@ -2751,6 +2954,8 @@ class _$PriceDetailsCopyWithImpl<$Res, $Val extends PriceDetails>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PriceDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2759,24 +2964,27 @@ class _$PriceDetailsCopyWithImpl<$Res, $Val extends PriceDetails>
     Object? currency = null,
     Object? isRefundAllowed = null,
   }) {
-    return _then(_value.copyWith(
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      originalPrice: null == originalPrice
-          ? _value.originalPrice
-          : originalPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      currency: null == currency
-          ? _value.currency
-          : currency // ignore: cast_nullable_to_non_nullable
-              as String,
-      isRefundAllowed: null == isRefundAllowed
-          ? _value.isRefundAllowed
-          : isRefundAllowed // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            price: null == price
+                ? _value.price
+                : price // ignore: cast_nullable_to_non_nullable
+                      as double,
+            originalPrice: null == originalPrice
+                ? _value.originalPrice
+                : originalPrice // ignore: cast_nullable_to_non_nullable
+                      as double,
+            currency: null == currency
+                ? _value.currency
+                : currency // ignore: cast_nullable_to_non_nullable
+                      as String,
+            isRefundAllowed: null == isRefundAllowed
+                ? _value.isRefundAllowed
+                : isRefundAllowed // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -2784,15 +2992,17 @@ class _$PriceDetailsCopyWithImpl<$Res, $Val extends PriceDetails>
 abstract class _$$PriceDetailsImplCopyWith<$Res>
     implements $PriceDetailsCopyWith<$Res> {
   factory _$$PriceDetailsImplCopyWith(
-          _$PriceDetailsImpl value, $Res Function(_$PriceDetailsImpl) then) =
-      __$$PriceDetailsImplCopyWithImpl<$Res>;
+    _$PriceDetailsImpl value,
+    $Res Function(_$PriceDetailsImpl) then,
+  ) = __$$PriceDetailsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {double price,
-      double originalPrice,
-      String currency,
-      bool isRefundAllowed});
+  $Res call({
+    double price,
+    double originalPrice,
+    String currency,
+    bool isRefundAllowed,
+  });
 }
 
 /// @nodoc
@@ -2800,9 +3010,12 @@ class __$$PriceDetailsImplCopyWithImpl<$Res>
     extends _$PriceDetailsCopyWithImpl<$Res, _$PriceDetailsImpl>
     implements _$$PriceDetailsImplCopyWith<$Res> {
   __$$PriceDetailsImplCopyWithImpl(
-      _$PriceDetailsImpl _value, $Res Function(_$PriceDetailsImpl) _then)
-      : super(_value, _then);
+    _$PriceDetailsImpl _value,
+    $Res Function(_$PriceDetailsImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of PriceDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2811,24 +3024,26 @@ class __$$PriceDetailsImplCopyWithImpl<$Res>
     Object? currency = null,
     Object? isRefundAllowed = null,
   }) {
-    return _then(_$PriceDetailsImpl(
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      originalPrice: null == originalPrice
-          ? _value.originalPrice
-          : originalPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      currency: null == currency
-          ? _value.currency
-          : currency // ignore: cast_nullable_to_non_nullable
-              as String,
-      isRefundAllowed: null == isRefundAllowed
-          ? _value.isRefundAllowed
-          : isRefundAllowed // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$PriceDetailsImpl(
+        price: null == price
+            ? _value.price
+            : price // ignore: cast_nullable_to_non_nullable
+                  as double,
+        originalPrice: null == originalPrice
+            ? _value.originalPrice
+            : originalPrice // ignore: cast_nullable_to_non_nullable
+                  as double,
+        currency: null == currency
+            ? _value.currency
+            : currency // ignore: cast_nullable_to_non_nullable
+                  as String,
+        isRefundAllowed: null == isRefundAllowed
+            ? _value.isRefundAllowed
+            : isRefundAllowed // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -2836,11 +3051,12 @@ class __$$PriceDetailsImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$PriceDetailsImpl implements _PriceDetails {
-  const _$PriceDetailsImpl(
-      {this.price = 0.0,
-      this.originalPrice = 0.0,
-      this.currency = "INR",
-      this.isRefundAllowed = false});
+  const _$PriceDetailsImpl({
+    this.price = 0.0,
+    this.originalPrice = 0.0,
+    this.currency = "INR",
+    this.isRefundAllowed = false,
+  });
 
   factory _$PriceDetailsImpl.fromJson(Map<String, dynamic> json) =>
       _$$PriceDetailsImplFromJson(json);
@@ -2864,7 +3080,7 @@ class _$PriceDetailsImpl implements _PriceDetails {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PriceDetailsImpl &&
@@ -2877,12 +3093,14 @@ class _$PriceDetailsImpl implements _PriceDetails {
                 other.isRefundAllowed == isRefundAllowed));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, price, originalPrice, currency, isRefundAllowed);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PriceDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PriceDetailsImplCopyWith<_$PriceDetailsImpl> get copyWith =>
@@ -2890,18 +3108,17 @@ class _$PriceDetailsImpl implements _PriceDetails {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PriceDetailsImplToJson(
-      this,
-    );
+    return _$$PriceDetailsImplToJson(this);
   }
 }
 
 abstract class _PriceDetails implements PriceDetails {
-  const factory _PriceDetails(
-      {final double price,
-      final double originalPrice,
-      final String currency,
-      final bool isRefundAllowed}) = _$PriceDetailsImpl;
+  const factory _PriceDetails({
+    final double price,
+    final double originalPrice,
+    final String currency,
+    final bool isRefundAllowed,
+  }) = _$PriceDetailsImpl;
 
   factory _PriceDetails.fromJson(Map<String, dynamic> json) =
       _$PriceDetailsImpl.fromJson;
@@ -2914,8 +3131,11 @@ abstract class _PriceDetails implements PriceDetails {
   String get currency;
   @override
   bool get isRefundAllowed;
+
+  /// Create a copy of PriceDetails
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PriceDetailsImplCopyWith<_$PriceDetailsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2934,10 +3154,17 @@ mixin _$LobbyTicketOption {
   int get bookedSlots => throw _privateConstructorUsedError;
   String get currency => throw _privateConstructorUsedError;
   int get minQuantity => throw _privateConstructorUsedError;
-  int get maxQuantity => throw _privateConstructorUsedError;
+  int get maxQuantity => throw _privateConstructorUsedError; // per person
+  String get activity =>
+      throw _privateConstructorUsedError; // HIGH, LOW, MID, FULL
+  bool get isDisabled => throw _privateConstructorUsedError;
 
+  /// Serializes this LobbyTicketOption to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LobbyTicketOption
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LobbyTicketOptionCopyWith<LobbyTicketOption> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2945,19 +3172,23 @@ mixin _$LobbyTicketOption {
 /// @nodoc
 abstract class $LobbyTicketOptionCopyWith<$Res> {
   factory $LobbyTicketOptionCopyWith(
-          LobbyTicketOption value, $Res Function(LobbyTicketOption) then) =
-      _$LobbyTicketOptionCopyWithImpl<$Res, LobbyTicketOption>;
+    LobbyTicketOption value,
+    $Res Function(LobbyTicketOption) then,
+  ) = _$LobbyTicketOptionCopyWithImpl<$Res, LobbyTicketOption>;
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      String description,
-      double price,
-      int totalSlots,
-      int bookedSlots,
-      String currency,
-      int minQuantity,
-      int maxQuantity});
+  $Res call({
+    String id,
+    String name,
+    String description,
+    double price,
+    int totalSlots,
+    int bookedSlots,
+    String currency,
+    int minQuantity,
+    int maxQuantity,
+    String activity,
+    bool isDisabled,
+  });
 }
 
 /// @nodoc
@@ -2970,6 +3201,8 @@ class _$LobbyTicketOptionCopyWithImpl<$Res, $Val extends LobbyTicketOption>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LobbyTicketOption
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2982,76 +3215,96 @@ class _$LobbyTicketOptionCopyWithImpl<$Res, $Val extends LobbyTicketOption>
     Object? currency = null,
     Object? minQuantity = null,
     Object? maxQuantity = null,
+    Object? activity = null,
+    Object? isDisabled = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      totalSlots: null == totalSlots
-          ? _value.totalSlots
-          : totalSlots // ignore: cast_nullable_to_non_nullable
-              as int,
-      bookedSlots: null == bookedSlots
-          ? _value.bookedSlots
-          : bookedSlots // ignore: cast_nullable_to_non_nullable
-              as int,
-      currency: null == currency
-          ? _value.currency
-          : currency // ignore: cast_nullable_to_non_nullable
-              as String,
-      minQuantity: null == minQuantity
-          ? _value.minQuantity
-          : minQuantity // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxQuantity: null == maxQuantity
-          ? _value.maxQuantity
-          : maxQuantity // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            price: null == price
+                ? _value.price
+                : price // ignore: cast_nullable_to_non_nullable
+                      as double,
+            totalSlots: null == totalSlots
+                ? _value.totalSlots
+                : totalSlots // ignore: cast_nullable_to_non_nullable
+                      as int,
+            bookedSlots: null == bookedSlots
+                ? _value.bookedSlots
+                : bookedSlots // ignore: cast_nullable_to_non_nullable
+                      as int,
+            currency: null == currency
+                ? _value.currency
+                : currency // ignore: cast_nullable_to_non_nullable
+                      as String,
+            minQuantity: null == minQuantity
+                ? _value.minQuantity
+                : minQuantity // ignore: cast_nullable_to_non_nullable
+                      as int,
+            maxQuantity: null == maxQuantity
+                ? _value.maxQuantity
+                : maxQuantity // ignore: cast_nullable_to_non_nullable
+                      as int,
+            activity: null == activity
+                ? _value.activity
+                : activity // ignore: cast_nullable_to_non_nullable
+                      as String,
+            isDisabled: null == isDisabled
+                ? _value.isDisabled
+                : isDisabled // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$LobbyTicketOptionImplCopyWith<$Res>
     implements $LobbyTicketOptionCopyWith<$Res> {
-  factory _$$LobbyTicketOptionImplCopyWith(_$LobbyTicketOptionImpl value,
-          $Res Function(_$LobbyTicketOptionImpl) then) =
-      __$$LobbyTicketOptionImplCopyWithImpl<$Res>;
+  factory _$$LobbyTicketOptionImplCopyWith(
+    _$LobbyTicketOptionImpl value,
+    $Res Function(_$LobbyTicketOptionImpl) then,
+  ) = __$$LobbyTicketOptionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      String description,
-      double price,
-      int totalSlots,
-      int bookedSlots,
-      String currency,
-      int minQuantity,
-      int maxQuantity});
+  $Res call({
+    String id,
+    String name,
+    String description,
+    double price,
+    int totalSlots,
+    int bookedSlots,
+    String currency,
+    int minQuantity,
+    int maxQuantity,
+    String activity,
+    bool isDisabled,
+  });
 }
 
 /// @nodoc
 class __$$LobbyTicketOptionImplCopyWithImpl<$Res>
     extends _$LobbyTicketOptionCopyWithImpl<$Res, _$LobbyTicketOptionImpl>
     implements _$$LobbyTicketOptionImplCopyWith<$Res> {
-  __$$LobbyTicketOptionImplCopyWithImpl(_$LobbyTicketOptionImpl _value,
-      $Res Function(_$LobbyTicketOptionImpl) _then)
-      : super(_value, _then);
+  __$$LobbyTicketOptionImplCopyWithImpl(
+    _$LobbyTicketOptionImpl _value,
+    $Res Function(_$LobbyTicketOptionImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of LobbyTicketOption
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3064,45 +3317,57 @@ class __$$LobbyTicketOptionImplCopyWithImpl<$Res>
     Object? currency = null,
     Object? minQuantity = null,
     Object? maxQuantity = null,
+    Object? activity = null,
+    Object? isDisabled = null,
   }) {
-    return _then(_$LobbyTicketOptionImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      totalSlots: null == totalSlots
-          ? _value.totalSlots
-          : totalSlots // ignore: cast_nullable_to_non_nullable
-              as int,
-      bookedSlots: null == bookedSlots
-          ? _value.bookedSlots
-          : bookedSlots // ignore: cast_nullable_to_non_nullable
-              as int,
-      currency: null == currency
-          ? _value.currency
-          : currency // ignore: cast_nullable_to_non_nullable
-              as String,
-      minQuantity: null == minQuantity
-          ? _value.minQuantity
-          : minQuantity // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxQuantity: null == maxQuantity
-          ? _value.maxQuantity
-          : maxQuantity // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      _$LobbyTicketOptionImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        price: null == price
+            ? _value.price
+            : price // ignore: cast_nullable_to_non_nullable
+                  as double,
+        totalSlots: null == totalSlots
+            ? _value.totalSlots
+            : totalSlots // ignore: cast_nullable_to_non_nullable
+                  as int,
+        bookedSlots: null == bookedSlots
+            ? _value.bookedSlots
+            : bookedSlots // ignore: cast_nullable_to_non_nullable
+                  as int,
+        currency: null == currency
+            ? _value.currency
+            : currency // ignore: cast_nullable_to_non_nullable
+                  as String,
+        minQuantity: null == minQuantity
+            ? _value.minQuantity
+            : minQuantity // ignore: cast_nullable_to_non_nullable
+                  as int,
+        maxQuantity: null == maxQuantity
+            ? _value.maxQuantity
+            : maxQuantity // ignore: cast_nullable_to_non_nullable
+                  as int,
+        activity: null == activity
+            ? _value.activity
+            : activity // ignore: cast_nullable_to_non_nullable
+                  as String,
+        isDisabled: null == isDisabled
+            ? _value.isDisabled
+            : isDisabled // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -3110,16 +3375,19 @@ class __$$LobbyTicketOptionImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$LobbyTicketOptionImpl implements _LobbyTicketOption {
-  const _$LobbyTicketOptionImpl(
-      {this.id = "",
-      this.name = "",
-      this.description = "",
-      this.price = 0.0,
-      this.totalSlots = 0,
-      this.bookedSlots = 0,
-      this.currency = "INR",
-      this.minQuantity = 1,
-      this.maxQuantity = 1});
+  const _$LobbyTicketOptionImpl({
+    this.id = "",
+    this.name = "",
+    this.description = "",
+    this.price = 0.0,
+    this.totalSlots = 0,
+    this.bookedSlots = 0,
+    this.currency = "INR",
+    this.minQuantity = 1,
+    this.maxQuantity = 1,
+    this.activity = "",
+    this.isDisabled = false,
+  });
 
   factory _$LobbyTicketOptionImpl.fromJson(Map<String, dynamic> json) =>
       _$$LobbyTicketOptionImplFromJson(json);
@@ -3151,14 +3419,22 @@ class _$LobbyTicketOptionImpl implements _LobbyTicketOption {
   @override
   @JsonKey()
   final int maxQuantity;
+  // per person
+  @override
+  @JsonKey()
+  final String activity;
+  // HIGH, LOW, MID, FULL
+  @override
+  @JsonKey()
+  final bool isDisabled;
 
   @override
   String toString() {
-    return 'LobbyTicketOption(id: $id, name: $name, description: $description, price: $price, totalSlots: $totalSlots, bookedSlots: $bookedSlots, currency: $currency, minQuantity: $minQuantity, maxQuantity: $maxQuantity)';
+    return 'LobbyTicketOption(id: $id, name: $name, description: $description, price: $price, totalSlots: $totalSlots, bookedSlots: $bookedSlots, currency: $currency, minQuantity: $minQuantity, maxQuantity: $maxQuantity, activity: $activity, isDisabled: $isDisabled)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LobbyTicketOptionImpl &&
@@ -3176,40 +3452,61 @@ class _$LobbyTicketOptionImpl implements _LobbyTicketOption {
             (identical(other.minQuantity, minQuantity) ||
                 other.minQuantity == minQuantity) &&
             (identical(other.maxQuantity, maxQuantity) ||
-                other.maxQuantity == maxQuantity));
+                other.maxQuantity == maxQuantity) &&
+            (identical(other.activity, activity) ||
+                other.activity == activity) &&
+            (identical(other.isDisabled, isDisabled) ||
+                other.isDisabled == isDisabled));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, description, price,
-      totalSlots, bookedSlots, currency, minQuantity, maxQuantity);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    name,
+    description,
+    price,
+    totalSlots,
+    bookedSlots,
+    currency,
+    minQuantity,
+    maxQuantity,
+    activity,
+    isDisabled,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LobbyTicketOption
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LobbyTicketOptionImplCopyWith<_$LobbyTicketOptionImpl> get copyWith =>
       __$$LobbyTicketOptionImplCopyWithImpl<_$LobbyTicketOptionImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LobbyTicketOptionImplToJson(
-      this,
-    );
+    return _$$LobbyTicketOptionImplToJson(this);
   }
 }
 
 abstract class _LobbyTicketOption implements LobbyTicketOption {
-  const factory _LobbyTicketOption(
-      {final String id,
-      final String name,
-      final String description,
-      final double price,
-      final int totalSlots,
-      final int bookedSlots,
-      final String currency,
-      final int minQuantity,
-      final int maxQuantity}) = _$LobbyTicketOptionImpl;
+  const factory _LobbyTicketOption({
+    final String id,
+    final String name,
+    final String description,
+    final double price,
+    final int totalSlots,
+    final int bookedSlots,
+    final String currency,
+    final int minQuantity,
+    final int maxQuantity,
+    final String activity,
+    final bool isDisabled,
+  }) = _$LobbyTicketOptionImpl;
 
   factory _LobbyTicketOption.fromJson(Map<String, dynamic> json) =
       _$LobbyTicketOptionImpl.fromJson;
@@ -3231,9 +3528,16 @@ abstract class _LobbyTicketOption implements LobbyTicketOption {
   @override
   int get minQuantity;
   @override
-  int get maxQuantity;
+  int get maxQuantity; // per person
   @override
-  @JsonKey(ignore: true)
+  String get activity; // HIGH, LOW, MID, FULL
+  @override
+  bool get isDisabled;
+
+  /// Create a copy of LobbyTicketOption
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LobbyTicketOptionImplCopyWith<_$LobbyTicketOptionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3250,8 +3554,12 @@ mixin _$AccessRequestData {
   double get price => throw _privateConstructorUsedError;
   bool get isAdmin => throw _privateConstructorUsedError;
 
+  /// Serializes this AccessRequestData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AccessRequestData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AccessRequestDataCopyWith<AccessRequestData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3259,15 +3567,17 @@ mixin _$AccessRequestData {
 /// @nodoc
 abstract class $AccessRequestDataCopyWith<$Res> {
   factory $AccessRequestDataCopyWith(
-          AccessRequestData value, $Res Function(AccessRequestData) then) =
-      _$AccessRequestDataCopyWithImpl<$Res, AccessRequestData>;
+    AccessRequestData value,
+    $Res Function(AccessRequestData) then,
+  ) = _$AccessRequestDataCopyWithImpl<$Res, AccessRequestData>;
   @useResult
-  $Res call(
-      {String accessId,
-      bool isGroupAccess,
-      int count,
-      double price,
-      bool isAdmin});
+  $Res call({
+    String accessId,
+    bool isGroupAccess,
+    int count,
+    double price,
+    bool isAdmin,
+  });
 }
 
 /// @nodoc
@@ -3280,6 +3590,8 @@ class _$AccessRequestDataCopyWithImpl<$Res, $Val extends AccessRequestData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AccessRequestData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3289,55 +3601,63 @@ class _$AccessRequestDataCopyWithImpl<$Res, $Val extends AccessRequestData>
     Object? price = null,
     Object? isAdmin = null,
   }) {
-    return _then(_value.copyWith(
-      accessId: null == accessId
-          ? _value.accessId
-          : accessId // ignore: cast_nullable_to_non_nullable
-              as String,
-      isGroupAccess: null == isGroupAccess
-          ? _value.isGroupAccess
-          : isGroupAccess // ignore: cast_nullable_to_non_nullable
-              as bool,
-      count: null == count
-          ? _value.count
-          : count // ignore: cast_nullable_to_non_nullable
-              as int,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      isAdmin: null == isAdmin
-          ? _value.isAdmin
-          : isAdmin // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            accessId: null == accessId
+                ? _value.accessId
+                : accessId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            isGroupAccess: null == isGroupAccess
+                ? _value.isGroupAccess
+                : isGroupAccess // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            count: null == count
+                ? _value.count
+                : count // ignore: cast_nullable_to_non_nullable
+                      as int,
+            price: null == price
+                ? _value.price
+                : price // ignore: cast_nullable_to_non_nullable
+                      as double,
+            isAdmin: null == isAdmin
+                ? _value.isAdmin
+                : isAdmin // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$AccessRequestDataImplCopyWith<$Res>
     implements $AccessRequestDataCopyWith<$Res> {
-  factory _$$AccessRequestDataImplCopyWith(_$AccessRequestDataImpl value,
-          $Res Function(_$AccessRequestDataImpl) then) =
-      __$$AccessRequestDataImplCopyWithImpl<$Res>;
+  factory _$$AccessRequestDataImplCopyWith(
+    _$AccessRequestDataImpl value,
+    $Res Function(_$AccessRequestDataImpl) then,
+  ) = __$$AccessRequestDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String accessId,
-      bool isGroupAccess,
-      int count,
-      double price,
-      bool isAdmin});
+  $Res call({
+    String accessId,
+    bool isGroupAccess,
+    int count,
+    double price,
+    bool isAdmin,
+  });
 }
 
 /// @nodoc
 class __$$AccessRequestDataImplCopyWithImpl<$Res>
     extends _$AccessRequestDataCopyWithImpl<$Res, _$AccessRequestDataImpl>
     implements _$$AccessRequestDataImplCopyWith<$Res> {
-  __$$AccessRequestDataImplCopyWithImpl(_$AccessRequestDataImpl _value,
-      $Res Function(_$AccessRequestDataImpl) _then)
-      : super(_value, _then);
+  __$$AccessRequestDataImplCopyWithImpl(
+    _$AccessRequestDataImpl _value,
+    $Res Function(_$AccessRequestDataImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of AccessRequestData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3347,28 +3667,30 @@ class __$$AccessRequestDataImplCopyWithImpl<$Res>
     Object? price = null,
     Object? isAdmin = null,
   }) {
-    return _then(_$AccessRequestDataImpl(
-      accessId: null == accessId
-          ? _value.accessId
-          : accessId // ignore: cast_nullable_to_non_nullable
-              as String,
-      isGroupAccess: null == isGroupAccess
-          ? _value.isGroupAccess
-          : isGroupAccess // ignore: cast_nullable_to_non_nullable
-              as bool,
-      count: null == count
-          ? _value.count
-          : count // ignore: cast_nullable_to_non_nullable
-              as int,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      isAdmin: null == isAdmin
-          ? _value.isAdmin
-          : isAdmin // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$AccessRequestDataImpl(
+        accessId: null == accessId
+            ? _value.accessId
+            : accessId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        isGroupAccess: null == isGroupAccess
+            ? _value.isGroupAccess
+            : isGroupAccess // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        count: null == count
+            ? _value.count
+            : count // ignore: cast_nullable_to_non_nullable
+                  as int,
+        price: null == price
+            ? _value.price
+            : price // ignore: cast_nullable_to_non_nullable
+                  as double,
+        isAdmin: null == isAdmin
+            ? _value.isAdmin
+            : isAdmin // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -3376,12 +3698,13 @@ class __$$AccessRequestDataImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$AccessRequestDataImpl implements _AccessRequestData {
-  const _$AccessRequestDataImpl(
-      {this.accessId = "",
-      this.isGroupAccess = false,
-      this.count = 0,
-      this.price = 0.0,
-      this.isAdmin = false});
+  const _$AccessRequestDataImpl({
+    this.accessId = "",
+    this.isGroupAccess = false,
+    this.count = 0,
+    this.price = 0.0,
+    this.isAdmin = false,
+  });
 
   factory _$AccessRequestDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$AccessRequestDataImplFromJson(json);
@@ -3408,7 +3731,7 @@ class _$AccessRequestDataImpl implements _AccessRequestData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AccessRequestDataImpl &&
@@ -3421,33 +3744,36 @@ class _$AccessRequestDataImpl implements _AccessRequestData {
             (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, accessId, isGroupAccess, count, price, isAdmin);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AccessRequestData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AccessRequestDataImplCopyWith<_$AccessRequestDataImpl> get copyWith =>
       __$$AccessRequestDataImplCopyWithImpl<_$AccessRequestDataImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AccessRequestDataImplToJson(
-      this,
-    );
+    return _$$AccessRequestDataImplToJson(this);
   }
 }
 
 abstract class _AccessRequestData implements AccessRequestData {
-  const factory _AccessRequestData(
-      {final String accessId,
-      final bool isGroupAccess,
-      final int count,
-      final double price,
-      final bool isAdmin}) = _$AccessRequestDataImpl;
+  const factory _AccessRequestData({
+    final String accessId,
+    final bool isGroupAccess,
+    final int count,
+    final double price,
+    final bool isAdmin,
+  }) = _$AccessRequestDataImpl;
 
   factory _AccessRequestData.fromJson(Map<String, dynamic> json) =
       _$AccessRequestDataImpl.fromJson;
@@ -3462,8 +3788,11 @@ abstract class _AccessRequestData implements AccessRequestData {
   double get price;
   @override
   bool get isAdmin;
+
+  /// Create a copy of AccessRequestData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AccessRequestDataImplCopyWith<_$AccessRequestDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3480,9 +3809,15 @@ mixin _$HouseInfo {
   String get profilePhoto => throw _privateConstructorUsedError;
   bool get panVerified => throw _privateConstructorUsedError;
   bool get accountVerified => throw _privateConstructorUsedError;
+  bool get gstVerified => throw _privateConstructorUsedError;
+  bool get loginNotRequired => throw _privateConstructorUsedError;
 
+  /// Serializes this HouseInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HouseInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HouseInfoCopyWith<HouseInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3492,13 +3827,16 @@ abstract class $HouseInfoCopyWith<$Res> {
   factory $HouseInfoCopyWith(HouseInfo value, $Res Function(HouseInfo) then) =
       _$HouseInfoCopyWithImpl<$Res, HouseInfo>;
   @useResult
-  $Res call(
-      {String houseId,
-      String name,
-      String description,
-      String profilePhoto,
-      bool panVerified,
-      bool accountVerified});
+  $Res call({
+    String houseId,
+    String name,
+    String description,
+    String profilePhoto,
+    bool panVerified,
+    bool accountVerified,
+    bool gstVerified,
+    bool loginNotRequired,
+  });
 }
 
 /// @nodoc
@@ -3511,6 +3849,8 @@ class _$HouseInfoCopyWithImpl<$Res, $Val extends HouseInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HouseInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3520,33 +3860,46 @@ class _$HouseInfoCopyWithImpl<$Res, $Val extends HouseInfo>
     Object? profilePhoto = null,
     Object? panVerified = null,
     Object? accountVerified = null,
+    Object? gstVerified = null,
+    Object? loginNotRequired = null,
   }) {
-    return _then(_value.copyWith(
-      houseId: null == houseId
-          ? _value.houseId
-          : houseId // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      profilePhoto: null == profilePhoto
-          ? _value.profilePhoto
-          : profilePhoto // ignore: cast_nullable_to_non_nullable
-              as String,
-      panVerified: null == panVerified
-          ? _value.panVerified
-          : panVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
-      accountVerified: null == accountVerified
-          ? _value.accountVerified
-          : accountVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            houseId: null == houseId
+                ? _value.houseId
+                : houseId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            profilePhoto: null == profilePhoto
+                ? _value.profilePhoto
+                : profilePhoto // ignore: cast_nullable_to_non_nullable
+                      as String,
+            panVerified: null == panVerified
+                ? _value.panVerified
+                : panVerified // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            accountVerified: null == accountVerified
+                ? _value.accountVerified
+                : accountVerified // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            gstVerified: null == gstVerified
+                ? _value.gstVerified
+                : gstVerified // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            loginNotRequired: null == loginNotRequired
+                ? _value.loginNotRequired
+                : loginNotRequired // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -3554,17 +3907,21 @@ class _$HouseInfoCopyWithImpl<$Res, $Val extends HouseInfo>
 abstract class _$$HouseInfoImplCopyWith<$Res>
     implements $HouseInfoCopyWith<$Res> {
   factory _$$HouseInfoImplCopyWith(
-          _$HouseInfoImpl value, $Res Function(_$HouseInfoImpl) then) =
-      __$$HouseInfoImplCopyWithImpl<$Res>;
+    _$HouseInfoImpl value,
+    $Res Function(_$HouseInfoImpl) then,
+  ) = __$$HouseInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String houseId,
-      String name,
-      String description,
-      String profilePhoto,
-      bool panVerified,
-      bool accountVerified});
+  $Res call({
+    String houseId,
+    String name,
+    String description,
+    String profilePhoto,
+    bool panVerified,
+    bool accountVerified,
+    bool gstVerified,
+    bool loginNotRequired,
+  });
 }
 
 /// @nodoc
@@ -3572,9 +3929,12 @@ class __$$HouseInfoImplCopyWithImpl<$Res>
     extends _$HouseInfoCopyWithImpl<$Res, _$HouseInfoImpl>
     implements _$$HouseInfoImplCopyWith<$Res> {
   __$$HouseInfoImplCopyWithImpl(
-      _$HouseInfoImpl _value, $Res Function(_$HouseInfoImpl) _then)
-      : super(_value, _then);
+    _$HouseInfoImpl _value,
+    $Res Function(_$HouseInfoImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of HouseInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3584,33 +3944,45 @@ class __$$HouseInfoImplCopyWithImpl<$Res>
     Object? profilePhoto = null,
     Object? panVerified = null,
     Object? accountVerified = null,
+    Object? gstVerified = null,
+    Object? loginNotRequired = null,
   }) {
-    return _then(_$HouseInfoImpl(
-      houseId: null == houseId
-          ? _value.houseId
-          : houseId // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      profilePhoto: null == profilePhoto
-          ? _value.profilePhoto
-          : profilePhoto // ignore: cast_nullable_to_non_nullable
-              as String,
-      panVerified: null == panVerified
-          ? _value.panVerified
-          : panVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
-      accountVerified: null == accountVerified
-          ? _value.accountVerified
-          : accountVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$HouseInfoImpl(
+        houseId: null == houseId
+            ? _value.houseId
+            : houseId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        profilePhoto: null == profilePhoto
+            ? _value.profilePhoto
+            : profilePhoto // ignore: cast_nullable_to_non_nullable
+                  as String,
+        panVerified: null == panVerified
+            ? _value.panVerified
+            : panVerified // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        accountVerified: null == accountVerified
+            ? _value.accountVerified
+            : accountVerified // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        gstVerified: null == gstVerified
+            ? _value.gstVerified
+            : gstVerified // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        loginNotRequired: null == loginNotRequired
+            ? _value.loginNotRequired
+            : loginNotRequired // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -3618,13 +3990,16 @@ class __$$HouseInfoImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$HouseInfoImpl implements _HouseInfo {
-  const _$HouseInfoImpl(
-      {this.houseId = "",
-      this.name = "",
-      this.description = "",
-      this.profilePhoto = "",
-      this.panVerified = false,
-      this.accountVerified = false});
+  const _$HouseInfoImpl({
+    this.houseId = "",
+    this.name = "",
+    this.description = "",
+    this.profilePhoto = "",
+    this.panVerified = false,
+    this.accountVerified = false,
+    this.gstVerified = false,
+    this.loginNotRequired = false,
+  });
 
   factory _$HouseInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$HouseInfoImplFromJson(json);
@@ -3647,14 +4022,20 @@ class _$HouseInfoImpl implements _HouseInfo {
   @override
   @JsonKey()
   final bool accountVerified;
+  @override
+  @JsonKey()
+  final bool gstVerified;
+  @override
+  @JsonKey()
+  final bool loginNotRequired;
 
   @override
   String toString() {
-    return 'HouseInfo(houseId: $houseId, name: $name, description: $description, profilePhoto: $profilePhoto, panVerified: $panVerified, accountVerified: $accountVerified)';
+    return 'HouseInfo(houseId: $houseId, name: $name, description: $description, profilePhoto: $profilePhoto, panVerified: $panVerified, accountVerified: $accountVerified, gstVerified: $gstVerified, loginNotRequired: $loginNotRequired)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HouseInfoImpl &&
@@ -3667,15 +4048,30 @@ class _$HouseInfoImpl implements _HouseInfo {
             (identical(other.panVerified, panVerified) ||
                 other.panVerified == panVerified) &&
             (identical(other.accountVerified, accountVerified) ||
-                other.accountVerified == accountVerified));
+                other.accountVerified == accountVerified) &&
+            (identical(other.gstVerified, gstVerified) ||
+                other.gstVerified == gstVerified) &&
+            (identical(other.loginNotRequired, loginNotRequired) ||
+                other.loginNotRequired == loginNotRequired));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, houseId, name, description,
-      profilePhoto, panVerified, accountVerified);
+  int get hashCode => Object.hash(
+    runtimeType,
+    houseId,
+    name,
+    description,
+    profilePhoto,
+    panVerified,
+    accountVerified,
+    gstVerified,
+    loginNotRequired,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HouseInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HouseInfoImplCopyWith<_$HouseInfoImpl> get copyWith =>
@@ -3683,20 +4079,21 @@ class _$HouseInfoImpl implements _HouseInfo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$HouseInfoImplToJson(
-      this,
-    );
+    return _$$HouseInfoImplToJson(this);
   }
 }
 
 abstract class _HouseInfo implements HouseInfo {
-  const factory _HouseInfo(
-      {final String houseId,
-      final String name,
-      final String description,
-      final String profilePhoto,
-      final bool panVerified,
-      final bool accountVerified}) = _$HouseInfoImpl;
+  const factory _HouseInfo({
+    final String houseId,
+    final String name,
+    final String description,
+    final String profilePhoto,
+    final bool panVerified,
+    final bool accountVerified,
+    final bool gstVerified,
+    final bool loginNotRequired,
+  }) = _$HouseInfoImpl;
 
   factory _HouseInfo.fromJson(Map<String, dynamic> json) =
       _$HouseInfoImpl.fromJson;
@@ -3714,7 +4111,14 @@ abstract class _HouseInfo implements HouseInfo {
   @override
   bool get accountVerified;
   @override
-  @JsonKey(ignore: true)
+  bool get gstVerified;
+  @override
+  bool get loginNotRequired;
+
+  /// Create a copy of HouseInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HouseInfoImplCopyWith<_$HouseInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3736,8 +4140,12 @@ mixin _$AdminSummary {
   Location? get location => throw _privateConstructorUsedError;
   bool get active => throw _privateConstructorUsedError;
 
+  /// Serializes this AdminSummary to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AdminSummary
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AdminSummaryCopyWith<AdminSummary> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3745,20 +4153,22 @@ mixin _$AdminSummary {
 /// @nodoc
 abstract class $AdminSummaryCopyWith<$Res> {
   factory $AdminSummaryCopyWith(
-          AdminSummary value, $Res Function(AdminSummary) then) =
-      _$AdminSummaryCopyWithImpl<$Res, AdminSummary>;
+    AdminSummary value,
+    $Res Function(AdminSummary) then,
+  ) = _$AdminSummaryCopyWithImpl<$Res, AdminSummary>;
   @useResult
-  $Res call(
-      {String userId,
-      String userName,
-      String name,
-      String gender,
-      String profilePictureUrl,
-      bool isFriend,
-      bool requestSent,
-      bool requestReceived,
-      Location? location,
-      bool active});
+  $Res call({
+    String userId,
+    String userName,
+    String name,
+    String gender,
+    String profilePictureUrl,
+    bool isFriend,
+    bool requestSent,
+    bool requestReceived,
+    Location? location,
+    bool active,
+  });
 
   $LocationCopyWith<$Res>? get location;
 }
@@ -3773,6 +4183,8 @@ class _$AdminSummaryCopyWithImpl<$Res, $Val extends AdminSummary>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AdminSummary
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3787,50 +4199,55 @@ class _$AdminSummaryCopyWithImpl<$Res, $Val extends AdminSummary>
     Object? location = freezed,
     Object? active = null,
   }) {
-    return _then(_value.copyWith(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      gender: null == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as String,
-      profilePictureUrl: null == profilePictureUrl
-          ? _value.profilePictureUrl
-          : profilePictureUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      isFriend: null == isFriend
-          ? _value.isFriend
-          : isFriend // ignore: cast_nullable_to_non_nullable
-              as bool,
-      requestSent: null == requestSent
-          ? _value.requestSent
-          : requestSent // ignore: cast_nullable_to_non_nullable
-              as bool,
-      requestReceived: null == requestReceived
-          ? _value.requestReceived
-          : requestReceived // ignore: cast_nullable_to_non_nullable
-              as bool,
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as Location?,
-      active: null == active
-          ? _value.active
-          : active // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            userId: null == userId
+                ? _value.userId
+                : userId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            userName: null == userName
+                ? _value.userName
+                : userName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            gender: null == gender
+                ? _value.gender
+                : gender // ignore: cast_nullable_to_non_nullable
+                      as String,
+            profilePictureUrl: null == profilePictureUrl
+                ? _value.profilePictureUrl
+                : profilePictureUrl // ignore: cast_nullable_to_non_nullable
+                      as String,
+            isFriend: null == isFriend
+                ? _value.isFriend
+                : isFriend // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            requestSent: null == requestSent
+                ? _value.requestSent
+                : requestSent // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            requestReceived: null == requestReceived
+                ? _value.requestReceived
+                : requestReceived // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            location: freezed == location
+                ? _value.location
+                : location // ignore: cast_nullable_to_non_nullable
+                      as Location?,
+            active: null == active
+                ? _value.active
+                : active // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 
+  /// Create a copy of AdminSummary
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocationCopyWith<$Res>? get location {
@@ -3848,21 +4265,23 @@ class _$AdminSummaryCopyWithImpl<$Res, $Val extends AdminSummary>
 abstract class _$$AdminSummaryImplCopyWith<$Res>
     implements $AdminSummaryCopyWith<$Res> {
   factory _$$AdminSummaryImplCopyWith(
-          _$AdminSummaryImpl value, $Res Function(_$AdminSummaryImpl) then) =
-      __$$AdminSummaryImplCopyWithImpl<$Res>;
+    _$AdminSummaryImpl value,
+    $Res Function(_$AdminSummaryImpl) then,
+  ) = __$$AdminSummaryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String userId,
-      String userName,
-      String name,
-      String gender,
-      String profilePictureUrl,
-      bool isFriend,
-      bool requestSent,
-      bool requestReceived,
-      Location? location,
-      bool active});
+  $Res call({
+    String userId,
+    String userName,
+    String name,
+    String gender,
+    String profilePictureUrl,
+    bool isFriend,
+    bool requestSent,
+    bool requestReceived,
+    Location? location,
+    bool active,
+  });
 
   @override
   $LocationCopyWith<$Res>? get location;
@@ -3873,9 +4292,12 @@ class __$$AdminSummaryImplCopyWithImpl<$Res>
     extends _$AdminSummaryCopyWithImpl<$Res, _$AdminSummaryImpl>
     implements _$$AdminSummaryImplCopyWith<$Res> {
   __$$AdminSummaryImplCopyWithImpl(
-      _$AdminSummaryImpl _value, $Res Function(_$AdminSummaryImpl) _then)
-      : super(_value, _then);
+    _$AdminSummaryImpl _value,
+    $Res Function(_$AdminSummaryImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of AdminSummary
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3890,48 +4312,50 @@ class __$$AdminSummaryImplCopyWithImpl<$Res>
     Object? location = freezed,
     Object? active = null,
   }) {
-    return _then(_$AdminSummaryImpl(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      gender: null == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as String,
-      profilePictureUrl: null == profilePictureUrl
-          ? _value.profilePictureUrl
-          : profilePictureUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      isFriend: null == isFriend
-          ? _value.isFriend
-          : isFriend // ignore: cast_nullable_to_non_nullable
-              as bool,
-      requestSent: null == requestSent
-          ? _value.requestSent
-          : requestSent // ignore: cast_nullable_to_non_nullable
-              as bool,
-      requestReceived: null == requestReceived
-          ? _value.requestReceived
-          : requestReceived // ignore: cast_nullable_to_non_nullable
-              as bool,
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as Location?,
-      active: null == active
-          ? _value.active
-          : active // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$AdminSummaryImpl(
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        userName: null == userName
+            ? _value.userName
+            : userName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        gender: null == gender
+            ? _value.gender
+            : gender // ignore: cast_nullable_to_non_nullable
+                  as String,
+        profilePictureUrl: null == profilePictureUrl
+            ? _value.profilePictureUrl
+            : profilePictureUrl // ignore: cast_nullable_to_non_nullable
+                  as String,
+        isFriend: null == isFriend
+            ? _value.isFriend
+            : isFriend // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        requestSent: null == requestSent
+            ? _value.requestSent
+            : requestSent // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        requestReceived: null == requestReceived
+            ? _value.requestReceived
+            : requestReceived // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        location: freezed == location
+            ? _value.location
+            : location // ignore: cast_nullable_to_non_nullable
+                  as Location?,
+        active: null == active
+            ? _value.active
+            : active // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -3939,17 +4363,18 @@ class __$$AdminSummaryImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$AdminSummaryImpl implements _AdminSummary {
-  const _$AdminSummaryImpl(
-      {required this.userId,
-      this.userName = "",
-      this.name = "",
-      this.gender = "",
-      this.profilePictureUrl = "",
-      this.isFriend = false,
-      this.requestSent = false,
-      this.requestReceived = false,
-      this.location,
-      this.active = false});
+  const _$AdminSummaryImpl({
+    required this.userId,
+    this.userName = "",
+    this.name = "",
+    this.gender = "",
+    this.profilePictureUrl = "",
+    this.isFriend = false,
+    this.requestSent = false,
+    this.requestReceived = false,
+    this.location,
+    this.active = false,
+  });
 
   factory _$AdminSummaryImpl.fromJson(Map<String, dynamic> json) =>
       _$$AdminSummaryImplFromJson(json);
@@ -3989,7 +4414,7 @@ class _$AdminSummaryImpl implements _AdminSummary {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AdminSummaryImpl &&
@@ -4011,22 +4436,25 @@ class _$AdminSummaryImpl implements _AdminSummary {
             (identical(other.active, active) || other.active == active));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      userId,
-      userName,
-      name,
-      gender,
-      profilePictureUrl,
-      isFriend,
-      requestSent,
-      requestReceived,
-      location,
-      active);
+    runtimeType,
+    userId,
+    userName,
+    name,
+    gender,
+    profilePictureUrl,
+    isFriend,
+    requestSent,
+    requestReceived,
+    location,
+    active,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AdminSummary
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AdminSummaryImplCopyWith<_$AdminSummaryImpl> get copyWith =>
@@ -4034,24 +4462,23 @@ class _$AdminSummaryImpl implements _AdminSummary {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AdminSummaryImplToJson(
-      this,
-    );
+    return _$$AdminSummaryImplToJson(this);
   }
 }
 
 abstract class _AdminSummary implements AdminSummary {
-  const factory _AdminSummary(
-      {required final String userId,
-      final String userName,
-      final String name,
-      final String gender,
-      final String profilePictureUrl,
-      final bool isFriend,
-      final bool requestSent,
-      final bool requestReceived,
-      final Location? location,
-      final bool active}) = _$AdminSummaryImpl;
+  const factory _AdminSummary({
+    required final String userId,
+    final String userName,
+    final String name,
+    final String gender,
+    final String profilePictureUrl,
+    final bool isFriend,
+    final bool requestSent,
+    final bool requestReceived,
+    final Location? location,
+    final bool active,
+  }) = _$AdminSummaryImpl;
 
   factory _AdminSummary.fromJson(Map<String, dynamic> json) =
       _$AdminSummaryImpl.fromJson;
@@ -4076,8 +4503,11 @@ abstract class _AdminSummary implements AdminSummary {
   Location? get location;
   @override
   bool get active;
+
+  /// Create a copy of AdminSummary
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AdminSummaryImplCopyWith<_$AdminSummaryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4091,8 +4521,12 @@ mixin _$ContentModel {
   String get title => throw _privateConstructorUsedError;
   String get body => throw _privateConstructorUsedError;
 
+  /// Serializes this ContentModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ContentModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ContentModelCopyWith<ContentModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4100,8 +4534,9 @@ mixin _$ContentModel {
 /// @nodoc
 abstract class $ContentModelCopyWith<$Res> {
   factory $ContentModelCopyWith(
-          ContentModel value, $Res Function(ContentModel) then) =
-      _$ContentModelCopyWithImpl<$Res, ContentModel>;
+    ContentModel value,
+    $Res Function(ContentModel) then,
+  ) = _$ContentModelCopyWithImpl<$Res, ContentModel>;
   @useResult
   $Res call({String title, String body});
 }
@@ -4116,22 +4551,24 @@ class _$ContentModelCopyWithImpl<$Res, $Val extends ContentModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ContentModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? title = null,
-    Object? body = null,
-  }) {
-    return _then(_value.copyWith(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      body: null == body
-          ? _value.body
-          : body // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? title = null, Object? body = null}) {
+    return _then(
+      _value.copyWith(
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            body: null == body
+                ? _value.body
+                : body // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -4139,8 +4576,9 @@ class _$ContentModelCopyWithImpl<$Res, $Val extends ContentModel>
 abstract class _$$ContentModelImplCopyWith<$Res>
     implements $ContentModelCopyWith<$Res> {
   factory _$$ContentModelImplCopyWith(
-          _$ContentModelImpl value, $Res Function(_$ContentModelImpl) then) =
-      __$$ContentModelImplCopyWithImpl<$Res>;
+    _$ContentModelImpl value,
+    $Res Function(_$ContentModelImpl) then,
+  ) = __$$ContentModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String title, String body});
@@ -4151,25 +4589,27 @@ class __$$ContentModelImplCopyWithImpl<$Res>
     extends _$ContentModelCopyWithImpl<$Res, _$ContentModelImpl>
     implements _$$ContentModelImplCopyWith<$Res> {
   __$$ContentModelImplCopyWithImpl(
-      _$ContentModelImpl _value, $Res Function(_$ContentModelImpl) _then)
-      : super(_value, _then);
+    _$ContentModelImpl _value,
+    $Res Function(_$ContentModelImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of ContentModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? title = null,
-    Object? body = null,
-  }) {
-    return _then(_$ContentModelImpl(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      body: null == body
-          ? _value.body
-          : body // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? title = null, Object? body = null}) {
+    return _then(
+      _$ContentModelImpl(
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        body: null == body
+            ? _value.body
+            : body // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
@@ -4194,7 +4634,7 @@ class _$ContentModelImpl implements _ContentModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ContentModelImpl &&
@@ -4202,11 +4642,13 @@ class _$ContentModelImpl implements _ContentModel {
             (identical(other.body, body) || other.body == body));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, title, body);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ContentModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ContentModelImplCopyWith<_$ContentModelImpl> get copyWith =>
@@ -4214,9 +4656,7 @@ class _$ContentModelImpl implements _ContentModel {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ContentModelImplToJson(
-      this,
-    );
+    return _$$ContentModelImplToJson(this);
   }
 }
 
@@ -4231,8 +4671,11 @@ abstract class _ContentModel implements ContentModel {
   String get title;
   @override
   String get body;
+
+  /// Create a copy of ContentModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ContentModelImplCopyWith<_$ContentModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4247,8 +4690,12 @@ mixin _$PriceTier {
   int get maxSlots => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
 
+  /// Serializes this PriceTier to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PriceTier
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PriceTierCopyWith<PriceTier> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4271,6 +4718,8 @@ class _$PriceTierCopyWithImpl<$Res, $Val extends PriceTier>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PriceTier
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4278,20 +4727,23 @@ class _$PriceTierCopyWithImpl<$Res, $Val extends PriceTier>
     Object? maxSlots = null,
     Object? price = null,
   }) {
-    return _then(_value.copyWith(
-      minSlots: null == minSlots
-          ? _value.minSlots
-          : minSlots // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxSlots: null == maxSlots
-          ? _value.maxSlots
-          : maxSlots // ignore: cast_nullable_to_non_nullable
-              as int,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            minSlots: null == minSlots
+                ? _value.minSlots
+                : minSlots // ignore: cast_nullable_to_non_nullable
+                      as int,
+            maxSlots: null == maxSlots
+                ? _value.maxSlots
+                : maxSlots // ignore: cast_nullable_to_non_nullable
+                      as int,
+            price: null == price
+                ? _value.price
+                : price // ignore: cast_nullable_to_non_nullable
+                      as double,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -4299,8 +4751,9 @@ class _$PriceTierCopyWithImpl<$Res, $Val extends PriceTier>
 abstract class _$$PriceTierImplCopyWith<$Res>
     implements $PriceTierCopyWith<$Res> {
   factory _$$PriceTierImplCopyWith(
-          _$PriceTierImpl value, $Res Function(_$PriceTierImpl) then) =
-      __$$PriceTierImplCopyWithImpl<$Res>;
+    _$PriceTierImpl value,
+    $Res Function(_$PriceTierImpl) then,
+  ) = __$$PriceTierImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int minSlots, int maxSlots, double price});
@@ -4311,9 +4764,12 @@ class __$$PriceTierImplCopyWithImpl<$Res>
     extends _$PriceTierCopyWithImpl<$Res, _$PriceTierImpl>
     implements _$$PriceTierImplCopyWith<$Res> {
   __$$PriceTierImplCopyWithImpl(
-      _$PriceTierImpl _value, $Res Function(_$PriceTierImpl) _then)
-      : super(_value, _then);
+    _$PriceTierImpl _value,
+    $Res Function(_$PriceTierImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of PriceTier
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4321,20 +4777,22 @@ class __$$PriceTierImplCopyWithImpl<$Res>
     Object? maxSlots = null,
     Object? price = null,
   }) {
-    return _then(_$PriceTierImpl(
-      minSlots: null == minSlots
-          ? _value.minSlots
-          : minSlots // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxSlots: null == maxSlots
-          ? _value.maxSlots
-          : maxSlots // ignore: cast_nullable_to_non_nullable
-              as int,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
+    return _then(
+      _$PriceTierImpl(
+        minSlots: null == minSlots
+            ? _value.minSlots
+            : minSlots // ignore: cast_nullable_to_non_nullable
+                  as int,
+        maxSlots: null == maxSlots
+            ? _value.maxSlots
+            : maxSlots // ignore: cast_nullable_to_non_nullable
+                  as int,
+        price: null == price
+            ? _value.price
+            : price // ignore: cast_nullable_to_non_nullable
+                  as double,
+      ),
+    );
   }
 }
 
@@ -4342,8 +4800,11 @@ class __$$PriceTierImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$PriceTierImpl implements _PriceTier {
-  const _$PriceTierImpl(
-      {this.minSlots = 0, this.maxSlots = 0, this.price = 0.0});
+  const _$PriceTierImpl({
+    this.minSlots = 0,
+    this.maxSlots = 0,
+    this.price = 0.0,
+  });
 
   factory _$PriceTierImpl.fromJson(Map<String, dynamic> json) =>
       _$$PriceTierImplFromJson(json);
@@ -4364,7 +4825,7 @@ class _$PriceTierImpl implements _PriceTier {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PriceTierImpl &&
@@ -4375,11 +4836,13 @@ class _$PriceTierImpl implements _PriceTier {
             (identical(other.price, price) || other.price == price));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, minSlots, maxSlots, price);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PriceTier
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PriceTierImplCopyWith<_$PriceTierImpl> get copyWith =>
@@ -4387,17 +4850,16 @@ class _$PriceTierImpl implements _PriceTier {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PriceTierImplToJson(
-      this,
-    );
+    return _$$PriceTierImplToJson(this);
   }
 }
 
 abstract class _PriceTier implements PriceTier {
-  const factory _PriceTier(
-      {final int minSlots,
-      final int maxSlots,
-      final double price}) = _$PriceTierImpl;
+  const factory _PriceTier({
+    final int minSlots,
+    final int maxSlots,
+    final double price,
+  }) = _$PriceTierImpl;
 
   factory _PriceTier.fromJson(Map<String, dynamic> json) =
       _$PriceTierImpl.fromJson;
@@ -4408,8 +4870,11 @@ abstract class _PriceTier implements PriceTier {
   int get maxSlots;
   @override
   double get price;
+
+  /// Create a copy of PriceTier
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PriceTierImplCopyWith<_$PriceTierImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4430,8 +4895,12 @@ mixin _$Filter {
   OtherFilterInfo get otherFilterInfo => throw _privateConstructorUsedError;
   int? get createdDate => throw _privateConstructorUsedError;
 
+  /// Serializes this Filter to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Filter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FilterCopyWith<Filter> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -4440,15 +4909,16 @@ abstract class $FilterCopyWith<$Res> {
   factory $FilterCopyWith(Filter value, $Res Function(Filter) then) =
       _$FilterCopyWithImpl<$Res, Filter>;
   @useResult
-  $Res call(
-      {String categoryId,
-      String categoryName,
-      String subCategoryId,
-      String subCategoryName,
-      List<FilterInfo> filterInfoList,
-      List<FilterInfo> advancedFilterInfoList,
-      OtherFilterInfo otherFilterInfo,
-      int? createdDate});
+  $Res call({
+    String categoryId,
+    String categoryName,
+    String subCategoryId,
+    String subCategoryName,
+    List<FilterInfo> filterInfoList,
+    List<FilterInfo> advancedFilterInfoList,
+    OtherFilterInfo otherFilterInfo,
+    int? createdDate,
+  });
 
   $OtherFilterInfoCopyWith<$Res> get otherFilterInfo;
 }
@@ -4463,6 +4933,8 @@ class _$FilterCopyWithImpl<$Res, $Val extends Filter>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Filter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4475,42 +4947,47 @@ class _$FilterCopyWithImpl<$Res, $Val extends Filter>
     Object? otherFilterInfo = null,
     Object? createdDate = freezed,
   }) {
-    return _then(_value.copyWith(
-      categoryId: null == categoryId
-          ? _value.categoryId
-          : categoryId // ignore: cast_nullable_to_non_nullable
-              as String,
-      categoryName: null == categoryName
-          ? _value.categoryName
-          : categoryName // ignore: cast_nullable_to_non_nullable
-              as String,
-      subCategoryId: null == subCategoryId
-          ? _value.subCategoryId
-          : subCategoryId // ignore: cast_nullable_to_non_nullable
-              as String,
-      subCategoryName: null == subCategoryName
-          ? _value.subCategoryName
-          : subCategoryName // ignore: cast_nullable_to_non_nullable
-              as String,
-      filterInfoList: null == filterInfoList
-          ? _value.filterInfoList
-          : filterInfoList // ignore: cast_nullable_to_non_nullable
-              as List<FilterInfo>,
-      advancedFilterInfoList: null == advancedFilterInfoList
-          ? _value.advancedFilterInfoList
-          : advancedFilterInfoList // ignore: cast_nullable_to_non_nullable
-              as List<FilterInfo>,
-      otherFilterInfo: null == otherFilterInfo
-          ? _value.otherFilterInfo
-          : otherFilterInfo // ignore: cast_nullable_to_non_nullable
-              as OtherFilterInfo,
-      createdDate: freezed == createdDate
-          ? _value.createdDate
-          : createdDate // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            categoryId: null == categoryId
+                ? _value.categoryId
+                : categoryId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            categoryName: null == categoryName
+                ? _value.categoryName
+                : categoryName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            subCategoryId: null == subCategoryId
+                ? _value.subCategoryId
+                : subCategoryId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            subCategoryName: null == subCategoryName
+                ? _value.subCategoryName
+                : subCategoryName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            filterInfoList: null == filterInfoList
+                ? _value.filterInfoList
+                : filterInfoList // ignore: cast_nullable_to_non_nullable
+                      as List<FilterInfo>,
+            advancedFilterInfoList: null == advancedFilterInfoList
+                ? _value.advancedFilterInfoList
+                : advancedFilterInfoList // ignore: cast_nullable_to_non_nullable
+                      as List<FilterInfo>,
+            otherFilterInfo: null == otherFilterInfo
+                ? _value.otherFilterInfo
+                : otherFilterInfo // ignore: cast_nullable_to_non_nullable
+                      as OtherFilterInfo,
+            createdDate: freezed == createdDate
+                ? _value.createdDate
+                : createdDate // ignore: cast_nullable_to_non_nullable
+                      as int?,
+          )
+          as $Val,
+    );
   }
 
+  /// Create a copy of Filter
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $OtherFilterInfoCopyWith<$Res> get otherFilterInfo {
@@ -4523,19 +5000,21 @@ class _$FilterCopyWithImpl<$Res, $Val extends Filter>
 /// @nodoc
 abstract class _$$FilterImplCopyWith<$Res> implements $FilterCopyWith<$Res> {
   factory _$$FilterImplCopyWith(
-          _$FilterImpl value, $Res Function(_$FilterImpl) then) =
-      __$$FilterImplCopyWithImpl<$Res>;
+    _$FilterImpl value,
+    $Res Function(_$FilterImpl) then,
+  ) = __$$FilterImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String categoryId,
-      String categoryName,
-      String subCategoryId,
-      String subCategoryName,
-      List<FilterInfo> filterInfoList,
-      List<FilterInfo> advancedFilterInfoList,
-      OtherFilterInfo otherFilterInfo,
-      int? createdDate});
+  $Res call({
+    String categoryId,
+    String categoryName,
+    String subCategoryId,
+    String subCategoryName,
+    List<FilterInfo> filterInfoList,
+    List<FilterInfo> advancedFilterInfoList,
+    OtherFilterInfo otherFilterInfo,
+    int? createdDate,
+  });
 
   @override
   $OtherFilterInfoCopyWith<$Res> get otherFilterInfo;
@@ -4546,9 +5025,12 @@ class __$$FilterImplCopyWithImpl<$Res>
     extends _$FilterCopyWithImpl<$Res, _$FilterImpl>
     implements _$$FilterImplCopyWith<$Res> {
   __$$FilterImplCopyWithImpl(
-      _$FilterImpl _value, $Res Function(_$FilterImpl) _then)
-      : super(_value, _then);
+    _$FilterImpl _value,
+    $Res Function(_$FilterImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of Filter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4561,40 +5043,42 @@ class __$$FilterImplCopyWithImpl<$Res>
     Object? otherFilterInfo = null,
     Object? createdDate = freezed,
   }) {
-    return _then(_$FilterImpl(
-      categoryId: null == categoryId
-          ? _value.categoryId
-          : categoryId // ignore: cast_nullable_to_non_nullable
-              as String,
-      categoryName: null == categoryName
-          ? _value.categoryName
-          : categoryName // ignore: cast_nullable_to_non_nullable
-              as String,
-      subCategoryId: null == subCategoryId
-          ? _value.subCategoryId
-          : subCategoryId // ignore: cast_nullable_to_non_nullable
-              as String,
-      subCategoryName: null == subCategoryName
-          ? _value.subCategoryName
-          : subCategoryName // ignore: cast_nullable_to_non_nullable
-              as String,
-      filterInfoList: null == filterInfoList
-          ? _value._filterInfoList
-          : filterInfoList // ignore: cast_nullable_to_non_nullable
-              as List<FilterInfo>,
-      advancedFilterInfoList: null == advancedFilterInfoList
-          ? _value._advancedFilterInfoList
-          : advancedFilterInfoList // ignore: cast_nullable_to_non_nullable
-              as List<FilterInfo>,
-      otherFilterInfo: null == otherFilterInfo
-          ? _value.otherFilterInfo
-          : otherFilterInfo // ignore: cast_nullable_to_non_nullable
-              as OtherFilterInfo,
-      createdDate: freezed == createdDate
-          ? _value.createdDate
-          : createdDate // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
+    return _then(
+      _$FilterImpl(
+        categoryId: null == categoryId
+            ? _value.categoryId
+            : categoryId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        categoryName: null == categoryName
+            ? _value.categoryName
+            : categoryName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        subCategoryId: null == subCategoryId
+            ? _value.subCategoryId
+            : subCategoryId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        subCategoryName: null == subCategoryName
+            ? _value.subCategoryName
+            : subCategoryName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        filterInfoList: null == filterInfoList
+            ? _value._filterInfoList
+            : filterInfoList // ignore: cast_nullable_to_non_nullable
+                  as List<FilterInfo>,
+        advancedFilterInfoList: null == advancedFilterInfoList
+            ? _value._advancedFilterInfoList
+            : advancedFilterInfoList // ignore: cast_nullable_to_non_nullable
+                  as List<FilterInfo>,
+        otherFilterInfo: null == otherFilterInfo
+            ? _value.otherFilterInfo
+            : otherFilterInfo // ignore: cast_nullable_to_non_nullable
+                  as OtherFilterInfo,
+        createdDate: freezed == createdDate
+            ? _value.createdDate
+            : createdDate // ignore: cast_nullable_to_non_nullable
+                  as int?,
+      ),
+    );
   }
 }
 
@@ -4602,17 +5086,17 @@ class __$$FilterImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$FilterImpl implements _Filter {
-  const _$FilterImpl(
-      {required this.categoryId,
-      this.categoryName = '',
-      required this.subCategoryId,
-      this.subCategoryName = '',
-      final List<FilterInfo> filterInfoList = const [],
-      final List<FilterInfo> advancedFilterInfoList = const [],
-      this.otherFilterInfo = const OtherFilterInfo(),
-      required this.createdDate})
-      : _filterInfoList = filterInfoList,
-        _advancedFilterInfoList = advancedFilterInfoList;
+  const _$FilterImpl({
+    required this.categoryId,
+    this.categoryName = '',
+    required this.subCategoryId,
+    this.subCategoryName = '',
+    final List<FilterInfo> filterInfoList = const [],
+    final List<FilterInfo> advancedFilterInfoList = const [],
+    this.otherFilterInfo = const OtherFilterInfo(),
+    required this.createdDate,
+  }) : _filterInfoList = filterInfoList,
+       _advancedFilterInfoList = advancedFilterInfoList;
 
   factory _$FilterImpl.fromJson(Map<String, dynamic> json) =>
       _$$FilterImplFromJson(json);
@@ -4658,7 +5142,7 @@ class _$FilterImpl implements _Filter {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FilterImpl &&
@@ -4670,30 +5154,37 @@ class _$FilterImpl implements _Filter {
                 other.subCategoryId == subCategoryId) &&
             (identical(other.subCategoryName, subCategoryName) ||
                 other.subCategoryName == subCategoryName) &&
-            const DeepCollectionEquality()
-                .equals(other._filterInfoList, _filterInfoList) &&
             const DeepCollectionEquality().equals(
-                other._advancedFilterInfoList, _advancedFilterInfoList) &&
+              other._filterInfoList,
+              _filterInfoList,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._advancedFilterInfoList,
+              _advancedFilterInfoList,
+            ) &&
             (identical(other.otherFilterInfo, otherFilterInfo) ||
                 other.otherFilterInfo == otherFilterInfo) &&
             (identical(other.createdDate, createdDate) ||
                 other.createdDate == createdDate));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      categoryId,
-      categoryName,
-      subCategoryId,
-      subCategoryName,
-      const DeepCollectionEquality().hash(_filterInfoList),
-      const DeepCollectionEquality().hash(_advancedFilterInfoList),
-      otherFilterInfo,
-      createdDate);
+    runtimeType,
+    categoryId,
+    categoryName,
+    subCategoryId,
+    subCategoryName,
+    const DeepCollectionEquality().hash(_filterInfoList),
+    const DeepCollectionEquality().hash(_advancedFilterInfoList),
+    otherFilterInfo,
+    createdDate,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Filter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FilterImplCopyWith<_$FilterImpl> get copyWith =>
@@ -4701,22 +5192,21 @@ class _$FilterImpl implements _Filter {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$FilterImplToJson(
-      this,
-    );
+    return _$$FilterImplToJson(this);
   }
 }
 
 abstract class _Filter implements Filter {
-  const factory _Filter(
-      {required final String categoryId,
-      final String categoryName,
-      required final String subCategoryId,
-      final String subCategoryName,
-      final List<FilterInfo> filterInfoList,
-      final List<FilterInfo> advancedFilterInfoList,
-      final OtherFilterInfo otherFilterInfo,
-      required final int? createdDate}) = _$FilterImpl;
+  const factory _Filter({
+    required final String categoryId,
+    final String categoryName,
+    required final String subCategoryId,
+    final String subCategoryName,
+    final List<FilterInfo> filterInfoList,
+    final List<FilterInfo> advancedFilterInfoList,
+    final OtherFilterInfo otherFilterInfo,
+    required final int? createdDate,
+  }) = _$FilterImpl;
 
   factory _Filter.fromJson(Map<String, dynamic> json) = _$FilterImpl.fromJson;
 
@@ -4736,8 +5226,11 @@ abstract class _Filter implements Filter {
   OtherFilterInfo get otherFilterInfo;
   @override
   int? get createdDate;
+
+  /// Create a copy of Filter
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FilterImplCopyWith<_$FilterImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4755,8 +5248,12 @@ mixin _$FilterInfo {
   int get weightage => throw _privateConstructorUsedError;
   bool get showInCompactView => throw _privateConstructorUsedError;
 
+  /// Serializes this FilterInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FilterInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FilterInfoCopyWith<FilterInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4764,16 +5261,18 @@ mixin _$FilterInfo {
 /// @nodoc
 abstract class $FilterInfoCopyWith<$Res> {
   factory $FilterInfoCopyWith(
-          FilterInfo value, $Res Function(FilterInfo) then) =
-      _$FilterInfoCopyWithImpl<$Res, FilterInfo>;
+    FilterInfo value,
+    $Res Function(FilterInfo) then,
+  ) = _$FilterInfoCopyWithImpl<$Res, FilterInfo>;
   @useResult
-  $Res call(
-      {List<String> options,
-      String title,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    List<String> options,
+    String title,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -4786,6 +5285,8 @@ class _$FilterInfoCopyWithImpl<$Res, $Val extends FilterInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4796,32 +5297,35 @@ class _$FilterInfoCopyWithImpl<$Res, $Val extends FilterInfo>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_value.copyWith(
-      options: null == options
-          ? _value.options
-          : options // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            options: null == options
+                ? _value.options
+                : options // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            iconUrl: freezed == iconUrl
+                ? _value.iconUrl
+                : iconUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            filterType: null == filterType
+                ? _value.filterType
+                : filterType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            weightage: null == weightage
+                ? _value.weightage
+                : weightage // ignore: cast_nullable_to_non_nullable
+                      as int,
+            showInCompactView: null == showInCompactView
+                ? _value.showInCompactView
+                : showInCompactView // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -4829,17 +5333,19 @@ class _$FilterInfoCopyWithImpl<$Res, $Val extends FilterInfo>
 abstract class _$$FilterInfoImplCopyWith<$Res>
     implements $FilterInfoCopyWith<$Res> {
   factory _$$FilterInfoImplCopyWith(
-          _$FilterInfoImpl value, $Res Function(_$FilterInfoImpl) then) =
-      __$$FilterInfoImplCopyWithImpl<$Res>;
+    _$FilterInfoImpl value,
+    $Res Function(_$FilterInfoImpl) then,
+  ) = __$$FilterInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {List<String> options,
-      String title,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    List<String> options,
+    String title,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -4847,9 +5353,12 @@ class __$$FilterInfoImplCopyWithImpl<$Res>
     extends _$FilterInfoCopyWithImpl<$Res, _$FilterInfoImpl>
     implements _$$FilterInfoImplCopyWith<$Res> {
   __$$FilterInfoImplCopyWithImpl(
-      _$FilterInfoImpl _value, $Res Function(_$FilterInfoImpl) _then)
-      : super(_value, _then);
+    _$FilterInfoImpl _value,
+    $Res Function(_$FilterInfoImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of FilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4860,32 +5369,34 @@ class __$$FilterInfoImplCopyWithImpl<$Res>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_$FilterInfoImpl(
-      options: null == options
-          ? _value._options
-          : options // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$FilterInfoImpl(
+        options: null == options
+            ? _value._options
+            : options // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        iconUrl: freezed == iconUrl
+            ? _value.iconUrl
+            : iconUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        filterType: null == filterType
+            ? _value.filterType
+            : filterType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        weightage: null == weightage
+            ? _value.weightage
+            : weightage // ignore: cast_nullable_to_non_nullable
+                  as int,
+        showInCompactView: null == showInCompactView
+            ? _value.showInCompactView
+            : showInCompactView // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -4893,14 +5404,14 @@ class __$$FilterInfoImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$FilterInfoImpl implements _FilterInfo {
-  const _$FilterInfoImpl(
-      {final List<String> options = const [],
-      required this.title,
-      this.iconUrl,
-      this.filterType = "",
-      this.weightage = 0,
-      this.showInCompactView = false})
-      : _options = options;
+  const _$FilterInfoImpl({
+    final List<String> options = const [],
+    required this.title,
+    this.iconUrl,
+    this.filterType = "",
+    this.weightage = 0,
+    this.showInCompactView = false,
+  }) : _options = options;
 
   factory _$FilterInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$FilterInfoImplFromJson(json);
@@ -4934,7 +5445,7 @@ class _$FilterInfoImpl implements _FilterInfo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FilterInfoImpl &&
@@ -4949,18 +5460,21 @@ class _$FilterInfoImpl implements _FilterInfo {
                 other.showInCompactView == showInCompactView));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_options),
-      title,
-      iconUrl,
-      filterType,
-      weightage,
-      showInCompactView);
+    runtimeType,
+    const DeepCollectionEquality().hash(_options),
+    title,
+    iconUrl,
+    filterType,
+    weightage,
+    showInCompactView,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FilterInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FilterInfoImplCopyWith<_$FilterInfoImpl> get copyWith =>
@@ -4968,20 +5482,19 @@ class _$FilterInfoImpl implements _FilterInfo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$FilterInfoImplToJson(
-      this,
-    );
+    return _$$FilterInfoImplToJson(this);
   }
 }
 
 abstract class _FilterInfo implements FilterInfo {
-  const factory _FilterInfo(
-      {final List<String> options,
-      required final String title,
-      final String? iconUrl,
-      final String filterType,
-      final int weightage,
-      final bool showInCompactView}) = _$FilterInfoImpl;
+  const factory _FilterInfo({
+    final List<String> options,
+    required final String title,
+    final String? iconUrl,
+    final String filterType,
+    final int weightage,
+    final bool showInCompactView,
+  }) = _$FilterInfoImpl;
 
   factory _FilterInfo.fromJson(Map<String, dynamic> json) =
       _$FilterInfoImpl.fromJson;
@@ -4998,8 +5511,11 @@ abstract class _FilterInfo implements FilterInfo {
   int get weightage;
   @override
   bool get showInCompactView;
+
+  /// Create a copy of FilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FilterInfoImplCopyWith<_$FilterInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5023,8 +5539,12 @@ mixin _$OtherFilterInfo {
   LocationInfo? get multipleLocations => throw _privateConstructorUsedError;
   List<Info>? get info => throw _privateConstructorUsedError;
 
+  /// Serializes this OtherFilterInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $OtherFilterInfoCopyWith<OtherFilterInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5032,21 +5552,23 @@ mixin _$OtherFilterInfo {
 /// @nodoc
 abstract class $OtherFilterInfoCopyWith<$Res> {
   factory $OtherFilterInfoCopyWith(
-          OtherFilterInfo value, $Res Function(OtherFilterInfo) then) =
-      _$OtherFilterInfoCopyWithImpl<$Res, OtherFilterInfo>;
+    OtherFilterInfo value,
+    $Res Function(OtherFilterInfo) then,
+  ) = _$OtherFilterInfoCopyWithImpl<$Res, OtherFilterInfo>;
   @useResult
-  $Res call(
-      {DateInfo? dateInfo,
-      DateRange? dateRange,
-      Destination? destination,
-      PaidLobby? paidLobby,
-      PickUp? pickUp,
-      MemberCount? memberCount,
-      @JsonKey(includeToJson: false) CurrentCount? currentCount,
-      Range? range,
-      LocationInfo? locationInfo,
-      LocationInfo? multipleLocations,
-      List<Info>? info});
+  $Res call({
+    DateInfo? dateInfo,
+    DateRange? dateRange,
+    Destination? destination,
+    PaidLobby? paidLobby,
+    PickUp? pickUp,
+    MemberCount? memberCount,
+    @JsonKey(includeToJson: false) CurrentCount? currentCount,
+    Range? range,
+    LocationInfo? locationInfo,
+    LocationInfo? multipleLocations,
+    List<Info>? info,
+  });
 
   $DateInfoCopyWith<$Res>? get dateInfo;
   $DateRangeCopyWith<$Res>? get dateRange;
@@ -5070,6 +5592,8 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5085,54 +5609,59 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
     Object? multipleLocations = freezed,
     Object? info = freezed,
   }) {
-    return _then(_value.copyWith(
-      dateInfo: freezed == dateInfo
-          ? _value.dateInfo
-          : dateInfo // ignore: cast_nullable_to_non_nullable
-              as DateInfo?,
-      dateRange: freezed == dateRange
-          ? _value.dateRange
-          : dateRange // ignore: cast_nullable_to_non_nullable
-              as DateRange?,
-      destination: freezed == destination
-          ? _value.destination
-          : destination // ignore: cast_nullable_to_non_nullable
-              as Destination?,
-      paidLobby: freezed == paidLobby
-          ? _value.paidLobby
-          : paidLobby // ignore: cast_nullable_to_non_nullable
-              as PaidLobby?,
-      pickUp: freezed == pickUp
-          ? _value.pickUp
-          : pickUp // ignore: cast_nullable_to_non_nullable
-              as PickUp?,
-      memberCount: freezed == memberCount
-          ? _value.memberCount
-          : memberCount // ignore: cast_nullable_to_non_nullable
-              as MemberCount?,
-      currentCount: freezed == currentCount
-          ? _value.currentCount
-          : currentCount // ignore: cast_nullable_to_non_nullable
-              as CurrentCount?,
-      range: freezed == range
-          ? _value.range
-          : range // ignore: cast_nullable_to_non_nullable
-              as Range?,
-      locationInfo: freezed == locationInfo
-          ? _value.locationInfo
-          : locationInfo // ignore: cast_nullable_to_non_nullable
-              as LocationInfo?,
-      multipleLocations: freezed == multipleLocations
-          ? _value.multipleLocations
-          : multipleLocations // ignore: cast_nullable_to_non_nullable
-              as LocationInfo?,
-      info: freezed == info
-          ? _value.info
-          : info // ignore: cast_nullable_to_non_nullable
-              as List<Info>?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            dateInfo: freezed == dateInfo
+                ? _value.dateInfo
+                : dateInfo // ignore: cast_nullable_to_non_nullable
+                      as DateInfo?,
+            dateRange: freezed == dateRange
+                ? _value.dateRange
+                : dateRange // ignore: cast_nullable_to_non_nullable
+                      as DateRange?,
+            destination: freezed == destination
+                ? _value.destination
+                : destination // ignore: cast_nullable_to_non_nullable
+                      as Destination?,
+            paidLobby: freezed == paidLobby
+                ? _value.paidLobby
+                : paidLobby // ignore: cast_nullable_to_non_nullable
+                      as PaidLobby?,
+            pickUp: freezed == pickUp
+                ? _value.pickUp
+                : pickUp // ignore: cast_nullable_to_non_nullable
+                      as PickUp?,
+            memberCount: freezed == memberCount
+                ? _value.memberCount
+                : memberCount // ignore: cast_nullable_to_non_nullable
+                      as MemberCount?,
+            currentCount: freezed == currentCount
+                ? _value.currentCount
+                : currentCount // ignore: cast_nullable_to_non_nullable
+                      as CurrentCount?,
+            range: freezed == range
+                ? _value.range
+                : range // ignore: cast_nullable_to_non_nullable
+                      as Range?,
+            locationInfo: freezed == locationInfo
+                ? _value.locationInfo
+                : locationInfo // ignore: cast_nullable_to_non_nullable
+                      as LocationInfo?,
+            multipleLocations: freezed == multipleLocations
+                ? _value.multipleLocations
+                : multipleLocations // ignore: cast_nullable_to_non_nullable
+                      as LocationInfo?,
+            info: freezed == info
+                ? _value.info
+                : info // ignore: cast_nullable_to_non_nullable
+                      as List<Info>?,
+          )
+          as $Val,
+    );
   }
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DateInfoCopyWith<$Res>? get dateInfo {
@@ -5145,6 +5674,8 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
     });
   }
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DateRangeCopyWith<$Res>? get dateRange {
@@ -5157,6 +5688,8 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
     });
   }
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DestinationCopyWith<$Res>? get destination {
@@ -5169,6 +5702,8 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
     });
   }
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PaidLobbyCopyWith<$Res>? get paidLobby {
@@ -5181,6 +5716,8 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
     });
   }
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PickUpCopyWith<$Res>? get pickUp {
@@ -5193,6 +5730,8 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
     });
   }
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MemberCountCopyWith<$Res>? get memberCount {
@@ -5205,6 +5744,8 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
     });
   }
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CurrentCountCopyWith<$Res>? get currentCount {
@@ -5217,6 +5758,8 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
     });
   }
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RangeCopyWith<$Res>? get range {
@@ -5229,6 +5772,8 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
     });
   }
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocationInfoCopyWith<$Res>? get locationInfo {
@@ -5241,6 +5786,8 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
     });
   }
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocationInfoCopyWith<$Res>? get multipleLocations {
@@ -5257,23 +5804,25 @@ class _$OtherFilterInfoCopyWithImpl<$Res, $Val extends OtherFilterInfo>
 /// @nodoc
 abstract class _$$OtherFilterInfoImplCopyWith<$Res>
     implements $OtherFilterInfoCopyWith<$Res> {
-  factory _$$OtherFilterInfoImplCopyWith(_$OtherFilterInfoImpl value,
-          $Res Function(_$OtherFilterInfoImpl) then) =
-      __$$OtherFilterInfoImplCopyWithImpl<$Res>;
+  factory _$$OtherFilterInfoImplCopyWith(
+    _$OtherFilterInfoImpl value,
+    $Res Function(_$OtherFilterInfoImpl) then,
+  ) = __$$OtherFilterInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {DateInfo? dateInfo,
-      DateRange? dateRange,
-      Destination? destination,
-      PaidLobby? paidLobby,
-      PickUp? pickUp,
-      MemberCount? memberCount,
-      @JsonKey(includeToJson: false) CurrentCount? currentCount,
-      Range? range,
-      LocationInfo? locationInfo,
-      LocationInfo? multipleLocations,
-      List<Info>? info});
+  $Res call({
+    DateInfo? dateInfo,
+    DateRange? dateRange,
+    Destination? destination,
+    PaidLobby? paidLobby,
+    PickUp? pickUp,
+    MemberCount? memberCount,
+    @JsonKey(includeToJson: false) CurrentCount? currentCount,
+    Range? range,
+    LocationInfo? locationInfo,
+    LocationInfo? multipleLocations,
+    List<Info>? info,
+  });
 
   @override
   $DateInfoCopyWith<$Res>? get dateInfo;
@@ -5302,9 +5851,12 @@ class __$$OtherFilterInfoImplCopyWithImpl<$Res>
     extends _$OtherFilterInfoCopyWithImpl<$Res, _$OtherFilterInfoImpl>
     implements _$$OtherFilterInfoImplCopyWith<$Res> {
   __$$OtherFilterInfoImplCopyWithImpl(
-      _$OtherFilterInfoImpl _value, $Res Function(_$OtherFilterInfoImpl) _then)
-      : super(_value, _then);
+    _$OtherFilterInfoImpl _value,
+    $Res Function(_$OtherFilterInfoImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5320,52 +5872,54 @@ class __$$OtherFilterInfoImplCopyWithImpl<$Res>
     Object? multipleLocations = freezed,
     Object? info = freezed,
   }) {
-    return _then(_$OtherFilterInfoImpl(
-      dateInfo: freezed == dateInfo
-          ? _value.dateInfo
-          : dateInfo // ignore: cast_nullable_to_non_nullable
-              as DateInfo?,
-      dateRange: freezed == dateRange
-          ? _value.dateRange
-          : dateRange // ignore: cast_nullable_to_non_nullable
-              as DateRange?,
-      destination: freezed == destination
-          ? _value.destination
-          : destination // ignore: cast_nullable_to_non_nullable
-              as Destination?,
-      paidLobby: freezed == paidLobby
-          ? _value.paidLobby
-          : paidLobby // ignore: cast_nullable_to_non_nullable
-              as PaidLobby?,
-      pickUp: freezed == pickUp
-          ? _value.pickUp
-          : pickUp // ignore: cast_nullable_to_non_nullable
-              as PickUp?,
-      memberCount: freezed == memberCount
-          ? _value.memberCount
-          : memberCount // ignore: cast_nullable_to_non_nullable
-              as MemberCount?,
-      currentCount: freezed == currentCount
-          ? _value.currentCount
-          : currentCount // ignore: cast_nullable_to_non_nullable
-              as CurrentCount?,
-      range: freezed == range
-          ? _value.range
-          : range // ignore: cast_nullable_to_non_nullable
-              as Range?,
-      locationInfo: freezed == locationInfo
-          ? _value.locationInfo
-          : locationInfo // ignore: cast_nullable_to_non_nullable
-              as LocationInfo?,
-      multipleLocations: freezed == multipleLocations
-          ? _value.multipleLocations
-          : multipleLocations // ignore: cast_nullable_to_non_nullable
-              as LocationInfo?,
-      info: freezed == info
-          ? _value._info
-          : info // ignore: cast_nullable_to_non_nullable
-              as List<Info>?,
-    ));
+    return _then(
+      _$OtherFilterInfoImpl(
+        dateInfo: freezed == dateInfo
+            ? _value.dateInfo
+            : dateInfo // ignore: cast_nullable_to_non_nullable
+                  as DateInfo?,
+        dateRange: freezed == dateRange
+            ? _value.dateRange
+            : dateRange // ignore: cast_nullable_to_non_nullable
+                  as DateRange?,
+        destination: freezed == destination
+            ? _value.destination
+            : destination // ignore: cast_nullable_to_non_nullable
+                  as Destination?,
+        paidLobby: freezed == paidLobby
+            ? _value.paidLobby
+            : paidLobby // ignore: cast_nullable_to_non_nullable
+                  as PaidLobby?,
+        pickUp: freezed == pickUp
+            ? _value.pickUp
+            : pickUp // ignore: cast_nullable_to_non_nullable
+                  as PickUp?,
+        memberCount: freezed == memberCount
+            ? _value.memberCount
+            : memberCount // ignore: cast_nullable_to_non_nullable
+                  as MemberCount?,
+        currentCount: freezed == currentCount
+            ? _value.currentCount
+            : currentCount // ignore: cast_nullable_to_non_nullable
+                  as CurrentCount?,
+        range: freezed == range
+            ? _value.range
+            : range // ignore: cast_nullable_to_non_nullable
+                  as Range?,
+        locationInfo: freezed == locationInfo
+            ? _value.locationInfo
+            : locationInfo // ignore: cast_nullable_to_non_nullable
+                  as LocationInfo?,
+        multipleLocations: freezed == multipleLocations
+            ? _value.multipleLocations
+            : multipleLocations // ignore: cast_nullable_to_non_nullable
+                  as LocationInfo?,
+        info: freezed == info
+            ? _value._info
+            : info // ignore: cast_nullable_to_non_nullable
+                  as List<Info>?,
+      ),
+    );
   }
 }
 
@@ -5373,19 +5927,19 @@ class __$$OtherFilterInfoImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$OtherFilterInfoImpl implements _OtherFilterInfo {
-  const _$OtherFilterInfoImpl(
-      {this.dateInfo,
-      this.dateRange,
-      this.destination,
-      this.paidLobby,
-      this.pickUp,
-      this.memberCount,
-      @JsonKey(includeToJson: false) this.currentCount,
-      this.range,
-      this.locationInfo,
-      this.multipleLocations,
-      final List<Info>? info})
-      : _info = info;
+  const _$OtherFilterInfoImpl({
+    this.dateInfo,
+    this.dateRange,
+    this.destination,
+    this.paidLobby,
+    this.pickUp,
+    this.memberCount,
+    @JsonKey(includeToJson: false) this.currentCount,
+    this.range,
+    this.locationInfo,
+    this.multipleLocations,
+    final List<Info>? info,
+  }) : _info = info;
 
   factory _$OtherFilterInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$OtherFilterInfoImplFromJson(json);
@@ -5427,7 +5981,7 @@ class _$OtherFilterInfoImpl implements _OtherFilterInfo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OtherFilterInfoImpl &&
@@ -5452,50 +6006,54 @@ class _$OtherFilterInfoImpl implements _OtherFilterInfo {
             const DeepCollectionEquality().equals(other._info, _info));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      dateInfo,
-      dateRange,
-      destination,
-      paidLobby,
-      pickUp,
-      memberCount,
-      currentCount,
-      range,
-      locationInfo,
-      multipleLocations,
-      const DeepCollectionEquality().hash(_info));
+    runtimeType,
+    dateInfo,
+    dateRange,
+    destination,
+    paidLobby,
+    pickUp,
+    memberCount,
+    currentCount,
+    range,
+    locationInfo,
+    multipleLocations,
+    const DeepCollectionEquality().hash(_info),
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$OtherFilterInfoImplCopyWith<_$OtherFilterInfoImpl> get copyWith =>
       __$$OtherFilterInfoImplCopyWithImpl<_$OtherFilterInfoImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$OtherFilterInfoImplToJson(
-      this,
-    );
+    return _$$OtherFilterInfoImplToJson(this);
   }
 }
 
 abstract class _OtherFilterInfo implements OtherFilterInfo {
-  const factory _OtherFilterInfo(
-      {final DateInfo? dateInfo,
-      final DateRange? dateRange,
-      final Destination? destination,
-      final PaidLobby? paidLobby,
-      final PickUp? pickUp,
-      final MemberCount? memberCount,
-      @JsonKey(includeToJson: false) final CurrentCount? currentCount,
-      final Range? range,
-      final LocationInfo? locationInfo,
-      final LocationInfo? multipleLocations,
-      final List<Info>? info}) = _$OtherFilterInfoImpl;
+  const factory _OtherFilterInfo({
+    final DateInfo? dateInfo,
+    final DateRange? dateRange,
+    final Destination? destination,
+    final PaidLobby? paidLobby,
+    final PickUp? pickUp,
+    final MemberCount? memberCount,
+    @JsonKey(includeToJson: false) final CurrentCount? currentCount,
+    final Range? range,
+    final LocationInfo? locationInfo,
+    final LocationInfo? multipleLocations,
+    final List<Info>? info,
+  }) = _$OtherFilterInfoImpl;
 
   factory _OtherFilterInfo.fromJson(Map<String, dynamic> json) =
       _$OtherFilterInfoImpl.fromJson;
@@ -5523,8 +6081,11 @@ abstract class _OtherFilterInfo implements OtherFilterInfo {
   LocationInfo? get multipleLocations;
   @override
   List<Info>? get info;
+
+  /// Create a copy of OtherFilterInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OtherFilterInfoImplCopyWith<_$OtherFilterInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5543,8 +6104,12 @@ mixin _$DateInfo {
   int get weightage => throw _privateConstructorUsedError;
   bool get showInCompactView => throw _privateConstructorUsedError;
 
+  /// Serializes this DateInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DateInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DateInfoCopyWith<DateInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5554,14 +6119,15 @@ abstract class $DateInfoCopyWith<$Res> {
   factory $DateInfoCopyWith(DateInfo value, $Res Function(DateInfo) then) =
       _$DateInfoCopyWithImpl<$Res, DateInfo>;
   @useResult
-  $Res call(
-      {int date,
-      String title,
-      String? formattedDate,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    int date,
+    String title,
+    String? formattedDate,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -5574,6 +6140,8 @@ class _$DateInfoCopyWithImpl<$Res, $Val extends DateInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DateInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5585,36 +6153,39 @@ class _$DateInfoCopyWithImpl<$Res, $Val extends DateInfo>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_value.copyWith(
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      formattedDate: freezed == formattedDate
-          ? _value.formattedDate
-          : formattedDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            date: null == date
+                ? _value.date
+                : date // ignore: cast_nullable_to_non_nullable
+                      as int,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            formattedDate: freezed == formattedDate
+                ? _value.formattedDate
+                : formattedDate // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            iconUrl: freezed == iconUrl
+                ? _value.iconUrl
+                : iconUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            filterType: null == filterType
+                ? _value.filterType
+                : filterType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            weightage: null == weightage
+                ? _value.weightage
+                : weightage // ignore: cast_nullable_to_non_nullable
+                      as int,
+            showInCompactView: null == showInCompactView
+                ? _value.showInCompactView
+                : showInCompactView // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -5622,18 +6193,20 @@ class _$DateInfoCopyWithImpl<$Res, $Val extends DateInfo>
 abstract class _$$DateInfoImplCopyWith<$Res>
     implements $DateInfoCopyWith<$Res> {
   factory _$$DateInfoImplCopyWith(
-          _$DateInfoImpl value, $Res Function(_$DateInfoImpl) then) =
-      __$$DateInfoImplCopyWithImpl<$Res>;
+    _$DateInfoImpl value,
+    $Res Function(_$DateInfoImpl) then,
+  ) = __$$DateInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int date,
-      String title,
-      String? formattedDate,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    int date,
+    String title,
+    String? formattedDate,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -5641,9 +6214,12 @@ class __$$DateInfoImplCopyWithImpl<$Res>
     extends _$DateInfoCopyWithImpl<$Res, _$DateInfoImpl>
     implements _$$DateInfoImplCopyWith<$Res> {
   __$$DateInfoImplCopyWithImpl(
-      _$DateInfoImpl _value, $Res Function(_$DateInfoImpl) _then)
-      : super(_value, _then);
+    _$DateInfoImpl _value,
+    $Res Function(_$DateInfoImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of DateInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5655,36 +6231,38 @@ class __$$DateInfoImplCopyWithImpl<$Res>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_$DateInfoImpl(
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      formattedDate: freezed == formattedDate
-          ? _value.formattedDate
-          : formattedDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$DateInfoImpl(
+        date: null == date
+            ? _value.date
+            : date // ignore: cast_nullable_to_non_nullable
+                  as int,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        formattedDate: freezed == formattedDate
+            ? _value.formattedDate
+            : formattedDate // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        iconUrl: freezed == iconUrl
+            ? _value.iconUrl
+            : iconUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        filterType: null == filterType
+            ? _value.filterType
+            : filterType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        weightage: null == weightage
+            ? _value.weightage
+            : weightage // ignore: cast_nullable_to_non_nullable
+                  as int,
+        showInCompactView: null == showInCompactView
+            ? _value.showInCompactView
+            : showInCompactView // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -5692,14 +6270,15 @@ class __$$DateInfoImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$DateInfoImpl implements _DateInfo {
-  const _$DateInfoImpl(
-      {required this.date,
-      required this.title,
-      this.formattedDate,
-      this.iconUrl,
-      this.filterType = "DATE",
-      this.weightage = 0,
-      this.showInCompactView = false});
+  const _$DateInfoImpl({
+    required this.date,
+    required this.title,
+    this.formattedDate,
+    this.iconUrl,
+    this.filterType = "DATE",
+    this.weightage = 0,
+    this.showInCompactView = false,
+  });
 
   factory _$DateInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$DateInfoImplFromJson(json);
@@ -5728,7 +6307,7 @@ class _$DateInfoImpl implements _DateInfo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DateInfoImpl &&
@@ -5745,12 +6324,22 @@ class _$DateInfoImpl implements _DateInfo {
                 other.showInCompactView == showInCompactView));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, date, title, formattedDate,
-      iconUrl, filterType, weightage, showInCompactView);
+  int get hashCode => Object.hash(
+    runtimeType,
+    date,
+    title,
+    formattedDate,
+    iconUrl,
+    filterType,
+    weightage,
+    showInCompactView,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DateInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DateInfoImplCopyWith<_$DateInfoImpl> get copyWith =>
@@ -5758,21 +6347,20 @@ class _$DateInfoImpl implements _DateInfo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DateInfoImplToJson(
-      this,
-    );
+    return _$$DateInfoImplToJson(this);
   }
 }
 
 abstract class _DateInfo implements DateInfo {
-  const factory _DateInfo(
-      {required final int date,
-      required final String title,
-      final String? formattedDate,
-      final String? iconUrl,
-      final String filterType,
-      final int weightage,
-      final bool showInCompactView}) = _$DateInfoImpl;
+  const factory _DateInfo({
+    required final int date,
+    required final String title,
+    final String? formattedDate,
+    final String? iconUrl,
+    final String filterType,
+    final int weightage,
+    final bool showInCompactView,
+  }) = _$DateInfoImpl;
 
   factory _DateInfo.fromJson(Map<String, dynamic> json) =
       _$DateInfoImpl.fromJson;
@@ -5791,8 +6379,11 @@ abstract class _DateInfo implements DateInfo {
   int get weightage;
   @override
   bool get showInCompactView;
+
+  /// Create a copy of DateInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DateInfoImplCopyWith<_$DateInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5813,8 +6404,12 @@ mixin _$DateRange {
   int get weightage => throw _privateConstructorUsedError;
   bool get showInCompactView => throw _privateConstructorUsedError;
 
+  /// Serializes this DateRange to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DateRange
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DateRangeCopyWith<DateRange> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5824,16 +6419,17 @@ abstract class $DateRangeCopyWith<$Res> {
   factory $DateRangeCopyWith(DateRange value, $Res Function(DateRange) then) =
       _$DateRangeCopyWithImpl<$Res, DateRange>;
   @useResult
-  $Res call(
-      {int startDate,
-      int endDate,
-      String title,
-      String? formattedDate,
-      String formattedDateCompactView,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    int startDate,
+    int endDate,
+    String title,
+    String? formattedDate,
+    String formattedDateCompactView,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -5846,6 +6442,8 @@ class _$DateRangeCopyWithImpl<$Res, $Val extends DateRange>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DateRange
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5859,44 +6457,47 @@ class _$DateRangeCopyWithImpl<$Res, $Val extends DateRange>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_value.copyWith(
-      startDate: null == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as int,
-      endDate: null == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      formattedDate: freezed == formattedDate
-          ? _value.formattedDate
-          : formattedDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      formattedDateCompactView: null == formattedDateCompactView
-          ? _value.formattedDateCompactView
-          : formattedDateCompactView // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            startDate: null == startDate
+                ? _value.startDate
+                : startDate // ignore: cast_nullable_to_non_nullable
+                      as int,
+            endDate: null == endDate
+                ? _value.endDate
+                : endDate // ignore: cast_nullable_to_non_nullable
+                      as int,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            formattedDate: freezed == formattedDate
+                ? _value.formattedDate
+                : formattedDate // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            formattedDateCompactView: null == formattedDateCompactView
+                ? _value.formattedDateCompactView
+                : formattedDateCompactView // ignore: cast_nullable_to_non_nullable
+                      as String,
+            iconUrl: freezed == iconUrl
+                ? _value.iconUrl
+                : iconUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            filterType: null == filterType
+                ? _value.filterType
+                : filterType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            weightage: null == weightage
+                ? _value.weightage
+                : weightage // ignore: cast_nullable_to_non_nullable
+                      as int,
+            showInCompactView: null == showInCompactView
+                ? _value.showInCompactView
+                : showInCompactView // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -5904,20 +6505,22 @@ class _$DateRangeCopyWithImpl<$Res, $Val extends DateRange>
 abstract class _$$DateRangeImplCopyWith<$Res>
     implements $DateRangeCopyWith<$Res> {
   factory _$$DateRangeImplCopyWith(
-          _$DateRangeImpl value, $Res Function(_$DateRangeImpl) then) =
-      __$$DateRangeImplCopyWithImpl<$Res>;
+    _$DateRangeImpl value,
+    $Res Function(_$DateRangeImpl) then,
+  ) = __$$DateRangeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int startDate,
-      int endDate,
-      String title,
-      String? formattedDate,
-      String formattedDateCompactView,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    int startDate,
+    int endDate,
+    String title,
+    String? formattedDate,
+    String formattedDateCompactView,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -5925,9 +6528,12 @@ class __$$DateRangeImplCopyWithImpl<$Res>
     extends _$DateRangeCopyWithImpl<$Res, _$DateRangeImpl>
     implements _$$DateRangeImplCopyWith<$Res> {
   __$$DateRangeImplCopyWithImpl(
-      _$DateRangeImpl _value, $Res Function(_$DateRangeImpl) _then)
-      : super(_value, _then);
+    _$DateRangeImpl _value,
+    $Res Function(_$DateRangeImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of DateRange
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5941,44 +6547,46 @@ class __$$DateRangeImplCopyWithImpl<$Res>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_$DateRangeImpl(
-      startDate: null == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as int,
-      endDate: null == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      formattedDate: freezed == formattedDate
-          ? _value.formattedDate
-          : formattedDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      formattedDateCompactView: null == formattedDateCompactView
-          ? _value.formattedDateCompactView
-          : formattedDateCompactView // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$DateRangeImpl(
+        startDate: null == startDate
+            ? _value.startDate
+            : startDate // ignore: cast_nullable_to_non_nullable
+                  as int,
+        endDate: null == endDate
+            ? _value.endDate
+            : endDate // ignore: cast_nullable_to_non_nullable
+                  as int,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        formattedDate: freezed == formattedDate
+            ? _value.formattedDate
+            : formattedDate // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        formattedDateCompactView: null == formattedDateCompactView
+            ? _value.formattedDateCompactView
+            : formattedDateCompactView // ignore: cast_nullable_to_non_nullable
+                  as String,
+        iconUrl: freezed == iconUrl
+            ? _value.iconUrl
+            : iconUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        filterType: null == filterType
+            ? _value.filterType
+            : filterType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        weightage: null == weightage
+            ? _value.weightage
+            : weightage // ignore: cast_nullable_to_non_nullable
+                  as int,
+        showInCompactView: null == showInCompactView
+            ? _value.showInCompactView
+            : showInCompactView // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -5986,16 +6594,17 @@ class __$$DateRangeImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$DateRangeImpl implements _DateRange {
-  const _$DateRangeImpl(
-      {required this.startDate,
-      required this.endDate,
-      required this.title,
-      this.formattedDate,
-      this.formattedDateCompactView = "",
-      this.iconUrl,
-      this.filterType = "DATE_RANGE",
-      this.weightage = 0,
-      this.showInCompactView = false});
+  const _$DateRangeImpl({
+    required this.startDate,
+    required this.endDate,
+    required this.title,
+    this.formattedDate,
+    this.formattedDateCompactView = "",
+    this.iconUrl,
+    this.filterType = "DATE_RANGE",
+    this.weightage = 0,
+    this.showInCompactView = false,
+  });
 
   factory _$DateRangeImpl.fromJson(Map<String, dynamic> json) =>
       _$$DateRangeImplFromJson(json);
@@ -6029,7 +6638,7 @@ class _$DateRangeImpl implements _DateRange {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DateRangeImpl &&
@@ -6040,7 +6649,9 @@ class _$DateRangeImpl implements _DateRange {
             (identical(other.formattedDate, formattedDate) ||
                 other.formattedDate == formattedDate) &&
             (identical(
-                    other.formattedDateCompactView, formattedDateCompactView) ||
+                  other.formattedDateCompactView,
+                  formattedDateCompactView,
+                ) ||
                 other.formattedDateCompactView == formattedDateCompactView) &&
             (identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl) &&
             (identical(other.filterType, filterType) ||
@@ -6051,21 +6662,24 @@ class _$DateRangeImpl implements _DateRange {
                 other.showInCompactView == showInCompactView));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      startDate,
-      endDate,
-      title,
-      formattedDate,
-      formattedDateCompactView,
-      iconUrl,
-      filterType,
-      weightage,
-      showInCompactView);
+    runtimeType,
+    startDate,
+    endDate,
+    title,
+    formattedDate,
+    formattedDateCompactView,
+    iconUrl,
+    filterType,
+    weightage,
+    showInCompactView,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DateRange
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DateRangeImplCopyWith<_$DateRangeImpl> get copyWith =>
@@ -6073,23 +6687,22 @@ class _$DateRangeImpl implements _DateRange {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DateRangeImplToJson(
-      this,
-    );
+    return _$$DateRangeImplToJson(this);
   }
 }
 
 abstract class _DateRange implements DateRange {
-  const factory _DateRange(
-      {required final int startDate,
-      required final int endDate,
-      required final String title,
-      final String? formattedDate,
-      final String formattedDateCompactView,
-      final String? iconUrl,
-      final String filterType,
-      final int weightage,
-      final bool showInCompactView}) = _$DateRangeImpl;
+  const factory _DateRange({
+    required final int startDate,
+    required final int endDate,
+    required final String title,
+    final String? formattedDate,
+    final String formattedDateCompactView,
+    final String? iconUrl,
+    final String filterType,
+    final int weightage,
+    final bool showInCompactView,
+  }) = _$DateRangeImpl;
 
   factory _DateRange.fromJson(Map<String, dynamic> json) =
       _$DateRangeImpl.fromJson;
@@ -6112,8 +6725,11 @@ abstract class _DateRange implements DateRange {
   int get weightage;
   @override
   bool get showInCompactView;
+
+  /// Create a copy of DateRange
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DateRangeImplCopyWith<_$DateRangeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -6134,8 +6750,12 @@ mixin _$Destination {
   int get weightage => throw _privateConstructorUsedError;
   bool get showInCompactView => throw _privateConstructorUsedError;
 
+  /// Serializes this Destination to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Destination
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DestinationCopyWith<Destination> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -6143,18 +6763,20 @@ mixin _$Destination {
 /// @nodoc
 abstract class $DestinationCopyWith<$Res> {
   factory $DestinationCopyWith(
-          Destination value, $Res Function(Destination) then) =
-      _$DestinationCopyWithImpl<$Res, Destination>;
+    Destination value,
+    $Res Function(Destination) then,
+  ) = _$DestinationCopyWithImpl<$Res, Destination>;
   @useResult
-  $Res call(
-      {String title,
-      Location? location,
-      LocationResponse? locationResponse,
-      String? iconUrl,
-      GoogleSearchResponse? googleSearchResponse,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    String title,
+    Location? location,
+    LocationResponse? locationResponse,
+    String? iconUrl,
+    GoogleSearchResponse? googleSearchResponse,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 
   $LocationCopyWith<$Res>? get location;
   $LocationResponseCopyWith<$Res>? get locationResponse;
@@ -6171,6 +6793,8 @@ class _$DestinationCopyWithImpl<$Res, $Val extends Destination>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Destination
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6183,42 +6807,47 @@ class _$DestinationCopyWithImpl<$Res, $Val extends Destination>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_value.copyWith(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as Location?,
-      locationResponse: freezed == locationResponse
-          ? _value.locationResponse
-          : locationResponse // ignore: cast_nullable_to_non_nullable
-              as LocationResponse?,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      googleSearchResponse: freezed == googleSearchResponse
-          ? _value.googleSearchResponse
-          : googleSearchResponse // ignore: cast_nullable_to_non_nullable
-              as GoogleSearchResponse?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            location: freezed == location
+                ? _value.location
+                : location // ignore: cast_nullable_to_non_nullable
+                      as Location?,
+            locationResponse: freezed == locationResponse
+                ? _value.locationResponse
+                : locationResponse // ignore: cast_nullable_to_non_nullable
+                      as LocationResponse?,
+            iconUrl: freezed == iconUrl
+                ? _value.iconUrl
+                : iconUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            googleSearchResponse: freezed == googleSearchResponse
+                ? _value.googleSearchResponse
+                : googleSearchResponse // ignore: cast_nullable_to_non_nullable
+                      as GoogleSearchResponse?,
+            filterType: null == filterType
+                ? _value.filterType
+                : filterType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            weightage: null == weightage
+                ? _value.weightage
+                : weightage // ignore: cast_nullable_to_non_nullable
+                      as int,
+            showInCompactView: null == showInCompactView
+                ? _value.showInCompactView
+                : showInCompactView // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 
+  /// Create a copy of Destination
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocationCopyWith<$Res>? get location {
@@ -6231,6 +6860,8 @@ class _$DestinationCopyWithImpl<$Res, $Val extends Destination>
     });
   }
 
+  /// Create a copy of Destination
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocationResponseCopyWith<$Res>? get locationResponse {
@@ -6243,6 +6874,8 @@ class _$DestinationCopyWithImpl<$Res, $Val extends Destination>
     });
   }
 
+  /// Create a copy of Destination
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $GoogleSearchResponseCopyWith<$Res>? get googleSearchResponse {
@@ -6250,8 +6883,9 @@ class _$DestinationCopyWithImpl<$Res, $Val extends Destination>
       return null;
     }
 
-    return $GoogleSearchResponseCopyWith<$Res>(_value.googleSearchResponse!,
-        (value) {
+    return $GoogleSearchResponseCopyWith<$Res>(_value.googleSearchResponse!, (
+      value,
+    ) {
       return _then(_value.copyWith(googleSearchResponse: value) as $Val);
     });
   }
@@ -6261,19 +6895,21 @@ class _$DestinationCopyWithImpl<$Res, $Val extends Destination>
 abstract class _$$DestinationImplCopyWith<$Res>
     implements $DestinationCopyWith<$Res> {
   factory _$$DestinationImplCopyWith(
-          _$DestinationImpl value, $Res Function(_$DestinationImpl) then) =
-      __$$DestinationImplCopyWithImpl<$Res>;
+    _$DestinationImpl value,
+    $Res Function(_$DestinationImpl) then,
+  ) = __$$DestinationImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String title,
-      Location? location,
-      LocationResponse? locationResponse,
-      String? iconUrl,
-      GoogleSearchResponse? googleSearchResponse,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    String title,
+    Location? location,
+    LocationResponse? locationResponse,
+    String? iconUrl,
+    GoogleSearchResponse? googleSearchResponse,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 
   @override
   $LocationCopyWith<$Res>? get location;
@@ -6288,9 +6924,12 @@ class __$$DestinationImplCopyWithImpl<$Res>
     extends _$DestinationCopyWithImpl<$Res, _$DestinationImpl>
     implements _$$DestinationImplCopyWith<$Res> {
   __$$DestinationImplCopyWithImpl(
-      _$DestinationImpl _value, $Res Function(_$DestinationImpl) _then)
-      : super(_value, _then);
+    _$DestinationImpl _value,
+    $Res Function(_$DestinationImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of Destination
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6303,40 +6942,42 @@ class __$$DestinationImplCopyWithImpl<$Res>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_$DestinationImpl(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as Location?,
-      locationResponse: freezed == locationResponse
-          ? _value.locationResponse
-          : locationResponse // ignore: cast_nullable_to_non_nullable
-              as LocationResponse?,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      googleSearchResponse: freezed == googleSearchResponse
-          ? _value.googleSearchResponse
-          : googleSearchResponse // ignore: cast_nullable_to_non_nullable
-              as GoogleSearchResponse?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$DestinationImpl(
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        location: freezed == location
+            ? _value.location
+            : location // ignore: cast_nullable_to_non_nullable
+                  as Location?,
+        locationResponse: freezed == locationResponse
+            ? _value.locationResponse
+            : locationResponse // ignore: cast_nullable_to_non_nullable
+                  as LocationResponse?,
+        iconUrl: freezed == iconUrl
+            ? _value.iconUrl
+            : iconUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        googleSearchResponse: freezed == googleSearchResponse
+            ? _value.googleSearchResponse
+            : googleSearchResponse // ignore: cast_nullable_to_non_nullable
+                  as GoogleSearchResponse?,
+        filterType: null == filterType
+            ? _value.filterType
+            : filterType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        weightage: null == weightage
+            ? _value.weightage
+            : weightage // ignore: cast_nullable_to_non_nullable
+                  as int,
+        showInCompactView: null == showInCompactView
+            ? _value.showInCompactView
+            : showInCompactView // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -6344,15 +6985,16 @@ class __$$DestinationImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$DestinationImpl implements _Destination {
-  const _$DestinationImpl(
-      {required this.title,
-      this.location,
-      this.locationResponse,
-      this.iconUrl,
-      this.googleSearchResponse,
-      this.filterType = "LOCATION",
-      this.weightage = 0,
-      this.showInCompactView = false});
+  const _$DestinationImpl({
+    required this.title,
+    this.location,
+    this.locationResponse,
+    this.iconUrl,
+    this.googleSearchResponse,
+    this.filterType = "LOCATION",
+    this.weightage = 0,
+    this.showInCompactView = false,
+  });
 
   factory _$DestinationImpl.fromJson(Map<String, dynamic> json) =>
       _$$DestinationImplFromJson(json);
@@ -6383,7 +7025,7 @@ class _$DestinationImpl implements _Destination {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DestinationImpl &&
@@ -6403,20 +7045,23 @@ class _$DestinationImpl implements _Destination {
                 other.showInCompactView == showInCompactView));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      title,
-      location,
-      locationResponse,
-      iconUrl,
-      googleSearchResponse,
-      filterType,
-      weightage,
-      showInCompactView);
+    runtimeType,
+    title,
+    location,
+    locationResponse,
+    iconUrl,
+    googleSearchResponse,
+    filterType,
+    weightage,
+    showInCompactView,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Destination
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DestinationImplCopyWith<_$DestinationImpl> get copyWith =>
@@ -6424,22 +7069,21 @@ class _$DestinationImpl implements _Destination {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DestinationImplToJson(
-      this,
-    );
+    return _$$DestinationImplToJson(this);
   }
 }
 
 abstract class _Destination implements Destination {
-  const factory _Destination(
-      {required final String title,
-      final Location? location,
-      final LocationResponse? locationResponse,
-      final String? iconUrl,
-      final GoogleSearchResponse? googleSearchResponse,
-      final String filterType,
-      final int weightage,
-      final bool showInCompactView}) = _$DestinationImpl;
+  const factory _Destination({
+    required final String title,
+    final Location? location,
+    final LocationResponse? locationResponse,
+    final String? iconUrl,
+    final GoogleSearchResponse? googleSearchResponse,
+    final String filterType,
+    final int weightage,
+    final bool showInCompactView,
+  }) = _$DestinationImpl;
 
   factory _Destination.fromJson(Map<String, dynamic> json) =
       _$DestinationImpl.fromJson;
@@ -6460,8 +7104,11 @@ abstract class _Destination implements Destination {
   int get weightage;
   @override
   bool get showInCompactView;
+
+  /// Create a copy of Destination
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DestinationImplCopyWith<_$DestinationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -6480,8 +7127,12 @@ mixin _$PaidLobby {
   int get weightage => throw _privateConstructorUsedError;
   bool get showInCompactView => throw _privateConstructorUsedError;
 
+  /// Serializes this PaidLobby to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PaidLobby
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PaidLobbyCopyWith<PaidLobby> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -6491,14 +7142,15 @@ abstract class $PaidLobbyCopyWith<$Res> {
   factory $PaidLobbyCopyWith(PaidLobby value, $Res Function(PaidLobby) then) =
       _$PaidLobbyCopyWithImpl<$Res, PaidLobby>;
   @useResult
-  $Res call(
-      {bool isPaid,
-      String title,
-      String? iconUrl,
-      double value,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    bool isPaid,
+    String title,
+    String? iconUrl,
+    double value,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -6511,6 +7163,8 @@ class _$PaidLobbyCopyWithImpl<$Res, $Val extends PaidLobby>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PaidLobby
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6522,36 +7176,39 @@ class _$PaidLobbyCopyWithImpl<$Res, $Val extends PaidLobby>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_value.copyWith(
-      isPaid: null == isPaid
-          ? _value.isPaid
-          : isPaid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as double,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            isPaid: null == isPaid
+                ? _value.isPaid
+                : isPaid // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            iconUrl: freezed == iconUrl
+                ? _value.iconUrl
+                : iconUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            value: null == value
+                ? _value.value
+                : value // ignore: cast_nullable_to_non_nullable
+                      as double,
+            filterType: null == filterType
+                ? _value.filterType
+                : filterType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            weightage: null == weightage
+                ? _value.weightage
+                : weightage // ignore: cast_nullable_to_non_nullable
+                      as int,
+            showInCompactView: null == showInCompactView
+                ? _value.showInCompactView
+                : showInCompactView // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -6559,18 +7216,20 @@ class _$PaidLobbyCopyWithImpl<$Res, $Val extends PaidLobby>
 abstract class _$$PaidLobbyImplCopyWith<$Res>
     implements $PaidLobbyCopyWith<$Res> {
   factory _$$PaidLobbyImplCopyWith(
-          _$PaidLobbyImpl value, $Res Function(_$PaidLobbyImpl) then) =
-      __$$PaidLobbyImplCopyWithImpl<$Res>;
+    _$PaidLobbyImpl value,
+    $Res Function(_$PaidLobbyImpl) then,
+  ) = __$$PaidLobbyImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool isPaid,
-      String title,
-      String? iconUrl,
-      double value,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    bool isPaid,
+    String title,
+    String? iconUrl,
+    double value,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -6578,9 +7237,12 @@ class __$$PaidLobbyImplCopyWithImpl<$Res>
     extends _$PaidLobbyCopyWithImpl<$Res, _$PaidLobbyImpl>
     implements _$$PaidLobbyImplCopyWith<$Res> {
   __$$PaidLobbyImplCopyWithImpl(
-      _$PaidLobbyImpl _value, $Res Function(_$PaidLobbyImpl) _then)
-      : super(_value, _then);
+    _$PaidLobbyImpl _value,
+    $Res Function(_$PaidLobbyImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of PaidLobby
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6592,36 +7254,38 @@ class __$$PaidLobbyImplCopyWithImpl<$Res>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_$PaidLobbyImpl(
-      isPaid: null == isPaid
-          ? _value.isPaid
-          : isPaid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as double,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$PaidLobbyImpl(
+        isPaid: null == isPaid
+            ? _value.isPaid
+            : isPaid // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        iconUrl: freezed == iconUrl
+            ? _value.iconUrl
+            : iconUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        value: null == value
+            ? _value.value
+            : value // ignore: cast_nullable_to_non_nullable
+                  as double,
+        filterType: null == filterType
+            ? _value.filterType
+            : filterType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        weightage: null == weightage
+            ? _value.weightage
+            : weightage // ignore: cast_nullable_to_non_nullable
+                  as int,
+        showInCompactView: null == showInCompactView
+            ? _value.showInCompactView
+            : showInCompactView // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -6629,14 +7293,15 @@ class __$$PaidLobbyImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$PaidLobbyImpl implements _PaidLobby {
-  const _$PaidLobbyImpl(
-      {this.isPaid = false,
-      required this.title,
-      this.iconUrl,
-      this.value = 0,
-      this.filterType = "RADIO_BUTTON_WITH_INPUT",
-      this.weightage = 0,
-      this.showInCompactView = false});
+  const _$PaidLobbyImpl({
+    this.isPaid = false,
+    required this.title,
+    this.iconUrl,
+    this.value = 0,
+    this.filterType = "RADIO_BUTTON_WITH_INPUT",
+    this.weightage = 0,
+    this.showInCompactView = false,
+  });
 
   factory _$PaidLobbyImpl.fromJson(Map<String, dynamic> json) =>
       _$$PaidLobbyImplFromJson(json);
@@ -6667,7 +7332,7 @@ class _$PaidLobbyImpl implements _PaidLobby {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PaidLobbyImpl &&
@@ -6683,12 +7348,22 @@ class _$PaidLobbyImpl implements _PaidLobby {
                 other.showInCompactView == showInCompactView));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, isPaid, title, iconUrl, value,
-      filterType, weightage, showInCompactView);
+  int get hashCode => Object.hash(
+    runtimeType,
+    isPaid,
+    title,
+    iconUrl,
+    value,
+    filterType,
+    weightage,
+    showInCompactView,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PaidLobby
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PaidLobbyImplCopyWith<_$PaidLobbyImpl> get copyWith =>
@@ -6696,21 +7371,20 @@ class _$PaidLobbyImpl implements _PaidLobby {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PaidLobbyImplToJson(
-      this,
-    );
+    return _$$PaidLobbyImplToJson(this);
   }
 }
 
 abstract class _PaidLobby implements PaidLobby {
-  const factory _PaidLobby(
-      {final bool isPaid,
-      required final String title,
-      final String? iconUrl,
-      final double value,
-      final String filterType,
-      final int weightage,
-      final bool showInCompactView}) = _$PaidLobbyImpl;
+  const factory _PaidLobby({
+    final bool isPaid,
+    required final String title,
+    final String? iconUrl,
+    final double value,
+    final String filterType,
+    final int weightage,
+    final bool showInCompactView,
+  }) = _$PaidLobbyImpl;
 
   factory _PaidLobby.fromJson(Map<String, dynamic> json) =
       _$PaidLobbyImpl.fromJson;
@@ -6729,8 +7403,11 @@ abstract class _PaidLobby implements PaidLobby {
   int get weightage;
   @override
   bool get showInCompactView;
+
+  /// Create a copy of PaidLobby
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PaidLobbyImplCopyWith<_$PaidLobbyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -6751,8 +7428,12 @@ mixin _$PickUp {
   int get weightage => throw _privateConstructorUsedError;
   bool get showInCompactView => throw _privateConstructorUsedError;
 
+  /// Serializes this PickUp to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PickUp
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PickUpCopyWith<PickUp> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -6761,15 +7442,16 @@ abstract class $PickUpCopyWith<$Res> {
   factory $PickUpCopyWith(PickUp value, $Res Function(PickUp) then) =
       _$PickUpCopyWithImpl<$Res, PickUp>;
   @useResult
-  $Res call(
-      {String title,
-      Location? location,
-      LocationResponse? locationResponse,
-      String? iconUrl,
-      GoogleSearchResponse? googleSearchResponse,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    String title,
+    Location? location,
+    LocationResponse? locationResponse,
+    String? iconUrl,
+    GoogleSearchResponse? googleSearchResponse,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 
   $LocationCopyWith<$Res>? get location;
   $LocationResponseCopyWith<$Res>? get locationResponse;
@@ -6786,6 +7468,8 @@ class _$PickUpCopyWithImpl<$Res, $Val extends PickUp>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PickUp
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6798,42 +7482,47 @@ class _$PickUpCopyWithImpl<$Res, $Val extends PickUp>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_value.copyWith(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as Location?,
-      locationResponse: freezed == locationResponse
-          ? _value.locationResponse
-          : locationResponse // ignore: cast_nullable_to_non_nullable
-              as LocationResponse?,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      googleSearchResponse: freezed == googleSearchResponse
-          ? _value.googleSearchResponse
-          : googleSearchResponse // ignore: cast_nullable_to_non_nullable
-              as GoogleSearchResponse?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            location: freezed == location
+                ? _value.location
+                : location // ignore: cast_nullable_to_non_nullable
+                      as Location?,
+            locationResponse: freezed == locationResponse
+                ? _value.locationResponse
+                : locationResponse // ignore: cast_nullable_to_non_nullable
+                      as LocationResponse?,
+            iconUrl: freezed == iconUrl
+                ? _value.iconUrl
+                : iconUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            googleSearchResponse: freezed == googleSearchResponse
+                ? _value.googleSearchResponse
+                : googleSearchResponse // ignore: cast_nullable_to_non_nullable
+                      as GoogleSearchResponse?,
+            filterType: null == filterType
+                ? _value.filterType
+                : filterType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            weightage: null == weightage
+                ? _value.weightage
+                : weightage // ignore: cast_nullable_to_non_nullable
+                      as int,
+            showInCompactView: null == showInCompactView
+                ? _value.showInCompactView
+                : showInCompactView // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 
+  /// Create a copy of PickUp
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocationCopyWith<$Res>? get location {
@@ -6846,6 +7535,8 @@ class _$PickUpCopyWithImpl<$Res, $Val extends PickUp>
     });
   }
 
+  /// Create a copy of PickUp
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocationResponseCopyWith<$Res>? get locationResponse {
@@ -6858,6 +7549,8 @@ class _$PickUpCopyWithImpl<$Res, $Val extends PickUp>
     });
   }
 
+  /// Create a copy of PickUp
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $GoogleSearchResponseCopyWith<$Res>? get googleSearchResponse {
@@ -6865,8 +7558,9 @@ class _$PickUpCopyWithImpl<$Res, $Val extends PickUp>
       return null;
     }
 
-    return $GoogleSearchResponseCopyWith<$Res>(_value.googleSearchResponse!,
-        (value) {
+    return $GoogleSearchResponseCopyWith<$Res>(_value.googleSearchResponse!, (
+      value,
+    ) {
       return _then(_value.copyWith(googleSearchResponse: value) as $Val);
     });
   }
@@ -6875,19 +7569,21 @@ class _$PickUpCopyWithImpl<$Res, $Val extends PickUp>
 /// @nodoc
 abstract class _$$PickUpImplCopyWith<$Res> implements $PickUpCopyWith<$Res> {
   factory _$$PickUpImplCopyWith(
-          _$PickUpImpl value, $Res Function(_$PickUpImpl) then) =
-      __$$PickUpImplCopyWithImpl<$Res>;
+    _$PickUpImpl value,
+    $Res Function(_$PickUpImpl) then,
+  ) = __$$PickUpImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String title,
-      Location? location,
-      LocationResponse? locationResponse,
-      String? iconUrl,
-      GoogleSearchResponse? googleSearchResponse,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    String title,
+    Location? location,
+    LocationResponse? locationResponse,
+    String? iconUrl,
+    GoogleSearchResponse? googleSearchResponse,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 
   @override
   $LocationCopyWith<$Res>? get location;
@@ -6902,9 +7598,12 @@ class __$$PickUpImplCopyWithImpl<$Res>
     extends _$PickUpCopyWithImpl<$Res, _$PickUpImpl>
     implements _$$PickUpImplCopyWith<$Res> {
   __$$PickUpImplCopyWithImpl(
-      _$PickUpImpl _value, $Res Function(_$PickUpImpl) _then)
-      : super(_value, _then);
+    _$PickUpImpl _value,
+    $Res Function(_$PickUpImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of PickUp
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6917,40 +7616,42 @@ class __$$PickUpImplCopyWithImpl<$Res>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_$PickUpImpl(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as Location?,
-      locationResponse: freezed == locationResponse
-          ? _value.locationResponse
-          : locationResponse // ignore: cast_nullable_to_non_nullable
-              as LocationResponse?,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      googleSearchResponse: freezed == googleSearchResponse
-          ? _value.googleSearchResponse
-          : googleSearchResponse // ignore: cast_nullable_to_non_nullable
-              as GoogleSearchResponse?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$PickUpImpl(
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        location: freezed == location
+            ? _value.location
+            : location // ignore: cast_nullable_to_non_nullable
+                  as Location?,
+        locationResponse: freezed == locationResponse
+            ? _value.locationResponse
+            : locationResponse // ignore: cast_nullable_to_non_nullable
+                  as LocationResponse?,
+        iconUrl: freezed == iconUrl
+            ? _value.iconUrl
+            : iconUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        googleSearchResponse: freezed == googleSearchResponse
+            ? _value.googleSearchResponse
+            : googleSearchResponse // ignore: cast_nullable_to_non_nullable
+                  as GoogleSearchResponse?,
+        filterType: null == filterType
+            ? _value.filterType
+            : filterType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        weightage: null == weightage
+            ? _value.weightage
+            : weightage // ignore: cast_nullable_to_non_nullable
+                  as int,
+        showInCompactView: null == showInCompactView
+            ? _value.showInCompactView
+            : showInCompactView // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -6958,15 +7659,16 @@ class __$$PickUpImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$PickUpImpl implements _PickUp {
-  const _$PickUpImpl(
-      {required this.title,
-      this.location,
-      this.locationResponse,
-      this.iconUrl,
-      this.googleSearchResponse,
-      this.filterType = "LOCATION",
-      this.weightage = 0,
-      this.showInCompactView = false});
+  const _$PickUpImpl({
+    required this.title,
+    this.location,
+    this.locationResponse,
+    this.iconUrl,
+    this.googleSearchResponse,
+    this.filterType = "LOCATION",
+    this.weightage = 0,
+    this.showInCompactView = false,
+  });
 
   factory _$PickUpImpl.fromJson(Map<String, dynamic> json) =>
       _$$PickUpImplFromJson(json);
@@ -6997,7 +7699,7 @@ class _$PickUpImpl implements _PickUp {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PickUpImpl &&
@@ -7017,20 +7719,23 @@ class _$PickUpImpl implements _PickUp {
                 other.showInCompactView == showInCompactView));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      title,
-      location,
-      locationResponse,
-      iconUrl,
-      googleSearchResponse,
-      filterType,
-      weightage,
-      showInCompactView);
+    runtimeType,
+    title,
+    location,
+    locationResponse,
+    iconUrl,
+    googleSearchResponse,
+    filterType,
+    weightage,
+    showInCompactView,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PickUp
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PickUpImplCopyWith<_$PickUpImpl> get copyWith =>
@@ -7038,22 +7743,21 @@ class _$PickUpImpl implements _PickUp {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PickUpImplToJson(
-      this,
-    );
+    return _$$PickUpImplToJson(this);
   }
 }
 
 abstract class _PickUp implements PickUp {
-  const factory _PickUp(
-      {required final String title,
-      final Location? location,
-      final LocationResponse? locationResponse,
-      final String? iconUrl,
-      final GoogleSearchResponse? googleSearchResponse,
-      final String filterType,
-      final int weightage,
-      final bool showInCompactView}) = _$PickUpImpl;
+  const factory _PickUp({
+    required final String title,
+    final Location? location,
+    final LocationResponse? locationResponse,
+    final String? iconUrl,
+    final GoogleSearchResponse? googleSearchResponse,
+    final String filterType,
+    final int weightage,
+    final bool showInCompactView,
+  }) = _$PickUpImpl;
 
   factory _PickUp.fromJson(Map<String, dynamic> json) = _$PickUpImpl.fromJson;
 
@@ -7073,8 +7777,11 @@ abstract class _PickUp implements PickUp {
   int get weightage;
   @override
   bool get showInCompactView;
+
+  /// Create a copy of PickUp
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PickUpImplCopyWith<_$PickUpImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -7092,8 +7799,12 @@ mixin _$MemberCount {
   int get weightage => throw _privateConstructorUsedError;
   bool get showInCompactView => throw _privateConstructorUsedError;
 
+  /// Serializes this MemberCount to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MemberCount
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MemberCountCopyWith<MemberCount> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -7101,16 +7812,18 @@ mixin _$MemberCount {
 /// @nodoc
 abstract class $MemberCountCopyWith<$Res> {
   factory $MemberCountCopyWith(
-          MemberCount value, $Res Function(MemberCount) then) =
-      _$MemberCountCopyWithImpl<$Res, MemberCount>;
+    MemberCount value,
+    $Res Function(MemberCount) then,
+  ) = _$MemberCountCopyWithImpl<$Res, MemberCount>;
   @useResult
-  $Res call(
-      {int value,
-      String title,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    int value,
+    String title,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -7123,6 +7836,8 @@ class _$MemberCountCopyWithImpl<$Res, $Val extends MemberCount>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MemberCount
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7133,32 +7848,35 @@ class _$MemberCountCopyWithImpl<$Res, $Val extends MemberCount>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_value.copyWith(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            value: null == value
+                ? _value.value
+                : value // ignore: cast_nullable_to_non_nullable
+                      as int,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            iconUrl: freezed == iconUrl
+                ? _value.iconUrl
+                : iconUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            filterType: null == filterType
+                ? _value.filterType
+                : filterType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            weightage: null == weightage
+                ? _value.weightage
+                : weightage // ignore: cast_nullable_to_non_nullable
+                      as int,
+            showInCompactView: null == showInCompactView
+                ? _value.showInCompactView
+                : showInCompactView // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -7166,17 +7884,19 @@ class _$MemberCountCopyWithImpl<$Res, $Val extends MemberCount>
 abstract class _$$MemberCountImplCopyWith<$Res>
     implements $MemberCountCopyWith<$Res> {
   factory _$$MemberCountImplCopyWith(
-          _$MemberCountImpl value, $Res Function(_$MemberCountImpl) then) =
-      __$$MemberCountImplCopyWithImpl<$Res>;
+    _$MemberCountImpl value,
+    $Res Function(_$MemberCountImpl) then,
+  ) = __$$MemberCountImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int value,
-      String title,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    int value,
+    String title,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -7184,9 +7904,12 @@ class __$$MemberCountImplCopyWithImpl<$Res>
     extends _$MemberCountCopyWithImpl<$Res, _$MemberCountImpl>
     implements _$$MemberCountImplCopyWith<$Res> {
   __$$MemberCountImplCopyWithImpl(
-      _$MemberCountImpl _value, $Res Function(_$MemberCountImpl) _then)
-      : super(_value, _then);
+    _$MemberCountImpl _value,
+    $Res Function(_$MemberCountImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of MemberCount
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7197,32 +7920,34 @@ class __$$MemberCountImplCopyWithImpl<$Res>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_$MemberCountImpl(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$MemberCountImpl(
+        value: null == value
+            ? _value.value
+            : value // ignore: cast_nullable_to_non_nullable
+                  as int,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        iconUrl: freezed == iconUrl
+            ? _value.iconUrl
+            : iconUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        filterType: null == filterType
+            ? _value.filterType
+            : filterType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        weightage: null == weightage
+            ? _value.weightage
+            : weightage // ignore: cast_nullable_to_non_nullable
+                  as int,
+        showInCompactView: null == showInCompactView
+            ? _value.showInCompactView
+            : showInCompactView // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -7230,13 +7955,14 @@ class __$$MemberCountImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$MemberCountImpl implements _MemberCount {
-  const _$MemberCountImpl(
-      {this.value = 0,
-      required this.title,
-      this.iconUrl,
-      this.filterType = "INPUT",
-      this.weightage = 0,
-      this.showInCompactView = false});
+  const _$MemberCountImpl({
+    this.value = 0,
+    required this.title,
+    this.iconUrl,
+    this.filterType = "INPUT",
+    this.weightage = 0,
+    this.showInCompactView = false,
+  });
 
   factory _$MemberCountImpl.fromJson(Map<String, dynamic> json) =>
       _$$MemberCountImplFromJson(json);
@@ -7264,7 +7990,7 @@ class _$MemberCountImpl implements _MemberCount {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MemberCountImpl &&
@@ -7279,12 +8005,21 @@ class _$MemberCountImpl implements _MemberCount {
                 other.showInCompactView == showInCompactView));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, value, title, iconUrl,
-      filterType, weightage, showInCompactView);
+  int get hashCode => Object.hash(
+    runtimeType,
+    value,
+    title,
+    iconUrl,
+    filterType,
+    weightage,
+    showInCompactView,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MemberCount
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MemberCountImplCopyWith<_$MemberCountImpl> get copyWith =>
@@ -7292,20 +8027,19 @@ class _$MemberCountImpl implements _MemberCount {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MemberCountImplToJson(
-      this,
-    );
+    return _$$MemberCountImplToJson(this);
   }
 }
 
 abstract class _MemberCount implements MemberCount {
-  const factory _MemberCount(
-      {final int value,
-      required final String title,
-      final String? iconUrl,
-      final String filterType,
-      final int weightage,
-      final bool showInCompactView}) = _$MemberCountImpl;
+  const factory _MemberCount({
+    final int value,
+    required final String title,
+    final String? iconUrl,
+    final String filterType,
+    final int weightage,
+    final bool showInCompactView,
+  }) = _$MemberCountImpl;
 
   factory _MemberCount.fromJson(Map<String, dynamic> json) =
       _$MemberCountImpl.fromJson;
@@ -7322,8 +8056,11 @@ abstract class _MemberCount implements MemberCount {
   int get weightage;
   @override
   bool get showInCompactView;
+
+  /// Create a copy of MemberCount
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MemberCountImplCopyWith<_$MemberCountImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -7341,8 +8078,12 @@ mixin _$CurrentCount {
   int get weightage => throw _privateConstructorUsedError;
   bool get showInCompactView => throw _privateConstructorUsedError;
 
+  /// Serializes this CurrentCount to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CurrentCount
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CurrentCountCopyWith<CurrentCount> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -7350,16 +8091,18 @@ mixin _$CurrentCount {
 /// @nodoc
 abstract class $CurrentCountCopyWith<$Res> {
   factory $CurrentCountCopyWith(
-          CurrentCount value, $Res Function(CurrentCount) then) =
-      _$CurrentCountCopyWithImpl<$Res, CurrentCount>;
+    CurrentCount value,
+    $Res Function(CurrentCount) then,
+  ) = _$CurrentCountCopyWithImpl<$Res, CurrentCount>;
   @useResult
-  $Res call(
-      {int value,
-      String title,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    int value,
+    String title,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -7372,6 +8115,8 @@ class _$CurrentCountCopyWithImpl<$Res, $Val extends CurrentCount>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CurrentCount
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7382,32 +8127,35 @@ class _$CurrentCountCopyWithImpl<$Res, $Val extends CurrentCount>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_value.copyWith(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            value: null == value
+                ? _value.value
+                : value // ignore: cast_nullable_to_non_nullable
+                      as int,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            iconUrl: freezed == iconUrl
+                ? _value.iconUrl
+                : iconUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            filterType: null == filterType
+                ? _value.filterType
+                : filterType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            weightage: null == weightage
+                ? _value.weightage
+                : weightage // ignore: cast_nullable_to_non_nullable
+                      as int,
+            showInCompactView: null == showInCompactView
+                ? _value.showInCompactView
+                : showInCompactView // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -7415,17 +8163,19 @@ class _$CurrentCountCopyWithImpl<$Res, $Val extends CurrentCount>
 abstract class _$$CurrentCountImplCopyWith<$Res>
     implements $CurrentCountCopyWith<$Res> {
   factory _$$CurrentCountImplCopyWith(
-          _$CurrentCountImpl value, $Res Function(_$CurrentCountImpl) then) =
-      __$$CurrentCountImplCopyWithImpl<$Res>;
+    _$CurrentCountImpl value,
+    $Res Function(_$CurrentCountImpl) then,
+  ) = __$$CurrentCountImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int value,
-      String title,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    int value,
+    String title,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -7433,9 +8183,12 @@ class __$$CurrentCountImplCopyWithImpl<$Res>
     extends _$CurrentCountCopyWithImpl<$Res, _$CurrentCountImpl>
     implements _$$CurrentCountImplCopyWith<$Res> {
   __$$CurrentCountImplCopyWithImpl(
-      _$CurrentCountImpl _value, $Res Function(_$CurrentCountImpl) _then)
-      : super(_value, _then);
+    _$CurrentCountImpl _value,
+    $Res Function(_$CurrentCountImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of CurrentCount
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7446,45 +8199,48 @@ class __$$CurrentCountImplCopyWithImpl<$Res>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_$CurrentCountImpl(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$CurrentCountImpl(
+        value: null == value
+            ? _value.value
+            : value // ignore: cast_nullable_to_non_nullable
+                  as int,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        iconUrl: freezed == iconUrl
+            ? _value.iconUrl
+            : iconUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        filterType: null == filterType
+            ? _value.filterType
+            : filterType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        weightage: null == weightage
+            ? _value.weightage
+            : weightage // ignore: cast_nullable_to_non_nullable
+                  as int,
+        showInCompactView: null == showInCompactView
+            ? _value.showInCompactView
+            : showInCompactView // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$CurrentCountImpl implements _CurrentCount {
-  const _$CurrentCountImpl(
-      {this.value = 0,
-      this.title = 'Current count',
-      this.iconUrl,
-      this.filterType = "INPUT",
-      this.weightage = 0,
-      this.showInCompactView = false});
+  const _$CurrentCountImpl({
+    this.value = 0,
+    this.title = 'Current count',
+    this.iconUrl,
+    this.filterType = "INPUT",
+    this.weightage = 0,
+    this.showInCompactView = false,
+  });
 
   factory _$CurrentCountImpl.fromJson(Map<String, dynamic> json) =>
       _$$CurrentCountImplFromJson(json);
@@ -7513,7 +8269,7 @@ class _$CurrentCountImpl implements _CurrentCount {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CurrentCountImpl &&
@@ -7528,12 +8284,21 @@ class _$CurrentCountImpl implements _CurrentCount {
                 other.showInCompactView == showInCompactView));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, value, title, iconUrl,
-      filterType, weightage, showInCompactView);
+  int get hashCode => Object.hash(
+    runtimeType,
+    value,
+    title,
+    iconUrl,
+    filterType,
+    weightage,
+    showInCompactView,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CurrentCount
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CurrentCountImplCopyWith<_$CurrentCountImpl> get copyWith =>
@@ -7541,20 +8306,19 @@ class _$CurrentCountImpl implements _CurrentCount {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CurrentCountImplToJson(
-      this,
-    );
+    return _$$CurrentCountImplToJson(this);
   }
 }
 
 abstract class _CurrentCount implements CurrentCount {
-  const factory _CurrentCount(
-      {final int value,
-      final String title,
-      final String? iconUrl,
-      final String filterType,
-      final int weightage,
-      final bool showInCompactView}) = _$CurrentCountImpl;
+  const factory _CurrentCount({
+    final int value,
+    final String title,
+    final String? iconUrl,
+    final String filterType,
+    final int weightage,
+    final bool showInCompactView,
+  }) = _$CurrentCountImpl;
 
   factory _CurrentCount.fromJson(Map<String, dynamic> json) =
       _$CurrentCountImpl.fromJson;
@@ -7571,8 +8335,11 @@ abstract class _CurrentCount implements CurrentCount {
   int get weightage;
   @override
   bool get showInCompactView;
+
+  /// Create a copy of CurrentCount
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CurrentCountImplCopyWith<_$CurrentCountImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -7591,8 +8358,12 @@ mixin _$Range {
   int get weightage => throw _privateConstructorUsedError;
   bool get showInCompactView => throw _privateConstructorUsedError;
 
+  /// Serializes this Range to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Range
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RangeCopyWith<Range> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -7601,14 +8372,15 @@ abstract class $RangeCopyWith<$Res> {
   factory $RangeCopyWith(Range value, $Res Function(Range) then) =
       _$RangeCopyWithImpl<$Res, Range>;
   @useResult
-  $Res call(
-      {int min,
-      int max,
-      String title,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    int min,
+    int max,
+    String title,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -7621,6 +8393,8 @@ class _$RangeCopyWithImpl<$Res, $Val extends Range>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Range
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7632,54 +8406,59 @@ class _$RangeCopyWithImpl<$Res, $Val extends Range>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_value.copyWith(
-      min: null == min
-          ? _value.min
-          : min // ignore: cast_nullable_to_non_nullable
-              as int,
-      max: null == max
-          ? _value.max
-          : max // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            min: null == min
+                ? _value.min
+                : min // ignore: cast_nullable_to_non_nullable
+                      as int,
+            max: null == max
+                ? _value.max
+                : max // ignore: cast_nullable_to_non_nullable
+                      as int,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            iconUrl: freezed == iconUrl
+                ? _value.iconUrl
+                : iconUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            filterType: null == filterType
+                ? _value.filterType
+                : filterType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            weightage: null == weightage
+                ? _value.weightage
+                : weightage // ignore: cast_nullable_to_non_nullable
+                      as int,
+            showInCompactView: null == showInCompactView
+                ? _value.showInCompactView
+                : showInCompactView // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$RangeImplCopyWith<$Res> implements $RangeCopyWith<$Res> {
   factory _$$RangeImplCopyWith(
-          _$RangeImpl value, $Res Function(_$RangeImpl) then) =
-      __$$RangeImplCopyWithImpl<$Res>;
+    _$RangeImpl value,
+    $Res Function(_$RangeImpl) then,
+  ) = __$$RangeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int min,
-      int max,
-      String title,
-      String? iconUrl,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    int min,
+    int max,
+    String title,
+    String? iconUrl,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -7687,9 +8466,12 @@ class __$$RangeImplCopyWithImpl<$Res>
     extends _$RangeCopyWithImpl<$Res, _$RangeImpl>
     implements _$$RangeImplCopyWith<$Res> {
   __$$RangeImplCopyWithImpl(
-      _$RangeImpl _value, $Res Function(_$RangeImpl) _then)
-      : super(_value, _then);
+    _$RangeImpl _value,
+    $Res Function(_$RangeImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of Range
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7701,36 +8483,38 @@ class __$$RangeImplCopyWithImpl<$Res>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_$RangeImpl(
-      min: null == min
-          ? _value.min
-          : min // ignore: cast_nullable_to_non_nullable
-              as int,
-      max: null == max
-          ? _value.max
-          : max // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$RangeImpl(
+        min: null == min
+            ? _value.min
+            : min // ignore: cast_nullable_to_non_nullable
+                  as int,
+        max: null == max
+            ? _value.max
+            : max // ignore: cast_nullable_to_non_nullable
+                  as int,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        iconUrl: freezed == iconUrl
+            ? _value.iconUrl
+            : iconUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        filterType: null == filterType
+            ? _value.filterType
+            : filterType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        weightage: null == weightage
+            ? _value.weightage
+            : weightage // ignore: cast_nullable_to_non_nullable
+                  as int,
+        showInCompactView: null == showInCompactView
+            ? _value.showInCompactView
+            : showInCompactView // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -7738,14 +8522,15 @@ class __$$RangeImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$RangeImpl implements _Range {
-  const _$RangeImpl(
-      {this.min = 0,
-      this.max = 0,
-      required this.title,
-      this.iconUrl,
-      this.filterType = "SLIDER",
-      this.weightage = 0,
-      this.showInCompactView = false});
+  const _$RangeImpl({
+    this.min = 0,
+    this.max = 0,
+    required this.title,
+    this.iconUrl,
+    this.filterType = "SLIDER",
+    this.weightage = 0,
+    this.showInCompactView = false,
+  });
 
   factory _$RangeImpl.fromJson(Map<String, dynamic> json) =>
       _$$RangeImplFromJson(json);
@@ -7776,7 +8561,7 @@ class _$RangeImpl implements _Range {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RangeImpl &&
@@ -7792,12 +8577,22 @@ class _$RangeImpl implements _Range {
                 other.showInCompactView == showInCompactView));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, min, max, title, iconUrl,
-      filterType, weightage, showInCompactView);
+  int get hashCode => Object.hash(
+    runtimeType,
+    min,
+    max,
+    title,
+    iconUrl,
+    filterType,
+    weightage,
+    showInCompactView,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Range
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RangeImplCopyWith<_$RangeImpl> get copyWith =>
@@ -7805,21 +8600,20 @@ class _$RangeImpl implements _Range {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RangeImplToJson(
-      this,
-    );
+    return _$$RangeImplToJson(this);
   }
 }
 
 abstract class _Range implements Range {
-  const factory _Range(
-      {final int min,
-      final int max,
-      required final String title,
-      final String? iconUrl,
-      final String filterType,
-      final int weightage,
-      final bool showInCompactView}) = _$RangeImpl;
+  const factory _Range({
+    final int min,
+    final int max,
+    required final String title,
+    final String? iconUrl,
+    final String filterType,
+    final int weightage,
+    final bool showInCompactView,
+  }) = _$RangeImpl;
 
   factory _Range.fromJson(Map<String, dynamic> json) = _$RangeImpl.fromJson;
 
@@ -7837,8 +8631,11 @@ abstract class _Range implements Range {
   int get weightage;
   @override
   bool get showInCompactView;
+
+  /// Create a copy of Range
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RangeImplCopyWith<_$RangeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -7856,8 +8653,12 @@ mixin _$Info {
   int get weightage => throw _privateConstructorUsedError;
   bool get showInCompactView => throw _privateConstructorUsedError;
 
+  /// Serializes this Info to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Info
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $InfoCopyWith<Info> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -7866,13 +8667,14 @@ abstract class $InfoCopyWith<$Res> {
   factory $InfoCopyWith(Info value, $Res Function(Info) then) =
       _$InfoCopyWithImpl<$Res, Info>;
   @useResult
-  $Res call(
-      {double value,
-      String? iconUrl,
-      String title,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    double value,
+    String? iconUrl,
+    String title,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -7885,6 +8687,8 @@ class _$InfoCopyWithImpl<$Res, $Val extends Info>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Info
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7895,49 +8699,54 @@ class _$InfoCopyWithImpl<$Res, $Val extends Info>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_value.copyWith(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as double,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            value: null == value
+                ? _value.value
+                : value // ignore: cast_nullable_to_non_nullable
+                      as double,
+            iconUrl: freezed == iconUrl
+                ? _value.iconUrl
+                : iconUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            filterType: null == filterType
+                ? _value.filterType
+                : filterType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            weightage: null == weightage
+                ? _value.weightage
+                : weightage // ignore: cast_nullable_to_non_nullable
+                      as int,
+            showInCompactView: null == showInCompactView
+                ? _value.showInCompactView
+                : showInCompactView // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$InfoImplCopyWith<$Res> implements $InfoCopyWith<$Res> {
   factory _$$InfoImplCopyWith(
-          _$InfoImpl value, $Res Function(_$InfoImpl) then) =
-      __$$InfoImplCopyWithImpl<$Res>;
+    _$InfoImpl value,
+    $Res Function(_$InfoImpl) then,
+  ) = __$$InfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {double value,
-      String? iconUrl,
-      String title,
-      String filterType,
-      int weightage,
-      bool showInCompactView});
+  $Res call({
+    double value,
+    String? iconUrl,
+    String title,
+    String filterType,
+    int weightage,
+    bool showInCompactView,
+  });
 }
 
 /// @nodoc
@@ -7945,8 +8754,10 @@ class __$$InfoImplCopyWithImpl<$Res>
     extends _$InfoCopyWithImpl<$Res, _$InfoImpl>
     implements _$$InfoImplCopyWith<$Res> {
   __$$InfoImplCopyWithImpl(_$InfoImpl _value, $Res Function(_$InfoImpl) _then)
-      : super(_value, _then);
+    : super(_value, _then);
 
+  /// Create a copy of Info
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7957,32 +8768,34 @@ class __$$InfoImplCopyWithImpl<$Res>
     Object? weightage = null,
     Object? showInCompactView = null,
   }) {
-    return _then(_$InfoImpl(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as double,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$InfoImpl(
+        value: null == value
+            ? _value.value
+            : value // ignore: cast_nullable_to_non_nullable
+                  as double,
+        iconUrl: freezed == iconUrl
+            ? _value.iconUrl
+            : iconUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        filterType: null == filterType
+            ? _value.filterType
+            : filterType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        weightage: null == weightage
+            ? _value.weightage
+            : weightage // ignore: cast_nullable_to_non_nullable
+                  as int,
+        showInCompactView: null == showInCompactView
+            ? _value.showInCompactView
+            : showInCompactView // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
@@ -7990,13 +8803,14 @@ class __$$InfoImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$InfoImpl implements _Info {
-  const _$InfoImpl(
-      {this.value = 0,
-      this.iconUrl,
-      required this.title,
-      this.filterType = "INPUT",
-      this.weightage = 0,
-      this.showInCompactView = false});
+  const _$InfoImpl({
+    this.value = 0,
+    this.iconUrl,
+    required this.title,
+    this.filterType = "INPUT",
+    this.weightage = 0,
+    this.showInCompactView = false,
+  });
 
   factory _$InfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$InfoImplFromJson(json);
@@ -8024,7 +8838,7 @@ class _$InfoImpl implements _Info {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InfoImpl &&
@@ -8039,12 +8853,21 @@ class _$InfoImpl implements _Info {
                 other.showInCompactView == showInCompactView));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, value, iconUrl, title,
-      filterType, weightage, showInCompactView);
+  int get hashCode => Object.hash(
+    runtimeType,
+    value,
+    iconUrl,
+    title,
+    filterType,
+    weightage,
+    showInCompactView,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Info
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InfoImplCopyWith<_$InfoImpl> get copyWith =>
@@ -8052,20 +8875,19 @@ class _$InfoImpl implements _Info {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$InfoImplToJson(
-      this,
-    );
+    return _$$InfoImplToJson(this);
   }
 }
 
 abstract class _Info implements Info {
-  const factory _Info(
-      {final double value,
-      final String? iconUrl,
-      required final String title,
-      final String filterType,
-      final int weightage,
-      final bool showInCompactView}) = _$InfoImpl;
+  const factory _Info({
+    final double value,
+    final String? iconUrl,
+    required final String title,
+    final String filterType,
+    final int weightage,
+    final bool showInCompactView,
+  }) = _$InfoImpl;
 
   factory _Info.fromJson(Map<String, dynamic> json) = _$InfoImpl.fromJson;
 
@@ -8081,8 +8903,11 @@ abstract class _Info implements Info {
   int get weightage;
   @override
   bool get showInCompactView;
+
+  /// Create a copy of Info
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InfoImplCopyWith<_$InfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -8104,8 +8929,12 @@ mixin _$LocationInfo {
   List<GoogleSearchResponse> get googleSearchResponses =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this LocationInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LocationInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LocationInfoCopyWith<LocationInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -8113,18 +8942,20 @@ mixin _$LocationInfo {
 /// @nodoc
 abstract class $LocationInfoCopyWith<$Res> {
   factory $LocationInfoCopyWith(
-          LocationInfo value, $Res Function(LocationInfo) then) =
-      _$LocationInfoCopyWithImpl<$Res, LocationInfo>;
+    LocationInfo value,
+    $Res Function(LocationInfo) then,
+  ) = _$LocationInfoCopyWithImpl<$Res, LocationInfo>;
   @useResult
-  $Res call(
-      {String? title,
-      List<LocationResponse> locationResponses,
-      int weightage,
-      String? iconUrl,
-      String filterType,
-      bool showInCompactView,
-      bool hideLocation,
-      List<GoogleSearchResponse> googleSearchResponses});
+  $Res call({
+    String? title,
+    List<LocationResponse> locationResponses,
+    int weightage,
+    String? iconUrl,
+    String filterType,
+    bool showInCompactView,
+    bool hideLocation,
+    List<GoogleSearchResponse> googleSearchResponses,
+  });
 }
 
 /// @nodoc
@@ -8137,6 +8968,8 @@ class _$LocationInfoCopyWithImpl<$Res, $Val extends LocationInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LocationInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8149,40 +8982,43 @@ class _$LocationInfoCopyWithImpl<$Res, $Val extends LocationInfo>
     Object? hideLocation = null,
     Object? googleSearchResponses = null,
   }) {
-    return _then(_value.copyWith(
-      title: freezed == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      locationResponses: null == locationResponses
-          ? _value.locationResponses
-          : locationResponses // ignore: cast_nullable_to_non_nullable
-              as List<LocationResponse>,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hideLocation: null == hideLocation
-          ? _value.hideLocation
-          : hideLocation // ignore: cast_nullable_to_non_nullable
-              as bool,
-      googleSearchResponses: null == googleSearchResponses
-          ? _value.googleSearchResponses
-          : googleSearchResponses // ignore: cast_nullable_to_non_nullable
-              as List<GoogleSearchResponse>,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            title: freezed == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            locationResponses: null == locationResponses
+                ? _value.locationResponses
+                : locationResponses // ignore: cast_nullable_to_non_nullable
+                      as List<LocationResponse>,
+            weightage: null == weightage
+                ? _value.weightage
+                : weightage // ignore: cast_nullable_to_non_nullable
+                      as int,
+            iconUrl: freezed == iconUrl
+                ? _value.iconUrl
+                : iconUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            filterType: null == filterType
+                ? _value.filterType
+                : filterType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            showInCompactView: null == showInCompactView
+                ? _value.showInCompactView
+                : showInCompactView // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            hideLocation: null == hideLocation
+                ? _value.hideLocation
+                : hideLocation // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            googleSearchResponses: null == googleSearchResponses
+                ? _value.googleSearchResponses
+                : googleSearchResponses // ignore: cast_nullable_to_non_nullable
+                      as List<GoogleSearchResponse>,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -8190,19 +9026,21 @@ class _$LocationInfoCopyWithImpl<$Res, $Val extends LocationInfo>
 abstract class _$$LocationInfoImplCopyWith<$Res>
     implements $LocationInfoCopyWith<$Res> {
   factory _$$LocationInfoImplCopyWith(
-          _$LocationInfoImpl value, $Res Function(_$LocationInfoImpl) then) =
-      __$$LocationInfoImplCopyWithImpl<$Res>;
+    _$LocationInfoImpl value,
+    $Res Function(_$LocationInfoImpl) then,
+  ) = __$$LocationInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String? title,
-      List<LocationResponse> locationResponses,
-      int weightage,
-      String? iconUrl,
-      String filterType,
-      bool showInCompactView,
-      bool hideLocation,
-      List<GoogleSearchResponse> googleSearchResponses});
+  $Res call({
+    String? title,
+    List<LocationResponse> locationResponses,
+    int weightage,
+    String? iconUrl,
+    String filterType,
+    bool showInCompactView,
+    bool hideLocation,
+    List<GoogleSearchResponse> googleSearchResponses,
+  });
 }
 
 /// @nodoc
@@ -8210,9 +9048,12 @@ class __$$LocationInfoImplCopyWithImpl<$Res>
     extends _$LocationInfoCopyWithImpl<$Res, _$LocationInfoImpl>
     implements _$$LocationInfoImplCopyWith<$Res> {
   __$$LocationInfoImplCopyWithImpl(
-      _$LocationInfoImpl _value, $Res Function(_$LocationInfoImpl) _then)
-      : super(_value, _then);
+    _$LocationInfoImpl _value,
+    $Res Function(_$LocationInfoImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of LocationInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8225,40 +9066,42 @@ class __$$LocationInfoImplCopyWithImpl<$Res>
     Object? hideLocation = null,
     Object? googleSearchResponses = null,
   }) {
-    return _then(_$LocationInfoImpl(
-      title: freezed == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      locationResponses: null == locationResponses
-          ? _value._locationResponses
-          : locationResponses // ignore: cast_nullable_to_non_nullable
-              as List<LocationResponse>,
-      weightage: null == weightage
-          ? _value.weightage
-          : weightage // ignore: cast_nullable_to_non_nullable
-              as int,
-      iconUrl: freezed == iconUrl
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterType: null == filterType
-          ? _value.filterType
-          : filterType // ignore: cast_nullable_to_non_nullable
-              as String,
-      showInCompactView: null == showInCompactView
-          ? _value.showInCompactView
-          : showInCompactView // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hideLocation: null == hideLocation
-          ? _value.hideLocation
-          : hideLocation // ignore: cast_nullable_to_non_nullable
-              as bool,
-      googleSearchResponses: null == googleSearchResponses
-          ? _value._googleSearchResponses
-          : googleSearchResponses // ignore: cast_nullable_to_non_nullable
-              as List<GoogleSearchResponse>,
-    ));
+    return _then(
+      _$LocationInfoImpl(
+        title: freezed == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        locationResponses: null == locationResponses
+            ? _value._locationResponses
+            : locationResponses // ignore: cast_nullable_to_non_nullable
+                  as List<LocationResponse>,
+        weightage: null == weightage
+            ? _value.weightage
+            : weightage // ignore: cast_nullable_to_non_nullable
+                  as int,
+        iconUrl: freezed == iconUrl
+            ? _value.iconUrl
+            : iconUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        filterType: null == filterType
+            ? _value.filterType
+            : filterType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        showInCompactView: null == showInCompactView
+            ? _value.showInCompactView
+            : showInCompactView // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        hideLocation: null == hideLocation
+            ? _value.hideLocation
+            : hideLocation // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        googleSearchResponses: null == googleSearchResponses
+            ? _value._googleSearchResponses
+            : googleSearchResponses // ignore: cast_nullable_to_non_nullable
+                  as List<GoogleSearchResponse>,
+      ),
+    );
   }
 }
 
@@ -8266,17 +9109,17 @@ class __$$LocationInfoImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$LocationInfoImpl implements _LocationInfo {
-  const _$LocationInfoImpl(
-      {this.title,
-      final List<LocationResponse> locationResponses = const [],
-      this.weightage = 0,
-      this.iconUrl,
-      this.filterType = "LOCATION",
-      this.showInCompactView = true,
-      this.hideLocation = false,
-      final List<GoogleSearchResponse> googleSearchResponses = const []})
-      : _locationResponses = locationResponses,
-        _googleSearchResponses = googleSearchResponses;
+  const _$LocationInfoImpl({
+    this.title,
+    final List<LocationResponse> locationResponses = const [],
+    this.weightage = 0,
+    this.iconUrl,
+    this.filterType = "LOCATION",
+    this.showInCompactView = true,
+    this.hideLocation = false,
+    final List<GoogleSearchResponse> googleSearchResponses = const [],
+  }) : _locationResponses = locationResponses,
+       _googleSearchResponses = googleSearchResponses;
 
   factory _$LocationInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$LocationInfoImplFromJson(json);
@@ -8323,13 +9166,15 @@ class _$LocationInfoImpl implements _LocationInfo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LocationInfoImpl &&
             (identical(other.title, title) || other.title == title) &&
-            const DeepCollectionEquality()
-                .equals(other._locationResponses, _locationResponses) &&
+            const DeepCollectionEquality().equals(
+              other._locationResponses,
+              _locationResponses,
+            ) &&
             (identical(other.weightage, weightage) ||
                 other.weightage == weightage) &&
             (identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl) &&
@@ -8339,24 +9184,29 @@ class _$LocationInfoImpl implements _LocationInfo {
                 other.showInCompactView == showInCompactView) &&
             (identical(other.hideLocation, hideLocation) ||
                 other.hideLocation == hideLocation) &&
-            const DeepCollectionEquality()
-                .equals(other._googleSearchResponses, _googleSearchResponses));
+            const DeepCollectionEquality().equals(
+              other._googleSearchResponses,
+              _googleSearchResponses,
+            ));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      title,
-      const DeepCollectionEquality().hash(_locationResponses),
-      weightage,
-      iconUrl,
-      filterType,
-      showInCompactView,
-      hideLocation,
-      const DeepCollectionEquality().hash(_googleSearchResponses));
+    runtimeType,
+    title,
+    const DeepCollectionEquality().hash(_locationResponses),
+    weightage,
+    iconUrl,
+    filterType,
+    showInCompactView,
+    hideLocation,
+    const DeepCollectionEquality().hash(_googleSearchResponses),
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocationInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LocationInfoImplCopyWith<_$LocationInfoImpl> get copyWith =>
@@ -8364,23 +9214,21 @@ class _$LocationInfoImpl implements _LocationInfo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LocationInfoImplToJson(
-      this,
-    );
+    return _$$LocationInfoImplToJson(this);
   }
 }
 
 abstract class _LocationInfo implements LocationInfo {
-  const factory _LocationInfo(
-          {final String? title,
-          final List<LocationResponse> locationResponses,
-          final int weightage,
-          final String? iconUrl,
-          final String filterType,
-          final bool showInCompactView,
-          final bool hideLocation,
-          final List<GoogleSearchResponse> googleSearchResponses}) =
-      _$LocationInfoImpl;
+  const factory _LocationInfo({
+    final String? title,
+    final List<LocationResponse> locationResponses,
+    final int weightage,
+    final String? iconUrl,
+    final String filterType,
+    final bool showInCompactView,
+    final bool hideLocation,
+    final List<GoogleSearchResponse> googleSearchResponses,
+  }) = _$LocationInfoImpl;
 
   factory _LocationInfo.fromJson(Map<String, dynamic> json) =
       _$LocationInfoImpl.fromJson;
@@ -8401,8 +9249,11 @@ abstract class _LocationInfo implements LocationInfo {
   bool get hideLocation;
   @override
   List<GoogleSearchResponse> get googleSearchResponses;
+
+  /// Create a copy of LocationInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LocationInfoImplCopyWith<_$LocationInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -8416,8 +9267,12 @@ mixin _$Location {
   double? get lat => throw _privateConstructorUsedError;
   double? get lon => throw _privateConstructorUsedError;
 
+  /// Serializes this Location to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Location
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LocationCopyWith<Location> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -8440,22 +9295,24 @@ class _$LocationCopyWithImpl<$Res, $Val extends Location>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Location
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? lat = freezed,
-    Object? lon = freezed,
-  }) {
-    return _then(_value.copyWith(
-      lat: freezed == lat
-          ? _value.lat
-          : lat // ignore: cast_nullable_to_non_nullable
-              as double?,
-      lon: freezed == lon
-          ? _value.lon
-          : lon // ignore: cast_nullable_to_non_nullable
-              as double?,
-    ) as $Val);
+  $Res call({Object? lat = freezed, Object? lon = freezed}) {
+    return _then(
+      _value.copyWith(
+            lat: freezed == lat
+                ? _value.lat
+                : lat // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            lon: freezed == lon
+                ? _value.lon
+                : lon // ignore: cast_nullable_to_non_nullable
+                      as double?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -8463,8 +9320,9 @@ class _$LocationCopyWithImpl<$Res, $Val extends Location>
 abstract class _$$LocationImplCopyWith<$Res>
     implements $LocationCopyWith<$Res> {
   factory _$$LocationImplCopyWith(
-          _$LocationImpl value, $Res Function(_$LocationImpl) then) =
-      __$$LocationImplCopyWithImpl<$Res>;
+    _$LocationImpl value,
+    $Res Function(_$LocationImpl) then,
+  ) = __$$LocationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double? lat, double? lon});
@@ -8475,25 +9333,27 @@ class __$$LocationImplCopyWithImpl<$Res>
     extends _$LocationCopyWithImpl<$Res, _$LocationImpl>
     implements _$$LocationImplCopyWith<$Res> {
   __$$LocationImplCopyWithImpl(
-      _$LocationImpl _value, $Res Function(_$LocationImpl) _then)
-      : super(_value, _then);
+    _$LocationImpl _value,
+    $Res Function(_$LocationImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of Location
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? lat = freezed,
-    Object? lon = freezed,
-  }) {
-    return _then(_$LocationImpl(
-      lat: freezed == lat
-          ? _value.lat
-          : lat // ignore: cast_nullable_to_non_nullable
-              as double?,
-      lon: freezed == lon
-          ? _value.lon
-          : lon // ignore: cast_nullable_to_non_nullable
-              as double?,
-    ));
+  $Res call({Object? lat = freezed, Object? lon = freezed}) {
+    return _then(
+      _$LocationImpl(
+        lat: freezed == lat
+            ? _value.lat
+            : lat // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        lon: freezed == lon
+            ? _value.lon
+            : lon // ignore: cast_nullable_to_non_nullable
+                  as double?,
+      ),
+    );
   }
 }
 
@@ -8519,7 +9379,7 @@ class _$LocationImpl implements _Location {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LocationImpl &&
@@ -8527,11 +9387,13 @@ class _$LocationImpl implements _Location {
             (identical(other.lon, lon) || other.lon == lon));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, lat, lon);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Location
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LocationImplCopyWith<_$LocationImpl> get copyWith =>
@@ -8539,9 +9401,7 @@ class _$LocationImpl implements _Location {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LocationImplToJson(
-      this,
-    );
+    return _$$LocationImplToJson(this);
   }
 }
 
@@ -8556,8 +9416,11 @@ abstract class _Location implements Location {
   double? get lat;
   @override
   double? get lon;
+
+  /// Create a copy of Location
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LocationImplCopyWith<_$LocationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -8573,8 +9436,12 @@ mixin _$LocationResponse {
   String get areaName => throw _privateConstructorUsedError;
   String get fuzzyAddress => throw _privateConstructorUsedError;
 
+  /// Serializes this LocationResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LocationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LocationResponseCopyWith<LocationResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -8582,14 +9449,16 @@ mixin _$LocationResponse {
 /// @nodoc
 abstract class $LocationResponseCopyWith<$Res> {
   factory $LocationResponseCopyWith(
-          LocationResponse value, $Res Function(LocationResponse) then) =
-      _$LocationResponseCopyWithImpl<$Res, LocationResponse>;
+    LocationResponse value,
+    $Res Function(LocationResponse) then,
+  ) = _$LocationResponseCopyWithImpl<$Res, LocationResponse>;
   @useResult
-  $Res call(
-      {Location exactLocation,
-      Location approxLocation,
-      String areaName,
-      String fuzzyAddress});
+  $Res call({
+    Location exactLocation,
+    Location approxLocation,
+    String areaName,
+    String fuzzyAddress,
+  });
 
   $LocationCopyWith<$Res> get exactLocation;
   $LocationCopyWith<$Res> get approxLocation;
@@ -8605,6 +9474,8 @@ class _$LocationResponseCopyWithImpl<$Res, $Val extends LocationResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LocationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8613,26 +9484,31 @@ class _$LocationResponseCopyWithImpl<$Res, $Val extends LocationResponse>
     Object? areaName = null,
     Object? fuzzyAddress = null,
   }) {
-    return _then(_value.copyWith(
-      exactLocation: null == exactLocation
-          ? _value.exactLocation
-          : exactLocation // ignore: cast_nullable_to_non_nullable
-              as Location,
-      approxLocation: null == approxLocation
-          ? _value.approxLocation
-          : approxLocation // ignore: cast_nullable_to_non_nullable
-              as Location,
-      areaName: null == areaName
-          ? _value.areaName
-          : areaName // ignore: cast_nullable_to_non_nullable
-              as String,
-      fuzzyAddress: null == fuzzyAddress
-          ? _value.fuzzyAddress
-          : fuzzyAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            exactLocation: null == exactLocation
+                ? _value.exactLocation
+                : exactLocation // ignore: cast_nullable_to_non_nullable
+                      as Location,
+            approxLocation: null == approxLocation
+                ? _value.approxLocation
+                : approxLocation // ignore: cast_nullable_to_non_nullable
+                      as Location,
+            areaName: null == areaName
+                ? _value.areaName
+                : areaName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            fuzzyAddress: null == fuzzyAddress
+                ? _value.fuzzyAddress
+                : fuzzyAddress // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 
+  /// Create a copy of LocationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocationCopyWith<$Res> get exactLocation {
@@ -8641,6 +9517,8 @@ class _$LocationResponseCopyWithImpl<$Res, $Val extends LocationResponse>
     });
   }
 
+  /// Create a copy of LocationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocationCopyWith<$Res> get approxLocation {
@@ -8653,16 +9531,18 @@ class _$LocationResponseCopyWithImpl<$Res, $Val extends LocationResponse>
 /// @nodoc
 abstract class _$$LocationResponseImplCopyWith<$Res>
     implements $LocationResponseCopyWith<$Res> {
-  factory _$$LocationResponseImplCopyWith(_$LocationResponseImpl value,
-          $Res Function(_$LocationResponseImpl) then) =
-      __$$LocationResponseImplCopyWithImpl<$Res>;
+  factory _$$LocationResponseImplCopyWith(
+    _$LocationResponseImpl value,
+    $Res Function(_$LocationResponseImpl) then,
+  ) = __$$LocationResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {Location exactLocation,
-      Location approxLocation,
-      String areaName,
-      String fuzzyAddress});
+  $Res call({
+    Location exactLocation,
+    Location approxLocation,
+    String areaName,
+    String fuzzyAddress,
+  });
 
   @override
   $LocationCopyWith<$Res> get exactLocation;
@@ -8674,10 +9554,13 @@ abstract class _$$LocationResponseImplCopyWith<$Res>
 class __$$LocationResponseImplCopyWithImpl<$Res>
     extends _$LocationResponseCopyWithImpl<$Res, _$LocationResponseImpl>
     implements _$$LocationResponseImplCopyWith<$Res> {
-  __$$LocationResponseImplCopyWithImpl(_$LocationResponseImpl _value,
-      $Res Function(_$LocationResponseImpl) _then)
-      : super(_value, _then);
+  __$$LocationResponseImplCopyWithImpl(
+    _$LocationResponseImpl _value,
+    $Res Function(_$LocationResponseImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of LocationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8686,24 +9569,26 @@ class __$$LocationResponseImplCopyWithImpl<$Res>
     Object? areaName = null,
     Object? fuzzyAddress = null,
   }) {
-    return _then(_$LocationResponseImpl(
-      exactLocation: null == exactLocation
-          ? _value.exactLocation
-          : exactLocation // ignore: cast_nullable_to_non_nullable
-              as Location,
-      approxLocation: null == approxLocation
-          ? _value.approxLocation
-          : approxLocation // ignore: cast_nullable_to_non_nullable
-              as Location,
-      areaName: null == areaName
-          ? _value.areaName
-          : areaName // ignore: cast_nullable_to_non_nullable
-              as String,
-      fuzzyAddress: null == fuzzyAddress
-          ? _value.fuzzyAddress
-          : fuzzyAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$LocationResponseImpl(
+        exactLocation: null == exactLocation
+            ? _value.exactLocation
+            : exactLocation // ignore: cast_nullable_to_non_nullable
+                  as Location,
+        approxLocation: null == approxLocation
+            ? _value.approxLocation
+            : approxLocation // ignore: cast_nullable_to_non_nullable
+                  as Location,
+        areaName: null == areaName
+            ? _value.areaName
+            : areaName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        fuzzyAddress: null == fuzzyAddress
+            ? _value.fuzzyAddress
+            : fuzzyAddress // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
@@ -8711,11 +9596,12 @@ class __$$LocationResponseImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$LocationResponseImpl implements _LocationResponse {
-  const _$LocationResponseImpl(
-      {this.exactLocation = const Location(),
-      this.approxLocation = const Location(),
-      this.areaName = '',
-      this.fuzzyAddress = ''});
+  const _$LocationResponseImpl({
+    this.exactLocation = const Location(),
+    this.approxLocation = const Location(),
+    this.areaName = '',
+    this.fuzzyAddress = '',
+  });
 
   factory _$LocationResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$LocationResponseImplFromJson(json);
@@ -8739,7 +9625,7 @@ class _$LocationResponseImpl implements _LocationResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LocationResponseImpl &&
@@ -8753,32 +9639,40 @@ class _$LocationResponseImpl implements _LocationResponse {
                 other.fuzzyAddress == fuzzyAddress));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, exactLocation, approxLocation, areaName, fuzzyAddress);
+    runtimeType,
+    exactLocation,
+    approxLocation,
+    areaName,
+    fuzzyAddress,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LocationResponseImplCopyWith<_$LocationResponseImpl> get copyWith =>
       __$$LocationResponseImplCopyWithImpl<_$LocationResponseImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LocationResponseImplToJson(
-      this,
-    );
+    return _$$LocationResponseImplToJson(this);
   }
 }
 
 abstract class _LocationResponse implements LocationResponse {
-  const factory _LocationResponse(
-      {final Location exactLocation,
-      final Location approxLocation,
-      final String areaName,
-      final String fuzzyAddress}) = _$LocationResponseImpl;
+  const factory _LocationResponse({
+    final Location exactLocation,
+    final Location approxLocation,
+    final String areaName,
+    final String fuzzyAddress,
+  }) = _$LocationResponseImpl;
 
   factory _LocationResponse.fromJson(Map<String, dynamic> json) =
       _$LocationResponseImpl.fromJson;
@@ -8791,8 +9685,11 @@ abstract class _LocationResponse implements LocationResponse {
   String get areaName;
   @override
   String get fuzzyAddress;
+
+  /// Create a copy of LocationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LocationResponseImplCopyWith<_$LocationResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -8806,8 +9703,12 @@ mixin _$Position {
   int get row => throw _privateConstructorUsedError;
   int get column => throw _privateConstructorUsedError;
 
+  /// Serializes this Position to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Position
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PositionCopyWith<Position> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -8830,22 +9731,24 @@ class _$PositionCopyWithImpl<$Res, $Val extends Position>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Position
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? row = null,
-    Object? column = null,
-  }) {
-    return _then(_value.copyWith(
-      row: null == row
-          ? _value.row
-          : row // ignore: cast_nullable_to_non_nullable
-              as int,
-      column: null == column
-          ? _value.column
-          : column // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? row = null, Object? column = null}) {
+    return _then(
+      _value.copyWith(
+            row: null == row
+                ? _value.row
+                : row // ignore: cast_nullable_to_non_nullable
+                      as int,
+            column: null == column
+                ? _value.column
+                : column // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -8853,8 +9756,9 @@ class _$PositionCopyWithImpl<$Res, $Val extends Position>
 abstract class _$$PositionImplCopyWith<$Res>
     implements $PositionCopyWith<$Res> {
   factory _$$PositionImplCopyWith(
-          _$PositionImpl value, $Res Function(_$PositionImpl) then) =
-      __$$PositionImplCopyWithImpl<$Res>;
+    _$PositionImpl value,
+    $Res Function(_$PositionImpl) then,
+  ) = __$$PositionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int row, int column});
@@ -8865,25 +9769,27 @@ class __$$PositionImplCopyWithImpl<$Res>
     extends _$PositionCopyWithImpl<$Res, _$PositionImpl>
     implements _$$PositionImplCopyWith<$Res> {
   __$$PositionImplCopyWithImpl(
-      _$PositionImpl _value, $Res Function(_$PositionImpl) _then)
-      : super(_value, _then);
+    _$PositionImpl _value,
+    $Res Function(_$PositionImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of Position
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? row = null,
-    Object? column = null,
-  }) {
-    return _then(_$PositionImpl(
-      row: null == row
-          ? _value.row
-          : row // ignore: cast_nullable_to_non_nullable
-              as int,
-      column: null == column
-          ? _value.column
-          : column // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? row = null, Object? column = null}) {
+    return _then(
+      _$PositionImpl(
+        row: null == row
+            ? _value.row
+            : row // ignore: cast_nullable_to_non_nullable
+                  as int,
+        column: null == column
+            ? _value.column
+            : column // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
 
@@ -8907,7 +9813,7 @@ class _$PositionImpl implements _Position {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PositionImpl &&
@@ -8915,11 +9821,13 @@ class _$PositionImpl implements _Position {
             (identical(other.column, column) || other.column == column));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, row, column);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Position
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PositionImplCopyWith<_$PositionImpl> get copyWith =>
@@ -8927,9 +9835,7 @@ class _$PositionImpl implements _Position {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PositionImplToJson(
-      this,
-    );
+    return _$$PositionImplToJson(this);
   }
 }
 
@@ -8944,8 +9850,11 @@ abstract class _Position implements Position {
   int get row;
   @override
   int get column;
+
+  /// Create a copy of Position
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PositionImplCopyWith<_$PositionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -8963,30 +9872,38 @@ mixin _$GoogleSearchResponse {
   StructuredFormatting? get structuredFormatting =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this GoogleSearchResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GoogleSearchResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GoogleSearchResponseCopyWith<GoogleSearchResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $GoogleSearchResponseCopyWith<$Res> {
-  factory $GoogleSearchResponseCopyWith(GoogleSearchResponse value,
-          $Res Function(GoogleSearchResponse) then) =
-      _$GoogleSearchResponseCopyWithImpl<$Res, GoogleSearchResponse>;
+  factory $GoogleSearchResponseCopyWith(
+    GoogleSearchResponse value,
+    $Res Function(GoogleSearchResponse) then,
+  ) = _$GoogleSearchResponseCopyWithImpl<$Res, GoogleSearchResponse>;
   @useResult
-  $Res call(
-      {String? description,
-      @JsonKey(name: 'place_id') String? placeId,
-      @JsonKey(name: 'structured_formatting')
-      StructuredFormatting? structuredFormatting});
+  $Res call({
+    String? description,
+    @JsonKey(name: 'place_id') String? placeId,
+    @JsonKey(name: 'structured_formatting')
+    StructuredFormatting? structuredFormatting,
+  });
 
   $StructuredFormattingCopyWith<$Res>? get structuredFormatting;
 }
 
 /// @nodoc
-class _$GoogleSearchResponseCopyWithImpl<$Res,
-        $Val extends GoogleSearchResponse>
+class _$GoogleSearchResponseCopyWithImpl<
+  $Res,
+  $Val extends GoogleSearchResponse
+>
     implements $GoogleSearchResponseCopyWith<$Res> {
   _$GoogleSearchResponseCopyWithImpl(this._value, this._then);
 
@@ -8995,6 +9912,8 @@ class _$GoogleSearchResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GoogleSearchResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9002,22 +9921,27 @@ class _$GoogleSearchResponseCopyWithImpl<$Res,
     Object? placeId = freezed,
     Object? structuredFormatting = freezed,
   }) {
-    return _then(_value.copyWith(
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      placeId: freezed == placeId
-          ? _value.placeId
-          : placeId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      structuredFormatting: freezed == structuredFormatting
-          ? _value.structuredFormatting
-          : structuredFormatting // ignore: cast_nullable_to_non_nullable
-              as StructuredFormatting?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            description: freezed == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            placeId: freezed == placeId
+                ? _value.placeId
+                : placeId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            structuredFormatting: freezed == structuredFormatting
+                ? _value.structuredFormatting
+                : structuredFormatting // ignore: cast_nullable_to_non_nullable
+                      as StructuredFormatting?,
+          )
+          as $Val,
+    );
   }
 
+  /// Create a copy of GoogleSearchResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StructuredFormattingCopyWith<$Res>? get structuredFormatting {
@@ -9025,8 +9949,9 @@ class _$GoogleSearchResponseCopyWithImpl<$Res,
       return null;
     }
 
-    return $StructuredFormattingCopyWith<$Res>(_value.structuredFormatting!,
-        (value) {
+    return $StructuredFormattingCopyWith<$Res>(_value.structuredFormatting!, (
+      value,
+    ) {
       return _then(_value.copyWith(structuredFormatting: value) as $Val);
     });
   }
@@ -9035,16 +9960,18 @@ class _$GoogleSearchResponseCopyWithImpl<$Res,
 /// @nodoc
 abstract class _$$GoogleSearchResponseImplCopyWith<$Res>
     implements $GoogleSearchResponseCopyWith<$Res> {
-  factory _$$GoogleSearchResponseImplCopyWith(_$GoogleSearchResponseImpl value,
-          $Res Function(_$GoogleSearchResponseImpl) then) =
-      __$$GoogleSearchResponseImplCopyWithImpl<$Res>;
+  factory _$$GoogleSearchResponseImplCopyWith(
+    _$GoogleSearchResponseImpl value,
+    $Res Function(_$GoogleSearchResponseImpl) then,
+  ) = __$$GoogleSearchResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String? description,
-      @JsonKey(name: 'place_id') String? placeId,
-      @JsonKey(name: 'structured_formatting')
-      StructuredFormatting? structuredFormatting});
+  $Res call({
+    String? description,
+    @JsonKey(name: 'place_id') String? placeId,
+    @JsonKey(name: 'structured_formatting')
+    StructuredFormatting? structuredFormatting,
+  });
 
   @override
   $StructuredFormattingCopyWith<$Res>? get structuredFormatting;
@@ -9054,10 +9981,13 @@ abstract class _$$GoogleSearchResponseImplCopyWith<$Res>
 class __$$GoogleSearchResponseImplCopyWithImpl<$Res>
     extends _$GoogleSearchResponseCopyWithImpl<$Res, _$GoogleSearchResponseImpl>
     implements _$$GoogleSearchResponseImplCopyWith<$Res> {
-  __$$GoogleSearchResponseImplCopyWithImpl(_$GoogleSearchResponseImpl _value,
-      $Res Function(_$GoogleSearchResponseImpl) _then)
-      : super(_value, _then);
+  __$$GoogleSearchResponseImplCopyWithImpl(
+    _$GoogleSearchResponseImpl _value,
+    $Res Function(_$GoogleSearchResponseImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of GoogleSearchResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9065,20 +9995,22 @@ class __$$GoogleSearchResponseImplCopyWithImpl<$Res>
     Object? placeId = freezed,
     Object? structuredFormatting = freezed,
   }) {
-    return _then(_$GoogleSearchResponseImpl(
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      placeId: freezed == placeId
-          ? _value.placeId
-          : placeId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      structuredFormatting: freezed == structuredFormatting
-          ? _value.structuredFormatting
-          : structuredFormatting // ignore: cast_nullable_to_non_nullable
-              as StructuredFormatting?,
-    ));
+    return _then(
+      _$GoogleSearchResponseImpl(
+        description: freezed == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        placeId: freezed == placeId
+            ? _value.placeId
+            : placeId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        structuredFormatting: freezed == structuredFormatting
+            ? _value.structuredFormatting
+            : structuredFormatting // ignore: cast_nullable_to_non_nullable
+                  as StructuredFormatting?,
+      ),
+    );
   }
 }
 
@@ -9086,11 +10018,11 @@ class __$$GoogleSearchResponseImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$GoogleSearchResponseImpl implements _GoogleSearchResponse {
-  const _$GoogleSearchResponseImpl(
-      {required this.description,
-      @JsonKey(name: 'place_id') required this.placeId,
-      @JsonKey(name: 'structured_formatting')
-      required this.structuredFormatting});
+  const _$GoogleSearchResponseImpl({
+    required this.description,
+    @JsonKey(name: 'place_id') required this.placeId,
+    @JsonKey(name: 'structured_formatting') required this.structuredFormatting,
+  });
 
   factory _$GoogleSearchResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$GoogleSearchResponseImplFromJson(json);
@@ -9110,7 +10042,7 @@ class _$GoogleSearchResponseImpl implements _GoogleSearchResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GoogleSearchResponseImpl &&
@@ -9121,34 +10053,36 @@ class _$GoogleSearchResponseImpl implements _GoogleSearchResponse {
                 other.structuredFormatting == structuredFormatting));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, description, placeId, structuredFormatting);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GoogleSearchResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GoogleSearchResponseImplCopyWith<_$GoogleSearchResponseImpl>
-      get copyWith =>
-          __$$GoogleSearchResponseImplCopyWithImpl<_$GoogleSearchResponseImpl>(
-              this, _$identity);
+  get copyWith =>
+      __$$GoogleSearchResponseImplCopyWithImpl<_$GoogleSearchResponseImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GoogleSearchResponseImplToJson(
-      this,
-    );
+    return _$$GoogleSearchResponseImplToJson(this);
   }
 }
 
 abstract class _GoogleSearchResponse implements GoogleSearchResponse {
-  const factory _GoogleSearchResponse(
-          {required final String? description,
-          @JsonKey(name: 'place_id') required final String? placeId,
-          @JsonKey(name: 'structured_formatting')
-          required final StructuredFormatting? structuredFormatting}) =
-      _$GoogleSearchResponseImpl;
+  const factory _GoogleSearchResponse({
+    required final String? description,
+    @JsonKey(name: 'place_id') required final String? placeId,
+    @JsonKey(name: 'structured_formatting')
+    required final StructuredFormatting? structuredFormatting,
+  }) = _$GoogleSearchResponseImpl;
 
   factory _GoogleSearchResponse.fromJson(Map<String, dynamic> json) =
       _$GoogleSearchResponseImpl.fromJson;
@@ -9161,10 +10095,13 @@ abstract class _GoogleSearchResponse implements GoogleSearchResponse {
   @override
   @JsonKey(name: 'structured_formatting')
   StructuredFormatting? get structuredFormatting;
+
+  /// Create a copy of GoogleSearchResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GoogleSearchResponseImplCopyWith<_$GoogleSearchResponseImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 StructuredFormatting _$StructuredFormattingFromJson(Map<String, dynamic> json) {
@@ -9178,26 +10115,34 @@ mixin _$StructuredFormatting {
   @JsonKey(name: 'secondary_text')
   String? get secondaryText => throw _privateConstructorUsedError;
 
+  /// Serializes this StructuredFormatting to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StructuredFormatting
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StructuredFormattingCopyWith<StructuredFormatting> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $StructuredFormattingCopyWith<$Res> {
-  factory $StructuredFormattingCopyWith(StructuredFormatting value,
-          $Res Function(StructuredFormatting) then) =
-      _$StructuredFormattingCopyWithImpl<$Res, StructuredFormatting>;
+  factory $StructuredFormattingCopyWith(
+    StructuredFormatting value,
+    $Res Function(StructuredFormatting) then,
+  ) = _$StructuredFormattingCopyWithImpl<$Res, StructuredFormatting>;
   @useResult
-  $Res call(
-      {@JsonKey(name: 'main_text') String? mainText,
-      @JsonKey(name: 'secondary_text') String? secondaryText});
+  $Res call({
+    @JsonKey(name: 'main_text') String? mainText,
+    @JsonKey(name: 'secondary_text') String? secondaryText,
+  });
 }
 
 /// @nodoc
-class _$StructuredFormattingCopyWithImpl<$Res,
-        $Val extends StructuredFormatting>
+class _$StructuredFormattingCopyWithImpl<
+  $Res,
+  $Val extends StructuredFormatting
+>
     implements $StructuredFormattingCopyWith<$Res> {
   _$StructuredFormattingCopyWithImpl(this._value, this._then);
 
@@ -9206,62 +10151,68 @@ class _$StructuredFormattingCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StructuredFormatting
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? mainText = freezed,
-    Object? secondaryText = freezed,
-  }) {
-    return _then(_value.copyWith(
-      mainText: freezed == mainText
-          ? _value.mainText
-          : mainText // ignore: cast_nullable_to_non_nullable
-              as String?,
-      secondaryText: freezed == secondaryText
-          ? _value.secondaryText
-          : secondaryText // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+  $Res call({Object? mainText = freezed, Object? secondaryText = freezed}) {
+    return _then(
+      _value.copyWith(
+            mainText: freezed == mainText
+                ? _value.mainText
+                : mainText // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            secondaryText: freezed == secondaryText
+                ? _value.secondaryText
+                : secondaryText // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$StructuredFormattingImplCopyWith<$Res>
     implements $StructuredFormattingCopyWith<$Res> {
-  factory _$$StructuredFormattingImplCopyWith(_$StructuredFormattingImpl value,
-          $Res Function(_$StructuredFormattingImpl) then) =
-      __$$StructuredFormattingImplCopyWithImpl<$Res>;
+  factory _$$StructuredFormattingImplCopyWith(
+    _$StructuredFormattingImpl value,
+    $Res Function(_$StructuredFormattingImpl) then,
+  ) = __$$StructuredFormattingImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'main_text') String? mainText,
-      @JsonKey(name: 'secondary_text') String? secondaryText});
+  $Res call({
+    @JsonKey(name: 'main_text') String? mainText,
+    @JsonKey(name: 'secondary_text') String? secondaryText,
+  });
 }
 
 /// @nodoc
 class __$$StructuredFormattingImplCopyWithImpl<$Res>
     extends _$StructuredFormattingCopyWithImpl<$Res, _$StructuredFormattingImpl>
     implements _$$StructuredFormattingImplCopyWith<$Res> {
-  __$$StructuredFormattingImplCopyWithImpl(_$StructuredFormattingImpl _value,
-      $Res Function(_$StructuredFormattingImpl) _then)
-      : super(_value, _then);
+  __$$StructuredFormattingImplCopyWithImpl(
+    _$StructuredFormattingImpl _value,
+    $Res Function(_$StructuredFormattingImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of StructuredFormatting
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? mainText = freezed,
-    Object? secondaryText = freezed,
-  }) {
-    return _then(_$StructuredFormattingImpl(
-      mainText: freezed == mainText
-          ? _value.mainText
-          : mainText // ignore: cast_nullable_to_non_nullable
-              as String?,
-      secondaryText: freezed == secondaryText
-          ? _value.secondaryText
-          : secondaryText // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+  $Res call({Object? mainText = freezed, Object? secondaryText = freezed}) {
+    return _then(
+      _$StructuredFormattingImpl(
+        mainText: freezed == mainText
+            ? _value.mainText
+            : mainText // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        secondaryText: freezed == secondaryText
+            ? _value.secondaryText
+            : secondaryText // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
@@ -9269,9 +10220,10 @@ class __$$StructuredFormattingImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$StructuredFormattingImpl implements _StructuredFormatting {
-  const _$StructuredFormattingImpl(
-      {@JsonKey(name: 'main_text') this.mainText,
-      @JsonKey(name: 'secondary_text') this.secondaryText});
+  const _$StructuredFormattingImpl({
+    @JsonKey(name: 'main_text') this.mainText,
+    @JsonKey(name: 'secondary_text') this.secondaryText,
+  });
 
   factory _$StructuredFormattingImpl.fromJson(Map<String, dynamic> json) =>
       _$$StructuredFormattingImplFromJson(json);
@@ -9289,7 +10241,7 @@ class _$StructuredFormattingImpl implements _StructuredFormatting {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StructuredFormattingImpl &&
@@ -9299,31 +10251,33 @@ class _$StructuredFormattingImpl implements _StructuredFormatting {
                 other.secondaryText == secondaryText));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, mainText, secondaryText);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StructuredFormatting
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StructuredFormattingImplCopyWith<_$StructuredFormattingImpl>
-      get copyWith =>
-          __$$StructuredFormattingImplCopyWithImpl<_$StructuredFormattingImpl>(
-              this, _$identity);
+  get copyWith =>
+      __$$StructuredFormattingImplCopyWithImpl<_$StructuredFormattingImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$StructuredFormattingImplToJson(
-      this,
-    );
+    return _$$StructuredFormattingImplToJson(this);
   }
 }
 
 abstract class _StructuredFormatting implements StructuredFormatting {
-  const factory _StructuredFormatting(
-          {@JsonKey(name: 'main_text') final String? mainText,
-          @JsonKey(name: 'secondary_text') final String? secondaryText}) =
-      _$StructuredFormattingImpl;
+  const factory _StructuredFormatting({
+    @JsonKey(name: 'main_text') final String? mainText,
+    @JsonKey(name: 'secondary_text') final String? secondaryText,
+  }) = _$StructuredFormattingImpl;
 
   factory _StructuredFormatting.fromJson(Map<String, dynamic> json) =
       _$StructuredFormattingImpl.fromJson;
@@ -9334,8 +10288,11 @@ abstract class _StructuredFormatting implements StructuredFormatting {
   @override
   @JsonKey(name: 'secondary_text')
   String? get secondaryText;
+
+  /// Create a copy of StructuredFormatting
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StructuredFormattingImplCopyWith<_$StructuredFormattingImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }
