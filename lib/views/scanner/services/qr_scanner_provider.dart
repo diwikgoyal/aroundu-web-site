@@ -93,3 +93,37 @@ class QrScannerNotifier
     }
   }
 }
+
+// Provider for single QR code details by qrId
+final qrDetailsProvider = StateNotifierProvider.family<QrDetailsNotifier, AsyncValue<QrScannerModel?>, String>(
+  (ref, qrId) {
+    final notifier = QrDetailsNotifier();
+    notifier.fetchQrDetails(qrId);
+    return notifier;
+  },
+);
+
+class QrDetailsNotifier extends StateNotifier<AsyncValue<QrScannerModel?>> {
+  QrDetailsNotifier() : super(const AsyncValue.loading());
+
+  Future<void> fetchQrDetails(String qrId) async {
+    state = const AsyncValue.loading();
+    
+    try {
+      final response = await ApiService().get('match/qr?qrId=$qrId');
+      
+      if (response.statusCode == 200 && response.data != null) {
+        final qrData = QrScannerModel.fromJson(response.data);
+        state = AsyncValue.data(qrData);
+      } else {
+        state = AsyncValue.error(
+          'Failed to fetch QR details: ${response.statusCode}',
+          StackTrace.current,
+        );
+      }
+    } catch (e, stack) {
+      kLogger.error('Error fetching QR details', error: e, stackTrace: stack);
+      state = AsyncValue.error('Error: $e', stack);
+    }
+  }
+}

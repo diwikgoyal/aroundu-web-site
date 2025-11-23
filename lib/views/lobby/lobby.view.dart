@@ -80,11 +80,10 @@ final housesForLobbiesProvider = FutureProvider.family<List<House>, String>((ref
     final response = await ApiService().get(url, queryParameters: queryParameters);
 
     if (response.data != null) {
-      final houses =
-          response.data.map<House>((json) {
-            final house = House.fromJson(json);
-            return house;
-          }).toList();
+      final houses = response.data.map<House>((json) {
+        final house = House.fromJson(json);
+        return house;
+      }).toList();
       return houses;
     } else {
       throw Exception("Failed to load houses");
@@ -479,7 +478,7 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
 
     final isauth =
         ((authService.getToken() != null && authService.getToken().isNotEmpty) &&
-            (authService.getRefreshToken() != null && authService.getRefreshToken().isNotEmpty));
+        (authService.getRefreshToken() != null && authService.getRefreshToken().isNotEmpty));
 
     Future.microtask(() {
       print("isAuth in init : $isauth");
@@ -508,172 +507,243 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
         final deviceType = DesignUtils.getDeviceType(context);
         return lobbyData == null
             ? Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  style: IconButton.styleFrom(backgroundColor: Colors.white70),
-                  onPressed: () {
-                    Get.back();
-                  },
-                  icon: DesignIcon.icon(icon: Icons.arrow_back_ios_sharp, size: 20),
-                ),
-                backgroundColor: Colors.transparent,
-                scrolledUnderElevation: 0,
-              ),
-              body: RefreshIndicator(
-                key: Key("nullDataStateRefreshIndicator"),
-                onRefresh: () async {
-                  ref.read(lobbyDetailsProvider(widget.lobbyId).notifier).reset();
-                  await ref.read(lobbyDetailsProvider(widget.lobbyId).notifier).fetchLobbyDetails(widget.lobbyId);
-                },
-                child: SingleChildScrollView(
-                  child: SizedBox(
-                    height: 0.85 * sh,
-                    child: Center(
-                      child: DesignText(
-                        text: "Lobby Not Found !!!",
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF444444),
-                        maxLines: 10,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            )
-            : Scaffold(
-              key: scaffoldKey,
-              extendBodyBehindAppBar: deviceType == DeviceScreenType.phone,
-              appBar: AppBar(
-                leading: IconButton(
-                  style: IconButton.styleFrom(backgroundColor: Colors.white70),
-                  onPressed: () {
-                    Get.back();
-                  },
-                  icon: DesignIcon.icon(icon: Icons.arrow_back_ios_sharp, size: 20),
-                ),
-                actions: [
-                  // For FULL or CLOSED lobbies with privileged users
-                  if ((lobbyData.lobby.lobbyStatus == "FULL" || lobbyData.lobby.lobbyStatus == "CLOSED") &&
-                      lobbyData.lobby.userStatus == "MEMBER")
-                    IconButton(
-                      style: IconButton.styleFrom(backgroundColor: Colors.white70),
-                      onPressed: () {
-                        HapticFeedback.selectionClick();
-                        showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.white,
-                          elevation: 4,
-                          builder: (context) => LobbyAttendingStatusBottomSheet(lobby: lobbyData.lobby),
-                        );
-                      },
-                      icon: DesignIcon.icon(icon: Icons.edit_calendar_outlined, color: Color(0xFF323232)),
-                    ),
-
-                  // For ACTIVE lobby with MEMBER status
-                  if (lobbyData.lobby.lobbyStatus == "ACTIVE" && lobbyData.lobby.userStatus == "MEMBER")
-                    IconButton(
-                      style: IconButton.styleFrom(backgroundColor: Colors.white70),
-                      onPressed: () {
-                        HapticFeedback.selectionClick();
-                        showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.white,
-                          elevation: 4,
-                          builder: (context) => LobbyAttendingStatusBottomSheet(lobby: lobbyData.lobby),
-                        );
-                      },
-                      icon: DesignIcon.icon(icon: Icons.edit_calendar_outlined, color: Color(0xFF323232)),
-                    ),
-
-                  if (lobbyData.lobby.userStatus == "MEMBER" && lobbyData.lobby.lobbyStatus != "PAST")
-                    IconButton(
-                      style: IconButton.styleFrom(backgroundColor: Colors.white70),
-                      onPressed: () {
-                        Get.toNamed(
-                          AppRoutes.scanQrScreen,
-                          arguments: {'lobbyId': lobbyData.lobby.id, 'lobby': lobbyData.lobby},
-                        );
-                      },
-                      icon: DesignIcon.icon(icon: Icons.qr_code_scanner, color: Color(0xFF323232)),
-                    ),
-
-                  // Existing buttons
-                  IconButton(
-                    style: IconButton.styleFrom(backgroundColor: Colors.white70),
-                    onPressed: () async {
-                      HapticFeedback.selectionClick();
-                      await ShareUtility.showShareBottomSheet(
-                        context: context,
-                        entityType: EntityType.lobby,
-                        entity: lobbyData.lobby,
-                      );
-                    },
-                    icon: DesignIcon.icon(icon: Icons.share, color: Color(0xFF323232)),
-                  ),
-                  IconButton(
+                appBar: AppBar(
+                  leading: IconButton(
                     style: IconButton.styleFrom(backgroundColor: Colors.white70),
                     onPressed: () {
-                      HapticFeedback.selectionClick();
-                      _onBookmarkTap(lobbyId: lobbyData.lobby.id);
+                      Get.back();
                     },
-                    icon: DesignIcon.icon(
-                      icon: isSaved ? FontAwesomeIcons.solidBookmark : FontAwesomeIcons.bookmark,
-                      size: 18,
-                      color: isSaved ? DesignColors.accent : Color(0xFF323232),
+                    icon: DesignIcon.icon(icon: Icons.arrow_back_ios_sharp, size: 20),
+                  ),
+                  backgroundColor: Colors.transparent,
+                  scrolledUnderElevation: 0,
+                ),
+                body: RefreshIndicator(
+                  key: Key("nullDataStateRefreshIndicator"),
+                  onRefresh: () async {
+                    ref.read(lobbyDetailsProvider(widget.lobbyId).notifier).reset();
+                    await ref.read(lobbyDetailsProvider(widget.lobbyId).notifier).fetchLobbyDetails(widget.lobbyId);
+                  },
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      height: 0.85 * sh,
+                      child: Center(
+                        child: DesignText(
+                          text: "Lobby Not Found !!!",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF444444),
+                          maxLines: 10,
+                        ),
+                      ),
                     ),
                   ),
-                  if (lobbyData.lobby.userStatus == "ADMIN")
+                ),
+              )
+            : Scaffold(
+                key: scaffoldKey,
+                extendBodyBehindAppBar: deviceType == DeviceScreenType.phone,
+                appBar: AppBar(
+                  leading: IconButton(
+                    style: IconButton.styleFrom(backgroundColor: Colors.white70),
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: DesignIcon.icon(icon: Icons.arrow_back_ios_sharp, size: 20),
+                  ),
+                  actions: [
+                    // For FULL or CLOSED lobbies with privileged users
+                    if ((lobbyData.lobby.lobbyStatus == "FULL" || lobbyData.lobby.lobbyStatus == "CLOSED") &&
+                        lobbyData.lobby.userStatus == "MEMBER")
+                      IconButton(
+                        style: IconButton.styleFrom(backgroundColor: Colors.white70),
+                        onPressed: () {
+                          HapticFeedback.selectionClick();
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.white,
+                            elevation: 4,
+                            builder: (context) => LobbyAttendingStatusBottomSheet(lobby: lobbyData.lobby),
+                          );
+                        },
+                        icon: DesignIcon.icon(icon: Icons.edit_calendar_outlined, color: Color(0xFF323232)),
+                      ),
+
+                    // For ACTIVE lobby with MEMBER status
+                    if (lobbyData.lobby.lobbyStatus == "ACTIVE" && lobbyData.lobby.userStatus == "MEMBER")
+                      IconButton(
+                        style: IconButton.styleFrom(backgroundColor: Colors.white70),
+                        onPressed: () {
+                          HapticFeedback.selectionClick();
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.white,
+                            elevation: 4,
+                            builder: (context) => LobbyAttendingStatusBottomSheet(lobby: lobbyData.lobby),
+                          );
+                        },
+                        icon: DesignIcon.icon(icon: Icons.edit_calendar_outlined, color: Color(0xFF323232)),
+                      ),
+
+                    if (lobbyData.lobby.userStatus == "MEMBER" && lobbyData.lobby.lobbyStatus != "PAST")
+                      IconButton(
+                        style: IconButton.styleFrom(backgroundColor: Colors.white70),
+                        onPressed: () {
+                          Get.toNamed(
+                            AppRoutes.scanQrScreen,
+                            arguments: {'lobbyId': lobbyData.lobby.id, 'lobby': lobbyData.lobby},
+                          );
+                        },
+                        icon: DesignIcon.icon(icon: Icons.qr_code_scanner, color: Color(0xFF323232)),
+                      ),
+
+                    // Existing buttons
+                    IconButton(
+                      style: IconButton.styleFrom(backgroundColor: Colors.white70),
+                      onPressed: () async {
+                        HapticFeedback.selectionClick();
+                        await ShareUtility.showShareBottomSheet(
+                          context: context,
+                          entityType: EntityType.lobby,
+                          entity: lobbyData.lobby,
+                        );
+                      },
+                      icon: DesignIcon.icon(icon: Icons.share, color: Color(0xFF323232)),
+                    ),
                     IconButton(
                       style: IconButton.styleFrom(backgroundColor: Colors.white70),
                       onPressed: () {
                         HapticFeedback.selectionClick();
-                        scaffoldKey.currentState?.openEndDrawer();
+                        _onBookmarkTap(lobbyId: lobbyData.lobby.id);
                       },
-                      icon: DesignIcon.icon(icon: Icons.more_vert_rounded, color: Color(0xFF323232)),
-                    ),
-                ],
-                backgroundColor: Colors.transparent,
-                scrolledUnderElevation: 0,
-              ),
-              bottomNavigationBar: Container(
-                height: 0.09 * sh,
-                constraints: BoxConstraints(minHeight: 64),
-                // color: DesignColors.accent.withValues(alpha: 0.5),
-                // padding: EdgeInsets.only(
-                //   left: 0.05 * sw,
-                //   right: 0.05 * sw,
-                //   bottom: 0.02 * sh,
-                //   top: 0.005 * sh,
-                // ),
-                padding: EdgeInsets.all(12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _buildBottomNavigationBarLeftSideWidget(lobbyDetail: lobbyData),
-
-                    // Right side button (expanded to fill remaining space)
-                    Expanded(child: _buildBottomNavigationBarRightSideWidget(lobbyDetail: lobbyData)),
-                  ],
-                ),
-              ),
-              endDrawer: Drawer(
-                backgroundColor: DesignColors.bg,
-                width: 0.65 * sw,
-                child: ListView(
-                  padding: EdgeInsets.symmetric(vertical: 0.12 * sh, horizontal: 0.05 * sw),
-                  children: [
-                    ListTile(
-                      leading: DesignIcon.custom(icon: DesignIcons.pencil, size: 16, color: const Color(0xFFEC4B5D)),
-                      title: DesignText(
-                        text: 'Edit',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF323232),
+                      icon: DesignIcon.icon(
+                        icon: isSaved ? FontAwesomeIcons.solidBookmark : FontAwesomeIcons.bookmark,
+                        size: 18,
+                        color: isSaved ? DesignColors.accent : Color(0xFF323232),
                       ),
-                      onTap: () async {
-                        if (lobbyData.lobby.isAdvancedPricing) {
+                    ),
+                    if (lobbyData.lobby.userStatus == "ADMIN")
+                      IconButton(
+                        style: IconButton.styleFrom(backgroundColor: Colors.white70),
+                        onPressed: () {
+                          HapticFeedback.selectionClick();
+                          scaffoldKey.currentState?.openEndDrawer();
+                        },
+                        icon: DesignIcon.icon(icon: Icons.more_vert_rounded, color: Color(0xFF323232)),
+                      ),
+                  ],
+                  backgroundColor: Colors.transparent,
+                  scrolledUnderElevation: 0,
+                ),
+                bottomNavigationBar: Container(
+                  height: 0.09 * sh,
+                  constraints: BoxConstraints(minHeight: 64),
+                  // color: DesignColors.accent.withValues(alpha: 0.5),
+                  // padding: EdgeInsets.only(
+                  //   left: 0.05 * sw,
+                  //   right: 0.05 * sw,
+                  //   bottom: 0.02 * sh,
+                  //   top: 0.005 * sh,
+                  // ),
+                  padding: EdgeInsets.all(12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      _buildBottomNavigationBarLeftSideWidget(lobbyDetail: lobbyData),
+
+                      // Right side button (expanded to fill remaining space)
+                      Expanded(child: _buildBottomNavigationBarRightSideWidget(lobbyDetail: lobbyData)),
+                    ],
+                  ),
+                ),
+                endDrawer: Drawer(
+                  backgroundColor: DesignColors.bg,
+                  width: 0.65 * sw,
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(vertical: 0.12 * sh, horizontal: 0.05 * sw),
+                    children: [
+                      ListTile(
+                        leading: DesignIcon.custom(icon: DesignIcons.pencil, size: 16, color: const Color(0xFFEC4B5D)),
+                        title: DesignText(
+                          text: 'Edit',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF323232),
+                        ),
+                        onTap: () async {
+                          if (lobbyData.lobby.isAdvancedPricing) {
+                            FancyAppDownloadDialog.show(
+                              context,
+                              title: "Unlock Premium Features",
+                              message:
+                                  "Get the full AroundU experience with exclusive features, enhanced performance, and more!",
+                              appStoreUrl: "https://apps.apple.com/in/app/aroundu/id6744299663",
+                              playStoreUrl: "https://play.google.com/store/apps/details?id=com.polar.aroundu",
+                              // cancelButtonText: "Maybe Later",
+                              onCancel: () {
+                                print("User chose to skip download");
+                              },
+                            );
+                          } else {
+                            showModalBottomSheet(
+                              backgroundColor: Colors.white,
+                              context: context,
+                              // constraints: BoxConstraints(
+                              //   minHeight: 0.9.sh,
+                              // ),
+                              isScrollControlled: true,
+                              useSafeArea: true,
+                              builder: (BuildContext context) {
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                  child: LobbySmallEditSheet(lobby: lobbyData.lobby),
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                      Space.h(height: 8),
+
+                      ListTile(
+                        leading: DesignIcon.custom(
+                          icon: DesignIcons.personAdd,
+                          size: 16,
+                          color: const Color(0xFFEC4B5D),
+                        ),
+                        title: DesignText(
+                          text: (lobbyData.lobby.lobbyType == 'PUBLIC') ? 'Form Submissions' : 'Access Requests',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF323232),
+                        ),
+                        onTap: () {
+                          Get.toNamed(
+                            AppRoutes.lobbyRequests
+                                .replaceAll(':lobbyId', lobbyData.lobby.id)
+                                .replaceAll(':title', (lobbyData.lobby.lobbyType == 'PUBLIC') ? 'Forms' : 'Requests'),
+                          );
+                          // Get.to(() => const AccessRequestPage());
+                        },
+                      ),
+                      Space.h(height: 8),
+                      ListTile(
+                        leading: DesignIcon.icon(
+                          icon: Icons.local_offer_outlined,
+                          size: 16,
+                          color: const Color(0xFFEC4B5D),
+                        ),
+                        title: DesignText(
+                          text: 'Lobby Ledger',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF323232),
+                        ),
+                        onTap: () {
+                          // Get.to(
+                          //   () => LobbyLedgerPage(lobbyId: lobbyData.lobby.id),
+                          // );
                           FancyAppDownloadDialog.show(
                             context,
                             title: "Unlock Premium Features",
@@ -686,107 +756,44 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                               print("User chose to skip download");
                             },
                           );
-                        } else {
-                          showModalBottomSheet(
-                            backgroundColor: Colors.white,
-                            context: context,
-                            // constraints: BoxConstraints(
-                            //   minHeight: 0.9.sh,
-                            // ),
-                            isScrollControlled: true,
-                            useSafeArea: true,
-                            builder: (BuildContext context) {
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                child: LobbySmallEditSheet(lobby: lobbyData.lobby),
-                              );
-                            },
-                          );
-                        }
-                      },
-                    ),
-                    Space.h(height: 8),
+                        },
+                      ),
+                      Space.h(height: 8),
 
-                    ListTile(
-                      leading: DesignIcon.custom(icon: DesignIcons.personAdd, size: 16, color: const Color(0xFFEC4B5D)),
-                      title: DesignText(
-                        text: (lobbyData.lobby.lobbyType == 'PUBLIC') ? 'Form Submissions' : 'Access Requests',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF323232),
+                      ListTile(
+                        leading: DesignIcon.icon(
+                          icon: Icons.settings_outlined,
+                          size: 16,
+                          color: const Color(0xFFEC4B5D),
+                        ),
+                        title: DesignText(
+                          text: 'Settings',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF323232),
+                        ),
+                        onTap: () {
+                          Get.toNamed(AppRoutes.lobbySettings, arguments: {'lobby': lobbyData.lobby});
+                        },
                       ),
-                      onTap: () {
-                        Get.toNamed(
-                          AppRoutes.lobbyRequests
-                              .replaceAll(':lobbyId', lobbyData.lobby.id)
-                              .replaceAll(':title', (lobbyData.lobby.lobbyType == 'PUBLIC') ? 'Forms' : 'Requests'),
-                        );
-                        // Get.to(() => const AccessRequestPage());
-                      },
-                    ),
-                    Space.h(height: 8),
-                    ListTile(
-                      leading: DesignIcon.icon(
-                        icon: Icons.local_offer_outlined,
-                        size: 16,
-                        color: const Color(0xFFEC4B5D),
-                      ),
-                      title: DesignText(
-                        text: 'Lobby Ledger',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF323232),
-                      ),
-                      onTap: () {
-                        // Get.to(
-                        //   () => LobbyLedgerPage(lobbyId: lobbyData.lobby.id),
-                        // );
-                        FancyAppDownloadDialog.show(
-                          context,
-                          title: "Unlock Premium Features",
-                          message:
-                              "Get the full AroundU experience with exclusive features, enhanced performance, and more!",
-                          appStoreUrl: "https://apps.apple.com/in/app/aroundu/id6744299663",
-                          playStoreUrl: "https://play.google.com/store/apps/details?id=com.polar.aroundu",
-                          // cancelButtonText: "Maybe Later",
-                          onCancel: () {
-                            print("User chose to skip download");
-                          },
-                        );
-                      },
-                    ),
-                    Space.h(height: 8),
-
-                    ListTile(
-                      leading: DesignIcon.icon(icon: Icons.settings_outlined, size: 16, color: const Color(0xFFEC4B5D)),
-                      title: DesignText(
-                        text: 'Settings',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF323232),
-                      ),
-                      onTap: () {
-                        Get.toNamed(AppRoutes.lobbySettings, arguments: {'lobby': lobbyData.lobby});
-                      },
-                    ),
-                    Space.h(height: 8),
-                  ],
+                      Space.h(height: 8),
+                    ],
+                  ),
                 ),
-              ),
-              body: RefreshIndicator(
-                key: Key("normalStateRefreshIndicator"),
-                onRefresh: () async {
-                  ref.read(lobbyDetailsProvider(lobbyData.lobby.id).notifier).reset();
-                  await ref
-                      .read(lobbyDetailsProvider(lobbyData.lobby.id).notifier)
-                      .fetchLobbyDetails(lobbyData.lobby.id);
-                },
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: responsiveLayout(lobbyData: lobbyData, sh: sh, sw: sw),
+                body: RefreshIndicator(
+                  key: Key("normalStateRefreshIndicator"),
+                  onRefresh: () async {
+                    ref.read(lobbyDetailsProvider(lobbyData.lobby.id).notifier).reset();
+                    await ref
+                        .read(lobbyDetailsProvider(lobbyData.lobby.id).notifier)
+                        .fetchLobbyDetails(lobbyData.lobby.id);
+                  },
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: responsiveLayout(lobbyData: lobbyData, sh: sh, sw: sw),
+                  ),
                 ),
-              ),
-            );
+              );
       },
       error: (error, stack) {
         Future.microtask(() {
@@ -854,26 +861,25 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
           ),
         );
       },
-      loading:
-          () => Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                style: IconButton.styleFrom(backgroundColor: Colors.white70),
-                onPressed: () {
-                  Get.back();
-                },
-                icon: DesignIcon.icon(icon: Icons.arrow_back_ios_sharp, size: 20),
-              ),
-              backgroundColor: Colors.transparent,
-              scrolledUnderElevation: 0,
-            ),
-            body: SingleChildScrollView(
-              child: SizedBox(
-                height: 0.85 * sh,
-                child: Center(child: CircularProgressIndicator(color: DesignColors.accent)),
-              ),
-            ),
+      loading: () => Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            style: IconButton.styleFrom(backgroundColor: Colors.white70),
+            onPressed: () {
+              Get.back();
+            },
+            icon: DesignIcon.icon(icon: Icons.arrow_back_ios_sharp, size: 20),
           ),
+          backgroundColor: Colors.transparent,
+          scrolledUnderElevation: 0,
+        ),
+        body: SingleChildScrollView(
+          child: SizedBox(
+            height: 0.85 * sh,
+            child: Center(child: CircularProgressIndicator(color: DesignColors.accent)),
+          ),
+        ),
+      ),
     );
   }
 
@@ -906,13 +912,13 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
           alignment: AlignmentDirectional.bottomCenter,
           children: [
             ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 0.6*sh, minHeight: 0.2*sh),
+              constraints: BoxConstraints(maxHeight: 0.6 * sh, minHeight: 0.2 * sh),
               child: MediaGallery.fromUrls(
                 lobbyData.lobby.mediaUrls.isNotEmpty
                     ? lobbyData.lobby.mediaUrls
                     : [
-                      "https://media.istockphoto.com/id/1329350253/vector/image-vector-simple-mountain-landscape-photo-adding-photos-to-the-album.jpg?s=612x612&w=0&k=20&c=3iXykf5ZQI2eBo0DaQ7W-e_8E5rhFEammFqO9XCisnI=",
-                    ],
+                        "https://media.istockphoto.com/id/1329350253/vector/image-vector-simple-mountain-landscape-photo-adding-photos-to-the-album.jpg?s=612x612&w=0&k=20&c=3iXykf5ZQI2eBo0DaQ7W-e_8E5rhFEammFqO9XCisnI=",
+                      ],
               ),
             ),
             Positioned(
@@ -921,62 +927,59 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
               child: Container(
                 padding: EdgeInsets.only(left: 16, right: 12, top: 8, bottom: 8),
                 decoration: BoxDecoration(
-                  color:
-                      (() {
-                        switch (lobbyData.lobby.lobbyStatus) {
-                          case "UPCOMING":
-                            return Color(0xFF52D17C);
-                          case "PAST":
-                            return Color(0xFFF97853);
-                          case "CLOSED":
-                            return Color(0xFF3E79A1);
-                          case "FULL":
-                            return Color(0xFFF97853);
-                          default:
-                            return Color(0xFF52D17C);
-                        }
-                      })(),
+                  color: (() {
+                    switch (lobbyData.lobby.lobbyStatus) {
+                      case "UPCOMING":
+                        return Color(0xFF52D17C);
+                      case "PAST":
+                        return Color(0xFFF97853);
+                      case "CLOSED":
+                        return Color(0xFF3E79A1);
+                      case "FULL":
+                        return Color(0xFFF97853);
+                      default:
+                        return Color(0xFF52D17C);
+                    }
+                  })(),
                   borderRadius: BorderRadius.horizontal(right: Radius.circular(24)),
                 ),
                 child: Row(
                   children: [
                     DesignIcon.custom(
-                      icon:
-                          (() {
-                            switch (lobbyData.lobby.lobbyStatus) {
-                              case "UPCOMING":
-                                return DesignIcons.upcoming;
-                              case "PAST":
-                                return DesignIcons.past;
-                              case "CLOSED":
-                                return DesignIcons.closed;
-                              case "FULL":
-                                return DesignIcons.past;
-                              default:
-                                return DesignIcons.running;
-                            }
-                          })(),
+                      icon: (() {
+                        switch (lobbyData.lobby.lobbyStatus) {
+                          case "UPCOMING":
+                            return DesignIcons.upcoming;
+                          case "PAST":
+                            return DesignIcons.past;
+                          case "CLOSED":
+                            return DesignIcons.closed;
+                          case "FULL":
+                            return DesignIcons.past;
+                          default:
+                            return DesignIcons.running;
+                        }
+                      })(),
                       color: (lobbyData.lobby.lobbyStatus == 'ACTIVE') ? Colors.white : null,
                     ),
                     Space.w(width: 8),
                     DesignText(
-                      text:
-                          (() {
-                            switch (lobbyData.lobby.lobbyStatus) {
-                              case "UPCOMING":
-                                return "Upcoming";
-                              case "PAST":
-                                return "Past";
-                              case "CLOSED":
-                                return "Closed";
-                              case "ACTIVE":
-                                return "Active";
-                              case "FULL":
-                                return "Full";
-                              default:
-                                return "Join Now!";
-                            }
-                          })(),
+                      text: (() {
+                        switch (lobbyData.lobby.lobbyStatus) {
+                          case "UPCOMING":
+                            return "Upcoming";
+                          case "PAST":
+                            return "Past";
+                          case "CLOSED":
+                            return "Closed";
+                          case "ACTIVE":
+                            return "Active";
+                          case "FULL":
+                            return "Full";
+                          default:
+                            return "Join Now!";
+                        }
+                      })(),
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
@@ -1656,14 +1659,13 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                         onPressed: () {
                           showDialog(
                             context: context,
-                            builder:
-                                (context) => FeedbackWidget(
-                                  onSubmit: (emoji, rating) {
-                                    print("Selected Emoji: $emoji");
-                                    print("Selected Rating: $rating");
-                                  },
-                                  lobbyId: lobbyData.lobby.id,
-                                ),
+                            builder: (context) => FeedbackWidget(
+                              onSubmit: (emoji, rating) {
+                                print("Selected Emoji: $emoji");
+                                print("Selected Rating: $rating");
+                              },
+                              lobbyId: lobbyData.lobby.id,
+                            ),
                           );
                         },
                         style: OutlinedButton.styleFrom(
@@ -1698,12 +1700,11 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                   InfoCard(
                     icon: Icons.payment,
                     title: (lobbyData.lobby.priceDetails.originalPrice > 0.0) ? "Refund Policies :" : "Pricing ",
-                    subtitle:
-                        (lobbyData.lobby.priceDetails.isRefundAllowed)
-                            ? "Up to 2 days before the lobby."
-                            : (lobbyData.lobby.priceDetails.originalPrice > 0.0)
-                            ? "refund not allowed for this lobby"
-                            : "This Lobby is Free",
+                    subtitle: (lobbyData.lobby.priceDetails.isRefundAllowed)
+                        ? "Up to 2 days before the lobby."
+                        : (lobbyData.lobby.priceDetails.originalPrice > 0.0)
+                        ? "refund not allowed for this lobby"
+                        : "This Lobby is Free",
                   ),
                   InfoCard(
                     icon: Icons.groups,
@@ -1813,11 +1814,10 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                                         height: 32,
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2,
-                                          value:
-                                              loadingProgress.expectedTotalBytes != null
-                                                  ? loadingProgress.cumulativeBytesLoaded /
-                                                      loadingProgress.expectedTotalBytes!
-                                                  : null,
+                                          value: loadingProgress.expectedTotalBytes != null
+                                              ? loadingProgress.cumulativeBytesLoaded /
+                                                    loadingProgress.expectedTotalBytes!
+                                              : null,
                                         ),
                                       ),
                                     );
@@ -1843,10 +1843,9 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text:
-                                          (lobbyData.lobby.houseDetail != null)
-                                              ? lobbyData.lobby.houseDetail!.name
-                                              : lobbyData.lobby.adminSummary.name,
+                                      text: (lobbyData.lobby.houseDetail != null)
+                                          ? lobbyData.lobby.houseDetail!.name
+                                          : lobbyData.lobby.adminSummary.name,
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
@@ -1909,11 +1908,15 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                 ),
               ],
               Space.h(height: 24),
-              if(lobbyData.lobby.setting.showMembers)...[
-               
+              if (lobbyData.lobby.setting.showMembers) ...[
                 if (userInfos.isEmpty)
-                  DesignText(text: "Attendee", fontSize: 14, fontWeight: FontWeight.w600, color: const Color(0xFF323232)),
-                if(lobbyData.lobby.setting.showLobbyMembers)...[
+                  DesignText(
+                    text: "Attendee",
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF323232),
+                  ),
+                if (lobbyData.lobby.setting.showLobbyMembers) ...[
                   lobbyData.lobby.userStatus == "MEMBER"
                       ? SizedBox(
                           height: 70,
@@ -2384,7 +2387,7 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                           ),
                         ),
                   Space.h(height: 34),
-                ]else if (lobbyData.lobby.userStatus=='MEMBER')...[
+                ] else if (lobbyData.lobby.userStatus == 'MEMBER') ...[
                   SizedBox(
                     height: 70,
                     child: Row(
@@ -2675,14 +2678,10 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                       ],
                     ),
                   ),
-                   Space.h(height: 34),
+                  Space.h(height: 34),
                 ],
-                
-              ] ,
+              ],
 
-              
-
-             
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 5),
                 child: Container(
@@ -2722,13 +2721,12 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
               Space.h(height: 34),
               Row(
                 children: [
-                   if (lobbyData.lobby.content != null)
+                  if (lobbyData.lobby.content != null)
                     DesignText(
                       text: lobbyData.lobby.content?.title ?? "Guidelines",
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
-                  
                 ],
               ),
               if (lobbyData.lobby.content != null) ...[
@@ -2939,11 +2937,9 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                                   height: 32,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
-                                    value:
-                                        loadingProgress.expectedTotalBytes != null
-                                            ? loadingProgress.cumulativeBytesLoaded /
-                                                loadingProgress.expectedTotalBytes!
-                                            : null,
+                                    value: loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                        : null,
                                   ),
                                 ),
                               );
@@ -2969,10 +2965,9 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                                 ),
                               ),
                               TextSpan(
-                                text:
-                                    (lobbyData.lobby.houseDetail != null)
-                                        ? lobbyData.lobby.houseDetail!.name
-                                        : lobbyData.lobby.adminSummary.name,
+                                text: (lobbyData.lobby.houseDetail != null)
+                                    ? lobbyData.lobby.houseDetail!.name
+                                    : lobbyData.lobby.adminSummary.name,
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
@@ -3042,8 +3037,8 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                               lobbyData.lobby.mediaUrls.isNotEmpty
                                   ? lobbyData.lobby.mediaUrls
                                   : [
-                                    "https://media.istockphoto.com/id/1329350253/vector/image-vector-simple-mountain-landscape-photo-adding-photos-to-the-album.jpg?s=612x612&w=0&k=20&c=3iXykf5ZQI2eBo0DaQ7W-e_8E5rhFEammFqO9XCisnI=",
-                                  ],
+                                      "https://media.istockphoto.com/id/1329350253/vector/image-vector-simple-mountain-landscape-photo-adding-photos-to-the-album.jpg?s=612x612&w=0&k=20&c=3iXykf5ZQI2eBo0DaQ7W-e_8E5rhFEammFqO9XCisnI=",
+                                    ],
                             ),
                             Positioned(
                               top: 0.1 * sh,
@@ -3051,62 +3046,59 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                               child: Container(
                                 padding: EdgeInsets.only(left: 16, right: 12, top: 8, bottom: 8),
                                 decoration: BoxDecoration(
-                                  color:
-                                      (() {
-                                        switch (lobbyData.lobby.lobbyStatus) {
-                                          case "UPCOMING":
-                                            return Color(0xFF52D17C);
-                                          case "PAST":
-                                            return Color(0xFFF97853);
-                                          case "CLOSED":
-                                            return Color(0xFF3E79A1);
-                                          case "FULL":
-                                            return Color(0xFFF97853);
-                                          default:
-                                            return Color(0xFF52D17C);
-                                        }
-                                      })(),
+                                  color: (() {
+                                    switch (lobbyData.lobby.lobbyStatus) {
+                                      case "UPCOMING":
+                                        return Color(0xFF52D17C);
+                                      case "PAST":
+                                        return Color(0xFFF97853);
+                                      case "CLOSED":
+                                        return Color(0xFF3E79A1);
+                                      case "FULL":
+                                        return Color(0xFFF97853);
+                                      default:
+                                        return Color(0xFF52D17C);
+                                    }
+                                  })(),
                                   borderRadius: BorderRadius.horizontal(right: Radius.circular(24)),
                                 ),
                                 child: Row(
                                   children: [
                                     DesignIcon.custom(
-                                      icon:
-                                          (() {
-                                            switch (lobbyData.lobby.lobbyStatus) {
-                                              case "UPCOMING":
-                                                return DesignIcons.upcoming;
-                                              case "PAST":
-                                                return DesignIcons.past;
-                                              case "CLOSED":
-                                                return DesignIcons.closed;
-                                              case "FULL":
-                                                return DesignIcons.past;
-                                              default:
-                                                return DesignIcons.running;
-                                            }
-                                          })(),
+                                      icon: (() {
+                                        switch (lobbyData.lobby.lobbyStatus) {
+                                          case "UPCOMING":
+                                            return DesignIcons.upcoming;
+                                          case "PAST":
+                                            return DesignIcons.past;
+                                          case "CLOSED":
+                                            return DesignIcons.closed;
+                                          case "FULL":
+                                            return DesignIcons.past;
+                                          default:
+                                            return DesignIcons.running;
+                                        }
+                                      })(),
                                       color: (lobbyData.lobby.lobbyStatus == 'ACTIVE') ? Colors.white : null,
                                     ),
                                     Space.w(width: 8),
                                     DesignText(
-                                      text:
-                                          (() {
-                                            switch (lobbyData.lobby.lobbyStatus) {
-                                              case "UPCOMING":
-                                                return "Upcoming";
-                                              case "PAST":
-                                                return "Past";
-                                              case "CLOSED":
-                                                return "Closed";
-                                              case "ACTIVE":
-                                                return "Active";
-                                              case "FULL":
-                                                return "Full";
-                                              default:
-                                                return "Join Now!";
-                                            }
-                                          })(),
+                                      text: (() {
+                                        switch (lobbyData.lobby.lobbyStatus) {
+                                          case "UPCOMING":
+                                            return "Upcoming";
+                                          case "PAST":
+                                            return "Past";
+                                          case "CLOSED":
+                                            return "Closed";
+                                          case "ACTIVE":
+                                            return "Active";
+                                          case "FULL":
+                                            return "Full";
+                                          default:
+                                            return "Join Now!";
+                                        }
+                                      })(),
                                       fontSize: 12,
                                       fontWeight: FontWeight.w700,
                                       color: Colors.white,
@@ -3140,10 +3132,9 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                                       style: IconButton.styleFrom(backgroundColor: Colors.black38),
                                       onPressed: () {},
                                       icon: DesignIcon.icon(
-                                        icon:
-                                            (lobbyData.lobby.isPrivate)
-                                                ? Icons.lock_outline_rounded
-                                                : Icons.lock_open_outlined,
+                                        icon: (lobbyData.lobby.isPrivate)
+                                            ? Icons.lock_outline_rounded
+                                            : Icons.lock_open_outlined,
                                         color: Color(0xFFFFFFFF),
                                       ),
                                     ),
@@ -3183,8 +3174,8 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                         scrollable: false,
                       ),
                       SizedBox(height: 16),
-                      if(lobbyData.lobby.setting.showMembers)...[
-                        if(lobbyData.lobby.setting.showLobbyMembers)...[
+                      if (lobbyData.lobby.setting.showMembers) ...[
+                        if (lobbyData.lobby.setting.showLobbyMembers) ...[
                           GestureDetector(
                             onTap: () {
                               FancyAppDownloadDialog.show(
@@ -3282,8 +3273,8 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                             ),
                           ),
                           SizedBox(height: 16),
-                        ] else if (lobbyData.lobby.userStatus=='MEMBER')...[
-                           GestureDetector(
+                        ] else if (lobbyData.lobby.userStatus == 'MEMBER') ...[
+                          GestureDetector(
                             onTap: () {
                               FancyAppDownloadDialog.show(
                                 context,
@@ -3381,9 +3372,8 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                           ),
                           SizedBox(height: 16),
                         ],
-                        
                       ],
-                      
+
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 5),
                         child: Container(
@@ -4088,14 +4078,14 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                         cards: [
                           InfoCard(
                             icon: Icons.payment,
-                            title:
-                                (lobbyData.lobby.priceDetails.originalPrice > 0.0) ? "Refund Policies :" : "Pricing ",
-                            subtitle:
-                                (lobbyData.lobby.priceDetails.isRefundAllowed)
-                                    ? "Up to 2 days before the lobby."
-                                    : (lobbyData.lobby.priceDetails.originalPrice > 0.0)
-                                    ? "refund not allowed for this lobby"
-                                    : "This Lobby is Free",
+                            title: (lobbyData.lobby.priceDetails.originalPrice > 0.0)
+                                ? "Refund Policies :"
+                                : "Pricing ",
+                            subtitle: (lobbyData.lobby.priceDetails.isRefundAllowed)
+                                ? "Up to 2 days before the lobby."
+                                : (lobbyData.lobby.priceDetails.originalPrice > 0.0)
+                                ? "refund not allowed for this lobby"
+                                : "This Lobby is Free",
                           ),
                           InfoCard(
                             icon: Icons.groups,
@@ -4151,35 +4141,36 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
     // For ACTIVE lobby, keep the existing price/slots card
     return (userStatus == "VISITOR")
         ? Card(
-          color: Colors.white,
-          shadowColor: const Color(0x6C3E79A1),
-          elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: Padding(
-            padding: EdgeInsets.only(top: 0, left: 0, right: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DesignText(
-                  text:
-                      (lobbyDetail.lobby.priceDetails?.price != 0.0)
-                          ? "₹${lobbyDetail.lobby.priceDetails?.price ?? 0.0}/person"
-                          : "Free",
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-                // Space.h(height: 2.h),
-                DesignText(
-                  text: "${lobbyDetail.lobby.membersRequired} slots available",
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.green,
-                ),
-              ],
+            color: Colors.white,
+            shadowColor: const Color(0x6C3E79A1),
+            elevation: 0,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: Padding(
+              padding: EdgeInsets.only(top: 0, left: 0, right: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DesignText(
+                    text: (lobbyDetail.lobby.priceDetails?.price != 0.0)
+                        ? "₹${lobbyDetail.lobby.priceDetails?.price ?? 0.0}/person"
+                        : "Free",
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  // Space.h(height: 2.h),
+                  if (lobbyDetail.lobby.activity == "HIGH") ...[
+                    DesignText(
+                      text: "${lobbyDetail.lobby.membersRequired} slots available",
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.green,
+                    ),
+                  ],
+                ],
+              ),
             ),
-          ),
-        )
+          )
         : SizedBox.shrink();
   }
 
@@ -4349,51 +4340,102 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
     // For other cases, keep your existing conditional widget
     return (userStatus != "MEMBER")
         ? SizedBox(
-          width: 0.4 * sw,
-          child: Row(
-            children: [
-              Expanded(
-                flex: 4,
-                child: DesignButton(
-                  onPress: () async {
-                    HapticFeedback.mediumImpact();
-                    print("isAuth : $isAuth");
-                    if (isAuth) {
-                      switch (lobbyDetail.lobby.userStatus) {
-                        case "REQUESTED":
-                          CustomSnackBar.show(context: context, message: "Already Requested", type: SnackBarType.info);
-                          return;
-                        case "REQUEST_DENIED":
-                          CustomSnackBar.show(
-                            context: context,
-                            message: "Your request was denied by Admin",
-                            type: SnackBarType.info,
-                          );
-                          return;
-                        case "INTERNAL_ACCESS_REQUEST":
-                          if (lobbyDetail.lobby.accessRequestData != null &&
-                              (lobbyDetail.lobby.accessRequestData?.accessId.isNotEmpty ?? false)) {
-                            Get.toNamed(
-                              AppRoutes.sharedAccessRequestCardExtendedView.replaceAll(
-                                ':accessReqId',
-                                lobbyDetail.lobby.accessRequestData?.accessId ?? "",
-                              ),
+            width: 0.4 * sw,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: DesignButton(
+                    onPress: () async {
+                      HapticFeedback.mediumImpact();
+                      print("isAuth : $isAuth");
+                      if (isAuth) {
+                        switch (lobbyDetail.lobby.userStatus) {
+                          case "REQUESTED":
+                            CustomSnackBar.show(
+                              context: context,
+                              message: "Already Requested",
+                              type: SnackBarType.info,
                             );
-                          } else {
-                            Fluttertoast.showToast(msg: "Something went wrong \n Please try again!!!");
-                          }
-                        case "REMOVED":
-                          CustomSnackBar.show(
-                            context: context,
-                            message:
-                                "You’ve been removed by the admin. This lobby is no longer accessible to you and you won’t be able to rejoin",
-                            type: SnackBarType.info,
-                          );
-                          return;
-                        case "PAYMENT_PENDING":
-                          if (lobbyDetail.lobby.accessRequestData != null) {
-                            if (lobbyDetail.lobby.accessRequestData!.isGroupAccess) {
-                              if (lobbyDetail.lobby.accessRequestData!.isAdmin) {
+                            return;
+                          case "REQUEST_DENIED":
+                            CustomSnackBar.show(
+                              context: context,
+                              message: "Your request was denied by Admin",
+                              type: SnackBarType.info,
+                            );
+                            return;
+                          case "INTERNAL_ACCESS_REQUEST":
+                            if (lobbyDetail.lobby.accessRequestData != null &&
+                                (lobbyDetail.lobby.accessRequestData?.accessId.isNotEmpty ?? false)) {
+                              Get.toNamed(
+                                AppRoutes.sharedAccessRequestCardExtendedView.replaceAll(
+                                  ':accessReqId',
+                                  lobbyDetail.lobby.accessRequestData?.accessId ?? "",
+                                ),
+                              );
+                            } else {
+                              Fluttertoast.showToast(msg: "Something went wrong \n Please try again!!!");
+                            }
+                          case "REMOVED":
+                            CustomSnackBar.show(
+                              context: context,
+                              message:
+                                  "You’ve been removed by the admin. This lobby is no longer accessible to you and you won’t be able to rejoin",
+                              type: SnackBarType.info,
+                            );
+                            return;
+                          case "PAYMENT_PENDING":
+                            if (lobbyDetail.lobby.accessRequestData != null) {
+                              if (lobbyDetail.lobby.accessRequestData!.isGroupAccess) {
+                                if (lobbyDetail.lobby.accessRequestData!.isAdmin) {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: Colors.transparent,
+                                        content: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [CircularProgressIndicator(color: DesignColors.accent)],
+                                        ),
+                                      );
+                                    },
+                                  );
+
+                                  // Fetch pricing data
+                                  await ref
+                                      .read(pricingProvider(lobbyDetail.lobby.id).notifier)
+                                      .fetchPricing(lobbyDetail.lobby.id, groupSize: 1);
+
+                                  // Close the loading dialog
+                                  Navigator.of(context, rootNavigator: true).pop();
+
+                                  final pricingState = ref.read(pricingProvider(lobbyDetail.lobby.id));
+                                  final pricingData = pricingState.pricingData;
+
+                                  if (pricingData != null && pricingData.status == 'SUCCESS') {
+                                    await Get.toNamed(
+                                      AppRoutes.checkOutPublicLobbyView,
+                                      arguments: {'lobby': lobbyDetail.lobby},
+                                    );
+                                  } else {
+                                    // Show error message if pricing data couldn't be fetched
+                                    CustomSnackBar.show(
+                                      context: context,
+                                      message: "Something went wrong",
+                                      type: SnackBarType.error,
+                                    );
+                                  }
+                                } else {
+                                  CustomSnackBar.show(
+                                    context: context,
+                                    message: "contact your admin to finish payment",
+                                    type: SnackBarType.info,
+                                  );
+                                }
+                              } else {
                                 showDialog(
                                   context: context,
                                   barrierDismissible: false,
@@ -4433,158 +4475,111 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                                     type: SnackBarType.error,
                                   );
                                 }
-                              } else {
-                                CustomSnackBar.show(
-                                  context: context,
-                                  message: "contact your admin to finish payment",
-                                  type: SnackBarType.info,
-                                );
                               }
                             } else {
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    backgroundColor: Colors.transparent,
-                                    content: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [CircularProgressIndicator(color: DesignColors.accent)],
-                                    ),
-                                  );
-                                },
-                              );
-
-                              // Fetch pricing data
-                              await ref
-                                  .read(pricingProvider(lobbyDetail.lobby.id).notifier)
-                                  .fetchPricing(lobbyDetail.lobby.id, groupSize: 1);
-
-                              // Close the loading dialog
-                              Navigator.of(context, rootNavigator: true).pop();
-
-                              final pricingState = ref.read(pricingProvider(lobbyDetail.lobby.id));
-                              final pricingData = pricingState.pricingData;
-
-                              if (pricingData != null && pricingData.status == 'SUCCESS') {
-                                await Get.toNamed(
-                                  AppRoutes.checkOutPublicLobbyView,
-                                  arguments: {'lobby': lobbyDetail.lobby},
-                                );
-                              } else {
-                                // Show error message if pricing data couldn't be fetched
-                                CustomSnackBar.show(
-                                  context: context,
-                                  message: "Something went wrong",
-                                  type: SnackBarType.error,
-                                );
-                              }
+                              Fluttertoast.showToast(msg: "Something went wrong \n Please try again!!!");
                             }
-                          } else {
-                            Fluttertoast.showToast(msg: "Something went wrong \n Please try again!!!");
-                          }
 
-                        default:
-                          return _onJoinOrRequest(
-                            context: context,
-                            lobby: lobbyDetail.lobby,
-                          ); // Default case if userStatus is unexpected
-                      }
-                    } else if (lobbyDetail.lobby.userStatus == "VISITOR" && lobbyDetail.lobby.loginNotRequired) {
-                      Get.toNamed(AppRoutes.noAuthCheckoutLobbyView.replaceAll(':lobbyId', lobbyDetail.lobby.id));
-                    } else {
-                      LoginRequiredDialog.show(
-                        context,
-                        title: "Authentication Required",
-                        message: "Please sign in or create an account to access this exclusive lobby experience.",
-                        onLogin: () {
-                          Get.toNamed(AppRoutes.auth.replaceAll(':destination', widget.lobbyId));
-                        },
-                        onSignup: () {
-                          Get.toNamed(AppRoutes.auth.replaceAll(':destination', widget.lobbyId));
-                        },
-                        cancelButtonText: "Maybe Later",
-                      );
-                    }
-                  },
-                  bgColor: () {
-                    switch (lobbyDetail.lobby.userStatus) {
-                      case "REQUESTED":
-                        return const Color(0xFF989898);
-                      case "REQUEST_DENIED":
-                        return const Color(0xFF323232);
-                      case "REMOVED":
-                        return const Color(0xFF323232);
-                      case "INTERNAL_ACCESS_REQUEST":
-                        return const Color(0xFF3E79A1);
-                      case "PAYMENT_PENDING":
-                        if (lobbyDetail.lobby.accessRequestData != null) {
-                          if (lobbyDetail.lobby.accessRequestData!.isAdmin) {
-                            return const Color(0xFF3E79A1);
-                          } else if (!lobbyDetail.lobby.accessRequestData!.isGroupAccess) {
-                            return const Color(0xFF3E79A1);
-                          } else {
-                            return const Color(0xFF989898);
-                          }
-                        }
-                        return const Color(0xFF989898);
-                      default:
-                        return DesignColors.accent; // Default case if userStatus is unexpected
-                    }
-                  }(),
-                  child: Center(
-                    child: DesignText(
-                      text: () {
-                        switch (lobbyDetail.lobby.userStatus) {
-                          case "ADMIN":
-                            return "Invite People";
-                          case "VISITOR":
-                            return lobbyDetail.lobby.isPrivate
-                                ? "Request"
-                                : "Join"; // Show based on whether the visitor has joined or not
-                          case "REQUESTED":
-                            return "Request Pending";
-                          case "REQUEST_DENIED":
-                            return "Request Denied";
-                          case "REMOVED":
-                            return "Removed";
-                          case "INTERNAL_ACCESS_REQUEST":
-                            return "Finalize Request";
-                          case "PAYMENT_PENDING":
-                            return "Payment Pending ${(lobbyDetail.lobby.priceDetails?.price != null && lobbyDetail.lobby.priceDetails!.price > 0.0) ? "- Rs.${lobbyDetail.lobby.priceDetails?.price} per slot" : "(Free)"}";
                           default:
-                            return "Join Lobby"; // Default case if userStatus is unexpected
+                            return _onJoinOrRequest(
+                              context: context,
+                              lobby: lobbyDetail.lobby,
+                            ); // Default case if userStatus is unexpected
                         }
-                      }(),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                      } else if (lobbyDetail.lobby.userStatus == "VISITOR" && lobbyDetail.lobby.loginNotRequired) {
+                        Get.toNamed(AppRoutes.noAuthCheckoutLobbyView.replaceAll(':lobbyId', lobbyDetail.lobby.id));
+                      } else {
+                        LoginRequiredDialog.show(
+                          context,
+                          title: "Authentication Required",
+                          message: "Please sign in or create an account to access this exclusive lobby experience.",
+                          onLogin: () {
+                            Get.toNamed(AppRoutes.auth.replaceAll(':destination', widget.lobbyId));
+                          },
+                          onSignup: () {
+                            Get.toNamed(AppRoutes.auth.replaceAll(':destination', widget.lobbyId));
+                          },
+                          cancelButtonText: "Maybe Later",
+                        );
+                      }
+                    },
+                    bgColor: () {
+                      switch (lobbyDetail.lobby.userStatus) {
+                        case "REQUESTED":
+                          return const Color(0xFF989898);
+                        case "REQUEST_DENIED":
+                          return const Color(0xFF323232);
+                        case "REMOVED":
+                          return const Color(0xFF323232);
+                        case "INTERNAL_ACCESS_REQUEST":
+                          return const Color(0xFF3E79A1);
+                        case "PAYMENT_PENDING":
+                          if (lobbyDetail.lobby.accessRequestData != null) {
+                            if (lobbyDetail.lobby.accessRequestData!.isAdmin) {
+                              return const Color(0xFF3E79A1);
+                            } else if (!lobbyDetail.lobby.accessRequestData!.isGroupAccess) {
+                              return const Color(0xFF3E79A1);
+                            } else {
+                              return const Color(0xFF989898);
+                            }
+                          }
+                          return const Color(0xFF989898);
+                        default:
+                          return DesignColors.accent; // Default case if userStatus is unexpected
+                      }
+                    }(),
+                    child: Center(
+                      child: DesignText(
+                        text: () {
+                          switch (lobbyDetail.lobby.userStatus) {
+                            case "ADMIN":
+                              return "Invite People";
+                            case "VISITOR":
+                              return lobbyDetail.lobby.isPrivate
+                                  ? "Request"
+                                  : "Join"; // Show based on whether the visitor has joined or not
+                            case "REQUESTED":
+                              return "Request Pending";
+                            case "REQUEST_DENIED":
+                              return "Request Denied";
+                            case "REMOVED":
+                              return "Removed";
+                            case "INTERNAL_ACCESS_REQUEST":
+                              return "Finalize Request";
+                            case "PAYMENT_PENDING":
+                              return "Payment Pending ${(lobbyDetail.lobby.priceDetails?.price != null && lobbyDetail.lobby.priceDetails!.price > 0.0) ? "- Rs.${lobbyDetail.lobby.priceDetails?.price} per slot" : "(Free)"}";
+                            default:
+                              return "Join Lobby"; // Default case if userStatus is unexpected
+                          }
+                        }(),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
                     ),
+                    // title: () {
+                    //   switch (lobbyDetail.lobby.userStatus) {
+                    //     case "ADMIN":
+                    //       return "Invite People";
+                    //     case "VISITOR":
+                    //       return lobbyDetail.lobby.isPrivate
+                    //           ? "Request"
+                    //           : "Join"; // Show based on whether the visitor has joined or not
+                    //     case "REQUESTED":
+                    //       return "Request Pending ";
+                    //     case "REQUEST_DENIED":
+                    //       return "Request Denied";
+                    //     case "PAYMENT_PENDING":
+                    //       return "Payment Pending";
+                    //     default:
+                    //       return "Join Lobby"; // Default case if userStatus is unexpected
+                    //   }
+                    // }(),
                   ),
-                  // title: () {
-                  //   switch (lobbyDetail.lobby.userStatus) {
-                  //     case "ADMIN":
-                  //       return "Invite People";
-                  //     case "VISITOR":
-                  //       return lobbyDetail.lobby.isPrivate
-                  //           ? "Request"
-                  //           : "Join"; // Show based on whether the visitor has joined or not
-                  //     case "REQUESTED":
-                  //       return "Request Pending ";
-                  //     case "REQUEST_DENIED":
-                  //       return "Request Denied";
-                  //     case "PAYMENT_PENDING":
-                  //       return "Payment Pending";
-                  //     default:
-                  //       return "Join Lobby"; // Default case if userStatus is unexpected
-                  //   }
-                  // }(),
                 ),
-              ),
-            ],
-          ),
-        )
+              ],
+            ),
+          )
         : DigitalCountdownButton(endTimestamp: lobbyDetail.lobby.dateRange['startDate'], onPressed: () {});
   }
 
@@ -4607,7 +4602,9 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
               ? DesignIcon.custom(icon: iconUrl ?? DesignIcons.all, size: 16, color: const Color(0xFF3E79A1))
               : DesignText(text: icon, fontSize: 12, fontWeight: FontWeight.w500, maxLines: 1),
           SizedBox(width: 16),
-          Expanded(child: DesignText(text: title, fontSize: 12, fontWeight: FontWeight.w500, maxLines: 1)),
+          Expanded(
+            child: DesignText(text: title, fontSize: 12, fontWeight: FontWeight.w500, maxLines: 1),
+          ),
           DesignText(text: subtitle, fontSize: 10, fontWeight: FontWeight.w400, maxLines: 1),
         ],
       ),
@@ -4921,15 +4918,18 @@ class JoinOptionsModal extends StatelessWidget {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder:
-          (context) => JoinOptionsModal(onJoinWithFriends: onJoinWithFriends, onJoinAsIndividual: onJoinAsIndividual),
+      builder: (context) =>
+          JoinOptionsModal(onJoinWithFriends: onJoinWithFriends, onJoinAsIndividual: onJoinAsIndividual),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -4999,16 +4999,18 @@ class InviteOptionsModal extends StatelessWidget {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder:
-          (context) =>
-              InviteOptionsModal(onInviteFriends: onInviteFriends, onInviteExternalMembers: onInviteExternalMembers),
+      builder: (context) =>
+          InviteOptionsModal(onInviteFriends: onInviteFriends, onInviteExternalMembers: onInviteExternalMembers),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -5090,29 +5092,28 @@ class InfoItemWithIcon extends StatelessWidget {
       width: 0.25 * sw,
       child: InkWell(
         onTap: onTap,
-        child:
-            convertedIcon != null
-                ? Row(
-                  children: [
-                    DesignIcon.custom(icon: convertedIcon, color: iconColor, size: iconSize),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: DesignText(
-                        text: text,
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xFF444444),
-                        maxLines: 10,
-                      ),
+        child: convertedIcon != null
+            ? Row(
+                children: [
+                  DesignIcon.custom(icon: convertedIcon, color: iconColor, size: iconSize),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: DesignText(
+                      text: text,
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFF444444),
+                      maxLines: 10,
                     ),
-                  ],
-                )
-                : DesignText(
-                  text: iconUrl != null ? "$iconUrl  $text" : text,
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFF444444),
-                ),
+                  ),
+                ],
+              )
+            : DesignText(
+                text: iconUrl != null ? "$iconUrl  $text" : text,
+                fontSize: fontSize,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFF444444),
+              ),
       ),
     );
   }
@@ -5148,43 +5149,42 @@ class InfoItemWithTitle extends StatelessWidget {
       width: 1 * sw,
       child: InkWell(
         onTap: onTap,
-        child:
-            iconUrl == null
-                ? Row(
-                  children: [
-                    // DesignIcon.custom(
-                    //   icon: convertedIcon,
-                    //   color: iconColor,
-                    //   size: iconSize,
-                    // ),
-                    // SizedBox(width: 10.w),
-                    DesignText(
-                      text: "$title  :  ",
+        child: iconUrl == null
+            ? Row(
+                children: [
+                  // DesignIcon.custom(
+                  //   icon: convertedIcon,
+                  //   color: iconColor,
+                  //   size: iconSize,
+                  // ),
+                  // SizedBox(width: 10.w),
+                  DesignText(
+                    text: "$title  :  ",
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF444444),
+                    maxLines: 10,
+                    textAlign: TextAlign.left,
+                  ),
+                  // SizedBox(width: 10.w),
+                  Expanded(
+                    child: DesignText(
+                      text: subTitle,
                       fontSize: fontSize,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF444444),
                       maxLines: 10,
                       textAlign: TextAlign.left,
                     ),
-                    // SizedBox(width: 10.w),
-                    Expanded(
-                      child: DesignText(
-                        text: subTitle,
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF444444),
-                        maxLines: 10,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                  ],
-                )
-                : DesignText(
-                  text: "$iconUrl $subTitle",
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF444444),
-                ),
+                  ),
+                ],
+              )
+            : DesignText(
+                text: "$iconUrl $subTitle",
+                fontSize: fontSize,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFF444444),
+              ),
       ),
     );
   }

@@ -14,6 +14,7 @@ class QrScannerModel {
   final DateTime? scannedAt;
   final DateTime? validUntil;
   final int? slots;
+  String? qrImageUrl;
 
   QrScannerModel({
     this.qrId,
@@ -29,6 +30,7 @@ class QrScannerModel {
     this.scannedAt,
     this.validUntil,
     this.slots,
+    this.qrImageUrl,
   });
 
   QrScannerModel copyWith({
@@ -45,69 +47,61 @@ class QrScannerModel {
     DateTime? scannedAt,
     DateTime? validUntil,
     int? slots,
-  }) =>
-      QrScannerModel(
-        qrId: qrId ?? this.qrId,
-        qrImageBase64: qrImageBase64 ?? this.qrImageBase64,
-        approvedBy: approvedBy ?? this.approvedBy,
-        paymentDetails: paymentDetails ?? this.paymentDetails,
-        lobbyDetail: lobbyDetail ?? this.lobbyDetail,
-        userSummary: userSummary ?? this.userSummary,
-        isScanned: isScanned ?? this.isScanned,
-        status: status ?? this.status,
-        message:message ?? this.message,
-        createdAt: createdAt ?? this.createdAt,
-        scannedAt: scannedAt ?? this.scannedAt,
-        validUntil: validUntil ?? this.validUntil,
-        slots: slots ?? this.slots,
-      );
+    String? qrImageUrl,
+  }) => QrScannerModel(
+    qrId: qrId ?? this.qrId,
+    qrImageBase64: qrImageBase64 ?? this.qrImageBase64,
+    approvedBy: approvedBy ?? this.approvedBy,
+    paymentDetails: paymentDetails ?? this.paymentDetails,
+    lobbyDetail: lobbyDetail ?? this.lobbyDetail,
+    userSummary: userSummary ?? this.userSummary,
+    isScanned: isScanned ?? this.isScanned,
+    status: status ?? this.status,
+    message: message ?? this.message,
+    createdAt: createdAt ?? this.createdAt,
+    scannedAt: scannedAt ?? this.scannedAt,
+    validUntil: validUntil ?? this.validUntil,
+    slots: slots ?? this.slots,
+    qrImageUrl: qrImageUrl ?? this.qrImageUrl,
+  );
 
-  factory QrScannerModel.fromRawJson(String str) =>
-      QrScannerModel.fromJson(json.decode(str));
+  factory QrScannerModel.fromRawJson(String str) => QrScannerModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory QrScannerModel.fromJson(Map<String, dynamic> json) => QrScannerModel(
-        qrId: json["qrId"],
-        qrImageBase64: json["qrImageBase64"],
-        approvedBy: json["approvedBy"] == null
-            ? null
-            : ApprovedBy.fromJson(json["approvedBy"]),
-        paymentDetails: (json["paymentDetails"]!=null)? PaymentDetails.fromJson(json["paymentDetails"]): null,
-        lobbyDetail: json["lobbyDetail"] == null
-            ? null
-            : LobbyDetail.fromJson(json["lobbyDetail"]),
-        userSummary: json["userSummary"] == null
-            ? null
-            : ApprovedBy.fromJson(json["userSummary"]),
-        isScanned: json["isScanned"],
-        status: json["status"],
-        message: json["message"],
-        createdAt: json["createdAt"],
-        scannedAt: json["scannedAt"] == null
-            ? null
-            : DateTime.parse(json["scannedAt"]),
-        validUntil: json["validUntil"] == null
-            ? null
-            : DateTime.parse(json["validUntil"]),
-        slots: json['slots'] ?? 1,
-      );
+    qrId: json["qrId"],
+    qrImageBase64: json["qrImageBase64"],
+    approvedBy: json["approvedBy"] == null ? null : ApprovedBy.fromJson(json["approvedBy"]),
+    paymentDetails: (json["paymentDetails"] != null) ? PaymentDetails.fromJson(json["paymentDetails"]) : null,
+    lobbyDetail: json["lobbyDetail"] == null ? null : LobbyDetail.fromJson(json["lobbyDetail"]),
+    userSummary: json["userSummary"] == null ? null : ApprovedBy.fromJson(json["userSummary"]),
+    isScanned: json["isScanned"],
+    status: json["status"],
+    message: json["message"],
+    createdAt: json["createdAt"],
+    scannedAt: json["scannedAt"] == null ? null : DateTime.parse(json["scannedAt"]),
+    validUntil: json["validUntil"] == null ? null : DateTime.parse(json["validUntil"]),
+    slots: json['slots'] ?? 1,
+    qrImageUrl: json['qrImageUrl'] ?? "",
+  );
 
   Map<String, dynamic> toJson() => {
-        "qrId": qrId,
-        "qrImageBase64": qrImageBase64,
-        "approvedBy": approvedBy?.toJson(),
-        "paymentDetails": paymentDetails?.toJson(),
-        "lobbyDetail": lobbyDetail?.toJson(),
-        "userSummary": userSummary?.toJson(),
-        "isScanned": isScanned,
-        "status": status,
-        "message": message,
-        "createdAt": createdAt,
-        "scannedAt": scannedAt?.toIso8601String(),
-        "validUntil": validUntil?.toIso8601String(),
-        "slots": slots,
-      };
+    "qrId": qrId,
+    "qrImageBase64": qrImageBase64,
+    "approvedBy": approvedBy?.toJson(),
+    "paymentDetails": paymentDetails?.toJson(),
+    "lobbyDetail": lobbyDetail?.toJson(),
+    "userSummary": userSummary?.toJson(),
+    "isScanned": isScanned,
+    "status": status,
+    "message": message,
+    "createdAt": createdAt,
+    "scannedAt": scannedAt?.toIso8601String(),
+    "validUntil": validUntil?.toIso8601String(),
+    "slots": slots,
+    "qrImageUrl": qrImageUrl,
+  };
 }
 
 class ApprovedBy {
@@ -149,54 +143,50 @@ class ApprovedBy {
     Location? location,
     bool? active,
     double? rating,
-  }) =>
-      ApprovedBy(
-        userId: userId ?? this.userId,
-        userName: userName ?? this.userName,
-        name: name ?? this.name,
-        gender: gender ?? this.gender,
-        profilePictureUrl: profilePictureUrl ?? this.profilePictureUrl,
-        isFriend: isFriend ?? this.isFriend,
-        requestSent: requestSent ?? this.requestSent,
-        requestReceived: requestReceived ?? this.requestReceived,
-        location: location ?? this.location,
-        active: active ?? this.active,
-        rating: rating ?? this.rating,
-      );
+  }) => ApprovedBy(
+    userId: userId ?? this.userId,
+    userName: userName ?? this.userName,
+    name: name ?? this.name,
+    gender: gender ?? this.gender,
+    profilePictureUrl: profilePictureUrl ?? this.profilePictureUrl,
+    isFriend: isFriend ?? this.isFriend,
+    requestSent: requestSent ?? this.requestSent,
+    requestReceived: requestReceived ?? this.requestReceived,
+    location: location ?? this.location,
+    active: active ?? this.active,
+    rating: rating ?? this.rating,
+  );
 
-  factory ApprovedBy.fromRawJson(String str) =>
-      ApprovedBy.fromJson(json.decode(str));
+  factory ApprovedBy.fromRawJson(String str) => ApprovedBy.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory ApprovedBy.fromJson(Map<String, dynamic> json) => ApprovedBy(
-        userId: json["userId"],
-        userName: json["userName"],
-        name: json["name"],
-        gender: json["gender"],
-        profilePictureUrl: json["profilePictureUrl"],
-        isFriend: json["isFriend"],
-        requestSent: json["requestSent"],
-        requestReceived: json["requestReceived"],
-        location: json["Location"] == null
-            ? null
-            : Location.fromJson(json["Location"]),
-        active: json["active"],
-        rating : (json['rating']!=null)? double.parse(json['rating'].toString() ?? "0.0"): 0.0,
-      );
+    userId: json["userId"],
+    userName: json["userName"],
+    name: json["name"],
+    gender: json["gender"],
+    profilePictureUrl: json["profilePictureUrl"],
+    isFriend: json["isFriend"],
+    requestSent: json["requestSent"],
+    requestReceived: json["requestReceived"],
+    location: json["Location"] == null ? null : Location.fromJson(json["Location"]),
+    active: json["active"],
+    rating: (json['rating'] != null) ? double.parse(json['rating'].toString() ?? "0.0") : 0.0,
+  );
 
   Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "userName": userName,
-        "name": name,
-        "gender": gender,
-        "profilePictureUrl": profilePictureUrl,
-        "isFriend": isFriend,
-        "requestSent": requestSent,
-        "requestReceived": requestReceived,
-        "Location": location?.toJson(),
-        "active": active,
-      };
+    "userId": userId,
+    "userName": userName,
+    "name": name,
+    "gender": gender,
+    "profilePictureUrl": profilePictureUrl,
+    "isFriend": isFriend,
+    "requestSent": requestSent,
+    "requestReceived": requestReceived,
+    "Location": location?.toJson(),
+    "active": active,
+  };
 }
 
 class PaymentDetails {
@@ -223,99 +213,65 @@ class PaymentDetails {
     String? transactionId,
     EntityDetails? entityDetails,
     String? status,
-  }) =>
-      PaymentDetails(
-        paymentMode: paymentMode ?? this.paymentMode,
-        paidAmount: paidAmount ?? this.paidAmount,
-        paymentDate: paymentDate ?? this.paymentDate,
-        transactionId: transactionId ?? this.transactionId,
-        entityDetails: entityDetails ?? this.entityDetails,
-        status: status ?? this.status,
-      );
+  }) => PaymentDetails(
+    paymentMode: paymentMode ?? this.paymentMode,
+    paidAmount: paidAmount ?? this.paidAmount,
+    paymentDate: paymentDate ?? this.paymentDate,
+    transactionId: transactionId ?? this.transactionId,
+    entityDetails: entityDetails ?? this.entityDetails,
+    status: status ?? this.status,
+  );
 
   factory PaymentDetails.fromJson(Map<String, dynamic> json) => PaymentDetails(
-        paymentMode: json["paymentMode"],
-        paidAmount: json["paidAmount"]?.toDouble(),
-        paymentDate: json["paymentDate"],
-        transactionId: json["transactionId"],
-        entityDetails: json["entityDetails"] == null
-            ? null
-            : EntityDetails.fromJson(json["entityDetails"]),
-        status: json["status"],
-      );
+    paymentMode: json["paymentMode"],
+    paidAmount: json["paidAmount"]?.toDouble(),
+    paymentDate: json["paymentDate"],
+    transactionId: json["transactionId"],
+    entityDetails: json["entityDetails"] == null ? null : EntityDetails.fromJson(json["entityDetails"]),
+    status: json["status"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "paymentMode": paymentMode,
-        "paidAmount": paidAmount,
-        "paymentDate": paymentDate,
-        "transactionId": transactionId,
-        "entityDetails": entityDetails?.toJson(),
-        "status": status,
-      };
+    "paymentMode": paymentMode,
+    "paidAmount": paidAmount,
+    "paymentDate": paymentDate,
+    "transactionId": transactionId,
+    "entityDetails": entityDetails?.toJson(),
+    "status": status,
+  };
 }
 
 class EntityDetails {
   final String? entityId;
   final String? entityType;
 
-  EntityDetails({
-    this.entityId,
-    this.entityType,
-  });
+  EntityDetails({this.entityId, this.entityType});
 
-  EntityDetails copyWith({
-    String? entityId,
-    String? entityType,
-  }) =>
-      EntityDetails(
-        entityId: entityId ?? this.entityId,
-        entityType: entityType ?? this.entityType,
-      );
+  EntityDetails copyWith({String? entityId, String? entityType}) =>
+      EntityDetails(entityId: entityId ?? this.entityId, entityType: entityType ?? this.entityType);
 
-  factory EntityDetails.fromJson(Map<String, dynamic> json) => EntityDetails(
-        entityId: json["entityId"],
-        entityType: json["entityType"],
-      );
+  factory EntityDetails.fromJson(Map<String, dynamic> json) =>
+      EntityDetails(entityId: json["entityId"], entityType: json["entityType"]);
 
-  Map<String, dynamic> toJson() => {
-        "entityId": entityId,
-        "entityType": entityType,
-      };
+  Map<String, dynamic> toJson() => {"entityId": entityId, "entityType": entityType};
 }
-
 
 class Location {
   final double? lat;
   final double? lon;
 
-  Location({
-    this.lat,
-    this.lon,
-  });
+  Location({this.lat, this.lon});
 
-  Location copyWith({
-    double? lat,
-    double? lon,
-  }) =>
-      Location(
-        lat: lat ?? this.lat,
-        lon: lon ?? this.lon,
-      );
+  Location copyWith({double? lat, double? lon}) => Location(lat: lat ?? this.lat, lon: lon ?? this.lon);
 
-  factory Location.fromRawJson(String str) =>
-      Location.fromJson(json.decode(str));
+  factory Location.fromRawJson(String str) => Location.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-        lat: json["lat"]?.toDouble(),
-        lon: json["lon"]?.toDouble(),
-      );
+  factory Location.fromJson(Map<String, dynamic> json) =>
+      Location(lat: json["lat"]?.toDouble(), lon: json["lon"]?.toDouble());
 
-  Map<String, dynamic> toJson() => {
-        "lat": lat,
-        "lon": lon,
-      };
+  Map<String, dynamic> toJson() => {"lat": lat, "lon": lon};
 }
 
 class LobbyDetail {
@@ -332,6 +288,7 @@ class LobbyDetail {
   final String? joinedTime;
   final bool? firstTimeAttendee;
   final String? lobbyType;
+  final String? formattedDate;
 
   LobbyDetail({
     this.createdBy,
@@ -347,6 +304,7 @@ class LobbyDetail {
     this.joinedTime,
     this.firstTimeAttendee,
     this.lobbyType,
+    this.formattedDate,
   });
 
   LobbyDetail copyWith({
@@ -363,65 +321,61 @@ class LobbyDetail {
     String? joinedTime,
     bool? firstTimeAttendee,
     String? lobbyType,
-  }) =>
-      LobbyDetail(
-        createdBy: createdBy ?? this.createdBy,
-        lobbyStatus: lobbyStatus ?? this.lobbyStatus,
-        description: description ?? this.description,
-        title: title ?? this.title,
-        mediaUrls: mediaUrls ?? this.mediaUrls,
-        totalMembers: totalMembers ?? this.totalMembers,
-        currentMembers: currentMembers ?? this.currentMembers,
-        membersRequired: membersRequired ?? this.membersRequired,
-        joinedOn: joinedOn ?? this.joinedOn,
-        joinedDate: joinedDate ?? this.joinedDate,
-        joinedTime: joinedTime ?? this.joinedTime,
-        firstTimeAttendee: firstTimeAttendee ?? this.firstTimeAttendee,
-        lobbyType: lobbyType ?? this.lobbyType,
-      );
+    String? formattedDate,
+  }) => LobbyDetail(
+    createdBy: createdBy ?? this.createdBy,
+    lobbyStatus: lobbyStatus ?? this.lobbyStatus,
+    description: description ?? this.description,
+    title: title ?? this.title,
+    mediaUrls: mediaUrls ?? this.mediaUrls,
+    totalMembers: totalMembers ?? this.totalMembers,
+    currentMembers: currentMembers ?? this.currentMembers,
+    membersRequired: membersRequired ?? this.membersRequired,
+    joinedOn: joinedOn ?? this.joinedOn,
+    joinedDate: joinedDate ?? this.joinedDate,
+    joinedTime: joinedTime ?? this.joinedTime,
+    firstTimeAttendee: firstTimeAttendee ?? this.firstTimeAttendee,
+    lobbyType: lobbyType ?? this.lobbyType,
+    formattedDate : formattedDate ?? this.formattedDate,
+  );
 
-  factory LobbyDetail.fromRawJson(String str) =>
-      LobbyDetail.fromJson(json.decode(str));
+  factory LobbyDetail.fromRawJson(String str) => LobbyDetail.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory LobbyDetail.fromJson(Map<String, dynamic> json) => LobbyDetail(
-        createdBy: json["createdBy"] == null
-            ? null
-            : ApprovedBy.fromJson(json["createdBy"]),
-        lobbyStatus: json["lobbyStatus"],
-        description: json["description"],
-        title: json["title"],
-        mediaUrls: json["mediaUrls"] == null
-            ? []
-            : List<String>.from(json["mediaUrls"]!.map((x) => x)),
-        totalMembers: json["totalMembers"],
-        currentMembers: json["currentMembers"],
-        membersRequired: json["membersRequired"],
-        joinedOn: json["joinedOn"],
-        joinedDate: json["joinedDate"],
-        joinedTime: json["joinedTime"],
-        firstTimeAttendee: json["firstTimeAttendee"],
-        lobbyType: json["lobbyType"],
-      );
+    createdBy: json["createdBy"] == null ? null : ApprovedBy.fromJson(json["createdBy"]),
+    lobbyStatus: json["lobbyStatus"],
+    description: json["description"],
+    title: json["title"],
+    mediaUrls: json["mediaUrls"] == null ? [] : List<String>.from(json["mediaUrls"]!.map((x) => x)),
+    totalMembers: json["totalMembers"],
+    currentMembers: json["currentMembers"],
+    membersRequired: json["membersRequired"],
+    joinedOn: json["joinedOn"],
+    joinedDate: json["joinedDate"],
+    joinedTime: json["joinedTime"],
+    firstTimeAttendee: json["firstTimeAttendee"],
+    lobbyType: json["lobbyType"],
+    formattedDate: json["formattedDate"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "createdBy": createdBy?.toJson(),
-        "lobbyStatus": lobbyStatus,
-        "description": description,
-        "title": title,
-        "mediaUrls": mediaUrls == null
-            ? []
-            : List<dynamic>.from(mediaUrls!.map((x) => x)),
-        "totalMembers": totalMembers,
-        "currentMembers": currentMembers,
-        "membersRequired": membersRequired,
-        "joinedOn": joinedOn,
-        "joinedDate": joinedDate,
-        "joinedTime": joinedTime,
-        "firstTimeAttendee": firstTimeAttendee,
-        "lobbyType": lobbyType,
-      };
+    "createdBy": createdBy?.toJson(),
+    "lobbyStatus": lobbyStatus,
+    "description": description,
+    "title": title,
+    "mediaUrls": mediaUrls == null ? [] : List<dynamic>.from(mediaUrls!.map((x) => x)),
+    "totalMembers": totalMembers,
+    "currentMembers": currentMembers,
+    "membersRequired": membersRequired,
+    "joinedOn": joinedOn,
+    "joinedDate": joinedDate,
+    "joinedTime": joinedTime,
+    "firstTimeAttendee": firstTimeAttendee,
+    "lobbyType": lobbyType,
+    "formattedDate": formattedDate,
+  };
   static List<QrScannerModel> decodeJson(String str) {
     final List<dynamic> jsonList = json.decode(str);
     return jsonList.map((json) => QrScannerModel.fromJson(json)).toList();
