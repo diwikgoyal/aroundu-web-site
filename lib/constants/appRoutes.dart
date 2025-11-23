@@ -29,6 +29,7 @@ import 'package:aroundu/views/onboarding/view.onboarding.dart';
 import 'package:aroundu/views/payment/gateway_service/Cashfree/cashfree.payment.dart';
 import 'package:aroundu/views/profile/user_profile_followed_view.dart';
 import 'package:aroundu/views/scanner/scanner_view.dart';
+import 'package:aroundu/views/scanner/share_qr_screen.dart';
 import 'package:aroundu/views/search/search.view.dart';
 import 'package:aroundu/views/splash.view.dart';
 import 'package:get/get.dart';
@@ -51,7 +52,8 @@ class AppRoutes {
   static const String noAuthCheckoutLobbyView = '/lobby/:lobbyId/checkout/simple';
 
   static const String transactionStatus = "/lobby/:lobbyId/status/:transactionId";
-  static const String scanQrScreen = '/qr';
+  static const String scanQrScreen = '/scan-qr';
+  static const String shareQrScreen = '/qr';
   static const String lobbySettings = '/lobby/settings';
   static const String sharedAccessRequestCardExtendedView = '/lobby/access-request-extended/:accessReqId';
   static const String featuredConversations = '/lobby/featured-conversations';
@@ -159,7 +161,7 @@ class AppRoutes {
       name: lobby,
       page: () {
         final param = Get.parameters['ref'];
-        return LobbyView(lobbyId: Get.parameters['lobbyId'] ?? "",referralSource: param,);
+        return LobbyView(lobbyId: Get.parameters['lobbyId'] ?? "", referralSource: param);
       },
       transition: Transition.rightToLeftWithFade,
     ),
@@ -194,15 +196,15 @@ class AppRoutes {
     GetPage(
       name: quickLobbyCheckout,
       page: () {
-       final param = Get.parameters['ref'];
-        return LobbyQuickCheckoutView(lobbyId: Get.parameters['lobbyId'] ?? "",referralSource: param,);
+        final param = Get.parameters['ref'];
+        return LobbyQuickCheckoutView(lobbyId: Get.parameters['lobbyId'] ?? "", referralSource: param);
       },
     ),
     GetPage(
       name: noAuthCheckoutLobbyView,
       page: () {
         final param = Get.parameters['ref'];
-        return LobbyNoAuthCheckoutView(lobbyId: Get.parameters['lobbyId'] ?? "",referralSource: param,);
+        return LobbyNoAuthCheckoutView(lobbyId: Get.parameters['lobbyId'] ?? "", referralSource: param);
       },
     ),
     GetPage(
@@ -228,6 +230,10 @@ class AppRoutes {
         lobby: Get.arguments != null ? Get.arguments['lobby'] : null,
         lobbyId: Get.arguments != null ? Get.arguments['lobbyId'] : "",
       ),
+    ),
+    GetPage(
+      name: shareQrScreen,
+      page: () => SharedQrScreen(qrId:  Get.parameters['qrId'] ?? ""),
     ),
     GetPage(
       name: lobbyRequests,
