@@ -62,6 +62,11 @@ dependencies:
   gif_view: ^1.0.3
   flutter_pdfview: ^1.4.0
 
+  firebase_auth: ^6.0.1              # Firebase Authentication
+  google_sign_in: ^7.1.0             # Google Sign-In
+  sign_in_with_apple: ^7.0.1         # Sign in with Apple
+  crypto: ^3.0.7
+
 dependency_overrides:
   analyzer_plugin: ^0.13.4
   # intl: 0.19.0
