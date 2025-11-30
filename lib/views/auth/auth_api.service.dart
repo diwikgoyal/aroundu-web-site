@@ -85,6 +85,60 @@ class AuthApiService {
     }
   }
 
+  Future<ApiResponse<GoogleSignInResponse>> googleSignIn(
+    String identityToken,
+  ) async {
+    try {
+      final response = await _apiService.post(
+        'user/api/v1/auth/google',
+        body: {'idToken': identityToken},
+      );
+
+      final apiResponse = ApiResponse<GoogleSignInResponse>.fromJson(
+        response.data,
+        (data) => GoogleSignInResponse.fromJson(data),
+      );
+
+      // Store the JWT token if verification is successful
+      if (apiResponse.isSuccess) {
+        await _authService.storeToken(apiResponse.data.jwtToken);
+        await _authService.storeRefreshToken(apiResponse.data.accessToken);
+        await _authService.updateLastTokenRefresh();
+      }
+
+      return apiResponse;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ApiResponse<AppleSignInResponse>> appleSignIn(
+    String identityToken,
+  ) async {
+    try {
+      final response = await _apiService.post(
+        'user/api/v1/auth/apple',
+        body: {'idToken': identityToken},
+      );
+
+      final apiResponse = ApiResponse<AppleSignInResponse>.fromJson(
+        response.data,
+        (data) => AppleSignInResponse.fromJson(data),
+      );
+
+      // Store the JWT token if verification is successful
+      if (apiResponse.isSuccess) {
+        await _authService.storeToken(apiResponse.data.jwtToken);
+        await _authService.storeRefreshToken(apiResponse.data.accessToken);
+        await _authService.updateLastTokenRefresh();
+      }
+
+      return apiResponse;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // Refresh the access token using the refresh token
   Future<bool> refreshToken() async {
     try {
@@ -115,7 +169,6 @@ class AuthApiService {
       );
 
       kLogger.trace(response.data.toString());
-
 
       if (response.statusCode == 200 && response.data['status'] == 'SUCCESS') {
         final tokenResponse = TokenRefreshResponse.fromJson(

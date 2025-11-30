@@ -14,7 +14,9 @@ class ApiResponse<T> {
   });
 
   factory ApiResponse.fromJson(
-      Map<String, dynamic> json, T Function(dynamic) fromJsonT) {
+    Map<String, dynamic> json,
+    T Function(dynamic) fromJsonT,
+  ) {
     return ApiResponse<T>(
       message: json['message'] ?? '',
       status: json['status'] ?? '',
@@ -53,10 +55,44 @@ class OtpVerificationResponse {
       );
     }
     // Fallback for old API format where data is directly the token string
-    return OtpVerificationResponse(
-      token: data.toString(),
-      refreshToken: '',
-    );
+    return OtpVerificationResponse(token: data.toString(), refreshToken: '');
+  }
+}
+
+class GoogleSignInResponse {
+  final String jwtToken;
+  final String accessToken;
+
+  GoogleSignInResponse({required this.jwtToken, required this.accessToken});
+
+  factory GoogleSignInResponse.fromJson(dynamic data) {
+    // Check if data is a Map containing accessToken and refreshToken
+    if (data is Map<String, dynamic>) {
+      return GoogleSignInResponse(
+        jwtToken: data['accessToken'] ?? '',
+        accessToken: data['refreshToken'] ?? '',
+      );
+    }
+    // Fallback for old API format where data is directly the token string
+    return GoogleSignInResponse(jwtToken: data.toString(), accessToken: '');
+  }
+}
+
+class AppleSignInResponse {
+  final String jwtToken;
+  final String accessToken;
+
+  AppleSignInResponse({required this.jwtToken, required this.accessToken});
+
+  factory AppleSignInResponse.fromJson(dynamic data) {
+    if (data is Map<String, dynamic>) {
+      return AppleSignInResponse(
+        jwtToken: data['accessToken'] ?? '',
+        accessToken: data['refreshToken'] ?? '',
+      );
+    }
+    // Fallback for old API format where data is directly the token string
+    return AppleSignInResponse(jwtToken: data.toString(), accessToken: '');
   }
 }
 

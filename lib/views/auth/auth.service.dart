@@ -6,11 +6,7 @@ class CustomUser {
   final String? displayName;
   final String? phoneNumber;
 
-  CustomUser({
-    required this.uid,
-    this.displayName,
-    this.phoneNumber,
-  });
+  CustomUser({required this.uid, this.displayName, this.phoneNumber});
 }
 
 class AuthService {
@@ -54,7 +50,10 @@ class AuthService {
 
   // Store last token refresh timestamp
   Future<void> updateLastTokenRefresh() async {
-    await GetStorage().write(_lastTokenRefreshKey, DateTime.now().millisecondsSinceEpoch);
+    await GetStorage().write(
+      _lastTokenRefreshKey,
+      DateTime.now().millisecondsSinceEpoch,
+    );
   }
 
   // Check if token refresh is needed (to prevent loops)
@@ -97,9 +96,7 @@ class AuthService {
   // Get auth headers for API requests
   Future<Map<String, dynamic>> getAuthHeaders() async {
     final token = getToken();
-    return {
-      "Authorization": "Bearer $token",
-    };
+    return {"Authorization": "Bearer $token"};
   }
 
   // Get current user (mimics Firebase Auth's currentUser)

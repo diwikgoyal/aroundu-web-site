@@ -18,6 +18,9 @@ class AuthController extends GetxController {
   late final AuthService authService;
   late final AuthApiService authApiService;
 
+  late Rx<String> userName = ''.obs;
+  late Rx<String> userEmail = ''.obs;
+
   // late final ChatsController chatsController;
 
   @override
@@ -49,9 +52,7 @@ class AuthController extends GetxController {
     isLoading.value = !isLoading.value;
   }
 
-  Future<void> checkUserOnboardingStatus({
-    String destination = "new",
-  }) async {
+  Future<void> checkUserOnboardingStatus({String destination = "new"}) async {
     final profile = await userApiService.getUserProfileData();
 
     // Store user ID from profile
@@ -90,8 +91,8 @@ class AuthController extends GetxController {
 
       kLogger.trace("auth Going to `DashboardView`");
 
-       Get.offAllNamed(AppRoutes.dashboard);
-      if(destination!='new') {
+      Get.offAllNamed(AppRoutes.dashboard);
+      if (destination != 'new') {
         Get.toNamed(AppRoutes.lobby.replaceAll(':lobbyId', destination));
       }
 
@@ -102,11 +103,13 @@ class AuthController extends GetxController {
     kLogger.trace("User's profile is not completed! Going to `OnboardingView`");
 
     Get.offNamed(
-      AppRoutes.onboarding.replaceAll(':startingPageIndex', '0').replaceAll(':destination', destination),
+      AppRoutes.onboarding
+          .replaceAll(':startingPageIndex', '0')
+          .replaceAll(':destination', destination),
       arguments: [
         true,
         profile["status"] ?? "",
-        "", // No display name in custom auth
+        userName.value, // No display name in custom auth
         "",
         "2004-02-10T18:30:00.000+00:00",
         "",
@@ -115,6 +118,7 @@ class AuthController extends GetxController {
         <String>[],
         <Prompts>[],
         "MALE",
+        userEmail.value,
       ],
     );
 

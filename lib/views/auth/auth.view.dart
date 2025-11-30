@@ -8,11 +8,8 @@ import 'package:aroundu/designs/widgets/text.widget.designs.dart';
 import 'package:aroundu/utils/api_service/api.service.dart';
 import 'package:aroundu/utils/custome_snackbar.dart';
 import 'package:aroundu/utils/logger.utils.dart';
-import 'package:aroundu/views/auth/auth.service.dart';
 import 'package:aroundu/views/auth/auth_api.service.dart';
-import 'package:aroundu/views/auth/otp.screen.dart';
 import 'package:aroundu/views/auth/phone_number.controller.dart';
-import 'package:aroundu/views/auth/phone_number.screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -24,8 +21,11 @@ import 'dart:math' as math;
 
 import '../../constants/urls.dart';
 import '../../designs/colors.designs.dart';
+import '../../designs/icons.designs.dart';
 import '../../designs/utils.designs.dart';
+import '../../utils/either.utils.dart';
 import 'auth.controller.dart';
+import 'signin_service.dart';
 
 class AuthView extends StatefulWidget {
   const AuthView({super.key, required this.destination});
@@ -39,7 +39,8 @@ class _AuthViewState extends State<AuthView>
     with SingleTickerProviderStateMixin {
   final AuthController authController = Get.put(AuthController());
   final AuthApiService _authApiService = AuthApiService();
-  final AuthService _authService = AuthService();
+
+  final signInService = SignInService();
 
   bool _isLoading = false;
   bool _isCheck = true;
@@ -239,70 +240,138 @@ class _AuthViewState extends State<AuthView>
           width: _currentPage == index ? 24 : 8,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color:
-                _currentPage == index
-                    ? gradientColors[_currentPage][0]
-                    : Color(0xFFDDDDDD),
+            color: _currentPage == index
+                ? gradientColors[_currentPage][0]
+                : Color(0xFFDDDDDD),
           ),
         ),
       ),
     );
   }
 
-  // Build the sign-in button
-  Widget _buildSignInButton({double? fontSize}) {
-    return DesignButton(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      isLoading: _isLoading,
-      bgColor: gradientColors[_currentPage][0],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      onPress: () async {
-        if (!_isCheck) {
-          CustomSnackBar.show(
-            context: context,
-            message: "Please accept the terms and conditions",
-            type: SnackBarType.warning,
-          );
-          return;
-        }
-        // Use named route with parameters
-        Get.toNamed(
-          AppRoutes.phoneNumber,
-          arguments: {
-            'onContinue': (String phoneNumber) async {
-              try {
-                await _verifyPhone(phoneNumber);
-                return true; // Return success status
-              } catch (e, s) {
-                kLogger.error("error", error: e, stackTrace: s);
-                CustomSnackBar.show(
-                  context: context,
-                  message: "Failed to send verification code",
-                  type: SnackBarType.error,
-                );
-                return false; // Return failure status
-              }
-            },
+  // Build the sign-in buttons section
+  Widget _buildSignInButtons({double? fontSize}) {
+    return Column(
+      children: [
+        // Mobile sign-in button (full width)
+        DesignButton(
+          padding: EdgeInsets.symmetric(vertical: 16),
+          isLoading: _isLoading,
+          bgColor: gradientColors[_currentPage][0],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          onPress: () async {
+            if (!_isCheck) {
+              CustomSnackBar.show(
+                context: context,
+                message: "Please accept the terms and conditions",
+                type: SnackBarType.warning,
+              );
+              return;
+            }
+            // Use named route with parameters
+            Get.toNamed(
+              AppRoutes.phoneNumber,
+              arguments: {
+                'onContinue': (String phoneNumber) async {
+                  try {
+                    await _verifyPhone(phoneNumber);
+                    return true; // Return success status
+                  } catch (e, s) {
+                    kLogger.error("error", error: e, stackTrace: s);
+                    CustomSnackBar.show(
+                      context: context,
+                      message: "Failed to send verification code",
+                      type: SnackBarType.error,
+                    );
+                    return false; // Return failure status
+                  }
+                },
+              },
+            );
           },
-        );
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          DesignIcon.icon(
-            icon: Icons.phone_android,
-            size: 20,
-            color: DesignColors.white,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              DesignIcon.icon(
+                icon: Icons.phone_android,
+                size: 20,
+                color: DesignColors.white,
+              ),
+              const Space.w(width: 12),
+              DesignText(
+                text: "Sign in with Mobile no.",
+                fontSize: fontSize ?? 16,
+                fontWeight: FontWeight.w500,
+                color: DesignColors.white,
+              ),
+            ],
           ),
-          const Space.w(width: 12),
-          DesignText(
-            text: "Sign in with Mobile no.",
-            fontSize: fontSize ?? 24,
-            fontWeight: FontWeight.w500,
-            color: DesignColors.white,
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 16),
+        // Google and Apple buttons (half width each)
+        Row(
+          children: [
+            // Google sign-in button
+            Expanded(
+              child: DesignButton(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                bgColor: DesignColors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(color: Color(0xFFE0E0E0), width: 1),
+                ),
+                onPress: () async {
+                  if (!_isCheck) {
+                    CustomSnackBar.show(
+                      context: context,
+                      message: "Please accept the terms and conditions",
+                      type: SnackBarType.warning,
+                    );
+                    return;
+                  }
+
+                  await localSignInGoogle();
+                },
+                child: DesignIcon(
+                  icon: Either.left(DesignIcons.google),
+                  size: 24,
+                  color: DesignColors.primaryFontDark,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            // Apple sign-in button
+            Expanded(
+              child: DesignButton(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                bgColor: Color(0xFF000000),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                onPress: () async {
+                  if (!_isCheck) {
+                    CustomSnackBar.show(
+                      context: context,
+                      message: "Please accept the terms and conditions",
+                      type: SnackBarType.warning,
+                    );
+                    return;
+                  }
+
+                  await localSignInApple();
+                },
+                child: DesignIcon(
+                  icon: Either.right(Icons.apple),
+                  size: 24,
+                  color: DesignColors.primaryFontDark,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -381,8 +450,9 @@ class _AuthViewState extends State<AuthView>
           final bottomFlex = screenHeight < 600 ? 7 : 6;
 
           // Adjust image height based on screen size
-          final imageHeight =
-              screenHeight < 600 ? screenHeight * 0.5 : screenHeight * 0.6;
+          final imageHeight = screenHeight < 600
+              ? screenHeight * 0.5
+              : screenHeight * 0.6;
 
           // Adjust font sizes based on screen width
           final titleFontSize = isSmallScreen ? 24.0 : 24.0;
@@ -529,21 +599,19 @@ class _AuthViewState extends State<AuthView>
                             // Title with animation
                             AnimatedSwitcher(
                               duration: const Duration(milliseconds: 300),
-                              transitionBuilder: (
-                                Widget child,
-                                Animation<double> animation,
-                              ) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: SlideTransition(
-                                    position: Tween<Offset>(
-                                      begin: const Offset(0.0, 0.2),
-                                      end: Offset.zero,
-                                    ).animate(animation),
-                                    child: child,
-                                  ),
-                                );
-                              },
+                              transitionBuilder:
+                                  (Widget child, Animation<double> animation) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(0.0, 0.2),
+                                          end: Offset.zero,
+                                        ).animate(animation),
+                                        child: child,
+                                      ),
+                                    );
+                                  },
                               child: DesignText(
                                 key: ValueKey<int>(_currentPage),
                                 text: titles[_currentPage],
@@ -559,21 +627,19 @@ class _AuthViewState extends State<AuthView>
                             // Description with animation
                             AnimatedSwitcher(
                               duration: const Duration(milliseconds: 300),
-                              transitionBuilder: (
-                                Widget child,
-                                Animation<double> animation,
-                              ) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: SlideTransition(
-                                    position: Tween<Offset>(
-                                      begin: const Offset(0.0, 0.2),
-                                      end: Offset.zero,
-                                    ).animate(animation),
-                                    child: child,
-                                  ),
-                                );
-                              },
+                              transitionBuilder:
+                                  (Widget child, Animation<double> animation) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(0.0, 0.2),
+                                          end: Offset.zero,
+                                        ).animate(animation),
+                                        child: child,
+                                      ),
+                                    );
+                                  },
                               child: DesignText(
                                 key: ValueKey<int>(_currentPage),
                                 text: descriptions[_currentPage],
@@ -586,8 +652,9 @@ class _AuthViewState extends State<AuthView>
                               ),
                             ),
                             SizedBox(height: screenHeight < 600 ? 16 : 24),
-                            // Sign in button and terms
-                            _buildSignInButton(fontSize: buttonFontSize),
+                            // Sign in buttons and terms
+                            _buildSignInButtons(fontSize: buttonFontSize),
+                            SizedBox(height: 16),
                             _buildTermsCheckbox(fontSize: termsFontSize),
                           ],
                         ),
@@ -703,8 +770,8 @@ class _AuthViewState extends State<AuthView>
                     // Page indicator
                     _buildPageIndicator(),
                     SizedBox(height: screenHeight * 0.04),
-                    // Sign in button
-                    _buildSignInButton(fontSize: screenHeight * 0.024),
+                    // Sign in buttons
+                    _buildSignInButtons(fontSize: screenHeight * 0.024),
                     SizedBox(height: screenHeight * 0.02),
                     // Terms and conditions
                     _buildTermsCheckbox(fontSize: screenHeight * 0.016),
@@ -878,10 +945,10 @@ class _AuthViewState extends State<AuthView>
                         ),
                       ),
                       SizedBox(height: screenHeight * 0.04),
-                      // Sign in button
+                      // Sign in buttons
                       Container(
                         width: double.infinity,
-                        child: _buildSignInButton(
+                        child: _buildSignInButtons(
                           fontSize: screenHeight * 0.03,
                         ),
                       ),
@@ -913,8 +980,134 @@ class _AuthViewState extends State<AuthView>
     );
   }
 
+  Future<void> localSignInGoogle() async {
+    final GlobalKey<State> dialogKey = GlobalKey<State>();
+
+    // Show loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          key: dialogKey,
+          backgroundColor: Colors.transparent,
+          content: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [CircularProgressIndicator(color: DesignColors.accent)],
+          ),
+        );
+      },
+    );
+
+    try {
+      final response = await signInService.signInAuthWithGoogle();
+
+      if (response != null) {
+        authController.userName.value = response.user!.displayName ?? '';
+        authController.userEmail.value = response.user!.email ?? '';
+
+        try {
+          final idToken = await response.user?.getIdToken();
+          await _authApiService.googleSignIn(idToken ?? '');
+        } catch (e, s) {
+          kLogger.error("error", error: e, stackTrace: s);
+        }
+
+        await _updateFCMToken();
+        await GetStorage().write('isLoggedOut', false);
+        await authController.checkUserOnboardingStatus();
+      } else {
+        // Show error message
+        CustomSnackBar.show(
+          context: context,
+          message: "Google Sign-In failed. Please try again.",
+          type: SnackBarType.error,
+        );
+      }
+    } catch (e, s) {
+      kLogger.error("error", error: e, stackTrace: s);
+      CustomSnackBar.show(
+        context: context,
+        message: "An error occurred during Google sign-in. Please try again.",
+        type: SnackBarType.error,
+      );
+    } finally {
+      // Close loading dialog
+      if (context.mounted &&
+          dialogKey.currentContext != null &&
+          Navigator.canPop(dialogKey.currentContext!)) {
+        Navigator.pop(dialogKey.currentContext!);
+      }
+    }
+  }
+
+  Future<void> localSignInApple() async {
+    final GlobalKey<State> dialogKey = GlobalKey<State>();
+
+    // Show loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          key: dialogKey,
+          backgroundColor: Colors.transparent,
+          content: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [CircularProgressIndicator(color: DesignColors.accent)],
+          ),
+        );
+      },
+    );
+
+    try {
+      final response = await signInService.signInWithApple();
+
+      if (response != null) {
+        authController.userName.value = response.user!.displayName ?? '';
+        authController.userEmail.value = response.user!.email ?? '';
+
+        try {
+          final idToken = await response.user?.getIdToken();
+          await _authApiService.appleSignIn(idToken ?? '');
+        } catch (e, s) {
+          kLogger.error("error", error: e, stackTrace: s);
+        }
+
+        await _updateFCMToken();
+        await GetStorage().write('isLoggedOut', false);
+        await authController.checkUserOnboardingStatus();
+      } else {
+        // Show error message
+        CustomSnackBar.show(
+          context: context,
+          message: "Apple Sign-In failed. Please try again.",
+          type: SnackBarType.error,
+        );
+      }
+    } catch (e, s) {
+      kLogger.error("error", error: e, stackTrace: s);
+      CustomSnackBar.show(
+        context: context,
+        message: "An error occurred during Apple sign-in. Please try again.",
+        type: SnackBarType.error,
+      );
+    } finally {
+      // Close loading dialog
+      if (context.mounted &&
+          dialogKey.currentContext != null &&
+          Navigator.canPop(dialogKey.currentContext!)) {
+        Navigator.pop(dialogKey.currentContext!);
+      }
+    }
+  }
+
   Future<bool> _verifyPhone(String phoneNumber) async {
-    PhoneNumberController phoneNumberController = Get.put(PhoneNumberController());
+    PhoneNumberController phoneNumberController = Get.put(
+      PhoneNumberController(),
+    );
     setState(() {
       _isLoading = true;
     });
@@ -1117,11 +1310,10 @@ class ModernConcaveClipper extends CustomClipper<Path> {
 class GridPatternPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint =
-        Paint()
-          ..color = Colors.white.withOpacity(0.2)
-          ..strokeWidth = 1.0
-          ..style = PaintingStyle.stroke;
+    final paint = Paint()
+      ..color = Colors.white.withOpacity(0.2)
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
 
     // Draw horizontal lines
     final horizontalLineCount = 10;
@@ -1143,10 +1335,9 @@ class GridPatternPainter extends CustomPainter {
 
     // Draw some random circles for decoration
     final random = math.Random(42); // Fixed seed for consistent pattern
-    final circlePaint =
-        Paint()
-          ..color = Colors.white.withOpacity(0.15)
-          ..style = PaintingStyle.fill;
+    final circlePaint = Paint()
+      ..color = Colors.white.withOpacity(0.15)
+      ..style = PaintingStyle.fill;
 
     for (int i = 0; i < 20; i++) {
       final x = random.nextDouble() * size.width;
