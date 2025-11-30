@@ -8,11 +8,8 @@ import 'package:aroundu/designs/widgets/text.widget.designs.dart';
 import 'package:aroundu/utils/api_service/api.service.dart';
 import 'package:aroundu/utils/custome_snackbar.dart';
 import 'package:aroundu/utils/logger.utils.dart';
-import 'package:aroundu/views/auth/auth.service.dart';
 import 'package:aroundu/views/auth/auth_api.service.dart';
-import 'package:aroundu/views/auth/otp.screen.dart';
 import 'package:aroundu/views/auth/phone_number.controller.dart';
-import 'package:aroundu/views/auth/phone_number.screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +21,9 @@ import 'dart:math' as math;
 
 import '../../constants/urls.dart';
 import '../../designs/colors.designs.dart';
+import '../../designs/icons.designs.dart';
 import '../../designs/utils.designs.dart';
+import '../../utils/either.utils.dart';
 import 'auth.controller.dart';
 import 'signin_service.dart';
 
@@ -40,7 +39,6 @@ class _AuthViewState extends State<AuthView>
     with SingleTickerProviderStateMixin {
   final AuthController authController = Get.put(AuthController());
   final AuthApiService _authApiService = AuthApiService();
-  final AuthService _authService = AuthService();
 
   final signInService = SignInService();
 
@@ -336,10 +334,10 @@ class _AuthViewState extends State<AuthView>
 
                   await localSignInGoogle();
                 },
-                child: DesignIcon.icon(
-                  icon: Icons.g_mobiledata, // Using Google's "G" icon
+                child: DesignIcon(
+                  icon: Either.left(DesignIcons.google),
                   size: 24,
-                  color: Color(0xFF4285F4),
+                  color: DesignColors.primaryFontDark,
                 ),
               ),
             ),
@@ -364,7 +362,11 @@ class _AuthViewState extends State<AuthView>
 
                   await localSignInApple();
                 },
-                child: Icon(Icons.apple, size: 24, color: DesignColors.white),
+                child: DesignIcon(
+                  icon: Either.right(Icons.apple),
+                  size: 24,
+                  color: DesignColors.primaryFontDark,
+                ),
               ),
             ),
           ],

@@ -1,9 +1,8 @@
-import 'dart:io';
 import 'dart:math';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
 
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -37,32 +36,49 @@ class SignInService {
     try {
       // Sign out before a new sign-in attempt
       await _firebaseAuth.signOut();
-      await _googleSignIn.signOut();
 
-      await _googleSignIn.initialize(
-        clientId:
-            '44553271030-2k6qtv5q3nssdl384v5umahev7pk0tb2.apps.googleusercontent.com',
-      );
+      if (kIsWeb) {
+        // Web-specific Google Sign-In implementation using Firebase Auth
+        final GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
-      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate(
-        scopeHint: ['email', 'profile'], // Specify required scopes
-      );
+        // Set custom parameters for web OAuth
+        googleProvider.setCustomParameters({
+          'client_id':
+              '44553271030-2k6qtv5q3nssdl384v5umahev7pk0tb2.apps.googleusercontent.com',
+        });
 
-      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+        // Add scopes for web
+        googleProvider.addScope('email');
+        googleProvider.addScope('profile');
 
-      // Get authorization for Firebase scopes if needed
-      final authClient = _googleSignIn.authorizationClient;
-      final authorization = await authClient.authorizationForScopes([
-        'https://www.googleapis.com/auth/userinfo.email',
-        'https://www.googleapis.com/auth/userinfo.profile',
-      ]);
+        // Use popup sign-in for web
+        return await _firebaseAuth.signInWithPopup(googleProvider);
+      } else {
+        await _googleSignIn.initialize(
+          clientId:
+              '44553271030-2k6qtv5q3nssdl384v5umahev7pk0tb2.apps.googleusercontent.com',
+        );
 
-      final credential = GoogleAuthProvider.credential(
-        accessToken: authorization?.accessToken,
-        idToken: googleAuth.idToken,
-      );
+        final GoogleSignInAccount googleUser = await _googleSignIn.authenticate(
+          scopeHint: ['email', 'profile'], // Specify required scopes
+        );
 
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+        final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+
+        // Get authorization for Firebase scopes if needed
+        final authClient = _googleSignIn.authorizationClient;
+        final authorization = await authClient.authorizationForScopes([
+          'https://www.googleapis.com/auth/userinfo.email',
+          'https://www.googleapis.com/auth/userinfo.profile',
+        ]);
+
+        final credential = GoogleAuthProvider.credential(
+          accessToken: authorization?.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        return await FirebaseAuth.instance.signInWithCredential(credential);
+      }
 
       //
     } on FirebaseAuthException catch (e, st) {
@@ -154,7 +170,7 @@ class SignInService {
             'https://aroundu-community.firebaseapp.com/__/auth/handler',
           ),
         ),
-        nonce: Platform.isIOS ? nonce : null,
+        nonce: nonce,
         scopes: [
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
@@ -163,8 +179,8 @@ class SignInService {
 
       final oAuthProvider = OAuthProvider('apple.com').credential(
         idToken: appleCrendential.identityToken,
-        rawNonce: Platform.isIOS ? rawNonce : null,
-        accessToken: Platform.isIOS ? null : appleCrendential.authorizationCode,
+        rawNonce: rawNonce,
+        accessToken: appleCrendential.authorizationCode,
       );
 
       return await _firebaseAuth.signInWithCredential(oAuthProvider);
@@ -246,8 +262,10 @@ class SignInService {
     }
 
     try {
-      await _googleSignIn.signOut();
-      logger.info('Google sign out successful');
+      if (!kIsWeb) {
+        await _googleSignIn.signOut();
+        logger.info('Google sign out successful');
+      }
     } catch (e, st) {
       logger.error('Google sign out failed', error: e, stackTrace: st);
     }

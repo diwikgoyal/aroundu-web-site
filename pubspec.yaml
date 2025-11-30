@@ -1,6 +1,6 @@
 name: aroundu
 publish_to: "none"
-version: 4.0.10+58
+version: 4.0.10+59
 
 environment:
   sdk: ^3.9.2

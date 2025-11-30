@@ -12,12 +12,12 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBMQZ0MixjoqE_HPDLWCdV4Wd2k6elUso4',
-    appId: '1:229483261465:web:40ff43ba0e7a0197700488',
-    messagingSenderId: '229483261465',
-    projectId: 'polar-14343',
-    authDomain: 'polar-14343.firebaseapp.com',
-    storageBucket: 'polar-14343.firebasestorage.app',
+    apiKey: 'AIzaSyAWRd-r6saG96EA-TiehgoKgXcHE8N-k_I',
+    appId: '1:44553271030:android:d890c49ea2b5df265bded7',
+    messagingSenderId: '44553271030',
+    projectId: 'aroundu-community',
+    storageBucket: 'aroundu-community.firebasestorage.app',
+    authDomain: 'aroundu-community.firebaseapp.com',
     measurementId: 'G-10XSPGGSB8',
   );
 }
