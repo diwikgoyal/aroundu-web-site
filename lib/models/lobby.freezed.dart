@@ -2472,10 +2472,13 @@ LobbyRestriction _$LobbyRestrictionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$LobbyRestriction {
   String get genderRestriction => throw _privateConstructorUsedError;
-  AgeRange get ageRange => throw _privateConstructorUsedError;
+  AgeRange? get ageRange => throw _privateConstructorUsedError;
   int? get maxMales => throw _privateConstructorUsedError;
   int? get maxFemales => throw _privateConstructorUsedError;
   int? get maxOthers => throw _privateConstructorUsedError;
+  bool get restrictToOrganization => throw _privateConstructorUsedError;
+  String get organizationName => throw _privateConstructorUsedError;
+  String get organizationEmailDomain => throw _privateConstructorUsedError;
 
   /// Serializes this LobbyRestriction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2496,13 +2499,16 @@ abstract class $LobbyRestrictionCopyWith<$Res> {
   @useResult
   $Res call({
     String genderRestriction,
-    AgeRange ageRange,
+    AgeRange? ageRange,
     int? maxMales,
     int? maxFemales,
     int? maxOthers,
+    bool restrictToOrganization,
+    String organizationName,
+    String organizationEmailDomain,
   });
 
-  $AgeRangeCopyWith<$Res> get ageRange;
+  $AgeRangeCopyWith<$Res>? get ageRange;
 }
 
 /// @nodoc
@@ -2521,10 +2527,13 @@ class _$LobbyRestrictionCopyWithImpl<$Res, $Val extends LobbyRestriction>
   @override
   $Res call({
     Object? genderRestriction = null,
-    Object? ageRange = null,
+    Object? ageRange = freezed,
     Object? maxMales = freezed,
     Object? maxFemales = freezed,
     Object? maxOthers = freezed,
+    Object? restrictToOrganization = null,
+    Object? organizationName = null,
+    Object? organizationEmailDomain = null,
   }) {
     return _then(
       _value.copyWith(
@@ -2532,10 +2541,10 @@ class _$LobbyRestrictionCopyWithImpl<$Res, $Val extends LobbyRestriction>
                 ? _value.genderRestriction
                 : genderRestriction // ignore: cast_nullable_to_non_nullable
                       as String,
-            ageRange: null == ageRange
+            ageRange: freezed == ageRange
                 ? _value.ageRange
                 : ageRange // ignore: cast_nullable_to_non_nullable
-                      as AgeRange,
+                      as AgeRange?,
             maxMales: freezed == maxMales
                 ? _value.maxMales
                 : maxMales // ignore: cast_nullable_to_non_nullable
@@ -2548,6 +2557,18 @@ class _$LobbyRestrictionCopyWithImpl<$Res, $Val extends LobbyRestriction>
                 ? _value.maxOthers
                 : maxOthers // ignore: cast_nullable_to_non_nullable
                       as int?,
+            restrictToOrganization: null == restrictToOrganization
+                ? _value.restrictToOrganization
+                : restrictToOrganization // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            organizationName: null == organizationName
+                ? _value.organizationName
+                : organizationName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            organizationEmailDomain: null == organizationEmailDomain
+                ? _value.organizationEmailDomain
+                : organizationEmailDomain // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -2557,8 +2578,12 @@ class _$LobbyRestrictionCopyWithImpl<$Res, $Val extends LobbyRestriction>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AgeRangeCopyWith<$Res> get ageRange {
-    return $AgeRangeCopyWith<$Res>(_value.ageRange, (value) {
+  $AgeRangeCopyWith<$Res>? get ageRange {
+    if (_value.ageRange == null) {
+      return null;
+    }
+
+    return $AgeRangeCopyWith<$Res>(_value.ageRange!, (value) {
       return _then(_value.copyWith(ageRange: value) as $Val);
     });
   }
@@ -2575,14 +2600,17 @@ abstract class _$$LobbyRestrictionImplCopyWith<$Res>
   @useResult
   $Res call({
     String genderRestriction,
-    AgeRange ageRange,
+    AgeRange? ageRange,
     int? maxMales,
     int? maxFemales,
     int? maxOthers,
+    bool restrictToOrganization,
+    String organizationName,
+    String organizationEmailDomain,
   });
 
   @override
-  $AgeRangeCopyWith<$Res> get ageRange;
+  $AgeRangeCopyWith<$Res>? get ageRange;
 }
 
 /// @nodoc
@@ -2600,10 +2628,13 @@ class __$$LobbyRestrictionImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? genderRestriction = null,
-    Object? ageRange = null,
+    Object? ageRange = freezed,
     Object? maxMales = freezed,
     Object? maxFemales = freezed,
     Object? maxOthers = freezed,
+    Object? restrictToOrganization = null,
+    Object? organizationName = null,
+    Object? organizationEmailDomain = null,
   }) {
     return _then(
       _$LobbyRestrictionImpl(
@@ -2611,10 +2642,10 @@ class __$$LobbyRestrictionImplCopyWithImpl<$Res>
             ? _value.genderRestriction
             : genderRestriction // ignore: cast_nullable_to_non_nullable
                   as String,
-        ageRange: null == ageRange
+        ageRange: freezed == ageRange
             ? _value.ageRange
             : ageRange // ignore: cast_nullable_to_non_nullable
-                  as AgeRange,
+                  as AgeRange?,
         maxMales: freezed == maxMales
             ? _value.maxMales
             : maxMales // ignore: cast_nullable_to_non_nullable
@@ -2627,6 +2658,18 @@ class __$$LobbyRestrictionImplCopyWithImpl<$Res>
             ? _value.maxOthers
             : maxOthers // ignore: cast_nullable_to_non_nullable
                   as int?,
+        restrictToOrganization: null == restrictToOrganization
+            ? _value.restrictToOrganization
+            : restrictToOrganization // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        organizationName: null == organizationName
+            ? _value.organizationName
+            : organizationName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        organizationEmailDomain: null == organizationEmailDomain
+            ? _value.organizationEmailDomain
+            : organizationEmailDomain // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -2638,10 +2681,13 @@ class __$$LobbyRestrictionImplCopyWithImpl<$Res>
 class _$LobbyRestrictionImpl implements _LobbyRestriction {
   const _$LobbyRestrictionImpl({
     this.genderRestriction = "",
-    this.ageRange = const AgeRange(),
+    this.ageRange,
     this.maxMales,
     this.maxFemales,
     this.maxOthers,
+    this.restrictToOrganization = false,
+    this.organizationName = "",
+    this.organizationEmailDomain = "",
   });
 
   factory _$LobbyRestrictionImpl.fromJson(Map<String, dynamic> json) =>
@@ -2651,18 +2697,26 @@ class _$LobbyRestrictionImpl implements _LobbyRestriction {
   @JsonKey()
   final String genderRestriction;
   @override
-  @JsonKey()
-  final AgeRange ageRange;
+  final AgeRange? ageRange;
   @override
   final int? maxMales;
   @override
   final int? maxFemales;
   @override
   final int? maxOthers;
+  @override
+  @JsonKey()
+  final bool restrictToOrganization;
+  @override
+  @JsonKey()
+  final String organizationName;
+  @override
+  @JsonKey()
+  final String organizationEmailDomain;
 
   @override
   String toString() {
-    return 'LobbyRestriction(genderRestriction: $genderRestriction, ageRange: $ageRange, maxMales: $maxMales, maxFemales: $maxFemales, maxOthers: $maxOthers)';
+    return 'LobbyRestriction(genderRestriction: $genderRestriction, ageRange: $ageRange, maxMales: $maxMales, maxFemales: $maxFemales, maxOthers: $maxOthers, restrictToOrganization: $restrictToOrganization, organizationName: $organizationName, organizationEmailDomain: $organizationEmailDomain)';
   }
 
   @override
@@ -2679,7 +2733,16 @@ class _$LobbyRestrictionImpl implements _LobbyRestriction {
             (identical(other.maxFemales, maxFemales) ||
                 other.maxFemales == maxFemales) &&
             (identical(other.maxOthers, maxOthers) ||
-                other.maxOthers == maxOthers));
+                other.maxOthers == maxOthers) &&
+            (identical(other.restrictToOrganization, restrictToOrganization) ||
+                other.restrictToOrganization == restrictToOrganization) &&
+            (identical(other.organizationName, organizationName) ||
+                other.organizationName == organizationName) &&
+            (identical(
+                  other.organizationEmailDomain,
+                  organizationEmailDomain,
+                ) ||
+                other.organizationEmailDomain == organizationEmailDomain));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2691,6 +2754,9 @@ class _$LobbyRestrictionImpl implements _LobbyRestriction {
     maxMales,
     maxFemales,
     maxOthers,
+    restrictToOrganization,
+    organizationName,
+    organizationEmailDomain,
   );
 
   /// Create a copy of LobbyRestriction
@@ -2713,10 +2779,13 @@ class _$LobbyRestrictionImpl implements _LobbyRestriction {
 abstract class _LobbyRestriction implements LobbyRestriction {
   const factory _LobbyRestriction({
     final String genderRestriction,
-    final AgeRange ageRange,
+    final AgeRange? ageRange,
     final int? maxMales,
     final int? maxFemales,
     final int? maxOthers,
+    final bool restrictToOrganization,
+    final String organizationName,
+    final String organizationEmailDomain,
   }) = _$LobbyRestrictionImpl;
 
   factory _LobbyRestriction.fromJson(Map<String, dynamic> json) =
@@ -2725,13 +2794,19 @@ abstract class _LobbyRestriction implements LobbyRestriction {
   @override
   String get genderRestriction;
   @override
-  AgeRange get ageRange;
+  AgeRange? get ageRange;
   @override
   int? get maxMales;
   @override
   int? get maxFemales;
   @override
   int? get maxOthers;
+  @override
+  bool get restrictToOrganization;
+  @override
+  String get organizationName;
+  @override
+  String get organizationEmailDomain;
 
   /// Create a copy of LobbyRestriction
   /// with the given fields replaced by the non-null parameter values.

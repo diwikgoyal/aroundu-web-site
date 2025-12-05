@@ -28,6 +28,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
@@ -2914,6 +2915,56 @@ class _LobbyQuickCheckoutViewState extends ConsumerState<LobbyQuickCheckoutView>
                             ),
                           SizedBox(height: 24),
 
+                           if ((lobbyData.lobbyStatus == "ACTIVE") && (lobbyData.restriction != null)) ...[
+                            Builder(
+                              builder: (context) {
+                                final restrictionText = _getRestrictionText(lobbyData.restriction);
+
+                                return Container(
+                                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                                  decoration: BoxDecoration(
+                                    color: DesignColors.secondary.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      DesignIcon.icon(icon: FontAwesomeIcons.ban, size: 28, color: DesignColors.accent),
+                                      SizedBox(width: 16),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            DesignText(
+                                              text: restrictionText['title'] ?? "No Restrictions",
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              color: DesignColors.primaryFontDark,
+                                              maxLines: null,
+                                              textAlign: TextAlign.left,
+                                              overflow: TextOverflow.visible,
+                                            ),
+                                            SizedBox(height: 4),
+                                            DesignText(
+                                              text: restrictionText['subtitle'] ?? "Anyone can join this Event",
+                                              color: DesignColors.secondaryFontDark.withAlpha(255),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              maxLines: null,
+                                              textAlign: TextAlign.left,
+                                              overflow: TextOverflow.visible,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                            const Space.h(height: 24),
+                          ],
+
                           // Checkout button
                           SizedBox(
                             width: double.infinity,
@@ -3161,6 +3212,59 @@ class _LobbyQuickCheckoutViewState extends ConsumerState<LobbyQuickCheckoutView>
       // Fallback
     }
     return '₹ 0.00';
+  }
+
+   Map<String, String> _getRestrictionText(LobbyRestriction? restriction) {
+    if (restriction == null) {
+      return {'title': 'Restricted Event', 'subtitle': ''};
+    }
+
+    List<String> titles = [];
+    List<String> subtitles = [];
+
+    // Gender restriction
+    if (restriction.genderRestriction == "ONLY_FEMALE") {
+      titles.add("Female Only Event");
+      subtitles.add("Only female participants can join");
+    } else if (restriction.genderRestriction == "ONLY_MALE") {
+      titles.add("Male Only Event");
+      subtitles.add("Only male participants can join");
+    }
+
+    // Age range restriction
+    if (restriction.ageRange != null) {
+      final int? minAge = restriction.ageRange?.minAge;
+      final int? maxAge = restriction.ageRange?.maxAge;
+
+      if (minAge != null && maxAge != null && minAge > 0 && maxAge < 100) {
+        titles.add("Age Restricted");
+        subtitles.add("Participants must be between $minAge-$maxAge years old");
+      } else if (minAge != null && minAge > 0) {
+        titles.add("Age Restricted");
+        subtitles.add("Participants must be $minAge years or older");
+      } else if (maxAge != null && maxAge < 100) {
+        titles.add("Age Restricted");
+        subtitles.add("Participants must be $maxAge years or younger");
+      }
+    }
+
+    // Organization restriction
+    if (restriction.restrictToOrganization && restriction.organizationName.isNotEmpty) {
+      titles.add("Organization Restricted");
+
+      String orgSubtitle = "Only people from ${restriction.organizationName}";
+      if (restriction.organizationEmailDomain.isNotEmpty) {
+        orgSubtitle += " (@${restriction.organizationEmailDomain})";
+      }
+      orgSubtitle += " can join";
+      subtitles.add(orgSubtitle);
+    }
+
+    // Combine all restrictions
+    String finalTitle = titles.isEmpty ? "Restricted Event" : titles.join(" • ");
+    String finalSubtitle = subtitles.isEmpty ? "This event has specific restrictions" : subtitles.join(" • ");
+
+    return {'title': finalTitle, 'subtitle': finalSubtitle};
   }
 
   @override

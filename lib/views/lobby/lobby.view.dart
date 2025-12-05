@@ -881,6 +881,60 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
         ),
       ),
     );
+    
+  }
+   // Add this method in your widget class or create a helper class
+  Map<String, String> _getRestrictionText(LobbyRestriction? restriction) {
+    if (restriction == null) {
+      return {'title': 'Restricted Event', 'subtitle': ''};
+    }
+
+    List<String> titles = [];
+    List<String> subtitles = [];
+
+    // Gender restriction
+    if (restriction.genderRestriction == "ONLY_FEMALE") {
+      titles.add("Female Only Event");
+      subtitles.add("Only female participants can join");
+    } else if (restriction.genderRestriction == "ONLY_MALE") {
+      titles.add("Male Only Event");
+      subtitles.add("Only male participants can join");
+    }
+
+    // Age range restriction
+    if (restriction.ageRange != null) {
+      final int? minAge = restriction.ageRange?.minAge;
+      final int? maxAge = restriction.ageRange?.maxAge;
+
+      if (minAge != null && maxAge != null && minAge > 0 && maxAge < 100) {
+        titles.add("Age Restricted");
+        subtitles.add("Participants must be between $minAge-$maxAge years old");
+      } else if (minAge != null && minAge > 0) {
+        titles.add("Age Restricted");
+        subtitles.add("Participants must be $minAge years or older");
+      } else if (maxAge != null && maxAge < 100) {
+        titles.add("Age Restricted");
+        subtitles.add("Participants must be $maxAge years or younger");
+      }
+    }
+
+    // Organization restriction
+    if (restriction.restrictToOrganization && restriction.organizationName.isNotEmpty) {
+      titles.add("Organization Restricted");
+
+      String orgSubtitle = "Only people from ${restriction.organizationName}";
+      if (restriction.organizationEmailDomain.isNotEmpty) {
+        orgSubtitle += " (@${restriction.organizationEmailDomain})";
+      }
+      orgSubtitle += " can join";
+      subtitles.add(orgSubtitle);
+    }
+
+    // Combine all restrictions
+    String finalTitle = titles.isEmpty ? "Restricted Event" : titles.join(" • ");
+    String finalSubtitle = subtitles.isEmpty ? "This event has specific restrictions" : subtitles.join(" • ");
+
+    return {'title': finalTitle, 'subtitle': finalSubtitle};
   }
 
   Widget responsiveLayout({required LobbyDetails lobbyData, required double sw, required double sh}) {
@@ -1189,6 +1243,54 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
               //   color: const Color(0xFF323232),
               // ),
               Space.h(height: 16),
+               if ((lobbyData.lobby.lobbyStatus == "ACTIVE")&& (lobbyData.lobby.restriction != null)) ...[
+                Builder(
+                  builder: (context) {
+                    final restrictionText = _getRestrictionText(lobbyData.lobby.restriction);
+
+                    return Container(
+                      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: DesignColors.secondary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          DesignIcon.icon(icon: FontAwesomeIcons.ban, size: 28, color: DesignColors.accent),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                DesignText(
+                                  text: restrictionText['title'] ?? "No Restrictions",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  maxLines: null,
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.visible,
+                                ),
+                                SizedBox(height: 4),
+                                DesignText(
+                                  text: restrictionText['subtitle'] ?? "Anyone can join this Event",
+                                  color: DesignColors.secondary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  maxLines: null,
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.visible,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                const Space.h(height: 16),
+              ],
 
               Wrap(
                 runSpacing: 12,
@@ -4074,6 +4176,55 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                           ],
                         ),
                       ),
+                       if ((lobbyData.lobby.lobbyStatus == "ACTIVE") && (lobbyData.lobby.restriction != null)) ...[
+                        Builder(
+                          builder: (context) {
+                            final restrictionText = _getRestrictionText(lobbyData.lobby.restriction);
+
+                            return Container(
+                              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                              margin: EdgeInsets.only(top: 16),
+                              decoration: BoxDecoration(
+                                color: DesignColors.secondary.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  DesignIcon.icon(icon: FontAwesomeIcons.ban, size: 28, color: DesignColors.accent),
+                                  SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        DesignText(
+                                          text: restrictionText['title'] ?? "No Restrictions",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          maxLines: null,
+                                          textAlign: TextAlign.left,
+                                          overflow: TextOverflow.visible,
+                                        ),
+                                        SizedBox(height: 4),
+                                        DesignText(
+                                          text: restrictionText['subtitle'] ?? "Anyone can join this Event",
+                                          color: DesignColors.secondary,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          maxLines: null,
+                                          textAlign: TextAlign.left,
+                                          overflow: TextOverflow.visible,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        const Space.h(height: 16),
+                      ],
                       ScrollableInfoCards(
                         cards: [
                           InfoCard(
@@ -4385,6 +4536,22 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                               type: SnackBarType.info,
                             );
                             return;
+                             case "ORGANIZATION_RESTRICTED":
+                            CustomSnackBar.show(
+                              context: context,
+                              message:
+                                  "The host has restricted this lobby to a specific organization. You don’t belong to that organization, so you can’t join this lobby.",
+                              type: SnackBarType.info,
+                            );
+                            return;
+                          case "RESTRICTED":
+                            CustomSnackBar.show(
+                              context: context,
+                              message:
+                                  "You don't meet the age/gender requirements set by the admin for this lobby. Please check the lobby details for specific requirements.",
+                              type: SnackBarType.info,
+                            );
+                            return;
                           case "PAYMENT_PENDING":
                             if (lobbyDetail.lobby.accessRequestData != null) {
                               if (lobbyDetail.lobby.accessRequestData!.isGroupAccess) {
@@ -4513,6 +4680,10 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                           return const Color(0xFF323232);
                         case "INTERNAL_ACCESS_REQUEST":
                           return const Color(0xFF3E79A1);
+                          case "ORGANIZATION_RESTRICTED":
+                          return const Color(0xFF323232);
+                        case "RESTRICTED":
+                          return const Color(0xFF323232);
                         case "PAYMENT_PENDING":
                           if (lobbyDetail.lobby.accessRequestData != null) {
                             if (lobbyDetail.lobby.accessRequestData!.isAdmin) {
@@ -4546,6 +4717,10 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                               return "Removed";
                             case "INTERNAL_ACCESS_REQUEST":
                               return "Finalize Request";
+                              case "ORGANIZATION_RESTRICTED":
+                              return "Restricted";
+                            case "RESTRICTED":
+                              return "Restricted";
                             case "PAYMENT_PENDING":
                               return "Payment Pending ${(lobbyDetail.lobby.priceDetails?.price != null && lobbyDetail.lobby.priceDetails!.price > 0.0) ? "- Rs.${lobbyDetail.lobby.priceDetails?.price} per slot" : "(Free)"}";
                             default:

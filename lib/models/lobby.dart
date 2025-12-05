@@ -115,14 +115,17 @@ class UserSummary with _$UserSummary {
 }
 
 @freezed
-class LobbyRestriction with _$LobbyRestriction {
+abstract class LobbyRestriction with _$LobbyRestriction {
   @JsonSerializable(explicitToJson: true)
   const factory LobbyRestriction({
     @Default("") String genderRestriction,
-    @Default(AgeRange()) AgeRange ageRange,
+    AgeRange? ageRange,
     int? maxMales,
     int? maxFemales,
     int? maxOthers,
+    @Default(false) bool restrictToOrganization,
+    @Default("") String organizationName,
+    @Default("") String organizationEmailDomain,
   }) = _LobbyRestriction;
 
   factory LobbyRestriction.fromJson(Map<String, dynamic> json) => _$LobbyRestrictionFromJson(json);

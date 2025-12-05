@@ -219,21 +219,27 @@ _$LobbyRestrictionImpl _$$LobbyRestrictionImplFromJson(
 ) => _$LobbyRestrictionImpl(
   genderRestriction: json['genderRestriction'] as String? ?? "",
   ageRange: json['ageRange'] == null
-      ? const AgeRange()
+      ? null
       : AgeRange.fromJson(json['ageRange'] as Map<String, dynamic>),
   maxMales: (json['maxMales'] as num?)?.toInt(),
   maxFemales: (json['maxFemales'] as num?)?.toInt(),
   maxOthers: (json['maxOthers'] as num?)?.toInt(),
+  restrictToOrganization: json['restrictToOrganization'] as bool? ?? false,
+  organizationName: json['organizationName'] as String? ?? "",
+  organizationEmailDomain: json['organizationEmailDomain'] as String? ?? "",
 );
 
 Map<String, dynamic> _$$LobbyRestrictionImplToJson(
   _$LobbyRestrictionImpl instance,
 ) => <String, dynamic>{
   'genderRestriction': instance.genderRestriction,
-  'ageRange': instance.ageRange.toJson(),
+  'ageRange': instance.ageRange?.toJson(),
   'maxMales': instance.maxMales,
   'maxFemales': instance.maxFemales,
   'maxOthers': instance.maxOthers,
+  'restrictToOrganization': instance.restrictToOrganization,
+  'organizationName': instance.organizationName,
+  'organizationEmailDomain': instance.organizationEmailDomain,
 };
 
 _$AgeRangeImpl _$$AgeRangeImplFromJson(Map<String, dynamic> json) =>
