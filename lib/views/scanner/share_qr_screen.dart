@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:html' as html;
 import 'package:aroundu/designs/colors.designs.dart';
 import 'package:aroundu/designs/widgets/text.widget.designs.dart';
 import 'package:aroundu/views/scanner/model/qr_scanner_model.dart';
@@ -194,7 +194,7 @@ class _SharedQrScreenState extends ConsumerState<SharedQrScreen> {
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             color: DesignColors.primary,
-                              maxLines: null,
+                            maxLines: null,
                             overflow: TextOverflow.visible,
                           ),
                         ],
@@ -296,8 +296,16 @@ class _SharedQrScreenState extends ConsumerState<SharedQrScreen> {
           SizedBox(height: 20),
           Divider(color: DesignColors.white.withOpacity(0.3), thickness: 1),
           SizedBox(height: 20),
+          if (lobbyDetail?.locationDetail != null)
+            GestureDetector(onTap: (){
+               html.window.open(lobbyDetail!.locationDetail!['link'], 'location');
+            },child: _buildDetailRow(Icons.location_on_outlined, "Location", lobbyDetail!.locationDetail!['name'])),
 
-          if (lobbyDetail?.formattedDate != null) _buildDetailRow(Icons.calendar_today, "Date & Time", lobbyDetail!.formattedDate!),
+          if (lobbyDetail?.formattedDate != null) ...[
+            SizedBox(height: 16),
+            _buildDetailRow(Icons.calendar_today, "Date & Time", lobbyDetail!.formattedDate!),
+          ],
+
           if (userSummary?.name != null) ...[
             SizedBox(height: 16),
             _buildDetailRow(Icons.person, "Attendee", userSummary!.name!),

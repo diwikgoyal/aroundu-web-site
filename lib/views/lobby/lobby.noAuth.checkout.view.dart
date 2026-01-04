@@ -47,25 +47,21 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../utils/api_service/api.service.dart';
 
 class LobbyNoAuthCheckoutView extends ConsumerStatefulWidget {
-  const LobbyNoAuthCheckoutView({super.key, required this.lobbyId,this.referralSource});
+  const LobbyNoAuthCheckoutView({super.key, required this.lobbyId, this.referralSource});
   final String lobbyId;
   final String? referralSource;
 
   @override
-  ConsumerState<LobbyNoAuthCheckoutView> createState() =>
-      _LobbyNoAuthCheckoutViewState();
+  ConsumerState<LobbyNoAuthCheckoutView> createState() => _LobbyNoAuthCheckoutViewState();
 }
 
 // Counter provider for managing number of slots
-final quickCheckoutCounterProvider =
-    StateNotifierProvider<CounterNotifier, int>((ref) {
-      return CounterNotifier();
-    });
+final quickCheckoutCounterProvider = StateNotifierProvider<CounterNotifier, int>((ref) {
+  return CounterNotifier();
+});
 
 // Provider to track expanded state of location sections
-final isLocationsExpandedProvider = StateProvider.family<bool, String>(
-  (ref, lobbyId) => false,
-);
+final isLocationsExpandedProvider = StateProvider.family<bool, String>((ref, lobbyId) => false);
 
 class CounterNotifier extends StateNotifier<int> {
   CounterNotifier() : super(1);
@@ -82,8 +78,7 @@ class CounterNotifier extends StateNotifier<int> {
   }
 }
 
-class _LobbyNoAuthCheckoutViewState
-    extends ConsumerState<LobbyNoAuthCheckoutView> {
+class _LobbyNoAuthCheckoutViewState extends ConsumerState<LobbyNoAuthCheckoutView> {
   // Form controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -109,13 +104,11 @@ class _LobbyNoAuthCheckoutViewState
     _emailController.addListener(() {
       if (_nameController.text.isNotEmpty && _emailController.text.length > 4) {
         Future.microtask(() {
-          ref.read(expandStateProvider("Your form response").notifier).state =
-              true;
+          ref.read(expandStateProvider("Your form response").notifier).state = true;
         });
       } else {
         Future.microtask(() {
-          ref.read(expandStateProvider("Your form response").notifier).state =
-              false;
+          ref.read(expandStateProvider("Your form response").notifier).state = false;
         });
       }
       _updateFormFromControllers();
@@ -123,13 +116,11 @@ class _LobbyNoAuthCheckoutViewState
     _mobileController.addListener(() {
       if (_nameController.text.isNotEmpty && _emailController.text.length > 4) {
         Future.microtask(() {
-          ref.read(expandStateProvider("Your form response").notifier).state =
-              true;
+          ref.read(expandStateProvider("Your form response").notifier).state = true;
         });
       } else {
         Future.microtask(() {
-          ref.read(expandStateProvider("Your form response").notifier).state =
-              false;
+          ref.read(expandStateProvider("Your form response").notifier).state = false;
         });
       }
       _updateFormFromControllers();
@@ -146,17 +137,10 @@ class _LobbyNoAuthCheckoutViewState
       // await ref
       //     .read(lobbyQuickCheckoutDetailsProvider(widget.lobbyId).notifier)
       //     .fetchLobbyQuickCheckoutDetails(widget.lobbyId);
-      await ref
-          .read(formStateProvider(widget.lobbyId).notifier)
-          .loadFormData([], isPublic: true);
+      await ref.read(formStateProvider(widget.lobbyId).notifier).loadFormData([], isPublic: true);
       await ref
           .read(pricingProvider(widget.lobbyId).notifier)
-          .fetchPricing(
-            widget.lobbyId,
-            groupSize: 1,
-            selectedTickets: [],
-            isPublic: true,
-          );
+          .fetchPricing(widget.lobbyId, groupSize: 1, selectedTickets: [], isPublic: true);
       final formState = ref.watch(formStateProvider(widget.lobbyId));
       ref.read(formsListProvider.notifier).resetFormsList();
       formModel = formState;
@@ -165,8 +149,7 @@ class _LobbyNoAuthCheckoutViewState
         if (ref.read(formsListProvider).isEmpty) {
           ref.read(formsListProvider.notifier).addForm(formState!);
         }
-        ref.read(expandStateProvider("Your form response").notifier).state =
-            false;
+        ref.read(expandStateProvider("Your form response").notifier).state = false;
       }
       ref.read(selectedTicketsProvider.notifier).clearAll();
     });
@@ -179,7 +162,7 @@ class _LobbyNoAuthCheckoutViewState
         ref.read(selectedOfferProvider.notifier).state = null;
       }
     });
-    
+
     _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkVisibility();
@@ -204,8 +187,7 @@ class _LobbyNoAuthCheckoutViewState
   }
 
   void _checkVisibility() {
-    final RenderObject? renderObject = _targetKey.currentContext
-        ?.findRenderObject();
+    final RenderObject? renderObject = _targetKey.currentContext?.findRenderObject();
     if (renderObject == null) return;
 
     final RenderBox box = renderObject as RenderBox;
@@ -219,10 +201,9 @@ class _LobbyNoAuthCheckoutViewState
     // Container is visible if:
     // - Top edge is below screen top (position.dy < screenHeight)
     // - Bottom edge is above screen top (position.dy + size.height > 0)
-    bool isVisible =
-        position.dy < screenHeight && (position.dy + size.height) > 0;
-        
-        kLogger.trace('Container visibility: $isVisible');
+    bool isVisible = position.dy < screenHeight && (position.dy + size.height) > 0;
+
+    // kLogger.trace('Container visibility: $isVisible');
 
     if (isVisible && _showFab) {
       setState(() {
@@ -238,11 +219,7 @@ class _LobbyNoAuthCheckoutViewState
   void _scrollToContainer() {
     final context = _targetKey.currentContext;
     if (context != null) {
-      Scrollable.ensureVisible(
-        context,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
+      Scrollable.ensureVisible(context, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
     }
   }
 
@@ -283,25 +260,17 @@ class _LobbyNoAuthCheckoutViewState
       FormModel formData = formListData[0];
       formData = formData.copyWith(
         questions: formData.questions.map((e) {
-          if ((e.dataKey == 'name' ||
-                  e.questionText.toLowerCase().trim().contains("name")) &&
-              !exclusionKeywords.any(
-                (word) => e.questionText.toLowerCase().contains(word),
-              )) {
+          if ((e.dataKey == 'name' || e.questionText.toLowerCase().trim().contains("name")) &&
+              !exclusionKeywords.any((word) => e.questionText.toLowerCase().contains(word))) {
             return e.copyWith(answer: _nameController.text);
-          } else if ((e.dataKey == 'email' ||
-                  e.questionText.toLowerCase().trim().contains("email")) &&
-              !exclusionKeywords.any(
-                (word) => e.questionText.toLowerCase().contains(word),
-              )) {
+          } else if ((e.dataKey == 'email' || e.questionText.toLowerCase().trim().contains("email")) &&
+              !exclusionKeywords.any((word) => e.questionText.toLowerCase().contains(word))) {
             return e.copyWith(answer: _emailController.text);
           } else if ((e.dataKey == 'mobile' ||
                   e.questionText.toLowerCase().trim().contains("contact") ||
                   e.questionText.toLowerCase().trim().contains("phone") ||
                   e.questionText.toLowerCase().trim().contains("mobile")) &&
-              !exclusionKeywords.any(
-                (word) => e.questionText.toLowerCase().contains(word),
-              )) {
+              !exclusionKeywords.any((word) => e.questionText.toLowerCase().contains(word))) {
             return e.copyWith(answer: _mobileController.text);
           } else {
             return e;
@@ -314,33 +283,23 @@ class _LobbyNoAuthCheckoutViewState
 
   // Method to handle checkout process
   void _handleCheckout(Lobby lobbyData, double totalPrice) async {
+    ref.watch(formsListProvider.notifier).makeUrlInstaUrl();
     final formList = ref.read(formsListProvider);
-    final isFormValidated = ref
-        .watch(formsListProvider.notifier)
-        .validateAllForms();
+    final isFormValidated = ref.watch(formsListProvider.notifier).validateAllForms();
     final selectedTickets = ref.watch(selectedTicketsProvider);
     final currentLobbyTickets = selectedTickets[widget.lobbyId] ?? [];
     // Get the number of slots from the counter provider
     final slotCount = ref.read(quickCheckoutCounterProvider);
 
     // Call the lobby registration provider
-    final registrationNotifier = ref.read(
-      lobbyRegistrationProvider(widget.lobbyId).notifier,
-    );
+    final registrationNotifier = ref.read(lobbyRegistrationProvider(widget.lobbyId).notifier);
 
     await ref
         .read(pricingProvider(lobbyData.id).notifier)
-        .fetchPricing(
-          lobbyData.id,
-          groupSize: slotCount,
-          selectedTickets: currentLobbyTickets,
-          isPublic: true,
-        );
+        .fetchPricing(lobbyData.id, groupSize: slotCount, selectedTickets: currentLobbyTickets, isPublic: true);
 
     final getPricingData = ref.read(pricingProvider(lobbyData.id));
-    kLogger.trace(
-      "getPricingData : ${getPricingData.pricingData?.toJson()} \n total Price : $totalPrice",
-    );
+    kLogger.trace("getPricingData : ${getPricingData.pricingData?.toJson()} \n total Price : $totalPrice");
     if (getPricingData.pricingData == null) {
       CustomSnackBar.show(
         context: context,
@@ -348,8 +307,7 @@ class _LobbyNoAuthCheckoutViewState
         type: SnackBarType.error,
       );
       return;
-    } else if (getPricingData.pricingData?.status != 'SUCCESS' ||
-        getPricingData.pricingData?.total != totalPrice) {
+    } else if (getPricingData.pricingData?.status != 'SUCCESS' || getPricingData.pricingData?.total != totalPrice) {
       CustomSnackBar.show(
         context: context,
         message:
@@ -364,49 +322,30 @@ class _LobbyNoAuthCheckoutViewState
 
     // Check if name is empty
     if (_nameController.text.isEmpty) {
-      CustomSnackBar.show(
-        context: context,
-        message: 'Please enter your name',
-        type: SnackBarType.warning,
-      );
+      CustomSnackBar.show(context: context, message: 'Please enter your name', type: SnackBarType.warning);
       return;
     }
 
     // Check if email is empty
     if (_emailController.text.isEmpty) {
-      CustomSnackBar.show(
-        context: context,
-        message: 'Please enter your email',
-        type: SnackBarType.warning,
-      );
+      CustomSnackBar.show(context: context, message: 'Please enter your email', type: SnackBarType.warning);
       return;
     }
 
     // Check if email is valid
-    if (!RegExp(
-      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-    ).hasMatch(_emailController.text)) {
-      CustomSnackBar.show(
-        context: context,
-        message: 'Please enter a valid email address',
-        type: SnackBarType.warning,
-      );
+    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(_emailController.text)) {
+      CustomSnackBar.show(context: context, message: 'Please enter a valid email address', type: SnackBarType.warning);
       return;
     }
 
     // Check if mobile number is empty
     if (_mobileController.text.isEmpty) {
-      CustomSnackBar.show(
-        context: context,
-        message: 'Please enter your mobile number',
-        type: SnackBarType.warning,
-      );
+      CustomSnackBar.show(context: context, message: 'Please enter your mobile number', type: SnackBarType.warning);
       return;
     }
 
     // Check if mobile number is valid (10 digits)
-    if (_mobileController.text.length != 10 ||
-        !RegExp(r'^[0-9]+$').hasMatch(_mobileController.text)) {
+    if (_mobileController.text.length != 10 || !RegExp(r'^[0-9]+$').hasMatch(_mobileController.text)) {
       CustomSnackBar.show(
         context: context,
         message: 'Please enter a valid 10-digit mobile number',
@@ -422,9 +361,7 @@ class _LobbyNoAuthCheckoutViewState
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             backgroundColor: Colors.white,
             content: Container(
               padding: EdgeInsets.all(20),
@@ -433,24 +370,13 @@ class _LobbyNoAuthCheckoutViewState
                 children: [
                   Container(
                     padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: Colors.red[50],
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.warning_rounded,
-                      color: Colors.red,
-                      size: 32,
-                    ),
+                    decoration: BoxDecoration(color: Colors.red[50], shape: BoxShape.circle),
+                    child: Icon(Icons.warning_rounded, color: Colors.red, size: 32),
                   ),
                   SizedBox(height: 15),
                   Text(
                     'Required Fields Missing',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
                   ),
                   SizedBox(height: 10),
                   Text(
@@ -462,18 +388,10 @@ class _LobbyNoAuthCheckoutViewState
                   TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: DesignColors.primary,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                     ),
-                    child: Text(
-                      'OK',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
+                    child: Text('OK', style: TextStyle(color: Colors.white, fontSize: 16)),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],
@@ -486,11 +404,7 @@ class _LobbyNoAuthCheckoutViewState
     }
 
     if (lobbyData.isAdvancedPricing && currentLobbyTickets.isEmpty) {
-      CustomSnackBar.show(
-        context: context,
-        message: 'Please select at least one ticket',
-        type: SnackBarType.error,
-      );
+      CustomSnackBar.show(context: context, message: 'Please select at least one ticket', type: SnackBarType.error);
       return;
     }
     String userId =
@@ -498,13 +412,7 @@ class _LobbyNoAuthCheckoutViewState
     // Lock the pricing after updating group size
     await ref
         .read(lockPricingProvider(lobbyData.id).notifier)
-        .lockPricing(
-          lobbyData.id,
-          slotCount,
-          currentLobbyTickets,
-          userId: userId,
-          isPublic: true,
-        );
+        .lockPricing(lobbyData.id, slotCount, currentLobbyTickets, userId: userId, isPublic: true);
 
     // Check if lock pricing failed and show toast with error message
     final lockPricingData = ref.read(lockPricingDataProvider(lobbyData.id));
@@ -524,8 +432,7 @@ class _LobbyNoAuthCheckoutViewState
       Get.back();
       CustomSnackBar.show(
         context: context,
-        message:
-            'Please check out again as the price has been updated for your slots.',
+        message: 'Please check out again as the price has been updated for your slots.',
         type: SnackBarType.error,
       );
       return;
@@ -534,6 +441,8 @@ class _LobbyNoAuthCheckoutViewState
     setState(() {
       _isProcessing = true;
     });
+
+    
 
     registrationNotifier
         .registerGuest(
@@ -545,17 +454,9 @@ class _LobbyNoAuthCheckoutViewState
           slots: slotCount,
           userId: userId,
 
-          form:
-              (formList.isNotEmpty ? formList.first : formModel)?.toJson() ??
-              {},
-          formList:
-              (formList.isNotEmpty ? formList.sublist(1) : formList)
-                  .map((form) => form.toJson())
-                  .toList() ??
-              [],
-          selectedTickets: currentLobbyTickets.isNotEmpty
-              ? currentLobbyTickets.map((e) => e.toJson()).toList()
-              : null,
+          form: (formList.isNotEmpty ? formList.first : formModel)?.toJson() ?? {},
+          formList: (formList.isNotEmpty ? formList.sublist(1) : formList).map((form) => form.toJson()).toList() ?? [],
+          selectedTickets: currentLobbyTickets.isNotEmpty ? currentLobbyTickets.map((e) => e.toJson()).toList() : null,
           offerId: ref.read(selectedOfferProvider)?.offerId,
         )
         .then((response) async {
@@ -565,14 +466,16 @@ class _LobbyNoAuthCheckoutViewState
 
           if (response != null && response.paymentUrl != null) {
             // Show success message
-            CustomSnackBar.show(
-              context: context,
-              message: 'Registration successful! Redirecting to payment...',
-              type: SnackBarType.success,
-            );
+            if (!lobbyData.isPrivate && lobbyData.priceDetails.price > 0) {
+              CustomSnackBar.show(
+                context: context,
+                message: 'Registration successful! Redirecting to payment...',
+                type: SnackBarType.success,
+              );
+            }
 
             // Redirect to payment URL
-            await _redirectToPaymentUrl(response.paymentUrl!);
+            await _redirectToPaymentUrl(lobbyData, response.paymentUrl!);
           } else {
             // Show error message
             CustomSnackBar.show(
@@ -588,31 +491,23 @@ class _LobbyNoAuthCheckoutViewState
           });
 
           // Show error message
-          CustomSnackBar.show(
-            context: context,
-            message: 'Error: ${error.toString()}',
-            type: SnackBarType.error,
-          );
+          CustomSnackBar.show(context: context, message: 'Error: ${error.toString()}', type: SnackBarType.error);
         });
   }
 
   // Method to redirect to payment URL
-  Future<void> _redirectToPaymentUrl(String url) async {
+  Future<void> _redirectToPaymentUrl(Lobby lobbyData, String url) async {
     if (url == "FREE_EVENT_JOINED") {
       await Get.dialog(
         Dialog(
           backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Stack(
             alignment: AlignmentDirectional.center,
             children: [
               Container(
                 padding: EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                ),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -671,8 +566,65 @@ class _LobbyNoAuthCheckoutViewState
         message:
             "To chat with fellow attendees, see who’s coming, and discover exciting new updates — download the app.",
         appStoreUrl: "https://apps.apple.com/in/app/aroundu/id6744299663",
-        playStoreUrl:
-            "https://play.google.com/store/apps/details?id=com.polar.aroundu",
+        playStoreUrl: "https://play.google.com/store/apps/details?id=com.polar.aroundu",
+        cancelButtonText: "Not Now",
+        onCancel: () {
+          Get.toNamed(AppRoutes.lobby.replaceAll(":lobbyId", widget.lobbyId));
+        },
+      );
+      return;
+    } else if (lobbyData.isPrivate || url == "Requested, if accepted you'll get a notification on your phone/email") {
+      await Get.dialog(
+        Dialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Container(
+            padding: EdgeInsets.all(24),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Lottie.asset(
+                  'assets/animations/success_badge.json',
+                  repeat: false,
+                  fit: BoxFit.fitHeight,
+                  height: 0.2 * Get.height,
+                  width: 0.9 * Get.width,
+                ),
+                Space.h(height: 8),
+                DesignText(
+                  text: "you have successfully requested to join the lobby",
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF444444),
+                  maxLines: 5,
+                  textAlign: TextAlign.center,
+                ),
+                Space.h(height: 8),
+                DesignText(
+                  text:
+                      "On acceptance of your request, a detailed confirmation email will be sent to your registered email address, including important event information, venue details, and your unique booking reference. Please check your inbox (and spam folder) within the next few minutes.",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: DesignColors.secondary,
+                  maxLines: null,
+                  overflow: TextOverflow.visible,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+        barrierDismissible: true,
+      );
+      Fluttertoast.showToast(msg: "successfully requested to join the lobby");
+      FancyAppDownloadDialog.show(
+        context,
+        title: "Unlock Premium Features",
+        message:
+            "To chat with fellow attendees, see who’s coming, and discover exciting new updates — download the app.",
+        appStoreUrl: "https://apps.apple.com/in/app/aroundu/id6744299663",
+        playStoreUrl: "https://play.google.com/store/apps/details?id=com.polar.aroundu",
         cancelButtonText: "Not Now",
         onCancel: () {
           Get.toNamed(AppRoutes.lobby.replaceAll(":lobbyId", widget.lobbyId));
@@ -688,11 +640,7 @@ class _LobbyNoAuthCheckoutViewState
     } else {
       // For mobile, we would use url_launcher
       // But for now, just show a message
-      CustomSnackBar.show(
-        context: context,
-        message: 'Payment URL: $url',
-        type: SnackBarType.info,
-      );
+      CustomSnackBar.show(context: context, message: 'Payment URL: $url', type: SnackBarType.info);
     }
   }
 
@@ -725,10 +673,8 @@ class _LobbyNoAuthCheckoutViewState
                   children: [
                     _buildCheckoutForm(context, lobbyData),
                     ResponsiveAppDownloadCard(
-                      appStoreUrl:
-                          "https://apps.apple.com/in/app/aroundu/id6744299663",
-                      playStoreUrl:
-                          "https://play.google.com/store/apps/details?id=com.polar.aroundu",
+                      appStoreUrl: "https://apps.apple.com/in/app/aroundu/id6744299663",
+                      playStoreUrl: "https://play.google.com/store/apps/details?id=com.polar.aroundu",
                       description:
                           "AroundU is more than just this event. Check out other events, join the group chat, or start your own lobby!",
                       // onClose: () {
@@ -757,10 +703,7 @@ class _LobbyNoAuthCheckoutViewState
   }
 
   // Build the mobile layout with stacked content
-  Widget _buildMobileLayout(
-    BuildContext context,
-    Lobby lobbyData,
-  ) {
+  Widget _buildMobileLayout(BuildContext context, Lobby lobbyData) {
     return SingleChildScrollView(
       controller: _scrollController,
       child: Column(
@@ -774,8 +717,7 @@ class _LobbyNoAuthCheckoutViewState
           _buildCheckoutForm(context, lobbyData),
           ResponsiveAppDownloadCard(
             appStoreUrl: "https://apps.apple.com/in/app/aroundu/id6744299663",
-            playStoreUrl:
-                "https://play.google.com/store/apps/details?id=com.polar.aroundu",
+            playStoreUrl: "https://play.google.com/store/apps/details?id=com.polar.aroundu",
             description:
                 "AroundU is more than just this event. Check out other events, join the group chat, or start your own lobby!",
             // onClose: () {
@@ -806,20 +748,12 @@ class _LobbyNoAuthCheckoutViewState
         duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.white.withOpacity(0.05),
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
+          boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.05), blurRadius: 10, offset: Offset(0, 4))],
         ),
         child: Card(
           elevation: 0,
           color: DesignColors.bgDark,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Padding(
             padding: EdgeInsets.all(24),
             child: Column(
@@ -838,12 +772,7 @@ class _LobbyNoAuthCheckoutViewState
                   _buildInfoItem(
                     lobbyData.filter!.otherFilterInfo!.dateInfo!.iconUrl ?? "",
                     lobbyData.filter!.otherFilterInfo!.dateInfo!.title,
-                    lobbyData
-                            .filter!
-                            .otherFilterInfo!
-                            .dateInfo!
-                            .formattedDate ??
-                        "",
+                    lobbyData.filter!.otherFilterInfo!.dateInfo!.formattedDate ?? "",
                   ),
                   SizedBox(height: 12),
                 ],
@@ -853,12 +782,7 @@ class _LobbyNoAuthCheckoutViewState
                   _buildInfoItem(
                     lobbyData.filter!.otherFilterInfo!.dateRange!.iconUrl ?? "",
                     lobbyData.filter!.otherFilterInfo!.dateRange!.title,
-                    lobbyData
-                            .filter!
-                            .otherFilterInfo!
-                            .dateRange!
-                            .formattedDateCompactView ??
-                        "",
+                    lobbyData.filter!.otherFilterInfo!.dateRange!.formattedDateCompactView ?? "",
                   ),
                   SizedBox(height: 12),
                 ],
@@ -868,13 +792,7 @@ class _LobbyNoAuthCheckoutViewState
                   _buildInfoItem(
                     lobbyData.filter!.otherFilterInfo!.pickUp!.iconUrl ?? "",
                     lobbyData.filter!.otherFilterInfo!.pickUp!.title ?? "",
-                    lobbyData
-                            .filter!
-                            .otherFilterInfo!
-                            .pickUp!
-                            .locationResponse
-                            ?.fuzzyAddress ??
-                        "",
+                    lobbyData.filter!.otherFilterInfo!.pickUp!.locationResponse?.fuzzyAddress ?? "",
                   ),
                   SizedBox(height: 12),
                 ],
@@ -882,23 +800,15 @@ class _LobbyNoAuthCheckoutViewState
                 // Destination info if available
                 if (lobbyData.filter?.otherFilterInfo?.destination != null) ...[
                   _buildInfoItem(
-                    lobbyData.filter!.otherFilterInfo!.destination!.iconUrl ??
-                        "",
+                    lobbyData.filter!.otherFilterInfo!.destination!.iconUrl ?? "",
                     lobbyData.filter!.otherFilterInfo!.destination!.title ?? "",
-                    lobbyData
-                            .filter!
-                            .otherFilterInfo!
-                            .destination!
-                            .locationResponse
-                            ?.fuzzyAddress ??
-                        "",
+                    lobbyData.filter!.otherFilterInfo!.destination!.locationResponse?.fuzzyAddress ?? "",
                   ),
                   SizedBox(height: 12),
                 ],
 
                 // Location info with map link if available
-                if (lobbyData.filter?.otherFilterInfo?.locationInfo !=
-                    null) ...[
+                if (lobbyData.filter?.otherFilterInfo?.locationInfo != null) ...[
                   Divider(height: 24, color: DesignColors.secondary),
                   DesignText(
                     text: 'Location',
@@ -908,13 +818,8 @@ class _LobbyNoAuthCheckoutViewState
                   ),
                   SizedBox(height: 8),
                   _buildLocationInfoItem(context, lobbyData),
-                  if ((lobbyData
-                          .filter!
-                          .otherFilterInfo!
-                          .locationInfo!
-                          .hideLocation) &&
-                      ((lobbyData.userStatus != "MEMBER") ||
-                          (lobbyData.userStatus != "ADMIN"))) ...[
+                  if ((lobbyData.filter!.otherFilterInfo!.locationInfo!.hideLocation) &&
+                      ((lobbyData.userStatus != "MEMBER") || (lobbyData.userStatus != "ADMIN"))) ...[
                     SizedBox(height: 8),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -934,17 +839,10 @@ class _LobbyNoAuthCheckoutViewState
                 ],
 
                 // Multiple locations if available
-                if (lobbyData.filter?.otherFilterInfo?.multipleLocations !=
-                    null) ...[
+                if (lobbyData.filter?.otherFilterInfo?.multipleLocations != null) ...[
                   Divider(height: 24, color: Colors.grey.shade200),
                   DesignText(
-                    text:
-                        lobbyData
-                            .filter!
-                            .otherFilterInfo!
-                            .multipleLocations
-                            ?.title ??
-                        'Multiple Locations',
+                    text: lobbyData.filter!.otherFilterInfo!.multipleLocations?.title ?? 'Multiple Locations',
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: DesignColors.primaryFontDark,
@@ -979,8 +877,7 @@ class _LobbyNoAuthCheckoutViewState
                 SizedBox(height: 16),
 
                 // Filter information if available
-                if (lobbyData.filter?.filterInfoList != null &&
-                    lobbyData.filter!.filterInfoList!.isNotEmpty) ...[
+                if (lobbyData.filter?.filterInfoList != null && lobbyData.filter!.filterInfoList!.isNotEmpty) ...[
                   Divider(height: 24, color: DesignColors.secondary),
                   DesignText(
                     text: 'Preferences',
@@ -993,26 +890,25 @@ class _LobbyNoAuthCheckoutViewState
                   SizedBox(height: 16),
                 ],
                 // Space.h(height: 34),
-                if (lobbyData.content != null)
-                  Divider(height: 24, color: DesignColors.secondary),
+                if (lobbyData.content != null) Divider(height: 24, color: DesignColors.secondary),
                 Row(
                   children: [
                     if (lobbyData.content != null)
-                      DesignText(
-                        text: lobbyData.content?.title ?? "Guidelines",
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: DesignColors.primaryFontDark,
+                      Flexible(
+                        child: DesignText(
+                          text: lobbyData.content?.title ?? "Guidelines",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: DesignColors.primaryFontDark,
+                          maxLines: null,
+                          overflow: TextOverflow.visible,
+                        ),
                       ),
                   ],
                 ),
                 if (lobbyData.content != null) ...[
                   Space.h(height: 16),
-                  NewLobbyContentSection(
-                    content: lobbyData.content!,
-                    height: 356,
-                    isDark: true,
-                  ),
+                  NewLobbyContentSection(content: lobbyData.content!, height: 356, isDark: true),
                 ],
                 Space.h(height: 16),
 
@@ -1037,24 +933,14 @@ class _LobbyNoAuthCheckoutViewState
           decoration: BoxDecoration(
             color: DesignColors.secondaryDark,
             borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withOpacity(0.05),
-                blurRadius: 2,
-                offset: Offset(0, 1),
-              ),
-            ],
+            boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.05), blurRadius: 2, offset: Offset(0, 1))],
           ),
           child: Image.network(
             iconUrl,
             width: 24,
             height: 24,
             errorBuilder: (context, error, stackTrace) {
-              return Icon(
-                Icons.info_outline,
-                size: 24,
-                color: DesignColors.primaryFontDark,
-              );
+              return Icon(Icons.info_outline, size: 24, color: DesignColors.primaryFontDark);
             },
           ),
         ),
@@ -1063,18 +949,9 @@ class _LobbyNoAuthCheckoutViewState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DesignText(
-                text: title,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: DesignColors.primaryFontDark,
-              ),
+              DesignText(text: title, fontSize: 16, fontWeight: FontWeight.w500, color: DesignColors.primaryFontDark),
               SizedBox(height: 4),
-              DesignText(
-                text: subtitle,
-                fontSize: 14,
-                color: DesignColors.secondaryFontDark,
-              ),
+              DesignText(text: subtitle, fontSize: 14, color: DesignColors.secondaryFontDark),
             ],
           ),
         ),
@@ -1129,12 +1006,7 @@ class _LobbyNoAuthCheckoutViewState
         children: [
           Icon(statusIcon, size: 18, color: statusColor),
           SizedBox(width: 8),
-          DesignText(
-            text: statusText,
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: statusColor,
-          ),
+          DesignText(text: statusText, fontSize: 14, fontWeight: FontWeight.w600, color: statusColor),
         ],
       ),
     );
@@ -1150,22 +1022,14 @@ class _LobbyNoAuthCheckoutViewState
         double lat = 0.0;
         double lng = 0.0;
 
-        if (locationInfo != null &&
-            locationInfo!.locationResponses.isNotEmpty) {
+        if (locationInfo != null && locationInfo!.locationResponses.isNotEmpty) {
           if ((locationInfo!.hideLocation) &&
-              ((lobbyData.userStatus != "MEMBER") ||
-                  (lobbyData.userStatus != "ADMIN"))) {
-            lat =
-                locationInfo?.locationResponses.first.approxLocation?.lat ??
-                0.0;
-            lng =
-                locationInfo?.locationResponses.first.approxLocation?.lon ??
-                0.0;
+              ((lobbyData.userStatus != "MEMBER") || (lobbyData.userStatus != "ADMIN"))) {
+            lat = locationInfo?.locationResponses.first.approxLocation?.lat ?? 0.0;
+            lng = locationInfo?.locationResponses.first.approxLocation?.lon ?? 0.0;
           } else {
-            lat =
-                locationInfo?.locationResponses.first.exactLocation?.lat ?? 0.0;
-            lng =
-                locationInfo?.locationResponses.first.exactLocation?.lon ?? 0.0;
+            lat = locationInfo?.locationResponses.first.exactLocation?.lat ?? 0.0;
+            lng = locationInfo?.locationResponses.first.exactLocation?.lon ?? 0.0;
           }
         }
 
@@ -1177,33 +1041,25 @@ class _LobbyNoAuthCheckoutViewState
 
           if (kIsWeb) {
             // For web platform, open Google Maps in new tab
-            mapsUri = Uri.parse(
-              'https://www.google.com/maps/search/?api=1&query=$lat,$lng',
-            );
+            mapsUri = Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lng');
             html.window.open(mapsUri.toString(), '_blank');
             launched = true;
           } else if (Platform.isAndroid) {
             // Try Android's native maps app first
-            mapsUri = Uri.parse(
-              'http://maps.google.com/maps?z=12&t=m&q=$lat,$lng',
-            );
+            mapsUri = Uri.parse('http://maps.google.com/maps?z=12&t=m&q=$lat,$lng');
             if (await canLaunchUrl(mapsUri)) {
               await launchUrl(mapsUri, mode: LaunchMode.externalApplication);
               launched = true;
             }
           } else if (Platform.isIOS) {
             // Try Google Maps on iOS first
-            mapsUri = Uri.parse(
-              'comgooglemaps://?center=$lat,$lng&zoom=12&q=$lat,$lng',
-            );
+            mapsUri = Uri.parse('comgooglemaps://?center=$lat,$lng&zoom=12&q=$lat,$lng');
             if (await canLaunchUrl(mapsUri)) {
               await launchUrl(mapsUri, mode: LaunchMode.externalApplication);
               launched = true;
             } else {
               // Fall back to Apple Maps
-              mapsUri = Uri.parse(
-                'https://maps.apple.com/?q=${Uri.encodeFull("Location")}&sll=$lat,$lng&z=12',
-              );
+              mapsUri = Uri.parse('https://maps.apple.com/?q=${Uri.encodeFull("Location")}&sll=$lat,$lng&z=12');
               if (await canLaunchUrl(mapsUri)) {
                 await launchUrl(mapsUri, mode: LaunchMode.externalApplication);
                 launched = true;
@@ -1213,9 +1069,7 @@ class _LobbyNoAuthCheckoutViewState
 
           // If none of the above worked, fall back to web browser
           if (!launched) {
-            mapsUri = Uri.parse(
-              'https://www.google.com/maps/search/?api=1&query=$lat,$lng',
-            );
+            mapsUri = Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lng');
             try {
               await launchUrl(mapsUri, mode: LaunchMode.externalApplication);
             } catch (e) {
@@ -1250,18 +1104,9 @@ class _LobbyNoAuthCheckoutViewState
                       DesignText(
                         text:
                             ((locationInfo!.hideLocation) &&
-                                ((lobbyData.userStatus != "MEMBER") ||
-                                    (lobbyData.userStatus != "ADMIN")))
-                            ? (locationInfo
-                                      ?.locationResponses
-                                      .first
-                                      .fuzzyAddress ??
-                                  'Unknown location')
-                            : (locationInfo
-                                      ?.googleSearchResponses
-                                      ?.first
-                                      ?.description ??
-                                  'Unknown location'),
+                                ((lobbyData.userStatus != "MEMBER") || (lobbyData.userStatus != "ADMIN")))
+                            ? (locationInfo?.locationResponses.first.fuzzyAddress ?? 'Unknown location')
+                            : (locationInfo?.googleSearchResponses?.first?.description ?? 'Unknown location'),
                         fontSize: 14,
                         maxLines: null,
                         overflow: TextOverflow.visible,
@@ -1296,8 +1141,7 @@ class _LobbyNoAuthCheckoutViewState
 
   // Helper method to build location section with multiple locations
   Widget _buildLocationSection(Lobby lobbyData) {
-    final multipleLocations =
-        lobbyData.filter?.otherFilterInfo?.multipleLocations;
+    final multipleLocations = lobbyData.filter?.otherFilterInfo?.multipleLocations;
     if (multipleLocations == null ||
         multipleLocations.locationResponses == null ||
         multipleLocations.locationResponses!.isEmpty) {
@@ -1306,9 +1150,7 @@ class _LobbyNoAuthCheckoutViewState
 
     // Remove duplicates
     final uniqueLocations = <String>{};
-    final filteredLocations = multipleLocations.locationResponses!.where((
-      location,
-    ) {
+    final filteredLocations = multipleLocations.locationResponses!.where((location) {
       final isUnique = !uniqueLocations.contains(location);
       if (isUnique) uniqueLocations.add(location.fuzzyAddress);
       return isUnique;
@@ -1316,9 +1158,7 @@ class _LobbyNoAuthCheckoutViewState
 
     // Determine how many locations to show based on expanded state
     final isExpanded = ref.watch(isLocationsExpandedProvider(lobbyData.id));
-    final locationsToShow = isExpanded
-        ? filteredLocations
-        : filteredLocations.take(2).toList();
+    final locationsToShow = isExpanded ? filteredLocations : filteredLocations.take(2).toList();
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8),
@@ -1331,18 +1171,10 @@ class _LobbyNoAuthCheckoutViewState
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    Icons.location_on_outlined,
-                    size: 18,
-                    color: DesignColors.accent,
-                  ),
+                  Icon(Icons.location_on_outlined, size: 18, color: DesignColors.accent),
                   SizedBox(width: 8),
                   Expanded(
-                    child: DesignText(
-                      text: location.fuzzyAddress,
-                      fontSize: 14,
-                      color: DesignColors.primaryFontDark,
-                    ),
+                    child: DesignText(text: location.fuzzyAddress, fontSize: 14, color: DesignColors.primaryFontDark),
                   ),
                 ],
               ),
@@ -1354,12 +1186,7 @@ class _LobbyNoAuthCheckoutViewState
             SizedBox(height: 8),
             GestureDetector(
               onTap: () {
-                ref
-                        .read(
-                          isLocationsExpandedProvider(lobbyData.id).notifier,
-                        )
-                        .state =
-                    !isExpanded;
+                ref.read(isLocationsExpandedProvider(lobbyData.id).notifier).state = !isExpanded;
               },
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
@@ -1378,9 +1205,7 @@ class _LobbyNoAuthCheckoutViewState
                     ),
                     SizedBox(width: 4),
                     Icon(
-                      isExpanded
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
+                      isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                       size: 16,
                       color: DesignColors.secondaryFontDark,
                     ),
@@ -1404,9 +1229,7 @@ class _LobbyNoAuthCheckoutViewState
         InfoCard(
           icon: Icons.policy_outlined,
           title: 'Refund Policy',
-          subtitle: (lobbyData.priceDetails.isRefundAllowed)
-              ? "Refund is available"
-              : "Refund is not available",
+          subtitle: (lobbyData.priceDetails.isRefundAllowed) ? "Refund is available" : "Refund is not available",
         ),
       );
     }
@@ -1414,11 +1237,7 @@ class _LobbyNoAuthCheckoutViewState
     // Add lobby size if available
     if (lobbyData.totalMembers != null) {
       infoCards.add(
-        InfoCard(
-          icon: Icons.people_outline,
-          title: 'Lobby Size',
-          subtitle: '${lobbyData.totalMembers} people',
-        ),
+        InfoCard(icon: Icons.people_outline, title: 'Lobby Size', subtitle: '${lobbyData.totalMembers} people'),
       );
     }
 
@@ -1437,22 +1256,14 @@ class _LobbyNoAuthCheckoutViewState
     // Add additional info cards as needed
 
     return infoCards.isEmpty
-        ? DesignText(
-            text: 'No additional information available',
-            fontSize: 14,
-            color: DesignColors.secondaryFontDark,
-          )
+        ? DesignText(text: 'No additional information available', fontSize: 14, color: DesignColors.secondaryFontDark)
         : ScrollableInfoCards(cards: infoCards);
   }
 
   // Helper method to build host information
   Widget _buildHostInfo(Lobby lobbyData) {
-    final hostName =
-        lobbyData.houseDetail?.name ?? lobbyData.adminSummary?.name ?? 'Host';
-    final hostImage =
-        lobbyData.houseDetail?.profilePhoto ??
-        lobbyData.adminSummary?.profilePictureUrl ??
-        '';
+    final hostName = lobbyData.houseDetail?.name ?? lobbyData.adminSummary?.name ?? 'Host';
+    final hostImage = lobbyData.houseDetail?.profilePhoto ?? lobbyData.adminSummary?.profilePictureUrl ?? '';
 
     return Container(
       padding: EdgeInsets.all(12),
@@ -1463,10 +1274,7 @@ class _LobbyNoAuthCheckoutViewState
           Container(
             width: 40,
             height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: DesignColors.primary.withOpacity(0.1),
-            ),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: DesignColors.primary.withOpacity(0.1)),
             child: hostImage.isNotEmpty
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -1476,10 +1284,7 @@ class _LobbyNoAuthCheckoutViewState
                       height: 40,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return Icon(
-                          Icons.person,
-                          color: DesignColors.secondary,
-                        );
+                        return Icon(Icons.person, color: DesignColors.secondary);
                       },
                     ),
                   )
@@ -1497,11 +1302,7 @@ class _LobbyNoAuthCheckoutViewState
                   fontWeight: FontWeight.w600,
                   color: DesignColors.primaryFontDark,
                 ),
-                DesignText(
-                  text: 'Host',
-                  fontSize: 14,
-                  color: DesignColors.secondaryFontDark,
-                ),
+                DesignText(text: 'Host', fontSize: 14, color: DesignColors.secondaryFontDark),
               ],
             ),
           ),
@@ -1528,12 +1329,7 @@ class _LobbyNoAuthCheckoutViewState
 
             return Column(
               children: [
-                if (index > 0)
-                  Divider(
-                    height: 16,
-                    thickness: 1,
-                    color: DesignColors.secondary,
-                  ),
+                if (index > 0) Divider(height: 16, thickness: 1, color: DesignColors.secondary),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -1541,24 +1337,15 @@ class _LobbyNoAuthCheckoutViewState
                     Container(
                       width: 48,
                       height: 48,
-                      decoration: BoxDecoration(
-                        color: DesignColors.secondary,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
+                      decoration: BoxDecoration(color: DesignColors.secondary, borderRadius: BorderRadius.circular(16)),
                       child: Center(
-                        child:
-                            filterInfo.iconUrl != null &&
-                                filterInfo.iconUrl!.isNotEmpty
+                        child: filterInfo.iconUrl != null && filterInfo.iconUrl!.isNotEmpty
                             ? DesignText(
                                 text: filterInfo.iconUrl ?? "",
                                 fontSize: 24,
                                 color: DesignColors.primaryFontDark,
                               )
-                            : Icon(
-                                Icons.info_outline,
-                                color: DesignColors.primaryFontDark,
-                                size: 16,
-                              ),
+                            : Icon(Icons.info_outline, color: DesignColors.primaryFontDark, size: 16),
                       ),
                     ),
                     SizedBox(width: 12),
@@ -1604,21 +1391,13 @@ class _LobbyNoAuthCheckoutViewState
         duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.white.withOpacity(0.05),
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
+          boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.05), blurRadius: 10, offset: Offset(0, 4))],
         ),
         child: Card(
           elevation: 2,
           color: DesignColors.bgDark,
           shadowColor: Colors.white24,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Padding(
             padding: EdgeInsets.all(24),
             child: Column(
@@ -1634,27 +1413,18 @@ class _LobbyNoAuthCheckoutViewState
                 SizedBox(height: 16),
 
                 // Lobby image if available
-                if (lobbyData.mediaUrls != null &&
-                    lobbyData.mediaUrls!.isNotEmpty)
+                if (lobbyData.mediaUrls != null && lobbyData.mediaUrls!.isNotEmpty)
                   LayoutBuilder(
                     builder: (context, constraints) {
                       double imageHeight = (constraints.maxWidth * 900) / 1430;
                       return ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: Get.height * 0.7,
-                        ),
+                        constraints: BoxConstraints(maxHeight: Get.height * 0.7),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
-                            (lobbyData.mediaUrls!.first.toLowerCase().contains(
-                                      '.png',
-                                    ) ||
-                                    lobbyData.mediaUrls!.first
-                                        .toLowerCase()
-                                        .contains('.jpeg') ||
-                                    lobbyData.mediaUrls!.first
-                                        .toLowerCase()
-                                        .contains('.jpg'))
+                            (lobbyData.mediaUrls!.first.toLowerCase().contains('.png') ||
+                                    lobbyData.mediaUrls!.first.toLowerCase().contains('.jpeg') ||
+                                    lobbyData.mediaUrls!.first.toLowerCase().contains('.jpg'))
                                 ? lobbyData.mediaUrls!.first
                                 : "https://images.weserv.nl/?url=${Uri.encodeComponent(lobbyData.mediaUrls!.first)}&w=640&h=640&fit=cover&output=webp&q=30&l=9&il&af=auto",
                             // height: imageHeight,
@@ -1662,51 +1432,37 @@ class _LobbyNoAuthCheckoutViewState
                             fit: BoxFit.fitHeight,
 
                             // This handles the actual rendering/painting of the image
-                            frameBuilder:
-                                (
-                                  context,
-                                  child,
-                                  frame,
-                                  wasSynchronouslyLoaded,
-                                ) {
-                                  if (wasSynchronouslyLoaded) {
-                                    // Image loaded synchronously (from cache)
-                                    return child;
-                                  }
+                            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                              if (wasSynchronouslyLoaded) {
+                                // Image loaded synchronously (from cache)
+                                return child;
+                              }
 
-                                  // Image is still being painted/rendered
-                                  if (frame == null) {
-                                    return Container(
-                                      height: imageHeight,
-                                      width: double.infinity,
-                                      color: DesignColors.secondaryDark,
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            CircularProgressIndicator(
-                                              color: DesignColors.accent,
-                                              strokeWidth: 3,
-                                            ),
-                                            SizedBox(height: 8),
-                                            Text(
-                                              'Loading...',
-                                              style: TextStyle(
-                                                color: DesignColors
-                                                    .secondaryFontDark,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ],
+                              // Image is still being painted/rendered
+                              if (frame == null) {
+                                return Container(
+                                  height: imageHeight,
+                                  width: double.infinity,
+                                  color: DesignColors.secondaryDark,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CircularProgressIndicator(color: DesignColors.accent, strokeWidth: 3),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          'Loading...',
+                                          style: TextStyle(color: DesignColors.secondaryFontDark, fontSize: 12),
                                         ),
-                                      ),
-                                    );
-                                  }
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
 
-                                  // Image frame is ready, show it
-                                  return child;
-                                },
+                              // Image frame is ready, show it
+                              return child;
+                            },
 
                             // This handles network loading progress
                             loadingBuilder: (context, child, loadingProgress) {
@@ -1723,13 +1479,8 @@ class _LobbyNoAuthCheckoutViewState
                                 child: Center(
                                   child: CircularProgressIndicator(
                                     color: DesignColors.accent,
-                                    value:
-                                        loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress
-                                                  .expectedTotalBytes!
+                                    value: loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
                                         : null,
                                   ),
                                 ),
@@ -1737,9 +1488,7 @@ class _LobbyNoAuthCheckoutViewState
                             },
 
                             errorBuilder: (context, error, stackTrace) {
-                              kLogger.trace(
-                                "Failed to load image: $error \n $stackTrace",
-                              );
+                              kLogger.trace("Failed to load image: $error \n $stackTrace");
                               return Container(
                                 height: imageHeight,
                                 width: double.infinity,
@@ -1768,9 +1517,7 @@ class _LobbyNoAuthCheckoutViewState
                   color: DesignColors.primaryFontDark,
                 ),
                 RichTextDisplay(
-                  controller: TextEditingController(
-                    text: lobbyData.description,
-                  ),
+                  controller: TextEditingController(text: lobbyData.description),
                   hintText: '',
                   fontColor: DesignColors.primaryFontDark,
                   // lobbyId: lobbyData.id,
@@ -1827,29 +1574,13 @@ class _LobbyNoAuthCheckoutViewState
       physics: NeverScrollableScrollPhysics(),
       children: [
         // Total members
-        _buildDetailItem(
-          'Total Members',
-          '${lobbyData.totalMembers ?? 0}',
-          Icons.group,
-        ),
+        _buildDetailItem('Total Members', '${lobbyData.totalMembers ?? 0}', Icons.group),
         // Current members
-        _buildDetailItem(
-          'Current Members',
-          '${lobbyData.currentMembers ?? 0}',
-          Icons.person,
-        ),
+        _buildDetailItem('Current Members', '${lobbyData.currentMembers ?? 0}', Icons.person),
         // Members required
-        _buildDetailItem(
-          'Members Required',
-          '${lobbyData.membersRequired ?? 0}',
-          Icons.person_add,
-        ),
+        _buildDetailItem('Members Required', '${lobbyData.membersRequired ?? 0}', Icons.person_add),
         // Lobby type
-        _buildDetailItem(
-          'Lobby Type',
-          lobbyData.lobbyType ?? 'Unknown',
-          Icons.category,
-        ),
+        _buildDetailItem('Lobby Type', lobbyData.lobbyType ?? 'Unknown', Icons.category),
       ],
     );
   }
@@ -1867,17 +1598,8 @@ class _LobbyNoAuthCheckoutViewState
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                DesignText(
-                  text: label,
-                  fontSize: 12,
-                  color: DesignColors.secondary,
-                ),
-                DesignText(
-                  text: value,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: DesignColors.primary,
-                ),
+                DesignText(text: label, fontSize: 12, color: DesignColors.secondary),
+                DesignText(text: value, fontSize: 14, fontWeight: FontWeight.bold, color: DesignColors.primary),
               ],
             ),
           ),
@@ -1885,6 +1607,7 @@ class _LobbyNoAuthCheckoutViewState
       ),
     );
   }
+
   Map<String, String> _getRestrictionText(LobbyRestriction? restriction) {
     if (restriction == null) {
       return {'title': 'Restricted Event', 'subtitle': ''};
@@ -1937,6 +1660,7 @@ class _LobbyNoAuthCheckoutViewState
 
     return {'title': finalTitle, 'subtitle': finalSubtitle};
   }
+
   void _validateCoupon(String lobbyId) {
     kLogger.trace("validating coupon");
     // Hide keyboard
@@ -1954,10 +1678,7 @@ class _LobbyNoAuthCheckoutViewState
   }
 
   // Build the checkout form
-  Widget _buildCheckoutForm(
-    BuildContext context,
-    Lobby lobbyData,
-  ) {
+  Widget _buildCheckoutForm(BuildContext context, Lobby lobbyData) {
     final deviceType = DesignUtils.getDeviceType(context);
     final isDesktop = deviceType == DeviceScreenType.desktop;
     final padding = isDesktop ? EdgeInsets.all(24) : EdgeInsets.all(16);
@@ -1972,28 +1693,18 @@ class _LobbyNoAuthCheckoutViewState
 
     final pricingState = ref.watch(pricingProvider(widget.lobbyId));
 
-    final slotPrice =
-        pricingState.pricingData?.currentPricePerSlot ??
-        lobbyData.priceDetails?.price ??
-        0.0;
+    final slotPrice = pricingState.pricingData?.currentPricePerSlot ?? lobbyData.priceDetails?.price ?? 0.0;
 
     // Check if lobby is active or upcoming
-    final bool isLobbyAvailable =
-        lobbyData.lobbyStatus == "ACTIVE" ||
-        lobbyData.lobbyStatus == "UPCOMING";
+    final bool isLobbyAvailable = lobbyData.lobbyStatus == "ACTIVE" || lobbyData.lobbyStatus == "UPCOMING";
     final selectedOffer = ref.watch(selectedOfferProvider);
     final double totalPrice = (!lobbyData.isAdvancedPricing)
-        ? calculateTotalPrice(
-            pricingData: pricingState.pricingData,
-            selectedOffer: selectedOffer,
-          )
+        ? calculateTotalPrice(pricingData: pricingState.pricingData, selectedOffer: selectedOffer)
         // ? slotPrice * slotCount
         : (currentLobbyTickets.isNotEmpty)
         ? currentLobbyTickets.fold<double>(0, (sum, ticket) {
             // Find matching ticket option by ID
-            final ticketOption = lobbyData.ticketOptions.firstWhere(
-              (option) => option.id == ticket.ticketId,
-            );
+            final ticketOption = lobbyData.ticketOptions.firstWhere((option) => option.id == ticket.ticketId);
 
             // Calculate price for this ticket
             final price = ticketOption?.price ?? 0;
@@ -2010,12 +1721,10 @@ class _LobbyNoAuthCheckoutViewState
 
     // Synchronize coupon state with selectedOfferProvider
     // If coupon validation was successful, update the selected offer
-    if (couponState.validatedOffer != null &&
-        selectedOffer?.offerId != couponState.validatedOffer?.offerId) {
+    if (couponState.validatedOffer != null && selectedOffer?.offerId != couponState.validatedOffer?.offerId) {
       // Use microtask to avoid build phase state updates
       Future.microtask(() {
-        ref.read(selectedOfferProvider.notifier).state =
-            couponState.validatedOffer;
+        ref.read(selectedOfferProvider.notifier).state = couponState.validatedOffer;
       });
     }
 
@@ -2026,21 +1735,13 @@ class _LobbyNoAuthCheckoutViewState
         duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.white.withOpacity(0.05),
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
+          boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.05), blurRadius: 10, offset: Offset(0, 4))],
         ),
         child: Card(
           elevation: 0,
           color: DesignColors.bgDark,
           shadowColor: Colors.white24,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Padding(
             padding: EdgeInsets.all(24),
             child: isLobbyAvailable
@@ -2066,25 +1767,16 @@ class _LobbyNoAuthCheckoutViewState
                               if (lobbyData.priceDetails.originalPrice <= 0)
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 8,
-                                    horizontal: 16,
-                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                                   decoration: BoxDecoration(
                                     color: Color(0xFF52D17C).withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(24),
-                                    border: Border.all(
-                                      color: Color(0xFF52D17C).withOpacity(0.5),
-                                    ),
+                                    border: Border.all(color: Color(0xFF52D17C).withOpacity(0.5)),
                                   ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(
-                                        Icons.money_off,
-                                        size: 18,
-                                        color: Color(0xFF52D17C),
-                                      ),
+                                      Icon(Icons.money_off, size: 18, color: Color(0xFF52D17C)),
                                       SizedBox(width: 8),
                                       DesignText(
                                         text: "Free",
@@ -2106,16 +1798,9 @@ class _LobbyNoAuthCheckoutViewState
                               color: DesignColors.bgDark,
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
-                                BoxShadow(
-                                  color: Colors.white.withOpacity(0.05),
-                                  blurRadius: 15,
-                                  offset: Offset(0, 5),
-                                ),
+                                BoxShadow(color: Colors.white.withOpacity(0.05), blurRadius: 15, offset: Offset(0, 5)),
                               ],
-                              border: Border.all(
-                                color: DesignColors.secondary,
-                                width: 1,
-                              ),
+                              border: Border.all(color: DesignColors.secondary, width: 1),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -2123,11 +1808,7 @@ class _LobbyNoAuthCheckoutViewState
                                 // Section Title
                                 Row(
                                   children: [
-                                    Icon(
-                                      Icons.person_pin_circle_outlined,
-                                      color: DesignColors.accent,
-                                      size: 24,
-                                    ),
+                                    Icon(Icons.person_pin_circle_outlined, color: DesignColors.accent, size: 24),
                                     SizedBox(width: 12),
                                     DesignText(
                                       text: 'Personal Information',
@@ -2143,8 +1824,7 @@ class _LobbyNoAuthCheckoutViewState
                                 StatefulBuilder(
                                   builder: (context, setState) {
                                     return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         DesignText(
                                           text: 'Full Name',
@@ -2153,33 +1833,21 @@ class _LobbyNoAuthCheckoutViewState
                                         ),
                                         SizedBox(height: 8),
                                         Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              16,
-                                            ),
-                                          ),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
                                           child: DesignTextField(
                                             controller: _nameController,
                                             hintText: 'Enter your full name',
                                             borderRadius: 16,
-                                            fillColor:
-                                                DesignColors.secondaryDark,
+                                            fillColor: DesignColors.secondaryDark,
                                             hasBorder: false,
-                                            fontColor:
-                                                DesignColors.primaryFontDark,
-                                            prefixIcon: Icon(
-                                              Icons.person_outline,
-                                              color: DesignColors.secondary,
-                                            ),
+                                            fontColor: DesignColors.primaryFontDark,
+                                            prefixIcon: Icon(Icons.person_outline, color: DesignColors.secondary),
                                             onChanged: (value) {},
                                             onEditingComplete: () {
-                                              if (_nameController
-                                                  .text
-                                                  .isEmpty) {
+                                              if (_nameController.text.isEmpty) {
                                                 CustomSnackBar.show(
                                                   context: context,
-                                                  message:
-                                                      'Please enter your name',
+                                                  message: 'Please enter your name',
                                                   type: SnackBarType.warning,
                                                 );
                                               }
@@ -2197,8 +1865,7 @@ class _LobbyNoAuthCheckoutViewState
                                 StatefulBuilder(
                                   builder: (context, setState) {
                                     return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         DesignText(
                                           text: 'Email Address',
@@ -2207,37 +1874,23 @@ class _LobbyNoAuthCheckoutViewState
                                         ),
                                         SizedBox(height: 8),
                                         Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              16,
-                                            ),
-                                          ),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
                                           child: DesignTextField(
                                             controller: _emailController,
-                                            hintText:
-                                                'Enter your email address',
-                                            inputType:
-                                                TextInputType.emailAddress,
-                                            fillColor:
-                                                DesignColors.secondaryDark,
+                                            hintText: 'Enter your email address',
+                                            inputType: TextInputType.emailAddress,
+                                            fillColor: DesignColors.secondaryDark,
                                             hasBorder: false,
-                                            fontColor:
-                                                DesignColors.primaryFontDark,
+                                            fontColor: DesignColors.primaryFontDark,
                                             borderRadius: 16,
-                                            prefixIcon: Icon(
-                                              Icons.email_outlined,
-                                              color: DesignColors.secondary,
-                                            ),
+                                            prefixIcon: Icon(Icons.email_outlined, color: DesignColors.secondary),
                                             onEditingComplete: () {
                                               if (!RegExp(
                                                 r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                                              ).hasMatch(
-                                                _emailController.text,
-                                              )) {
+                                              ).hasMatch(_emailController.text)) {
                                                 CustomSnackBar.show(
                                                   context: context,
-                                                  message:
-                                                      'Please enter a valid email address',
+                                                  message: 'Please enter a valid email address',
                                                   type: SnackBarType.warning,
                                                 );
                                                 return;
@@ -2255,8 +1908,7 @@ class _LobbyNoAuthCheckoutViewState
                                 StatefulBuilder(
                                   builder: (context, setState) {
                                     return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         DesignText(
                                           text: 'Mobile Number',
@@ -2265,196 +1917,102 @@ class _LobbyNoAuthCheckoutViewState
                                         ),
                                         SizedBox(height: 8),
                                         Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              16,
-                                            ),
-                                          ),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
                                           child: DesignTextField(
                                             controller: _mobileController,
-                                            hintText:
-                                                'Enter your 10-digit mobile number',
+                                            hintText: 'Enter your 10-digit mobile number',
                                             inputType: TextInputType.number,
-                                            fillColor:
-                                                DesignColors.secondaryDark,
+                                            fillColor: DesignColors.secondaryDark,
                                             hasBorder: false,
-                                            fontColor:
-                                                DesignColors.primaryFontDark,
+                                            fontColor: DesignColors.primaryFontDark,
                                             borderRadius: 16,
-                                            prefixIcon: Icon(
-                                              Icons.phone_outlined,
-                                              color: DesignColors.secondary,
-                                            ),
+                                            prefixIcon: Icon(Icons.phone_outlined, color: DesignColors.secondary),
                                             onEditingComplete: () {
-                                              String value =
-                                                  _mobileController.text;
-                                              if (value == null ||
-                                                  value.isEmpty) {
+                                              String value = _mobileController.text;
+                                              if (value == null || value.isEmpty) {
                                                 CustomSnackBar.show(
                                                   context: context,
-                                                  message:
-                                                      'Please enter your mobile number',
+                                                  message: 'Please enter your mobile number',
                                                   type: SnackBarType.warning,
                                                 );
                                                 return;
                                               }
 
-                                              if (!RegExp(
-                                                r'^\d+$',
-                                              ).hasMatch(value)) {
+                                              if (!RegExp(r'^\d+$').hasMatch(value)) {
                                                 CustomSnackBar.show(
                                                   context: context,
-                                                  message:
-                                                      'Please enter numbers only',
+                                                  message: 'Please enter numbers only',
                                                   type: SnackBarType.warning,
                                                 );
 
-                                                _mobileController.text = value
-                                                    .substring(
-                                                      0,
-                                                      value.length - 1,
-                                                    );
-                                                _mobileController.selection =
-                                                    TextSelection.fromPosition(
-                                                      TextPosition(
-                                                        offset:
-                                                            _mobileController
-                                                                .text
-                                                                .length,
-                                                      ),
-                                                    );
+                                                _mobileController.text = value.substring(0, value.length - 1);
+                                                _mobileController.selection = TextSelection.fromPosition(
+                                                  TextPosition(offset: _mobileController.text.length),
+                                                );
                                                 return;
                                               }
 
-                                              if (_mobileController
-                                                      .text
-                                                      .length >
-                                                  10) {
-                                                _mobileController.text = value
-                                                    .substring(
-                                                      0,
-                                                      value.length - 1,
-                                                    );
-                                                _mobileController.selection =
-                                                    TextSelection.fromPosition(
-                                                      TextPosition(
-                                                        offset:
-                                                            _mobileController
-                                                                .text
-                                                                .length,
-                                                      ),
-                                                    );
+                                              if (_mobileController.text.length > 10) {
+                                                _mobileController.text = value.substring(0, value.length - 1);
+                                                _mobileController.selection = TextSelection.fromPosition(
+                                                  TextPosition(offset: _mobileController.text.length),
+                                                );
                                                 CustomSnackBar.show(
                                                   context: context,
-                                                  message:
-                                                      'Please enter a valid 10-digit mobile number',
+                                                  message: 'Please enter a valid 10-digit mobile number',
                                                   type: SnackBarType.warning,
                                                 );
                                                 return;
                                               }
 
-                                              if (value != null &&
-                                                  value.isNotEmpty) {
-                                                if (!RegExp(
-                                                  r'^[0-9]*$',
-                                                ).hasMatch(value)) {
-                                                  _mobileController.text = value
-                                                      .replaceAll(
-                                                        RegExp(r'[^0-9]'),
-                                                        '',
-                                                      );
-                                                  _mobileController.selection =
-                                                      TextSelection.fromPosition(
-                                                        TextPosition(
-                                                          offset:
-                                                              _mobileController
-                                                                  .text
-                                                                  .length,
-                                                        ),
-                                                      );
+                                              if (value != null && value.isNotEmpty) {
+                                                if (!RegExp(r'^[0-9]*$').hasMatch(value)) {
+                                                  _mobileController.text = value.replaceAll(RegExp(r'[^0-9]'), '');
+                                                  _mobileController.selection = TextSelection.fromPosition(
+                                                    TextPosition(offset: _mobileController.text.length),
+                                                  );
                                                 }
                                               }
                                             },
                                             onChanged: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
+                                              if (value == null || value.isEmpty) {
                                                 return;
                                               }
 
-                                              if (!RegExp(
-                                                r'^\d+$',
-                                              ).hasMatch(value)) {
+                                              if (!RegExp(r'^\d+$').hasMatch(value)) {
                                                 CustomSnackBar.show(
                                                   context: context,
-                                                  message:
-                                                      'Please enter numbers only',
+                                                  message: 'Please enter numbers only',
                                                   type: SnackBarType.warning,
                                                 );
 
-                                                _mobileController.text = value
-                                                    .substring(
-                                                      0,
-                                                      value.length - 1,
-                                                    );
-                                                _mobileController.selection =
-                                                    TextSelection.fromPosition(
-                                                      TextPosition(
-                                                        offset:
-                                                            _mobileController
-                                                                .text
-                                                                .length,
-                                                      ),
-                                                    );
+                                                _mobileController.text = value.substring(0, value.length - 1);
+                                                _mobileController.selection = TextSelection.fromPosition(
+                                                  TextPosition(offset: _mobileController.text.length),
+                                                );
 
                                                 return;
                                               }
 
-                                              if (_mobileController
-                                                      .text
-                                                      .length >
-                                                  10) {
-                                                _mobileController.text = value
-                                                    .substring(
-                                                      0,
-                                                      value.length - 1,
-                                                    );
-                                                _mobileController.selection =
-                                                    TextSelection.fromPosition(
-                                                      TextPosition(
-                                                        offset:
-                                                            _mobileController
-                                                                .text
-                                                                .length,
-                                                      ),
-                                                    );
+                                              if (_mobileController.text.length > 10) {
+                                                _mobileController.text = value.substring(0, value.length - 1);
+                                                _mobileController.selection = TextSelection.fromPosition(
+                                                  TextPosition(offset: _mobileController.text.length),
+                                                );
                                                 CustomSnackBar.show(
                                                   context: context,
-                                                  message:
-                                                      'Please enter a valid 10-digit mobile number',
+                                                  message: 'Please enter a valid 10-digit mobile number',
                                                   type: SnackBarType.warning,
                                                 );
                                                 return;
                                               }
 
-                                              if (value != null &&
-                                                  value.isNotEmpty) {
-                                                if (!RegExp(
-                                                  r'^[0-9]*$',
-                                                ).hasMatch(value)) {
-                                                  _mobileController.text = value
-                                                      .replaceAll(
-                                                        RegExp(r'[^0-9]'),
-                                                        '',
-                                                      );
-                                                  _mobileController.selection =
-                                                      TextSelection.fromPosition(
-                                                        TextPosition(
-                                                          offset:
-                                                              _mobileController
-                                                                  .text
-                                                                  .length,
-                                                        ),
-                                                      );
+                                              if (value != null && value.isNotEmpty) {
+                                                if (!RegExp(r'^[0-9]*$').hasMatch(value)) {
+                                                  _mobileController.text = value.replaceAll(RegExp(r'[^0-9]'), '');
+                                                  _mobileController.selection = TextSelection.fromPosition(
+                                                    TextPosition(offset: _mobileController.text.length),
+                                                  );
                                                 }
                                               }
                                             },
@@ -2470,24 +2028,16 @@ class _LobbyNoAuthCheckoutViewState
                           SizedBox(height: 24),
 
                           // Slot counter
-                          if (!lobbyData.isAdvancedPricing &&
-                              lobbyData.priceDetails.originalPrice > 0)
+                          if (!lobbyData.isAdvancedPricing && lobbyData.priceDetails.originalPrice > 0)
                             AnimatedContainer(
                               duration: Duration(milliseconds: 300),
                               padding: EdgeInsets.all(20),
                               decoration: BoxDecoration(
                                 color: DesignColors.bgDark,
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: DesignColors.secondary,
-                                  width: 1,
-                                ),
+                                border: Border.all(color: DesignColors.secondary, width: 1),
                                 boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.white.withOpacity(0.03),
-                                    blurRadius: 8,
-                                    offset: Offset(0, 2),
-                                  ),
+                                  BoxShadow(color: Colors.white.withOpacity(0.03), blurRadius: 8, offset: Offset(0, 2)),
                                 ],
                               ),
                               child: Column(
@@ -2517,55 +2067,26 @@ class _LobbyNoAuthCheckoutViewState
                                                   barrierDismissible: false,
                                                   builder: (BuildContext context) {
                                                     return AlertDialog(
-                                                      backgroundColor:
-                                                          Colors.transparent,
+                                                      backgroundColor: Colors.transparent,
                                                       content: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
-                                                          CircularProgressIndicator(
-                                                            color: DesignColors
-                                                                .accent,
-                                                          ),
+                                                          CircularProgressIndicator(color: DesignColors.accent),
                                                         ],
                                                       ),
                                                     );
                                                   },
                                                 );
                                                 await ref
-                                                    .read(
-                                                      pricingProvider(
-                                                        lobbyData.id,
-                                                      ).notifier,
-                                                    )
-                                                    .updateGroupSize(
-                                                      lobbyData.id,
-                                                      slotCount - 1,
-                                                    );
-                                                ref
-                                                    .read(
-                                                      quickCheckoutCounterProvider
-                                                          .notifier,
-                                                    )
-                                                    .decrement();
-                                                ref
-                                                        .read(
-                                                          selectedOfferProvider
-                                                              .notifier,
-                                                        )
-                                                        .state =
-                                                    null;
+                                                    .read(pricingProvider(lobbyData.id).notifier)
+                                                    .updateGroupSize(lobbyData.id, slotCount - 1);
+                                                ref.read(quickCheckoutCounterProvider.notifier).decrement();
+                                                ref.read(selectedOfferProvider.notifier).state = null;
                                                 if (formList.isNotEmpty) {
                                                   formList.removeLast();
                                                 }
-                                                Navigator.of(
-                                                  context,
-                                                  rootNavigator: true,
-                                                ).pop();
+                                                Navigator.of(context, rootNavigator: true).pop();
                                               },
                                               onHover: (hover) {
                                                 setState(() {
@@ -2575,27 +2096,16 @@ class _LobbyNoAuthCheckoutViewState
                                               child: AnimatedContainer(
                                                 height: 40,
                                                 width: 40,
-                                                duration: Duration(
-                                                  milliseconds: 150,
-                                                ),
+                                                duration: Duration(milliseconds: 150),
                                                 padding: EdgeInsets.all(8),
                                                 decoration: BoxDecoration(
                                                   color: isHovered
-                                                      ? DesignColors.primary
-                                                            .withOpacity(0.05)
-                                                      : DesignColors
-                                                            .secondaryDark,
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  border: Border.all(
-                                                    color:
-                                                        DesignColors.secondary,
-                                                  ),
+                                                      ? DesignColors.primary.withOpacity(0.05)
+                                                      : DesignColors.secondaryDark,
+                                                  borderRadius: BorderRadius.circular(8),
+                                                  border: Border.all(color: DesignColors.secondary),
                                                 ),
-                                                child: Icon(
-                                                  Icons.remove,
-                                                  color: DesignColors.accent,
-                                                ),
+                                                child: Icon(Icons.remove, color: DesignColors.accent),
                                               ),
                                             );
                                           },
@@ -2606,32 +2116,23 @@ class _LobbyNoAuthCheckoutViewState
                                         padding: const EdgeInsets.all(8.0),
                                         child: AnimatedContainer(
                                           duration: Duration(milliseconds: 200),
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 24,
-                                            vertical: 8,
-                                          ),
+                                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                                           decoration: BoxDecoration(
                                             color: DesignColors.secondaryDark,
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: AnimatedDefaultTextStyle(
-                                            duration: Duration(
-                                              milliseconds: 200,
-                                            ),
+                                            duration: Duration(milliseconds: 200),
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
-                                              color:
-                                                  DesignColors.primaryFontDark,
+                                              color: DesignColors.primaryFontDark,
                                             ),
                                             child: DesignText(
                                               text: '$slotCount',
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
-                                              color:
-                                                  DesignColors.primaryFontDark,
+                                              color: DesignColors.primaryFontDark,
                                             ),
                                           ),
                                         ),
@@ -2644,18 +2145,11 @@ class _LobbyNoAuthCheckoutViewState
                                             bool isHovered = false;
                                             return InkWell(
                                               onTap: () async {
-                                                if (pricingState
-                                                            .pricingData
-                                                            ?.remainingSlots !=
-                                                        null &&
-                                                    slotCount + 1 >
-                                                        pricingState
-                                                            .pricingData!
-                                                            .remainingSlots!) {
+                                                if (pricingState.pricingData?.remainingSlots != null &&
+                                                    slotCount + 1 > pricingState.pricingData!.remainingSlots!) {
                                                   CustomSnackBar.show(
                                                     context: context,
-                                                    message:
-                                                        'No more slots available',
+                                                    message: 'No more slots available',
                                                     type: SnackBarType.warning,
                                                   );
                                                   return;
@@ -2665,55 +2159,27 @@ class _LobbyNoAuthCheckoutViewState
                                                   barrierDismissible: false,
                                                   builder: (BuildContext context) {
                                                     return AlertDialog(
-                                                      backgroundColor:
-                                                          Colors.transparent,
+                                                      backgroundColor: Colors.transparent,
                                                       content: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
-                                                          CircularProgressIndicator(
-                                                            color: DesignColors
-                                                                .accent,
-                                                          ),
+                                                          CircularProgressIndicator(color: DesignColors.accent),
                                                         ],
                                                       ),
                                                     );
                                                   },
                                                 );
-                                                final PricingResponse?
-                                                cachedPricingData =
-                                                    pricingState.pricingData;
+                                                final PricingResponse? cachedPricingData = pricingState.pricingData;
                                                 await ref
-                                                    .read(
-                                                      pricingProvider(
-                                                        lobbyData.id,
-                                                      ).notifier,
-                                                    )
-                                                    .updateGroupSize(
-                                                      lobbyData.id,
-                                                      slotCount + 1,
-                                                    );
+                                                    .read(pricingProvider(lobbyData.id).notifier)
+                                                    .updateGroupSize(lobbyData.id, slotCount + 1);
                                                 kLogger.info(
                                                   "${ref.read(pricingProvider(lobbyData.id)).pricingData?.toJson()}",
                                                 );
-                                                if (ref
-                                                            .read(
-                                                              pricingProvider(
-                                                                lobbyData.id,
-                                                              ),
-                                                            )
-                                                            .pricingData ==
-                                                        null ||
+                                                if (ref.read(pricingProvider(lobbyData.id)).pricingData == null ||
                                                     ref
-                                                            .read(
-                                                              pricingProvider(
-                                                                lobbyData.id,
-                                                              ),
-                                                            )
+                                                            .read(pricingProvider(lobbyData.id))
                                                             .pricingData
                                                             ?.status
                                                             ?.toLowerCase() !=
@@ -2721,86 +2187,35 @@ class _LobbyNoAuthCheckoutViewState
                                                   CustomSnackBar.show(
                                                     context: context,
                                                     message:
-                                                        ref
-                                                            .read(
-                                                              pricingProvider(
-                                                                lobbyData.id,
-                                                              ),
-                                                            )
-                                                            .pricingData
-                                                            ?.message ??
+                                                        ref.read(pricingProvider(lobbyData.id)).pricingData?.message ??
                                                         'Failed to increase slots',
                                                     type: SnackBarType.error,
                                                   );
-                                                  if (cachedPricingData !=
-                                                      null) {
+                                                  if (cachedPricingData != null) {
                                                     ref
-                                                        .read(
-                                                          pricingProvider(
-                                                            lobbyData.id,
-                                                          ).notifier,
-                                                        )
-                                                        .updatePricingDataInState(
-                                                          cachedPricingData!,
-                                                        );
+                                                        .read(pricingProvider(lobbyData.id).notifier)
+                                                        .updatePricingDataInState(cachedPricingData!);
                                                   }
 
-                                                  Navigator.of(
-                                                    context,
-                                                    rootNavigator: true,
-                                                  ).pop();
+                                                  Navigator.of(context, rootNavigator: true).pop();
                                                   return;
                                                 }
-                                                ref
-                                                    .read(
-                                                      quickCheckoutCounterProvider
-                                                          .notifier,
-                                                    )
-                                                    .increment();
-                                                ref
-                                                        .read(
-                                                          selectedOfferProvider
-                                                              .notifier,
-                                                        )
-                                                        .state =
-                                                    null;
+                                                ref.read(quickCheckoutCounterProvider.notifier).increment();
+                                                ref.read(selectedOfferProvider.notifier).state = null;
                                                 if (formModel != null) {
-                                                  if (ref
-                                                      .read(formsListProvider)
-                                                      .isEmpty) {
-                                                    ref
-                                                        .read(
-                                                          formsListProvider
-                                                              .notifier,
-                                                        )
-                                                        .addForm(formModel!);
+                                                  if (ref.read(formsListProvider).isEmpty) {
+                                                    ref.read(formsListProvider.notifier).addForm(formModel!);
                                                   } else {
-                                                    final clearedForm =
-                                                        formModel!.copyWith(
-                                                          questions: formModel!
-                                                              .questions
-                                                              .map(
-                                                                (q) =>
-                                                                    q.copyWith(
-                                                                      answer:
-                                                                          '',
-                                                                    ),
-                                                              )
-                                                              .toList(),
-                                                        );
+                                                    final clearedForm = formModel!.copyWith(
+                                                      questions: formModel!.questions
+                                                          .map((q) => q.copyWith(answer: ''))
+                                                          .toList(),
+                                                    );
 
-                                                    ref
-                                                        .read(
-                                                          formsListProvider
-                                                              .notifier,
-                                                        )
-                                                        .addForm(clearedForm);
+                                                    ref.read(formsListProvider.notifier).addForm(clearedForm);
                                                   }
                                                 }
-                                                Navigator.of(
-                                                  context,
-                                                  rootNavigator: true,
-                                                ).pop();
+                                                Navigator.of(context, rootNavigator: true).pop();
                                               },
                                               onHover: (hover) {
                                                 setState(() {
@@ -2810,28 +2225,16 @@ class _LobbyNoAuthCheckoutViewState
                                               child: AnimatedContainer(
                                                 height: 40,
                                                 width: 40,
-                                                duration: Duration(
-                                                  milliseconds: 150,
-                                                ),
+                                                duration: Duration(milliseconds: 150),
                                                 padding: EdgeInsets.all(8),
                                                 decoration: BoxDecoration(
                                                   color: isHovered
-                                                      ? DesignColors.primary
-                                                            .withOpacity(0.05)
-                                                      : DesignColors
-                                                            .secondaryDark,
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  border: Border.all(
-                                                    color:
-                                                        DesignColors.secondary,
-                                                  ),
+                                                      ? DesignColors.primary.withOpacity(0.05)
+                                                      : DesignColors.secondaryDark,
+                                                  borderRadius: BorderRadius.circular(8),
+                                                  border: Border.all(color: DesignColors.secondary),
                                                 ),
-                                                child: Icon(
-                                                  Icons.add,
-                                                  size: 20,
-                                                  color: DesignColors.accent,
-                                                ),
+                                                child: Icon(Icons.add, size: 20, color: DesignColors.accent),
                                               ),
                                             );
                                           },
@@ -2848,57 +2251,34 @@ class _LobbyNoAuthCheckoutViewState
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: lobbyData.ticketOptions.length,
                               itemBuilder: (context, index) {
-                                final ticketOption =
-                                    lobbyData.ticketOptions[index];
-                                final isSelected = currentLobbyTickets.any(
+                                final ticketOption = lobbyData.ticketOptions[index];
+                                final isSelected = currentLobbyTickets.any((t) => t.ticketId == ticketOption.id);
+                                final selectedTicket = currentLobbyTickets.firstWhere(
                                   (t) => t.ticketId == ticketOption.id,
+                                  orElse: () => SelectedTicket(ticketId: '', name: '', slots: 0),
                                 );
-                                final selectedTicket = currentLobbyTickets
-                                    .firstWhere(
-                                      (t) => t.ticketId == ticketOption.id,
-                                      orElse: () => SelectedTicket(
-                                        ticketId: '',
-                                        name: '',
-                                        slots: 0,
-                                      ),
-                                    );
                                 final hasActivity =
                                     (ticketOption.activity.isNotEmpty &&
-                                    ticketOption.activity!.toUpperCase() !=
-                                        'LOW' &&
-                                    (ticketOption.activity!.toUpperCase() ==
-                                            'HIGH' ||
-                                        ticketOption.activity!.toUpperCase() ==
-                                            'MID' ||
-                                        ticketOption.activity!.toUpperCase() ==
-                                            'FULL'));
+                                    ticketOption.activity!.toUpperCase() != 'LOW' &&
+                                    (ticketOption.activity!.toUpperCase() == 'HIGH' ||
+                                        ticketOption.activity!.toUpperCase() == 'MID' ||
+                                        ticketOption.activity!.toUpperCase() == 'FULL'));
 
                                 return DisabledCardWrapper(
                                   isDisabled: ticketOption.isDisabled,
                                   margin: EdgeInsets.only(
-                                    bottom:
-                                        (index ==
-                                            lobbyData.ticketOptions.length - 1)
-                                        ? 0
-                                        : 12,
+                                    bottom: (index == lobbyData.ticketOptions.length - 1) ? 0 : 12,
                                   ),
                                   child: Container(
                                     // padding: EdgeInsets.all(16),
                                     margin: EdgeInsets.only(
-                                      bottom:
-                                          (index ==
-                                              lobbyData.ticketOptions.length -
-                                                  1)
-                                          ? 0
-                                          : 12,
+                                      bottom: (index == lobbyData.ticketOptions.length - 1) ? 0 : 12,
                                     ),
                                     decoration: BoxDecoration(
                                       color: DesignColors.secondaryDark,
                                       borderRadius: BorderRadius.circular(12),
                                       border: Border.all(
-                                        color: isSelected
-                                            ? DesignColors.accent
-                                            : DesignColors.secondary,
+                                        color: isSelected ? DesignColors.accent : DesignColors.secondary,
                                         width: isSelected ? 2 : 1,
                                       ),
                                     ),
@@ -2906,425 +2286,217 @@ class _LobbyNoAuthCheckoutViewState
                                       children: [
                                         if (hasActivity)
                                           Container(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 6,
-                                            ),
+                                            padding: EdgeInsets.symmetric(vertical: 6),
 
                                             decoration: BoxDecoration(
-                                              color:
-                                                  ticketOption.activity!
-                                                          .toUpperCase() ==
-                                                      'HIGH'
+                                              color: ticketOption.activity!.toUpperCase() == 'HIGH'
                                                   ? Colors.orange
-                                                  : ticketOption.activity!
-                                                            .toUpperCase() ==
-                                                        'MID'
+                                                  : ticketOption.activity!.toUpperCase() == 'MID'
                                                   ? Colors.green
-                                                  : ticketOption.activity!
-                                                            .toUpperCase() ==
-                                                        'FULL'
+                                                  : ticketOption.activity!.toUpperCase() == 'FULL'
                                                   ? Colors.deepOrangeAccent
                                                   : DesignColors.secondary,
-                                              borderRadius:
-                                                  BorderRadius.vertical(
-                                                    top: Radius.circular(12),
-                                                  ),
+                                              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
                                             ),
                                             child: Center(
                                               child: DesignText(
-                                                text:
-                                                    ticketOption.activity!
-                                                            .toUpperCase() ==
-                                                        'HIGH'
+                                                text: ticketOption.activity!.toUpperCase() == 'HIGH'
                                                     ? 'Almost Full'
-                                                    : ticketOption.activity!
-                                                              .toUpperCase() ==
-                                                          'MID'
+                                                    : ticketOption.activity!.toUpperCase() == 'MID'
                                                     ? 'Fast Filling'
-                                                    : ticketOption.activity!
-                                                              .toUpperCase() ==
-                                                          'FULL'
+                                                    : ticketOption.activity!.toUpperCase() == 'FULL'
                                                     ? 'Sold Out'
                                                     : ticketOption.activity!,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w700,
-                                                color:
-                                                    ticketOption.activity!
-                                                            .toUpperCase() ==
-                                                        'HIGH'
+                                                color: ticketOption.activity!.toUpperCase() == 'HIGH'
                                                     ? Colors.orange.shade50
-                                                    : ticketOption.activity!
-                                                              .toUpperCase() ==
-                                                          'MID'
+                                                    : ticketOption.activity!.toUpperCase() == 'MID'
                                                     ? Colors.green.shade50
-                                                    : ticketOption.activity!
-                                                              .toUpperCase() ==
-                                                          'FULL'
-                                                    ? Colors
-                                                          .deepOrangeAccent[50]
-                                                    : DesignColors
-                                                          .secondaryFontDark,
+                                                    : ticketOption.activity!.toUpperCase() == 'FULL'
+                                                    ? Colors.deepOrangeAccent[50]
+                                                    : DesignColors.secondaryFontDark,
                                               ),
                                             ),
                                           ),
                                         Padding(
                                           padding: hasActivity
-                                              ? EdgeInsetsGeometry.fromLTRB(
-                                                  16,
-                                                  8,
-                                                  16,
-                                                  16,
-                                                )
+                                              ? EdgeInsetsGeometry.fromLTRB(16, 8, 16, 16)
                                               : const EdgeInsets.all(16),
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               DesignText(
                                                 text: ticketOption.name,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600,
-                                                color: DesignColors
-                                                    .primaryFontDark,
+                                                color: DesignColors.primaryFontDark,
                                                 maxLines: 2,
                                               ),
                                               Space.h(height: 12),
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   DesignText(
-                                                    text:
-                                                        '₹${ticketOption.price.toStringAsFixed(2)}',
+                                                    text: '₹${ticketOption.price.toStringAsFixed(2)}',
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w600,
-                                                    color: DesignColors
-                                                        .primaryFontDark,
+                                                    color: DesignColors.primaryFontDark,
                                                   ),
-                                                  if (!lobbyData
-                                                          .allowMultiplePricingOptions &&
-                                                      !isSelected)
+                                                  if (!lobbyData.allowMultiplePricingOptions && !isSelected)
                                                     DesignButton(
                                                       onPress: () async {
                                                         ref
-                                                            .read(
-                                                              selectedTicketsProvider
-                                                                  .notifier,
-                                                            )
+                                                            .read(selectedTicketsProvider.notifier)
                                                             .addTicket(
-                                                              lobbyId: widget
-                                                                  .lobbyId,
-                                                              isMultiplePricing:
-                                                                  lobbyData
-                                                                      .allowMultiplePricingOptions,
-                                                              ticketOption:
-                                                                  ticketOption,
+                                                              lobbyId: widget.lobbyId,
+                                                              isMultiplePricing: lobbyData.allowMultiplePricingOptions,
+                                                              ticketOption: ticketOption,
                                                               slots: 1,
                                                             );
-                                                        _couponController
-                                                            .clear();
-                                                        ref
-                                                            .read(
-                                                              couponProvider
-                                                                  .notifier,
-                                                            )
-                                                            .clearCoupon();
-                                                        ref
-                                                                .read(
-                                                                  selectedOfferProvider
-                                                                      .notifier,
-                                                                )
-                                                                .state =
-                                                            null;
+                                                        _couponController.clear();
+                                                        ref.read(couponProvider.notifier).clearCoupon();
+                                                        ref.read(selectedOfferProvider.notifier).state = null;
 
                                                         final currentLobbyTickets =
-                                                            ref.watch(
-                                                              selectedTicketsProvider,
-                                                            )[widget.lobbyId] ??
-                                                            [];
+                                                            ref.watch(selectedTicketsProvider)[widget.lobbyId] ?? [];
                                                         await ref
-                                                            .read(
-                                                              formStateProvider(
-                                                                widget.lobbyId,
-                                                              ).notifier,
-                                                            )
+                                                            .read(formStateProvider(widget.lobbyId).notifier)
                                                             .loadFormData(
-                                                              currentLobbyTickets
-                                                                  .map(
-                                                                    (e) => e
-                                                                        .ticketId,
-                                                                  )
-                                                                  .toList(),
+                                                              currentLobbyTickets.map((e) => e.ticketId).toList(),
                                                               isPublic: true,
                                                             );
-                                                        final formState = ref
-                                                            .watch(
-                                                              formStateProvider(
-                                                                widget.lobbyId,
-                                                              ),
-                                                            );
-                                                        ref
-                                                            .read(
-                                                              formsListProvider
-                                                                  .notifier,
-                                                            )
-                                                            .resetFormsList();
+                                                        final formState = ref.watch(formStateProvider(widget.lobbyId));
+                                                        ref.read(formsListProvider.notifier).resetFormsList();
                                                         formModel = formState;
 
                                                         if (formState != null) {
-                                                          if (ref
-                                                              .read(
-                                                                formsListProvider,
-                                                              )
-                                                              .isEmpty) {
-                                                            ref
-                                                                .read(
-                                                                  formsListProvider
-                                                                      .notifier,
-                                                                )
-                                                                .addForm(
-                                                                  formState!,
-                                                                );
+                                                          if (ref.read(formsListProvider).isEmpty) {
+                                                            ref.read(formsListProvider.notifier).addForm(formState!);
                                                           }
                                                         }
-                                                        if (_nameController
-                                                                .text
-                                                                .isNotEmpty ||
-                                                            _emailController
-                                                                .text
-                                                                .isNotEmpty ||
-                                                            _mobileController
-                                                                .text
-                                                                .isNotEmpty) {
+                                                        if (_nameController.text.isNotEmpty ||
+                                                            _emailController.text.isNotEmpty ||
+                                                            _mobileController.text.isNotEmpty) {
                                                           _updateFormFromControllers();
                                                         }
                                                       },
                                                       title: "ADD",
                                                       titleSize: 12,
-                                                      titleColor:
-                                                          DesignColors.white,
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                            horizontal: 16,
-                                                            vertical: 8,
-                                                          ),
+                                                      titleColor: DesignColors.white,
+                                                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                                       shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              6,
-                                                            ),
+                                                        borderRadius: BorderRadius.circular(6),
                                                       ),
                                                     )
                                                   else
                                                     Container(
-                                                      padding: EdgeInsets.all(
-                                                        6,
-                                                      ),
+                                                      padding: EdgeInsets.all(6),
                                                       constraints: BoxConstraints(
-                                                        maxWidth:
-                                                            lobbyData
-                                                                .allowMultiplePricingOptions
-                                                            ? 96
-                                                            : 80,
+                                                        maxWidth: lobbyData.allowMultiplePricingOptions ? 96 : 80,
                                                       ),
                                                       decoration: BoxDecoration(
-                                                        color:
-                                                            DesignColors.accent,
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                              Radius.circular(
-                                                                6,
-                                                              ),
-                                                            ),
+                                                        color: DesignColors.accent,
+                                                        borderRadius: BorderRadius.all(Radius.circular(6)),
                                                       ),
                                                       child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
+                                                        mainAxisSize: MainAxisSize.min,
                                                         children: [
-                                                          if (lobbyData
-                                                                  .allowMultiplePricingOptions ||
-                                                              (isSelected &&
-                                                                  selectedTicket
-                                                                          .slots >
-                                                                      0))
+                                                          if (lobbyData.allowMultiplePricingOptions ||
+                                                              (isSelected && selectedTicket.slots > 0))
                                                             Expanded(
                                                               child: InkWell(
                                                                 onTap: () async {
-                                                                  _couponController
-                                                                      .clear();
-                                                                  ref
-                                                                      .read(
-                                                                        couponProvider
-                                                                            .notifier,
-                                                                      )
-                                                                      .clearCoupon();
-                                                                  ref
-                                                                          .read(
-                                                                            selectedOfferProvider.notifier,
-                                                                          )
-                                                                          .state =
-                                                                      null;
-                                                                  if (selectedTicket
-                                                                          .slots >
-                                                                      0) {
-                                                                    final newSlots =
-                                                                        selectedTicket
-                                                                            .slots -
-                                                                        1;
-                                                                    if (newSlots ==
-                                                                        0) {
+                                                                  _couponController.clear();
+                                                                  ref.read(couponProvider.notifier).clearCoupon();
+                                                                  ref.read(selectedOfferProvider.notifier).state = null;
+                                                                  if (selectedTicket.slots > 0) {
+                                                                    final newSlots = selectedTicket.slots - 1;
+                                                                    if (newSlots == 0) {
                                                                       ref
-                                                                          .read(
-                                                                            selectedTicketsProvider.notifier,
-                                                                          )
+                                                                          .read(selectedTicketsProvider.notifier)
                                                                           .removeTicket(
-                                                                            lobbyId:
-                                                                                widget.lobbyId,
-                                                                            ticketId:
-                                                                                ticketOption.id,
+                                                                            lobbyId: widget.lobbyId,
+                                                                            ticketId: ticketOption.id,
                                                                           );
                                                                       final currentLobbyTickets =
                                                                           ref.watch(
                                                                             selectedTicketsProvider,
-                                                                          )[widget
-                                                                              .lobbyId] ??
+                                                                          )[widget.lobbyId] ??
                                                                           [];
                                                                       await ref
                                                                           .read(
-                                                                            formStateProvider(
-                                                                              widget.lobbyId,
-                                                                            ).notifier,
+                                                                            formStateProvider(widget.lobbyId).notifier,
                                                                           )
                                                                           .loadFormData(
                                                                             currentLobbyTickets
-                                                                                .map(
-                                                                                  (
-                                                                                    e,
-                                                                                  ) => e.ticketId,
-                                                                                )
+                                                                                .map((e) => e.ticketId)
                                                                                 .toList(),
-                                                                            isPublic:
-                                                                                true,
+                                                                            isPublic: true,
                                                                           );
                                                                       final formState = ref.watch(
-                                                                        formStateProvider(
-                                                                          widget
-                                                                              .lobbyId,
-                                                                        ),
+                                                                        formStateProvider(widget.lobbyId),
                                                                       );
                                                                       ref
-                                                                          .read(
-                                                                            formsListProvider.notifier,
-                                                                          )
+                                                                          .read(formsListProvider.notifier)
                                                                           .resetFormsList();
-                                                                      formModel =
-                                                                          formState;
+                                                                      formModel = formState;
 
-                                                                      if (formState !=
-                                                                          null) {
-                                                                        if (ref
-                                                                            .read(
-                                                                              formsListProvider,
-                                                                            )
-                                                                            .isEmpty) {
+                                                                      if (formState != null) {
+                                                                        if (ref.read(formsListProvider).isEmpty) {
                                                                           ref
-                                                                              .read(
-                                                                                formsListProvider.notifier,
-                                                                              )
-                                                                              .addForm(
-                                                                                formState!,
-                                                                              );
+                                                                              .read(formsListProvider.notifier)
+                                                                              .addForm(formState!);
                                                                         }
                                                                       }
-                                                                      if (_nameController
-                                                                              .text
-                                                                              .isNotEmpty ||
-                                                                          _emailController
-                                                                              .text
-                                                                              .isNotEmpty ||
-                                                                          _mobileController
-                                                                              .text
-                                                                              .isNotEmpty) {
+                                                                      if (_nameController.text.isNotEmpty ||
+                                                                          _emailController.text.isNotEmpty ||
+                                                                          _mobileController.text.isNotEmpty) {
                                                                         _updateFormFromControllers();
                                                                       }
                                                                     } else {
                                                                       ref
-                                                                          .read(
-                                                                            selectedTicketsProvider.notifier,
-                                                                          )
+                                                                          .read(selectedTicketsProvider.notifier)
                                                                           .addTicket(
-                                                                            lobbyId:
-                                                                                widget.lobbyId,
+                                                                            lobbyId: widget.lobbyId,
                                                                             isMultiplePricing:
                                                                                 lobbyData.allowMultiplePricingOptions,
-                                                                            ticketOption:
-                                                                                ticketOption,
-                                                                            slots:
-                                                                                newSlots,
+                                                                            ticketOption: ticketOption,
+                                                                            slots: newSlots,
                                                                           );
                                                                       final currentLobbyTickets =
                                                                           ref.watch(
                                                                             selectedTicketsProvider,
-                                                                          )[widget
-                                                                              .lobbyId] ??
+                                                                          )[widget.lobbyId] ??
                                                                           [];
                                                                       await ref
                                                                           .read(
-                                                                            formStateProvider(
-                                                                              widget.lobbyId,
-                                                                            ).notifier,
+                                                                            formStateProvider(widget.lobbyId).notifier,
                                                                           )
                                                                           .loadFormData(
                                                                             currentLobbyTickets
-                                                                                .map(
-                                                                                  (
-                                                                                    e,
-                                                                                  ) => e.ticketId,
-                                                                                )
+                                                                                .map((e) => e.ticketId)
                                                                                 .toList(),
-                                                                            isPublic:
-                                                                                true,
+                                                                            isPublic: true,
                                                                           );
                                                                       final formState = ref.watch(
-                                                                        formStateProvider(
-                                                                          widget
-                                                                              .lobbyId,
-                                                                        ),
+                                                                        formStateProvider(widget.lobbyId),
                                                                       );
                                                                       ref
-                                                                          .read(
-                                                                            formsListProvider.notifier,
-                                                                          )
+                                                                          .read(formsListProvider.notifier)
                                                                           .resetFormsList();
-                                                                      formModel =
-                                                                          formState;
+                                                                      formModel = formState;
 
-                                                                      if (formState !=
-                                                                          null) {
-                                                                        if (ref
-                                                                            .read(
-                                                                              formsListProvider,
-                                                                            )
-                                                                            .isEmpty) {
+                                                                      if (formState != null) {
+                                                                        if (ref.read(formsListProvider).isEmpty) {
                                                                           ref
-                                                                              .read(
-                                                                                formsListProvider.notifier,
-                                                                              )
-                                                                              .addForm(
-                                                                                formState!,
-                                                                              );
+                                                                              .read(formsListProvider.notifier)
+                                                                              .addForm(formState!);
                                                                         }
                                                                       }
-                                                                      if (_nameController
-                                                                              .text
-                                                                              .isNotEmpty ||
-                                                                          _emailController
-                                                                              .text
-                                                                              .isNotEmpty ||
-                                                                          _mobileController
-                                                                              .text
-                                                                              .isNotEmpty) {
+                                                                      if (_nameController.text.isNotEmpty ||
+                                                                          _emailController.text.isNotEmpty ||
+                                                                          _mobileController.text.isNotEmpty) {
                                                                         _updateFormFromControllers();
                                                                       }
                                                                     }
@@ -3333,167 +2505,88 @@ class _LobbyNoAuthCheckoutViewState
                                                                 child: Icon(
                                                                   Icons.remove,
                                                                   size: 16,
-                                                                  color: Colors
-                                                                      .white,
+                                                                  color: Colors.white,
                                                                 ),
                                                               ),
                                                             ),
-                                                          if (lobbyData
-                                                                  .allowMultiplePricingOptions ||
-                                                              (isSelected &&
-                                                                  selectedTicket
-                                                                          .slots >
-                                                                      0))
+                                                          if (lobbyData.allowMultiplePricingOptions ||
+                                                              (isSelected && selectedTicket.slots > 0))
                                                             Space.w(width: 12),
                                                           Expanded(
                                                             child: DesignText(
                                                               text:
-                                                                  !lobbyData
-                                                                          .allowMultiplePricingOptions &&
-                                                                      selectedTicket
-                                                                              .slots ==
-                                                                          0
+                                                                  !lobbyData.allowMultiplePricingOptions &&
+                                                                      selectedTicket.slots == 0
                                                                   ? "ADD"
-                                                                  : selectedTicket
-                                                                        .slots
-                                                                        .toString(),
+                                                                  : selectedTicket.slots.toString(),
                                                               fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color:
-                                                                  Colors.white,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.white,
+                                                              textAlign: TextAlign.center,
                                                             ),
                                                           ),
                                                           // if ( (selectedTicket.slots > 0))
                                                           Space.w(width: 12),
-                                                          if ((selectedTicket
-                                                                  .slots <
-                                                              ticketOption
-                                                                  .maxQuantity))
+                                                          if ((selectedTicket.slots < ticketOption.maxQuantity))
                                                             Expanded(
                                                               child: InkWell(
                                                                 onTap: () async {
-                                                                  print(
-                                                                    "object",
-                                                                  );
-                                                                  final currentSlots =
-                                                                      selectedTicket
-                                                                          .slots;
-                                                                  final maxSlots =
-                                                                      ticketOption
-                                                                          .maxQuantity;
-                                                                  final newSlots =
-                                                                      currentSlots +
-                                                                      1;
-                                                                  _couponController
-                                                                      .clear();
-                                                                  ref
-                                                                      .read(
-                                                                        couponProvider
-                                                                            .notifier,
-                                                                      )
-                                                                      .clearCoupon();
-                                                                  ref
-                                                                          .read(
-                                                                            selectedOfferProvider.notifier,
-                                                                          )
-                                                                          .state =
-                                                                      null;
-                                                                  if (newSlots <=
-                                                                      maxSlots) {
+                                                                  print("object");
+                                                                  final currentSlots = selectedTicket.slots;
+                                                                  final maxSlots = ticketOption.maxQuantity;
+                                                                  final newSlots = currentSlots + 1;
+                                                                  _couponController.clear();
+                                                                  ref.read(couponProvider.notifier).clearCoupon();
+                                                                  ref.read(selectedOfferProvider.notifier).state = null;
+                                                                  if (newSlots <= maxSlots) {
                                                                     ref
-                                                                        .read(
-                                                                          selectedTicketsProvider
-                                                                              .notifier,
-                                                                        )
+                                                                        .read(selectedTicketsProvider.notifier)
                                                                         .addTicket(
-                                                                          lobbyId:
-                                                                              widget.lobbyId,
+                                                                          lobbyId: widget.lobbyId,
                                                                           isMultiplePricing:
                                                                               lobbyData.allowMultiplePricingOptions,
-                                                                          ticketOption:
-                                                                              ticketOption,
-                                                                          slots:
-                                                                              newSlots,
+                                                                          ticketOption: ticketOption,
+                                                                          slots: newSlots,
                                                                         );
                                                                     final currentLobbyTickets =
                                                                         ref.watch(
                                                                           selectedTicketsProvider,
-                                                                        )[widget
-                                                                            .lobbyId] ??
+                                                                        )[widget.lobbyId] ??
                                                                         [];
                                                                     await ref
                                                                         .read(
-                                                                          formStateProvider(
-                                                                            widget.lobbyId,
-                                                                          ).notifier,
+                                                                          formStateProvider(widget.lobbyId).notifier,
                                                                         )
                                                                         .loadFormData(
                                                                           currentLobbyTickets
-                                                                              .map(
-                                                                                (
-                                                                                  e,
-                                                                                ) => e.ticketId,
-                                                                              )
+                                                                              .map((e) => e.ticketId)
                                                                               .toList(),
-                                                                          isPublic:
-                                                                              true,
+                                                                          isPublic: true,
                                                                         );
                                                                     final formState = ref.watch(
-                                                                      formStateProvider(
-                                                                        widget
-                                                                            .lobbyId,
-                                                                      ),
+                                                                      formStateProvider(widget.lobbyId),
                                                                     );
                                                                     ref
-                                                                        .read(
-                                                                          formsListProvider
-                                                                              .notifier,
-                                                                        )
+                                                                        .read(formsListProvider.notifier)
                                                                         .resetFormsList();
-                                                                    formModel =
-                                                                        formState;
+                                                                    formModel = formState;
 
-                                                                    if (formState !=
-                                                                        null) {
-                                                                      if (ref
-                                                                          .read(
-                                                                            formsListProvider,
-                                                                          )
-                                                                          .isEmpty) {
+                                                                    if (formState != null) {
+                                                                      if (ref.read(formsListProvider).isEmpty) {
                                                                         ref
-                                                                            .read(
-                                                                              formsListProvider.notifier,
-                                                                            )
-                                                                            .addForm(
-                                                                              formState!,
-                                                                            );
+                                                                            .read(formsListProvider.notifier)
+                                                                            .addForm(formState!);
                                                                       }
                                                                     }
-                                                                    if (_nameController
-                                                                            .text
-                                                                            .isNotEmpty ||
-                                                                        _emailController
-                                                                            .text
-                                                                            .isNotEmpty ||
-                                                                        _mobileController
-                                                                            .text
-                                                                            .isNotEmpty) {
+                                                                    if (_nameController.text.isNotEmpty ||
+                                                                        _emailController.text.isNotEmpty ||
+                                                                        _mobileController.text.isNotEmpty) {
                                                                       _updateFormFromControllers();
                                                                     }
                                                                   }
                                                                 },
 
-                                                                child: Icon(
-                                                                  Icons.add,
-                                                                  size: 16,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
+                                                                child: Icon(Icons.add, size: 16, color: Colors.white),
                                                               ),
                                                             ),
                                                         ],
@@ -3502,41 +2595,28 @@ class _LobbyNoAuthCheckoutViewState
                                                 ],
                                               ),
                                               //  Space(height: 4),
-                                              Divider(
-                                                color: DesignColors.secondary,
-                                              ),
+                                              Divider(color: DesignColors.secondary),
                                               //  Space(height: 4),
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Expanded(
                                                     child: DesignText(
-                                                      text: ticketOption
-                                                          .description,
+                                                      text: ticketOption.description,
                                                       fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: DesignColors
-                                                          .secondaryFontDark,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: DesignColors.secondaryFontDark,
                                                       maxLines: null,
-                                                      overflow:
-                                                          TextOverflow.visible,
+                                                      overflow: TextOverflow.visible,
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.only(
-                                                      left: 8,
-                                                    ),
+                                                    padding: EdgeInsets.only(left: 8),
                                                     child: DesignText(
-                                                      text:
-                                                          "Max: ${ticketOption.maxQuantity}",
+                                                      text: "Max: ${ticketOption.maxQuantity}",
                                                       fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color:
-                                                          DesignColors.accent,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: DesignColors.accent,
                                                     ),
                                                   ),
                                                 ],
@@ -3566,11 +2646,7 @@ class _LobbyNoAuthCheckoutViewState
                             if (slotCount > 0)
                               ...List.generate(slotCount, (index) {
                                 if (index == 0) {
-                                  return formCard(
-                                    tileText: "Your form response",
-                                    formIndex: 0,
-                                    lobbyId: lobbyData.id,
-                                  );
+                                  return formCard(tileText: "Your form response", formIndex: 0, lobbyId: lobbyData.id);
                                 }
                                 return formCard(
                                   tileText: "Form for slot ${index + 1}",
@@ -3602,58 +2678,35 @@ class _LobbyNoAuthCheckoutViewState
                                   : GestureDetector(
                                       onTap: () async {
                                         // If field is empty, don't validate
-                                        if (_couponController.text
-                                            .trim()
-                                            .isEmpty) {
+                                        if (_couponController.text.trim().isEmpty) {
                                           return;
                                         }
 
                                         // If already validated, clear the coupon
-                                        if (couponState.validatedOffer !=
-                                            null) {
+                                        if (couponState.validatedOffer != null) {
                                           _couponController.clear();
-                                          ref
-                                              .read(couponProvider.notifier)
-                                              .clearCoupon();
-                                          ref
-                                                  .read(
-                                                    selectedOfferProvider
-                                                        .notifier,
-                                                  )
-                                                  .state =
-                                              null;
+                                          ref.read(couponProvider.notifier).clearCoupon();
+                                          ref.read(selectedOfferProvider.notifier).state = null;
                                         } else {
                                           await ref
-                                              .read(
-                                                pricingProvider(
-                                                  lobbyData.id,
-                                                ).notifier,
-                                              )
+                                              .read(pricingProvider(lobbyData.id).notifier)
                                               .fetchPricing(
                                                 lobbyData.id,
                                                 groupSize: slotCount,
-                                                selectedTickets:
-                                                    currentLobbyTickets,
+                                                selectedTickets: currentLobbyTickets,
                                                 isPublic: true,
                                               );
                                           _validateCoupon(lobbyData.id);
                                         }
                                       },
-                                      child:
-                                          ((couponState.validatedOffer ==
-                                                  null) &&
-                                              couponState.errorMessage == null)
+                                      child: ((couponState.validatedOffer == null) && couponState.errorMessage == null)
                                           ? Column(
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(
-                                                    right: 8,
-                                                  ),
+                                                  padding: EdgeInsets.only(right: 8),
                                                   child: DesignText(
                                                     text: 'Apply',
                                                     fontSize: 12,
@@ -3665,23 +2718,16 @@ class _LobbyNoAuthCheckoutViewState
                                               ],
                                             )
                                           : DesignIcon.icon(
-                                              icon:
-                                                  couponState.validatedOffer !=
-                                                      null
+                                              icon: couponState.validatedOffer != null
                                                   ? Icons
                                                         .done_outlined // Change to  icon for removal
-                                                  : couponState.errorMessage !=
-                                                        null
+                                                  : couponState.errorMessage != null
                                                   ? Icons
                                                         .error_outline_rounded // Show error icon for invalid codes
-                                                  : Icons
-                                                        .arrow_forward_ios_rounded, // Default arrow icon
-                                              color:
-                                                  couponState.validatedOffer !=
-                                                      null
+                                                  : Icons.arrow_forward_ios_rounded, // Default arrow icon
+                                              color: couponState.validatedOffer != null
                                                   ? Colors.green
-                                                  : couponState.errorMessage !=
-                                                        null
+                                                  : couponState.errorMessage != null
                                                   ? Colors.red
                                                   : const Color(0xFFEC4B5D),
                                               size: 16,
@@ -3692,26 +2738,17 @@ class _LobbyNoAuthCheckoutViewState
                               onChanged: (val) {
                                 // Update coupon code in provider for any change
                                 // _couponController.text = _couponController.text.toUpperCase();
-                                final upperVal =
-                                    val?.trim().toUpperCase() ?? '';
-                                ref.read(selectedOfferProvider.notifier).state =
-                                    null;
+                                final upperVal = val?.trim().toUpperCase() ?? '';
+                                ref.read(selectedOfferProvider.notifier).state = null;
                                 ref.read(couponProvider.notifier).clearCoupon();
                                 // ref.read(couponProvider.notifier).updateCouponCode(val ?? '');
-                                ref
-                                    .read(couponProvider.notifier)
-                                    .updateCouponCode(upperVal);
+                                ref.read(couponProvider.notifier).updateCouponCode(upperVal);
                               },
                               onEditingComplete: () async {
                                 if (_couponController.text.trim().isNotEmpty) {
-                                  ref
-                                          .read(selectedOfferProvider.notifier)
-                                          .state =
-                                      null;
+                                  ref.read(selectedOfferProvider.notifier).state = null;
                                   await ref
-                                      .read(
-                                        pricingProvider(lobbyData.id).notifier,
-                                      )
+                                      .read(pricingProvider(lobbyData.id).notifier)
                                       .fetchPricing(
                                         lobbyData.id,
                                         groupSize: slotCount,
@@ -3727,8 +2764,7 @@ class _LobbyNoAuthCheckoutViewState
                           SizedBox(height: 24),
 
                           // Price summary
-                          if ((!lobbyData.isAdvancedPricing ||
-                                  currentLobbyTickets.isNotEmpty) &&
+                          if ((!lobbyData.isAdvancedPricing || currentLobbyTickets.isNotEmpty) &&
                               lobbyData.priceDetails.originalPrice > 0)
                             AnimatedContainer(
                               duration: Duration(milliseconds: 300),
@@ -3736,121 +2772,73 @@ class _LobbyNoAuthCheckoutViewState
                               decoration: BoxDecoration(
                                 color: DesignColors.bgDark,
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: DesignColors.secondary,
-                                  width: 1,
-                                ),
+                                border: Border.all(color: DesignColors.secondary, width: 1),
                                 boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.white.withOpacity(0.03),
-                                    blurRadius: 8,
-                                    offset: Offset(0, 2),
-                                  ),
+                                  BoxShadow(color: Colors.white.withOpacity(0.03), blurRadius: 8, offset: Offset(0, 2)),
                                 ],
                               ),
                               child: Column(
                                 children: [
                                   if (!lobbyData.isAdvancedPricing) ...[
-                                    if (pricingState
-                                                .pricingData
-                                                ?.pricingModel ==
-                                            'TIERED_GROUP' &&
-                                        pricingState
-                                                .pricingData
-                                                ?.priceBreakdown !=
-                                            null &&
-                                        pricingState
-                                            .pricingData!
-                                            .priceBreakdown!
-                                            .isNotEmpty)
+                                    if (pricingState.pricingData?.pricingModel == 'TIERED_GROUP' &&
+                                        pricingState.pricingData?.priceBreakdown != null &&
+                                        pricingState.pricingData!.priceBreakdown!.isNotEmpty)
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           // Parse and display individual pricing tiers
-                                          ..._buildPricingTiers(
-                                            pricingState
-                                                .pricingData!
-                                                .priceBreakdown!,
-                                          ),
+                                          ..._buildPricingTiers(pricingState.pricingData!.priceBreakdown!),
                                           SizedBox(height: 16),
                                           if (selectedOffer != null) ...[
                                             Container(
-                                              margin: EdgeInsets.only(
-                                                bottom: 8,
-                                              ),
+                                              margin: EdgeInsets.only(bottom: 8),
                                               padding: EdgeInsets.all(16),
                                               decoration: BoxDecoration(
-                                                color:
-                                                    DesignColors.secondaryDark,
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                border: Border.all(
-                                                  color: DesignColors.secondary,
-                                                  width: 1,
-                                                ),
+                                                color: DesignColors.secondaryDark,
+                                                borderRadius: BorderRadius.circular(12),
+                                                border: Border.all(color: DesignColors.secondary, width: 1),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: Colors.white
-                                                        .withOpacity(0.02),
+                                                    color: Colors.white.withOpacity(0.02),
                                                     blurRadius: 4,
                                                     offset: Offset(0, 1),
                                                   ),
                                                 ],
                                               ),
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       DesignText(
                                                         text: "Discount",
                                                         fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: DesignColors
-                                                            .primaryFontDark,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: DesignColors.primaryFontDark,
                                                       ),
                                                       // Updated to format price with commas
                                                       DesignText(
                                                         text:
                                                             "Flat ${selectedOffer.discountValue} ${(selectedOffer.discountType == "PERCENTAGE") ? "%" : "Rs."} off",
                                                         fontSize: 13,
-                                                        color:
-                                                            Colors.green[600],
+                                                        color: Colors.green[600],
                                                       ),
                                                     ],
                                                   ),
                                                   Container(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                          horizontal: 12,
-                                                          vertical: 6,
-                                                        ),
+                                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                                     decoration: BoxDecoration(
-                                                      color: Colors.green
-                                                          .withOpacity(0.2),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            8,
-                                                          ),
-                                                      border: Border.all(
-                                                        color: Colors.green,
-                                                        width: 1.0,
-                                                      ),
+                                                      color: Colors.green.withOpacity(0.2),
+                                                      borderRadius: BorderRadius.circular(8),
+                                                      border: Border.all(color: Colors.green, width: 1.0),
                                                     ),
                                                     child: DesignText(
                                                       // Updated to format total with commas
                                                       text:
                                                           "-${_extractDiscountFromBreakdown(pricingState.pricingData!.priceBreakdown!)}",
                                                       fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                      fontWeight: FontWeight.bold,
                                                       color: Colors.green,
                                                     ),
                                                   ),
@@ -3859,10 +2847,7 @@ class _LobbyNoAuthCheckoutViewState
                                             ),
                                             SizedBox(height: 16),
                                           ],
-                                          Divider(
-                                            height: 1,
-                                            color: DesignColors.secondary,
-                                          ),
+                                          Divider(height: 1, color: DesignColors.secondary),
                                           SizedBox(height: 16),
                                           // Total section
                                           Container(
@@ -3870,72 +2855,48 @@ class _LobbyNoAuthCheckoutViewState
                                             decoration: BoxDecoration(
                                               gradient: LinearGradient(
                                                 colors: [
-                                                  DesignColors.accent
-                                                      .withOpacity(0.05),
-                                                  DesignColors.accent
-                                                      .withOpacity(0.02),
+                                                  DesignColors.accent.withOpacity(0.05),
+                                                  DesignColors.accent.withOpacity(0.02),
                                                 ],
                                                 begin: Alignment.topLeft,
                                                 end: Alignment.bottomRight,
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                color: DesignColors.secondary,
-                                                width: 1,
-                                              ),
+                                              borderRadius: BorderRadius.circular(12),
+                                              border: Border.all(color: DesignColors.secondary, width: 1),
                                             ),
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     DesignText(
                                                       text: 'Total Amount',
                                                       fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: DesignColors
-                                                          .primaryFontDark,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: DesignColors.primaryFontDark,
                                                     ),
                                                     DesignText(
-                                                      text:
-                                                          'Including all slots',
+                                                      text: 'Including all slots',
                                                       fontSize: 12,
-                                                      color: DesignColors
-                                                          .secondaryFontDark,
+                                                      color: DesignColors.secondaryFontDark,
                                                     ),
                                                   ],
                                                 ),
                                                 Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                    horizontal: 16,
-                                                    vertical: 8,
-                                                  ),
+                                                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                                   decoration: BoxDecoration(
-                                                    color: DesignColors.accent
-                                                        .withOpacity(0.1),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          20,
-                                                        ),
+                                                    color: DesignColors.accent.withOpacity(0.1),
+                                                    borderRadius: BorderRadius.circular(20),
                                                     border: Border.all(
-                                                      color: DesignColors.accent
-                                                          .withOpacity(0.2),
+                                                      color: DesignColors.accent.withOpacity(0.2),
                                                       width: 1,
                                                     ),
                                                   ),
                                                   child: DesignText(
-                                                    text:
-                                                        _extractTotalFromBreakdown(
-                                                          pricingState
-                                                              .pricingData!
-                                                              .priceBreakdown!,
-                                                        ),
+                                                    text: _extractTotalFromBreakdown(
+                                                      pricingState.pricingData!.priceBreakdown!,
+                                                    ),
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold,
                                                     color: DesignColors.accent,
@@ -3948,8 +2909,7 @@ class _LobbyNoAuthCheckoutViewState
                                       )
                                     else ...[
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           DesignText(
                                             text: 'Price per slot:',
@@ -3957,35 +2917,20 @@ class _LobbyNoAuthCheckoutViewState
                                             color: DesignColors.primaryFontDark,
                                           ),
                                           AnimatedContainer(
-                                            duration: Duration(
-                                              milliseconds: 300,
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 8,
-                                              vertical: 2,
-                                            ),
+                                            duration: Duration(milliseconds: 300),
+                                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                             decoration: BoxDecoration(
                                               color: DesignColors.secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
+                                              borderRadius: BorderRadius.circular(4),
                                             ),
                                             child: AnimatedDefaultTextStyle(
-                                              duration: Duration(
-                                                milliseconds: 300,
-                                              ),
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                color: DesignColors
-                                                    .primaryFontDark,
-                                              ),
+                                              duration: Duration(milliseconds: 300),
+                                              style: TextStyle(fontSize: 16, color: DesignColors.primaryFontDark),
                                               child: DesignText(
-                                                text: slotPrice > 0
-                                                    ? '₹$slotPrice'
-                                                    : 'Free',
+                                                text: slotPrice > 0 ? '₹$slotPrice' : 'Free',
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
-                                                color: DesignColors
-                                                    .primaryFontDark,
+                                                color: DesignColors.primaryFontDark,
                                               ),
                                             ),
                                           ),
@@ -3993,44 +2938,28 @@ class _LobbyNoAuthCheckoutViewState
                                       ),
                                       SizedBox(height: 8),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           DesignText(
                                             text: 'Number of slots:',
                                             fontSize: 16,
-                                            color:
-                                                DesignColors.secondaryFontDark,
+                                            color: DesignColors.secondaryFontDark,
                                           ),
                                           AnimatedContainer(
-                                            duration: Duration(
-                                              milliseconds: 300,
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 8,
-                                              vertical: 2,
-                                            ),
+                                            duration: Duration(milliseconds: 300),
+                                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                             decoration: BoxDecoration(
-                                              color: DesignColors.secondary
-                                                  .withOpacity(0.05),
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
+                                              color: DesignColors.secondary.withOpacity(0.05),
+                                              borderRadius: BorderRadius.circular(4),
                                             ),
                                             child: AnimatedDefaultTextStyle(
-                                              duration: Duration(
-                                                milliseconds: 300,
-                                              ),
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                color: DesignColors
-                                                    .primaryFontDark,
-                                              ),
+                                              duration: Duration(milliseconds: 300),
+                                              style: TextStyle(fontSize: 16, color: DesignColors.primaryFontDark),
                                               child: DesignText(
                                                 text: '$slotCount',
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
-                                                color: DesignColors
-                                                    .primaryFontDark,
+                                                color: DesignColors.primaryFontDark,
                                               ),
                                             ),
                                           ),
@@ -4039,38 +2968,23 @@ class _LobbyNoAuthCheckoutViewState
                                       if (selectedOffer != null) ...[
                                         SizedBox(height: 8),
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             DesignText(
                                               text: 'Discount:',
                                               fontSize: 16,
-                                              color:
-                                                  DesignColors.primaryFontDark,
+                                              color: DesignColors.primaryFontDark,
                                             ),
                                             AnimatedContainer(
-                                              duration: Duration(
-                                                milliseconds: 300,
-                                              ),
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal: 8,
-                                                vertical: 2,
-                                              ),
+                                              duration: Duration(milliseconds: 300),
+                                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                               decoration: BoxDecoration(
-                                                color: DesignColors.secondary
-                                                    .withOpacity(0.05),
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
+                                                color: DesignColors.secondary.withOpacity(0.05),
+                                                borderRadius: BorderRadius.circular(4),
                                               ),
                                               child: AnimatedDefaultTextStyle(
-                                                duration: Duration(
-                                                  milliseconds: 300,
-                                                ),
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: DesignColors
-                                                      .primaryFontDark,
-                                                ),
+                                                duration: Duration(milliseconds: 300),
+                                                style: TextStyle(fontSize: 16, color: DesignColors.primaryFontDark),
                                                 child: DesignText(
                                                   text:
                                                       '-₹${calculateDiscount(pricingData: pricingState.pricingData, selectedOffer: selectedOffer)}',
@@ -4087,8 +3001,7 @@ class _LobbyNoAuthCheckoutViewState
                                       Divider(color: DesignColors.secondary),
                                       SizedBox(height: 8),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           DesignText(
                                             text: 'Total:',
@@ -4098,32 +3011,21 @@ class _LobbyNoAuthCheckoutViewState
                                             color: DesignColors.primaryFontDark,
                                           ),
                                           AnimatedContainer(
-                                            duration: Duration(
-                                              milliseconds: 300,
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 4,
-                                            ),
+                                            duration: Duration(milliseconds: 300),
+                                            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                             decoration: BoxDecoration(
-                                              color: DesignColors.accent
-                                                  .withOpacity(0.1),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
+                                              color: DesignColors.accent.withOpacity(0.1),
+                                              borderRadius: BorderRadius.circular(8),
                                             ),
                                             child: AnimatedDefaultTextStyle(
-                                              duration: Duration(
-                                                milliseconds: 300,
-                                              ),
+                                              duration: Duration(milliseconds: 300),
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,
                                                 color: DesignColors.accent,
                                               ),
                                               child: DesignText(
-                                                text: totalPrice > 0
-                                                    ? '₹$totalPrice'
-                                                    : 'Free',
+                                                text: totalPrice > 0 ? '₹$totalPrice' : 'Free',
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
                                                 color: DesignColors.accent,
@@ -4133,95 +3035,64 @@ class _LobbyNoAuthCheckoutViewState
                                         ],
                                       ),
                                     ],
-                                  ] else if (currentLobbyTickets
-                                      .isNotEmpty) ...[
-                                    ...List.generate(currentLobbyTickets.length, (
-                                      index,
-                                    ) {
+                                  ] else if (currentLobbyTickets.isNotEmpty) ...[
+                                    ...List.generate(currentLobbyTickets.length, (index) {
                                       final ticket = currentLobbyTickets[index];
                                       final slots = ticket.slots ?? 1;
                                       final price = lobbyData.ticketOptions
-                                          .firstWhere(
-                                            (option) =>
-                                                option.id == ticket.ticketId,
-                                          )
+                                          .firstWhere((option) => option.id == ticket.ticketId)
                                           .price;
                                       final totalPrice = price * slots;
                                       return Container(
                                         margin: EdgeInsets.only(bottom: 8),
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 8,
-                                          horizontal: 12,
-                                        ),
+                                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                                         decoration: BoxDecoration(
                                           color: DesignColors.secondaryDark,
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                          border: Border.all(
-                                            color: DesignColors.secondary,
-                                            width: 1,
-                                          ),
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(color: DesignColors.secondary, width: 1),
                                         ),
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Expanded(
                                                   child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       DesignText(
                                                         text: ticket.name,
                                                         fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: DesignColors
-                                                            .primaryFontDark,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: DesignColors.primaryFontDark,
                                                       ),
                                                       Space.h(height: 2),
                                                       DesignText(
-                                                        text:
-                                                            '₹ ${price.toStringAsFixed(0)} each',
+                                                        text: '₹ ${price.toStringAsFixed(0)} each',
                                                         fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: DesignColors
-                                                            .secondaryFontDark,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: DesignColors.secondaryFontDark,
                                                       ),
                                                     ],
                                                   ),
                                                 ),
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
                                                   children: [
                                                     DesignText(
                                                       text: '× $slots',
                                                       fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: DesignColors
-                                                          .primaryFontDark,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: DesignColors.primaryFontDark,
                                                     ),
                                                     Space.h(height: 2),
                                                     DesignText(
-                                                      text:
-                                                          '₹ ${totalPrice.toStringAsFixed(0)}',
+                                                      text: '₹ ${totalPrice.toStringAsFixed(0)}',
                                                       fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: DesignColors
-                                                          .secondaryFontDark,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: DesignColors.secondaryFontDark,
                                                     ),
                                                   ],
                                                 ),
@@ -4234,37 +3105,23 @@ class _LobbyNoAuthCheckoutViewState
                                     if (selectedOffer != null) ...[
                                       SizedBox(height: 8),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           DesignText(
                                             text: 'Discount:',
                                             fontSize: 16,
-                                            color:
-                                                DesignColors.secondaryFontDark,
+                                            color: DesignColors.secondaryFontDark,
                                           ),
                                           AnimatedContainer(
-                                            duration: Duration(
-                                              milliseconds: 300,
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 8,
-                                              vertical: 2,
-                                            ),
+                                            duration: Duration(milliseconds: 300),
+                                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                             decoration: BoxDecoration(
                                               color: DesignColors.secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
+                                              borderRadius: BorderRadius.circular(4),
                                             ),
                                             child: AnimatedDefaultTextStyle(
-                                              duration: Duration(
-                                                milliseconds: 300,
-                                              ),
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                color: DesignColors
-                                                    .primaryFontDark,
-                                              ),
+                                              duration: Duration(milliseconds: 300),
+                                              style: TextStyle(fontSize: 16, color: DesignColors.primaryFontDark),
                                               child: DesignText(
                                                 text:
                                                     '-₹${calculateDiscount(pricingData: pricingState.pricingData, selectedOffer: selectedOffer)}',
@@ -4281,8 +3138,7 @@ class _LobbyNoAuthCheckoutViewState
                                     Divider(color: DesignColors.secondary),
                                     SizedBox(height: 8),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         DesignText(
                                           text: 'Total:',
@@ -4293,21 +3149,13 @@ class _LobbyNoAuthCheckoutViewState
                                         ),
                                         AnimatedContainer(
                                           duration: Duration(milliseconds: 300),
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                            vertical: 4,
-                                          ),
+                                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                           decoration: BoxDecoration(
-                                            color: DesignColors.accent
-                                                .withOpacity(0.1),
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
+                                            color: DesignColors.accent.withOpacity(0.1),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: AnimatedDefaultTextStyle(
-                                            duration: Duration(
-                                              milliseconds: 300,
-                                            ),
+                                            duration: Duration(milliseconds: 300),
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
@@ -4331,7 +3179,7 @@ class _LobbyNoAuthCheckoutViewState
                             ),
                           SizedBox(height: 24),
 
-                           if ((lobbyData.lobbyStatus == "ACTIVE") && (lobbyData.restriction != null)) ...[
+                          if ((lobbyData.lobbyStatus == "ACTIVE") && (lobbyData.restriction != null)) ...[
                             Builder(
                               builder: (context) {
                                 final restrictionText = _getRestrictionText(lobbyData.restriction);
@@ -4397,35 +3245,22 @@ class _LobbyNoAuthCheckoutViewState
                                       });
                                     },
                                     child: DesignButton(
-                                      onPress: () => _handleCheckout(
-                                        lobbyData,
-                                        pricingState.pricingData?.total ??
-                                            totalPrice,
-                                      ),
+                                      onPress: () =>
+                                          _handleCheckout(lobbyData, pricingState.pricingData?.total ?? totalPrice),
 
                                       title: _isProcessing
                                           ? 'Processing...'
-                                          : (totalPrice > 0
-                                                ? 'Proceed to Checkout'
-                                                : 'Save Your Spot'),
+                                          : (lobbyData.isPrivate)
+                                          ? 'Request Your Spot'
+                                          : (totalPrice > 0 ? 'Proceed to Checkout' : 'Save Your Spot'),
                                       isLoading: _isProcessing,
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 16,
-                                      ),
+                                      padding: EdgeInsets.symmetric(vertical: 16),
                                       bgColor:
                                           (slotCount > 0 &&
-                                              ref
-                                                      .watch(
-                                                        formsListProvider
-                                                            .notifier,
-                                                      )
-                                                      .validateAllForms() ==
-                                                  null)
+                                              ref.watch(formsListProvider.notifier).validateAllForms() == null)
                                           ? DesignColors.accent
                                           : const Color(0xFF989898),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                     ),
                                   );
                                 },
@@ -4436,11 +3271,7 @@ class _LobbyNoAuthCheckoutViewState
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              DesignIcon.icon(
-                                icon: Icons.info_outline_rounded,
-                                color: DesignColors.accent,
-                                size: 24,
-                              ),
+                              DesignIcon.icon(icon: Icons.info_outline_rounded, color: DesignColors.accent, size: 24),
                               SizedBox(width: 12),
                               Expanded(
                                 child: DesignText(
@@ -4549,9 +3380,7 @@ class _LobbyNoAuthCheckoutViewState
     double sw = MediaQuery.of(context).size.width;
     double sh = MediaQuery.of(context).size.height;
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    final lobbyDetailsAsync = ref.watch(
-      lobbyQuickCheckoutDetailsProvider(widget.lobbyId),
-    );
+    final lobbyDetailsAsync = ref.watch(lobbyQuickCheckoutDetailsProvider(widget.lobbyId));
 
     return lobbyDetailsAsync.when(
       data: (lobbyData) {
@@ -4560,9 +3389,7 @@ class _LobbyNoAuthCheckoutViewState
                 backgroundColor: DesignColors.bgDark,
                 appBar: AppBar(
                   leading: IconButton(
-                    style: IconButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                    ),
+                    style: IconButton.styleFrom(backgroundColor: Colors.transparent),
                     onPressed: () {
                       Get.back();
                     },
@@ -4578,19 +3405,9 @@ class _LobbyNoAuthCheckoutViewState
                 body: RefreshIndicator(
                   key: Key("nullDataStateRefreshIndicator"),
                   onRefresh: () async {
-                    ref
-                        .read(
-                          lobbyQuickCheckoutDetailsProvider(
-                            widget.lobbyId,
-                          ).notifier,
-                        )
-                        .reset();
+                    ref.read(lobbyQuickCheckoutDetailsProvider(widget.lobbyId).notifier).reset();
                     await ref
-                        .read(
-                          lobbyQuickCheckoutDetailsProvider(
-                            widget.lobbyId,
-                          ).notifier,
-                        )
+                        .read(lobbyQuickCheckoutDetailsProvider(widget.lobbyId).notifier)
                         .fetchLobbyQuickCheckoutDetails(widget.lobbyId);
                   },
                   child: SingleChildScrollView(
@@ -4624,17 +3441,10 @@ class _LobbyNoAuthCheckoutViewState
                         decoration: BoxDecoration(
                           color: DesignColors.bgDark,
                           boxShadow: [
-                            BoxShadow(
-                              color: Colors.white.withOpacity(0.05),
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            ),
+                            BoxShadow(color: Colors.white.withOpacity(0.05), blurRadius: 4, offset: Offset(0, 2)),
                           ],
                         ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isDesktop ? 32 : 16,
-                          vertical: 8,
-                        ),
+                        padding: EdgeInsets.symmetric(horizontal: isDesktop ? 32 : 16, vertical: 8),
                         child: Row(
                           children: [
                             // Back button
@@ -4643,9 +3453,7 @@ class _LobbyNoAuthCheckoutViewState
                                 backgroundColor: Colors.transparent,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
-                                  side: BorderSide(
-                                    color: DesignColors.secondary,
-                                  ),
+                                  side: BorderSide(color: DesignColors.secondary),
                                 ),
                               ),
                               onPressed: () {
@@ -4659,11 +3467,7 @@ class _LobbyNoAuthCheckoutViewState
                             ),
                             SizedBox(width: 16),
                             // Logo
-                            Image.asset(
-                              'assets/icons/aroundu.png',
-                              height: 32,
-                              fit: BoxFit.contain,
-                            ),
+                            Image.asset('assets/icons/aroundu.png', height: 32, fit: BoxFit.contain),
                             SizedBox(width: 12),
                             // App name
                             Text(
@@ -4682,25 +3486,16 @@ class _LobbyNoAuthCheckoutViewState
                               GestureDetector(
                                 onTap: () => Get.toNamed(AppRoutes.splash),
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 8,
-                                  ),
+                                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                   decoration: BoxDecoration(
                                     color: DesignColors.secondaryDark,
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      color: DesignColors.secondary,
-                                    ),
+                                    border: Border.all(color: DesignColors.secondary),
                                   ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(
-                                        Icons.person_outline,
-                                        size: 18,
-                                        color: DesignColors.primaryFontDark,
-                                      ),
+                                      Icon(Icons.person_outline, size: 18, color: DesignColors.primaryFontDark),
                                       SizedBox(width: 8),
                                       Text(
                                         'My Account',
@@ -4725,10 +3520,7 @@ class _LobbyNoAuthCheckoutViewState
                 floatingActionButton: (_showFab && Get.width < 600)
                     ? FloatingActionButton.extended(
                         onPressed: _scrollToContainer,
-                        extendedPadding: EdgeInsets.symmetric(
-                          vertical: 0,
-                          horizontal: 24,
-                        ),
+                        extendedPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 24),
                         backgroundColor: DesignColors.accent,
                         label: DesignText(
                           text: 'Join',
@@ -4736,10 +3528,7 @@ class _LobbyNoAuthCheckoutViewState
                           fontWeight: FontWeight.w600,
                           color: DesignColors.primaryFontDark,
                         ),
-                        icon: const Icon(
-                          Icons.emoji_people_outlined,
-                          color: DesignColors.primaryFontDark,
-                        ),
+                        icon: const Icon(Icons.emoji_people_outlined, color: DesignColors.primaryFontDark),
                       )
                     : null,
                 body: Builder(
@@ -4752,10 +3541,7 @@ class _LobbyNoAuthCheckoutViewState
                       color: DesignColors.bgDark,
                       child: isDesktop
                           ? _buildDesktopLayout(context, lobbyData.lobby)
-                          : _buildMobileLayout(
-                              context,
-                              lobbyData.lobby
-                            ),
+                          : _buildMobileLayout(context, lobbyData.lobby),
                     );
                   },
                 ),
@@ -4776,11 +3562,7 @@ class _LobbyNoAuthCheckoutViewState
               onPressed: () {
                 Get.back();
               },
-              icon: DesignIcon.icon(
-                icon: Icons.arrow_back_ios_sharp,
-                size: 18,
-                color: DesignColors.primaryFontDark,
-              ),
+              icon: DesignIcon.icon(icon: Icons.arrow_back_ios_sharp, size: 18, color: DesignColors.primaryFontDark),
             ),
             backgroundColor: Colors.transparent,
             scrolledUnderElevation: 0,
@@ -4788,15 +3570,9 @@ class _LobbyNoAuthCheckoutViewState
           body: RefreshIndicator(
             key: Key("errorStateRefreshIndicator"),
             onRefresh: () async {
-              ref
-                  .read(
-                    lobbyQuickCheckoutDetailsProvider(widget.lobbyId).notifier,
-                  )
-                  .reset();
+              ref.read(lobbyQuickCheckoutDetailsProvider(widget.lobbyId).notifier).reset();
               await ref
-                  .read(
-                    lobbyQuickCheckoutDetailsProvider(widget.lobbyId).notifier,
-                  )
+                  .read(lobbyQuickCheckoutDetailsProvider(widget.lobbyId).notifier)
                   .fetchLobbyQuickCheckoutDetails(widget.lobbyId);
             },
             child: SingleChildScrollView(
@@ -4815,30 +3591,12 @@ class _LobbyNoAuthCheckoutViewState
                     ),
                     Space.h(height: 32),
                     DesignButton(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 16,
-                      ),
-                      child: DesignText(
-                        text: "Retry",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      child: DesignText(text: "Retry", fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
                       onPress: () async {
-                        ref
-                            .read(
-                              lobbyQuickCheckoutDetailsProvider(
-                                widget.lobbyId,
-                              ).notifier,
-                            )
-                            .reset();
+                        ref.read(lobbyQuickCheckoutDetailsProvider(widget.lobbyId).notifier).reset();
                         await ref
-                            .read(
-                              lobbyQuickCheckoutDetailsProvider(
-                                widget.lobbyId,
-                              ).notifier,
-                            )
+                            .read(lobbyQuickCheckoutDetailsProvider(widget.lobbyId).notifier)
                             .fetchLobbyQuickCheckoutDetails(widget.lobbyId);
                       },
                     ),
@@ -4863,11 +3621,7 @@ class _LobbyNoAuthCheckoutViewState
               onPressed: () {
                 Get.back();
               },
-              icon: DesignIcon.icon(
-                icon: Icons.arrow_back_ios_sharp,
-                size: 18,
-                color: DesignColors.primaryFontDark,
-              ),
+              icon: DesignIcon.icon(icon: Icons.arrow_back_ios_sharp, size: 18, color: DesignColors.primaryFontDark),
             ),
             backgroundColor: Colors.transparent,
             scrolledUnderElevation: 0,
@@ -4875,9 +3629,7 @@ class _LobbyNoAuthCheckoutViewState
           body: SingleChildScrollView(
             child: SizedBox(
               height: 0.85 * sh,
-              child: Center(
-                child: CircularProgressIndicator(color: DesignColors.accent),
-              ),
+              child: Center(child: CircularProgressIndicator(color: DesignColors.accent)),
             ),
           ),
         );
@@ -4885,11 +3637,7 @@ class _LobbyNoAuthCheckoutViewState
     );
   }
 
-  Widget formCard({
-    required String tileText,
-    required int formIndex,
-    required String lobbyId,
-  }) {
+  Widget formCard({required String tileText, required int formIndex, required String lobbyId}) {
     final isExpanded = ref.watch(expandStateProvider(tileText));
 
     return GestureDetector(
@@ -4900,29 +3648,20 @@ class _LobbyNoAuthCheckoutViewState
       child: Card(
         elevation: 4,
         color: DesignColors.bgDark,
-        margin: EdgeInsets.only(
-          bottom: (formIndex == ref.watch(formsListProvider).length - 1)
-              ? 0
-              : 16,
-        ),
+        margin: EdgeInsets.only(bottom: (formIndex == ref.watch(formsListProvider).length - 1) ? 0 : 16),
         shadowColor: Colors.white24,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: DesignColors.secondary),
-            color: isExpanded
-                ? DesignColors.bgDark
-                : DesignColors.secondaryDark,
+            color: isExpanded ? DesignColors.bgDark : DesignColors.secondaryDark,
           ),
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
               Row(
                 children: [
-                  DesignIcon.icon(
-                    icon: Icons.description_outlined,
-                    color: const Color(0xFFEC4B5D),
-                  ),
+                  DesignIcon.icon(icon: Icons.description_outlined, color: const Color(0xFFEC4B5D)),
                   Space.w(width: 14),
                   DesignText(
                     text: tileText,
@@ -4932,9 +3671,7 @@ class _LobbyNoAuthCheckoutViewState
                   ),
                   const Spacer(),
                   DesignIcon.icon(
-                    icon: isExpanded
-                        ? Icons.expand_less
-                        : Icons.keyboard_arrow_down_rounded,
+                    icon: isExpanded ? Icons.expand_less : Icons.keyboard_arrow_down_rounded,
                     color: const Color(0xFFEC4B5D),
                     size: 16,
                   ),
@@ -4952,10 +3689,7 @@ class _LobbyNoAuthCheckoutViewState
     );
   }
 
-  Widget _buildFormQuestions({
-    required int formIndex,
-    required String lobbyId,
-  }) {
+  Widget _buildFormQuestions({required int formIndex, required String lobbyId}) {
     final formNotifier = ref.read(formsListProvider.notifier);
     final formListData = ref.watch(formsListProvider);
     FormModel formData = formListData[formIndex];
@@ -4987,11 +3721,7 @@ class _LobbyNoAuthCheckoutViewState
                   future: Future.delayed(const Duration(milliseconds: 2500)),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: Color(0xFFEC4B5D),
-                        ),
-                      );
+                      return const Center(child: CircularProgressIndicator(color: Color(0xFFEC4B5D)));
                     } else {
                       return Center(
                         child: DesignText(
@@ -5010,10 +3740,7 @@ class _LobbyNoAuthCheckoutViewState
 
                     // Text question
                     if (question.questionType == 'text') {
-                      final controller = formNotifier.getControllerForQuestion(
-                        formIndex,
-                        question.id,
-                      );
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
 
                       if (controller == null) {
                         return const SizedBox.shrink();
@@ -5031,12 +3758,7 @@ class _LobbyNoAuthCheckoutViewState
                           elevation: 6,
                           color: DesignColors.secondaryDark,
                           child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: 18,
-                              top: 12,
-                              left: 12,
-                              right: 12,
-                            ),
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -5051,15 +3773,11 @@ class _LobbyNoAuthCheckoutViewState
                                       fontWeight: FontWeight.w500,
                                     ),
                                     children: [
-                                      TextSpan(
-                                        text: question.questionText.trim(),
-                                      ),
+                                      TextSpan(text: question.questionText.trim()),
                                       if (question.isMandatory)
                                         TextSpan(
                                           text: '   *',
-                                          style: TextStyle(
-                                            color: Color(0xFFEC4B5D),
-                                          ),
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
                                         ),
                                     ],
                                   ),
@@ -5072,11 +3790,7 @@ class _LobbyNoAuthCheckoutViewState
                                   fontColor: DesignColors.primaryFontDark,
                                   hintText: "Answer",
                                   fontSize: 12,
-                                  onChanged: (val) => formNotifier.updateAnswer(
-                                    formIndex,
-                                    question.id,
-                                    val!,
-                                  ),
+                                  onChanged: (val) => formNotifier.updateAnswer(formIndex, question.id, val!),
                                   borderRadius: 16,
                                 ),
                               ],
@@ -5087,10 +3801,7 @@ class _LobbyNoAuthCheckoutViewState
                     }
                     // Number question
                     else if (question.questionType == 'number') {
-                      final controller = formNotifier.getControllerForQuestion(
-                        formIndex,
-                        question.id,
-                      );
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
 
                       if (controller == null) {
                         return const SizedBox.shrink();
@@ -5108,12 +3819,7 @@ class _LobbyNoAuthCheckoutViewState
                           elevation: 6,
                           color: DesignColors.secondaryDark,
                           child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: 18,
-                              top: 12,
-                              left: 12,
-                              right: 12,
-                            ),
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -5128,15 +3834,11 @@ class _LobbyNoAuthCheckoutViewState
                                       fontWeight: FontWeight.w500,
                                     ),
                                     children: [
-                                      TextSpan(
-                                        text: question.questionText.trim(),
-                                      ),
+                                      TextSpan(text: question.questionText.trim()),
                                       if (question.isMandatory)
                                         TextSpan(
                                           text: '   *',
-                                          style: TextStyle(
-                                            color: Color(0xFFEC4B5D),
-                                          ),
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
                                         ),
                                     ],
                                   ),
@@ -5152,24 +3854,14 @@ class _LobbyNoAuthCheckoutViewState
                                   inputType: TextInputType.number,
                                   onEditingComplete: () {
                                     if (controller.text != null) {
-                                      if (controller.text.isEmpty ||
-                                          RegExp(
-                                            r'^\d+$',
-                                          ).hasMatch(controller.text)) {
-                                        formNotifier.updateAnswer(
-                                          formIndex,
-                                          question.id,
-                                          controller.text,
-                                        );
+                                      if (controller.text.isEmpty || RegExp(r'^\d+$').hasMatch(controller.text)) {
+                                        formNotifier.updateAnswer(formIndex, question.id, controller.text);
                                       } else {
                                         // Revert to previous valid value
                                         controller.text = question.answer;
-                                        controller.selection =
-                                            TextSelection.fromPosition(
-                                              TextPosition(
-                                                offset: controller.text.length,
-                                              ),
-                                            );
+                                        controller.selection = TextSelection.fromPosition(
+                                          TextPosition(offset: controller.text.length),
+                                        );
                                         // Show error message
                                         Fluttertoast.showToast(
                                           msg: "Please enter digits only",
@@ -5184,22 +3876,14 @@ class _LobbyNoAuthCheckoutViewState
                                   onChanged: (val) {
                                     // Validate: only allow digits
                                     if (val != null) {
-                                      if (val.isEmpty ||
-                                          RegExp(r'^\d+$').hasMatch(val)) {
-                                        formNotifier.updateAnswer(
-                                          formIndex,
-                                          question.id,
-                                          val,
-                                        );
+                                      if (val.isEmpty || RegExp(r'^\d+$').hasMatch(val)) {
+                                        formNotifier.updateAnswer(formIndex, question.id, val);
                                       } else {
                                         // Revert to previous valid value
                                         controller.text = question.answer;
-                                        controller.selection =
-                                            TextSelection.fromPosition(
-                                              TextPosition(
-                                                offset: controller.text.length,
-                                              ),
-                                            );
+                                        controller.selection = TextSelection.fromPosition(
+                                          TextPosition(offset: controller.text.length),
+                                        );
                                         // Show error message
                                         // Fluttertoast.showToast(
                                         //   msg: "Please enter digits only",
@@ -5221,10 +3905,7 @@ class _LobbyNoAuthCheckoutViewState
                     }
                     // Email question
                     else if (question.questionType == 'email') {
-                      final controller = formNotifier.getControllerForQuestion(
-                        formIndex,
-                        question.id,
-                      );
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
 
                       if (controller == null) {
                         return const SizedBox.shrink();
@@ -5242,12 +3923,7 @@ class _LobbyNoAuthCheckoutViewState
                           elevation: 6,
                           color: DesignColors.secondaryDark,
                           child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: 18,
-                              top: 12,
-                              left: 12,
-                              right: 12,
-                            ),
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -5262,15 +3938,11 @@ class _LobbyNoAuthCheckoutViewState
                                       fontWeight: FontWeight.w500,
                                     ),
                                     children: [
-                                      TextSpan(
-                                        text: question.questionText.trim(),
-                                      ),
+                                      TextSpan(text: question.questionText.trim()),
                                       if (question.isMandatory)
                                         TextSpan(
                                           text: '   *',
-                                          style: TextStyle(
-                                            color: Color(0xFFEC4B5D),
-                                          ),
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
                                         ),
                                     ],
                                   ),
@@ -5286,13 +3958,10 @@ class _LobbyNoAuthCheckoutViewState
                                   inputType: TextInputType.emailAddress,
                                   onEditingComplete: () {
                                     if (controller.text.isNotEmpty &&
-                                        !RegExp(
-                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                                        ).hasMatch(controller.text)) {
+                                        !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(controller.text)) {
                                       // Show warning but don't revert the text
                                       Fluttertoast.showToast(
-                                        msg:
-                                            "Please enter a valid email address",
+                                        msg: "Please enter a valid email address",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         backgroundColor: Colors.orange,
@@ -5303,17 +3972,11 @@ class _LobbyNoAuthCheckoutViewState
                                   onChanged: (val) {
                                     if (val != null) {
                                       // Update the answer regardless of validation
-                                      formNotifier.updateAnswer(
-                                        formIndex,
-                                        question.id,
-                                        val,
-                                      );
+                                      formNotifier.updateAnswer(formIndex, question.id, val);
 
                                       // Validate email format if not empty
                                       if (val.isNotEmpty &&
-                                          !RegExp(
-                                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                                          ).hasMatch(val)) {
+                                          !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(val)) {
                                         // Show warning but don't revert the text
                                         // Fluttertoast.showToast(
                                         //   msg: "Please enter a valid email address",
@@ -5335,10 +3998,7 @@ class _LobbyNoAuthCheckoutViewState
                     }
                     // Date question
                     else if (question.questionType == 'date') {
-                      final controller = formNotifier.getControllerForQuestion(
-                        formIndex,
-                        question.id,
-                      );
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
 
                       if (controller == null) {
                         return const SizedBox.shrink();
@@ -5356,12 +4016,7 @@ class _LobbyNoAuthCheckoutViewState
                           elevation: 6,
                           color: DesignColors.secondaryDark,
                           child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: 18,
-                              top: 12,
-                              left: 12,
-                              right: 12,
-                            ),
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -5376,15 +4031,11 @@ class _LobbyNoAuthCheckoutViewState
                                       fontWeight: FontWeight.w500,
                                     ),
                                     children: [
-                                      TextSpan(
-                                        text: question.questionText.trim(),
-                                      ),
+                                      TextSpan(text: question.questionText.trim()),
                                       if (question.isMandatory)
                                         TextSpan(
                                           text: '   *',
-                                          style: TextStyle(
-                                            color: Color(0xFFEC4B5D),
-                                          ),
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
                                         ),
                                     ],
                                   ),
@@ -5392,8 +4043,7 @@ class _LobbyNoAuthCheckoutViewState
                                 Space.h(height: 12),
                                 InkWell(
                                   onTap: () async {
-                                    final DateTime?
-                                    picked = await showDatePicker(
+                                    final DateTime? picked = await showDatePicker(
                                       context: context,
                                       initialDate: controller.text.isNotEmpty
                                           ? DateTime.parse(controller.text)
@@ -5407,21 +4057,14 @@ class _LobbyNoAuthCheckoutViewState
                                               primary: DesignColors.accent,
                                               onPrimary: DesignColors.bgDark,
                                               surface: DesignColors.bgDark,
-                                              onSurface:
-                                                  DesignColors.primaryFontDark,
+                                              onSurface: DesignColors.primaryFontDark,
                                             ),
-                                            textButtonTheme:
-                                                TextButtonThemeData(
-                                                  style: TextButton.styleFrom(
-                                                    foregroundColor:
-                                                        DesignColors.accent,
-                                                    textStyle: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ),
+                                            textButtonTheme: TextButtonThemeData(
+                                              style: TextButton.styleFrom(
+                                                foregroundColor: DesignColors.accent,
+                                                textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                                              ),
+                                            ),
                                           ),
                                           child: child!,
                                         );
@@ -5430,36 +4073,23 @@ class _LobbyNoAuthCheckoutViewState
 
                                     if (picked != null) {
                                       // Format date as ISO string for storage
-                                      final formattedDate = picked
-                                          .toIso8601String();
+                                      final formattedDate = picked.toIso8601String();
                                       controller.text = formattedDate;
-                                      formNotifier.updateAnswer(
-                                        formIndex,
-                                        question.id,
-                                        formattedDate,
-                                      );
+                                      formNotifier.updateAnswer(formIndex, question.id, formattedDate);
                                     }
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 12,
-                                    ),
+                                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                     decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: DesignColors.secondary,
-                                      ),
+                                      border: Border.all(color: DesignColors.secondary),
                                       borderRadius: BorderRadius.circular(16),
                                       color: DesignColors.bgDark,
                                     ),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          controller.text.isNotEmpty
-                                              ? _formatDate(controller.text)
-                                              : "Select a date",
+                                          controller.text.isNotEmpty ? _formatDate(controller.text) : "Select a date",
                                           style: TextStyle(
                                             color: controller.text.isNotEmpty
                                                 ? DesignColors.primaryFontDark
@@ -5468,11 +4098,7 @@ class _LobbyNoAuthCheckoutViewState
                                             fontFamily: 'Poppins',
                                           ),
                                         ),
-                                        Icon(
-                                          Icons.calendar_today,
-                                          size: 20,
-                                          color: DesignColors.secondary,
-                                        ),
+                                        Icon(Icons.calendar_today, size: 20, color: DesignColors.secondary),
                                       ],
                                     ),
                                   ),
@@ -5485,10 +4111,7 @@ class _LobbyNoAuthCheckoutViewState
                     }
                     // File question
                     else if (question.questionType == 'file') {
-                      final controller = formNotifier.getControllerForQuestion(
-                        formIndex,
-                        question.id,
-                      );
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
 
                       if (controller == null) {
                         return const SizedBox.shrink();
@@ -5506,12 +4129,7 @@ class _LobbyNoAuthCheckoutViewState
                           elevation: 6,
                           color: DesignColors.secondaryDark,
                           child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: 18,
-                              top: 12,
-                              left: 12,
-                              right: 12,
-                            ),
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -5526,15 +4144,11 @@ class _LobbyNoAuthCheckoutViewState
                                       fontWeight: FontWeight.w500,
                                     ),
                                     children: [
-                                      TextSpan(
-                                        text: question.questionText.trim(),
-                                      ),
+                                      TextSpan(text: question.questionText.trim()),
                                       if (question.isMandatory)
                                         TextSpan(
                                           text: '   *',
-                                          style: TextStyle(
-                                            color: Color(0xFFEC4B5D),
-                                          ),
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
                                         ),
                                     ],
                                   ),
@@ -5552,21 +4166,13 @@ class _LobbyNoAuthCheckoutViewState
                                 InkWell(
                                   onTap: () async {
                                     try {
-                                      FilePickerResult? result =
-                                          await FilePicker.platform.pickFiles(
-                                            type: FileType.custom,
-                                            allowedExtensions: [
-                                              'pdf',
-                                              'png',
-                                              'jpg',
-                                              'jpeg',
-                                              'mp4',
-                                            ],
-                                            withData: true, // Required for web
-                                          );
+                                      FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                        type: FileType.custom,
+                                        allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg', 'mp4'],
+                                        withData: true, // Required for web
+                                      );
 
-                                      if (result != null &&
-                                          result.files.single.bytes != null) {
+                                      if (result != null && result.files.single.bytes != null) {
                                         // Get file data for web
                                         final file = result.files.single;
                                         final bytes = file.bytes!;
@@ -5590,21 +4196,13 @@ class _LobbyNoAuthCheckoutViewState
                                           barrierDismissible: false,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              backgroundColor:
-                                                  Colors.transparent,
+                                              backgroundColor: Colors.transparent,
                                               content: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  CircularProgressIndicator(
-                                                    color: DesignColors.accent,
-                                                  ),
+                                                  CircularProgressIndicator(color: DesignColors.accent),
                                                   SizedBox(height: 16),
-                                                  Text(
-                                                    "Uploading file...",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
+                                                  Text("Uploading file...", style: TextStyle(color: Colors.white)),
                                                 ],
                                               ),
                                             );
@@ -5614,36 +4212,25 @@ class _LobbyNoAuthCheckoutViewState
                                         // Upload file
                                         try {
                                           final uploadBody = {
-                                            'userId':
-                                                await GetStorage().read(
-                                                  "userUID",
-                                                ) ??
-                                                '',
+                                            'userId': await GetStorage().read("userUID") ?? '',
                                             'lobbyId': lobbyId,
                                             'questionId': question.id,
                                           };
 
-                                          final result =
-                                              await FileUploadService()
-                                                  .uploadBytes(
-                                                    "user/upload/api/v1/file",
-                                                    bytes,
-                                                    filename,
-                                                    uploadBody,
-                                                  );
+                                          final result = await FileUploadService().uploadBytes(
+                                            "user/upload/api/v1/file",
+                                            bytes,
+                                            filename,
+                                            uploadBody,
+                                          );
 
                                           // Close loading dialog
                                           Navigator.pop(context);
 
                                           if (result.statusCode == 200) {
-                                            String fileUrl =
-                                                result.data['imageUrl'];
+                                            String fileUrl = result.data['imageUrl'];
                                             controller.text = fileUrl;
-                                            formNotifier.updateAnswer(
-                                              formIndex,
-                                              question.id,
-                                              fileUrl,
-                                            );
+                                            formNotifier.updateAnswer(formIndex, question.id, fileUrl);
 
                                             Fluttertoast.showToast(
                                               msg: "File uploaded successfully",
@@ -5674,11 +4261,7 @@ class _LobbyNoAuthCheckoutViewState
                                         }
                                       }
                                     } catch (e, s) {
-                                      kLogger.error(
-                                        "Error selecting file:",
-                                        error: e,
-                                        stackTrace: s,
-                                      );
+                                      kLogger.error("Error selecting file:", error: e, stackTrace: s);
                                       Fluttertoast.showToast(
                                         msg: "Error selecting file: $e",
                                         toastLength: Toast.LENGTH_SHORT,
@@ -5689,35 +4272,22 @@ class _LobbyNoAuthCheckoutViewState
                                     }
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 12,
-                                    ),
+                                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                     decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: DesignColors.secondary,
-                                      ),
+                                      border: Border.all(color: DesignColors.secondary),
                                       borderRadius: BorderRadius.circular(16),
                                       color: DesignColors.bgDark,
                                     ),
                                     child: controller.text.isEmpty
                                         ? Container(
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 16,
-                                              vertical: 12,
-                                            ),
+                                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                             decoration: BoxDecoration(
                                               color: DesignColors.bgDark,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                color: DesignColors.secondary,
-                                                width: 1,
-                                              ),
+                                              borderRadius: BorderRadius.circular(12),
+                                              border: Border.all(color: DesignColors.secondary, width: 1),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.white
-                                                      .withOpacity(0.05),
+                                                  color: Colors.white.withOpacity(0.05),
                                                   blurRadius: 5,
                                                   offset: Offset(0, 2),
                                                 ),
@@ -5727,8 +4297,7 @@ class _LobbyNoAuthCheckoutViewState
                                               children: [
                                                 Icon(
                                                   Icons.cloud_upload_outlined,
-                                                  color: DesignColors
-                                                      .primaryFontDark,
+                                                  color: DesignColors.primaryFontDark,
                                                   size: 24,
                                                 ),
                                                 SizedBox(width: 12),
@@ -5736,30 +4305,19 @@ class _LobbyNoAuthCheckoutViewState
                                                   child: Text(
                                                     "Upload File",
                                                     style: TextStyle(
-                                                      color: DesignColors
-                                                          .primaryFontDark,
+                                                      color: DesignColors.primaryFontDark,
                                                       fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500,
+                                                      fontWeight: FontWeight.w500,
                                                     ),
                                                   ),
                                                 ),
                                                 Container(
                                                   padding: EdgeInsets.all(8),
                                                   decoration: BoxDecoration(
-                                                    color: DesignColors
-                                                        .secondaryDark,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          8,
-                                                        ),
+                                                    color: DesignColors.secondaryDark,
+                                                    borderRadius: BorderRadius.circular(8),
                                                   ),
-                                                  child: Icon(
-                                                    Icons.add,
-                                                    color: DesignColors
-                                                        .primaryFontDark,
-                                                    size: 20,
-                                                  ),
+                                                  child: Icon(Icons.add, color: DesignColors.primaryFontDark, size: 20),
                                                 ),
                                               ],
                                             ),
@@ -5769,85 +4327,51 @@ class _LobbyNoAuthCheckoutViewState
                                               Stack(
                                                 alignment: Alignment.topRight,
                                                 children: [
-                                                  if (_isImageFile(
-                                                    controller.text,
-                                                  ))
+                                                  if (_isImageFile(controller.text))
                                                     ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            8,
-                                                          ),
+                                                      borderRadius: BorderRadius.circular(8),
                                                       child: Image.network(
                                                         controller.text,
                                                         height: 120,
                                                         width: double.infinity,
                                                         fit: BoxFit.cover,
-                                                        errorBuilder:
-                                                            (
-                                                              context,
-                                                              error,
-                                                              stackTrace,
-                                                            ) => Icon(
-                                                              Icons.image,
-                                                              size: 50,
-                                                              color: DesignColors
-                                                                  .secondaryFontDark,
-                                                            ),
+                                                        errorBuilder: (context, error, stackTrace) => Icon(
+                                                          Icons.image,
+                                                          size: 50,
+                                                          color: DesignColors.secondaryFontDark,
+                                                        ),
                                                       ),
                                                     )
-                                                  else if (_isPdfFile(
-                                                    controller.text,
-                                                  ))
-                                                    Icon(
-                                                      Icons.picture_as_pdf,
-                                                      size: 50,
-                                                      color: Colors.red,
-                                                    )
-                                                  else if (_isVideoFile(
-                                                    controller.text,
-                                                  ))
-                                                    Icon(
-                                                      Icons.video_file,
-                                                      size: 50,
-                                                      color: Colors.blue,
-                                                    ),
+                                                  else if (_isPdfFile(controller.text))
+                                                    Icon(Icons.picture_as_pdf, size: 50, color: Colors.red)
+                                                  else if (_isVideoFile(controller.text))
+                                                    Icon(Icons.video_file, size: 50, color: Colors.blue),
                                                   IconButton(
                                                     style: IconButton.styleFrom(
-                                                      backgroundColor:
-                                                          DesignColors
-                                                              .secondaryDark,
+                                                      backgroundColor: DesignColors.secondaryDark,
                                                       minimumSize: Size(32, 32),
                                                       maximumSize: Size(32, 32),
                                                     ),
                                                     icon: Icon(
                                                       Icons.close,
-                                                      color: DesignColors
-                                                          .primaryFontDark,
+                                                      color: DesignColors.primaryFontDark,
                                                       size: 16,
                                                     ),
                                                     onPressed: () {
                                                       controller.clear();
-                                                      formNotifier.updateAnswer(
-                                                        formIndex,
-                                                        question.id,
-                                                        '',
-                                                      );
+                                                      formNotifier.updateAnswer(formIndex, question.id, '');
                                                     },
                                                   ),
                                                 ],
                                               ),
                                               SizedBox(height: 8),
                                               Text(
-                                                _getFileNameFromUrl(
-                                                  controller.text,
-                                                ),
+                                                _getFileNameFromUrl(controller.text),
                                                 style: TextStyle(
-                                                  color: DesignColors
-                                                      .secondaryFontDark,
+                                                  color: DesignColors.secondaryFontDark,
                                                   fontSize: 12,
                                                   fontFamily: 'Poppins',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ],
@@ -5862,10 +4386,7 @@ class _LobbyNoAuthCheckoutViewState
                     }
                     // URL question
                     else if (question.questionType == 'url') {
-                      final controller = formNotifier.getControllerForQuestion(
-                        formIndex,
-                        question.id,
-                      );
+                      final controller = formNotifier.getControllerForQuestion(formIndex, question.id);
 
                       if (controller == null) {
                         return const SizedBox.shrink();
@@ -5876,6 +4397,12 @@ class _LobbyNoAuthCheckoutViewState
                         controller.text = question.answer;
                       }
 
+                      // Future.microtask(() {
+                      //   if (controller.text.isEmpty) {
+                      //     formNotifier.updateAnswer(formIndex, question.id, "https://www.instagram.com/");
+                      //   }
+                      // });
+
                       return Padding(
                         padding: EdgeInsets.only(bottom: 24),
                         child: Card(
@@ -5883,12 +4410,7 @@ class _LobbyNoAuthCheckoutViewState
                           elevation: 6,
                           color: DesignColors.secondaryDark,
                           child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: 18,
-                              top: 12,
-                              left: 12,
-                              right: 12,
-                            ),
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -5903,15 +4425,11 @@ class _LobbyNoAuthCheckoutViewState
                                       fontWeight: FontWeight.w500,
                                     ),
                                     children: [
-                                      TextSpan(
-                                        text: question.questionText.trim(),
-                                      ),
+                                      TextSpan(text: question.questionText.trim()),
                                       if (question.isMandatory)
                                         TextSpan(
                                           text: '   *',
-                                          style: TextStyle(
-                                            color: Color(0xFFEC4B5D),
-                                          ),
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
                                         ),
                                     ],
                                   ),
@@ -5926,12 +4444,9 @@ class _LobbyNoAuthCheckoutViewState
                                   hasBorder: false,
                                   inputType: TextInputType.url,
                                   onEditingComplete: () {
-                                    kLogger.trace(
-                                      isValidUrl(controller.text).toString(),
-                                    );
+                                    kLogger.trace(isValidUrl(controller.text).toString());
                                     // Validate URL format if not empty
-                                    if (controller.text.isNotEmpty &&
-                                        !isValidUrl(controller.text)) {
+                                    if (controller.text.isNotEmpty && !isValidUrl(controller.text)) {
                                       // Show warning but don't revert the text
                                       Fluttertoast.showToast(
                                         msg: "Please enter a valid URL",
@@ -5945,11 +4460,18 @@ class _LobbyNoAuthCheckoutViewState
                                   onChanged: (val) {
                                     if (val != null) {
                                       // Update the answer regardless of validation
-                                      formNotifier.updateAnswer(
-                                        formIndex,
-                                        question.id,
-                                        val,
-                                      );
+                                      // http
+                                      // String url = controller.text;
+                                      // print("object : $url");
+                                      // ;
+                                      // if (url.length < 4 && !url.contains("http")) {
+                                      //   String userName = url;
+                                      //   if (!userName.contains("@")) {
+                                      //     userName = "@$url";
+                                      //   }
+                                      //   url = "https://www.instagram.com/$userName";
+                                      // }
+                                      formNotifier.updateAnswer(formIndex, question.id, val);
 
                                       // Validate URL format if not empty
                                       // if (val.isNotEmpty && !_isValidUrl(val)) {
@@ -5981,12 +4503,7 @@ class _LobbyNoAuthCheckoutViewState
                           elevation: 6,
                           color: DesignColors.secondaryDark,
                           child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: 18,
-                              top: 12,
-                              left: 12,
-                              right: 12,
-                            ),
+                            padding: EdgeInsets.only(bottom: 18, top: 12, left: 12, right: 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -6001,15 +4518,11 @@ class _LobbyNoAuthCheckoutViewState
                                       fontWeight: FontWeight.w500,
                                     ),
                                     children: [
-                                      TextSpan(
-                                        text: question.questionText.trim(),
-                                      ),
+                                      TextSpan(text: question.questionText.trim()),
                                       if (question.isMandatory)
                                         TextSpan(
                                           text: '   *',
-                                          style: TextStyle(
-                                            color: Color(0xFFEC4B5D),
-                                          ),
+                                          style: TextStyle(color: Color(0xFFEC4B5D)),
                                         ),
                                     ],
                                   ),
@@ -6026,20 +4539,13 @@ class _LobbyNoAuthCheckoutViewState
                                     value: question.answer == option,
                                     onChanged: (val) {
                                       if (val != null && val) {
-                                        formNotifier.updateAnswer(
-                                          formIndex,
-                                          question.id,
-                                          option,
-                                        );
+                                        formNotifier.updateAnswer(formIndex, question.id, option);
                                       }
                                     },
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 0,
-                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 0),
                                     activeColor: const Color(0xFFEC4B5D),
                                     checkColor: Colors.white,
-                                    controlAffinity:
-                                        ListTileControlAffinity.leading,
+                                    controlAffinity: ListTileControlAffinity.leading,
                                     dense: true,
                                   );
                                 }),
@@ -6083,9 +4589,7 @@ class _LobbyNoAuthCheckoutViewState
 
       return tiers.map((tier) {
         // Updated regex to handle comma-separated prices
-        final match = RegExp(
-          r'(\d+)\s+slots?\s+@\s+₹\s*([\d,]+(?:\.\d+)?)',
-        ).firstMatch(tier);
+        final match = RegExp(r'(\d+)\s+slots?\s+@\s+₹\s*([\d,]+(?:\.\d+)?)').firstMatch(tier);
         if (match != null) {
           final slots = int.parse(match.group(1)!);
           // Remove commas from price before parsing
@@ -6099,13 +4603,7 @@ class _LobbyNoAuthCheckoutViewState
               color: DesignColors.secondary,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: DesignColors.secondary, width: 1),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.white.withOpacity(0.02),
-                  blurRadius: 4,
-                  offset: Offset(0, 1),
-                ),
-              ],
+              boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.02), blurRadius: 4, offset: Offset(0, 1))],
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -6121,8 +4619,7 @@ class _LobbyNoAuthCheckoutViewState
                     ),
                     // Updated to format price with commas
                     DesignText(
-                      text:
-                          '₹ ${NumberFormat('#,##0.00').format(price)} per slot',
+                      text: '₹ ${NumberFormat('#,##0.00').format(price)} per slot',
                       fontSize: 13,
                       color: DesignColors.secondaryFontDark,
                     ),
@@ -6130,10 +4627,7 @@ class _LobbyNoAuthCheckoutViewState
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: DesignColors.secondaryDark,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  decoration: BoxDecoration(color: DesignColors.secondaryDark, borderRadius: BorderRadius.circular(8)),
                   child: DesignText(
                     // Updated to format total with commas
                     text: '₹ ${NumberFormat('#,##0.00').format(total)}',
@@ -6150,22 +4644,14 @@ class _LobbyNoAuthCheckoutViewState
       }).toList();
     } catch (e) {
       // Fallback to simple text display if parsing fails
-      return [
-        DesignText(
-          text: priceBreakdown,
-          fontSize: 16,
-          color: DesignColors.secondary,
-        ),
-      ];
+      return [DesignText(text: priceBreakdown, fontSize: 16, color: DesignColors.secondary)];
     }
   }
 
   String _extractTotalFromBreakdown(String priceBreakdown) {
     try {
       // Updated regex to handle comma-separated numbers
-      final match = RegExp(
-        r'Total:\s*₹\s*([\d,]+(?:\.\d+)?)',
-      ).firstMatch(priceBreakdown);
+      final match = RegExp(r'Total:\s*₹\s*([\d,]+(?:\.\d+)?)').firstMatch(priceBreakdown);
       if (match != null) {
         // Remove commas from the number and format properly
         String amount = match.group(1)!.replaceAll(',', '');
@@ -6189,9 +4675,7 @@ class _LobbyNoAuthCheckoutViewState
   String _extractDiscountFromBreakdown(String priceBreakdown) {
     try {
       // Updated regex to handle comma-separated numbers
-      final match = RegExp(
-        r'Total:\s*₹\s*([\d,]+(?:\.\d+)?)',
-      ).firstMatch(priceBreakdown);
+      final match = RegExp(r'Total:\s*₹\s*([\d,]+(?:\.\d+)?)').firstMatch(priceBreakdown);
       if (match != null) {
         // Remove commas from the number and format properly
         String amount = match.group(1)!.replaceAll(',', '');
@@ -6210,18 +4694,12 @@ class _LobbyNoAuthCheckoutViewState
     return '₹ 0.00';
   }
 
-  double calculateTotalPrice({
-    required PricingResponse? pricingData,
-    Offer? selectedOffer,
-  }) {
+  double calculateTotalPrice({required PricingResponse? pricingData, Offer? selectedOffer}) {
     double total = pricingData?.total ?? 0.0;
     if (selectedOffer != null) {
       if (selectedOffer.discountType == 'PERCENTAGE') {
         // double percentage = selectedOffer.discountValue;
-        double discount = calculateDiscount(
-          pricingData: pricingData,
-          selectedOffer: selectedOffer,
-        );
+        double discount = calculateDiscount(pricingData: pricingData, selectedOffer: selectedOffer);
         total = total - discount;
       } else if (selectedOffer.discountType == 'FLAT') {
         total = total - selectedOffer.discountValue;
@@ -6231,10 +4709,7 @@ class _LobbyNoAuthCheckoutViewState
     return total;
   }
 
-  double calculateDiscount({
-    required PricingResponse? pricingData,
-    Offer? selectedOffer,
-  }) {
+  double calculateDiscount({required PricingResponse? pricingData, Offer? selectedOffer}) {
     double discount = 0.0;
     double total = pricingData?.total ?? 0.0;
     if (selectedOffer != null) {
@@ -6329,10 +4804,7 @@ class _LobbyNoAuthCheckoutViewState
     if (!domain.contains('.')) return false;
 
     // Cannot start or end with dot or hyphen
-    if (domain.startsWith('.') ||
-        domain.endsWith('.') ||
-        domain.startsWith('-') ||
-        domain.endsWith('-')) {
+    if (domain.startsWith('.') || domain.endsWith('.') || domain.startsWith('-') || domain.endsWith('-')) {
       return false;
     }
 
@@ -6559,8 +5031,7 @@ class _LobbyNoAuthCheckoutViewState
       if (parts.length > 8) return false;
 
       for (final part in parts) {
-        if (part.isNotEmpty &&
-            (part.length > 4 || !RegExp(r'^[0-9a-fA-F]+$').hasMatch(part))) {
+        if (part.isNotEmpty && (part.length > 4 || !RegExp(r'^[0-9a-fA-F]+$').hasMatch(part))) {
           return false;
         }
       }
@@ -6596,8 +5067,7 @@ class _LobbyNoAuthCheckoutViewState
   }
 }
 
-class LobbyQuickCheckoutDetailsNotifier
-    extends StateNotifier<AsyncValue<LobbyDetails?>> {
+class LobbyQuickCheckoutDetailsNotifier extends StateNotifier<AsyncValue<LobbyDetails?>> {
   LobbyQuickCheckoutDetailsNotifier() : super(const AsyncValue.loading());
 
   Future<void> fetchLobbyQuickCheckoutDetails(String lobbyId) async {
@@ -6633,11 +5103,7 @@ class LobbyQuickCheckoutDetailsNotifier
 
 // Create the provider
 final lobbyQuickCheckoutDetailsProvider =
-    StateNotifierProvider.family<
-      LobbyQuickCheckoutDetailsNotifier,
-      AsyncValue<LobbyDetails?>,
-      String
-    >((ref, lobbyId) {
+    StateNotifierProvider.family<LobbyQuickCheckoutDetailsNotifier, AsyncValue<LobbyDetails?>, String>((ref, lobbyId) {
       final notifier = LobbyQuickCheckoutDetailsNotifier();
       // Automatically fetch data when the provider is first accessed
       notifier.fetchLobbyQuickCheckoutDetails(lobbyId);

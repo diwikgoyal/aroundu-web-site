@@ -296,14 +296,16 @@ class _LobbyQuickCheckoutViewState extends ConsumerState<LobbyQuickCheckoutView>
 
           if (response != null && response.paymentUrl != null) {
             // Show success message
-            CustomSnackBar.show(
-              context: context,
-              message: 'Registration successful! Redirecting to payment...',
-              type: SnackBarType.success,
-            );
+            if (!lobbyData.isPrivate && lobbyData.priceDetails.price > 0) {
+              CustomSnackBar.show(
+                context: context,
+                message: 'Registration successful! Redirecting to payment...',
+                type: SnackBarType.success,
+              );
+            }
 
             // Redirect to payment URL
-            await _redirectToPaymentUrl(response.paymentUrl!);
+            await _redirectToPaymentUrl(lobbyData, response.paymentUrl!);
           } else {
             // Show error message
             CustomSnackBar.show(
@@ -324,7 +326,7 @@ class _LobbyQuickCheckoutViewState extends ConsumerState<LobbyQuickCheckoutView>
   }
 
   // Method to redirect to payment URL
-  Future<void> _redirectToPaymentUrl(String url) async {
+  Future<void> _redirectToPaymentUrl(Lobby lobbyData, String url) async {
     if (url == "FREE_EVENT_JOINED") {
       await Get.dialog(
         Dialog(
@@ -392,6 +394,64 @@ class _LobbyQuickCheckoutViewState extends ConsumerState<LobbyQuickCheckoutView>
         context,
         title: "Unlock Premium Features",
         message: "Get the full AroundU experience with exclusive features, enhanced performance, and more!",
+        appStoreUrl: "https://apps.apple.com/in/app/aroundu/id6744299663",
+        playStoreUrl: "https://play.google.com/store/apps/details?id=com.polar.aroundu",
+        cancelButtonText: "Not Now",
+        onCancel: () {
+          Get.toNamed(AppRoutes.lobby.replaceAll(":lobbyId", widget.lobbyId));
+        },
+      );
+      return;
+    } else if (lobbyData.isPrivate || url == "Requested, if accepted you'll get a notification on your phone/email") {
+      await Get.dialog(
+        Dialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Container(
+            padding: EdgeInsets.all(24),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Lottie.asset(
+                  'assets/animations/success_badge.json',
+                  repeat: false,
+                  fit: BoxFit.fitHeight,
+                  height: 0.2 * Get.height,
+                  width: 0.9 * Get.width,
+                ),
+                Space.h(height: 8),
+                DesignText(
+                  text: "you have successfully requested to join the lobby",
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF444444),
+                  maxLines: 5,
+                  textAlign: TextAlign.center,
+                ),
+                Space.h(height: 8),
+                DesignText(
+                  text:
+                      "On acceptance of your request, a detailed confirmation email will be sent to your registered email address, including important event information, venue details, and your unique booking reference. Please check your inbox (and spam folder) within the next few minutes.",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: DesignColors.secondary,
+                  maxLines: null,
+                  overflow: TextOverflow.visible,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+        barrierDismissible: true,
+      );
+      Fluttertoast.showToast(msg: "successfully requested to join the lobby");
+      FancyAppDownloadDialog.show(
+        context,
+        title: "Unlock Premium Features",
+        message:
+            "To chat with fellow attendees, see who’s coming, and discover exciting new updates — download the app.",
         appStoreUrl: "https://apps.apple.com/in/app/aroundu/id6744299663",
         playStoreUrl: "https://play.google.com/store/apps/details?id=com.polar.aroundu",
         cancelButtonText: "Not Now",
@@ -708,11 +768,15 @@ class _LobbyQuickCheckoutViewState extends ConsumerState<LobbyQuickCheckoutView>
                 Row(
                   children: [
                     if (lobbyData.content != null)
-                      DesignText(
-                        text: lobbyData.content?.title ?? "Guidelines",
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: DesignColors.primaryFontDark,
+                      Flexible(
+                        child: DesignText(
+                          text: lobbyData.content?.title ?? "Guidelines",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: DesignColors.primaryFontDark,
+                           maxLines: null,
+                          overflow: TextOverflow.visible,
+                        ),
                       ),
                   ],
                 ),
@@ -2984,7 +3048,9 @@ class _LobbyQuickCheckoutViewState extends ConsumerState<LobbyQuickCheckoutView>
                                       onPress: () => _handleCheckout(lobbyData, totalPrice),
                                       title: _isProcessing
                                           ? 'Processing...'
-                                          : (totalPrice > 0 ? 'Proceed to Checkout' : 'Save Your Spot'),
+                                          : (lobbyData.isPrivate)
+                                          ? 'Request Your Spot'
+                                          :  (totalPrice > 0 ? 'Proceed to Checkout' : 'Save Your Spot'),
                                       isLoading: _isProcessing,
                                       padding: EdgeInsets.symmetric(vertical: 16),
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

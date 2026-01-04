@@ -2824,10 +2824,14 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
               Row(
                 children: [
                   if (lobbyData.lobby.content != null)
-                    DesignText(
-                      text: lobbyData.lobby.content?.title ?? "Guidelines",
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+                    Flexible(
+                      child: DesignText(
+                        text: lobbyData.lobby.content?.title ?? "Guidelines",
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                         maxLines: null,
+                        overflow: TextOverflow.visible,
+                      ),
                     ),
                 ],
               ),
@@ -3516,10 +3520,14 @@ class _LobbyViewState extends ConsumerState<LobbyView> {
                       Row(
                         children: [
                           if (lobbyData.lobby.content != null)
-                            DesignText(
-                              text: lobbyData.lobby.content?.title ?? "Guidelines",
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                            Flexible(
+                              child: DesignText(
+                                text: lobbyData.lobby.content?.title ?? "Guidelines",
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                 maxLines: null,
+                                overflow: TextOverflow.visible,
+                              ),
                             ),
                         ],
                       ),

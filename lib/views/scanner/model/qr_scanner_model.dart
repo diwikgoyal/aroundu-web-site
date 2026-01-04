@@ -289,6 +289,7 @@ class LobbyDetail {
   final bool? firstTimeAttendee;
   final String? lobbyType;
   final String? formattedDate;
+  final Map<String, dynamic>? locationDetail;
 
   LobbyDetail({
     this.createdBy,
@@ -305,6 +306,7 @@ class LobbyDetail {
     this.firstTimeAttendee,
     this.lobbyType,
     this.formattedDate,
+    this.locationDetail,
   });
 
   LobbyDetail copyWith({
@@ -322,6 +324,7 @@ class LobbyDetail {
     bool? firstTimeAttendee,
     String? lobbyType,
     String? formattedDate,
+    Map<String, dynamic>? locationDetail,
   }) => LobbyDetail(
     createdBy: createdBy ?? this.createdBy,
     lobbyStatus: lobbyStatus ?? this.lobbyStatus,
@@ -337,6 +340,7 @@ class LobbyDetail {
     firstTimeAttendee: firstTimeAttendee ?? this.firstTimeAttendee,
     lobbyType: lobbyType ?? this.lobbyType,
     formattedDate : formattedDate ?? this.formattedDate,
+    locationDetail : locationDetail ?? this.locationDetail,
   );
 
   factory LobbyDetail.fromRawJson(String str) => LobbyDetail.fromJson(json.decode(str));
@@ -358,6 +362,7 @@ class LobbyDetail {
     firstTimeAttendee: json["firstTimeAttendee"],
     lobbyType: json["lobbyType"],
     formattedDate: json["formattedDate"],
+    locationDetail: json["locationDetail"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -375,6 +380,7 @@ class LobbyDetail {
     "firstTimeAttendee": firstTimeAttendee,
     "lobbyType": lobbyType,
     "formattedDate": formattedDate,
+    "locationDetail": locationDetail,
   };
   static List<QrScannerModel> decodeJson(String str) {
     final List<dynamic> jsonList = json.decode(str);

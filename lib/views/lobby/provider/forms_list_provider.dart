@@ -81,20 +81,22 @@ class FormsListNotifier extends StateNotifier<List<FormModel>> {
 
   /// Get a form by title
   FormModel? getFormByTitle(String title) {
-    return state.firstWhere((form) => form.title == title, orElse: () => const FormModel(title: '', questions: []));
+    return state.firstWhere(
+      (form) => form.title == title,
+      orElse: () => const FormModel(title: '', questions: []),
+    );
   }
 
   /// Update an answer in a specific form
   void updateAnswer(int formIndex, String questionId, String newAnswer) {
     if (formIndex >= 0 && formIndex < state.length) {
       final form = state[formIndex];
-      final updatedQuestions =
-          form.questions.map((question) {
-            if (question.id == questionId) {
-              return question.copyWith(answer: newAnswer);
-            }
-            return question;
-          }).toList();
+      final updatedQuestions = form.questions.map((question) {
+        if (question.id == questionId) {
+          return question.copyWith(answer: newAnswer);
+        }
+        return question;
+      }).toList();
 
       final updatedForm = form.copyWith(questions: updatedQuestions);
       updateForm(formIndex, updatedForm);
@@ -103,9 +105,6 @@ class FormsListNotifier extends StateNotifier<List<FormModel>> {
 
   /// Get a text controller for a specific question in a form
   TextEditingController? getControllerForQuestion(int formIndex, String questionId) {
-
-
-
     if (formIndex >= 0 && formIndex < state.length) {
       final form = state[formIndex];
 
@@ -155,7 +154,11 @@ class FormsListNotifier extends StateNotifier<List<FormModel>> {
           case 'url':
             if (question.answer.isNotEmpty) {
               if (!_isValidUrl(question.answer)) {
-                return "The provided URL format is invalid for the question: \n${question.questionText}\nPlease enter a valid URL starting with http:// or https:// (e.g., https://www.example.com)";
+                if (question.questionText.toLowerCase().contains("insta")) {
+                  return null;
+                } else {
+                  return "The provided URL format is invalid for the question: \n${question.questionText}\nPlease enter a valid URL starting with http:// or https:// (e.g., https://www.example.com)";
+                }
               }
             }
             break;
@@ -187,6 +190,20 @@ class FormsListNotifier extends StateNotifier<List<FormModel>> {
     return null; // All validations passed
   }
 
+  void makeUrlInstaUrl() {
+    if (state.isEmpty) return; // Handle empty forms case
+
+    for (var form in state) {
+      for (var question in form.questions) {
+        if (question.questionType == 'url' && question.answer.isNotEmpty) {
+          final userResponse = question.answer.contains("@") ? question.answer.replaceAll("@", "") : question.answer;
+          updateAnswer(state.indexOf(form), question.id, "https://www.instagram.com/$userResponse");
+        }
+      }
+    }
+    return;
+  }
+
   /// Get the first mandatory question without an answer across all forms
   Map<String, String>? getMandatoryQuestionWithoutAnswer() {
     for (int i = 0; i < state.length; i++) {
@@ -202,14 +219,12 @@ class FormsListNotifier extends StateNotifier<List<FormModel>> {
 
   /// Reset all forms (clear all answers)
   void resetAllForms() {
-    final updatedForms =
-        state.map((form) {
-          final clearedQuestions =
-              form.questions.map((question) {
-                return question.copyWith(answer: '');
-              }).toList();
-          return form.copyWith(questions: clearedQuestions);
-        }).toList();
+    final updatedForms = state.map((form) {
+      final clearedQuestions = form.questions.map((question) {
+        return question.copyWith(answer: '');
+      }).toList();
+      return form.copyWith(questions: clearedQuestions);
+    }).toList();
 
     // Clear all text controllers
     formTextControllers.forEach((formId, controllers) {
